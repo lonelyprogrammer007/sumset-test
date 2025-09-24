@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 20px">
+		<span><b>Valoración de la Situación</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="texto">
+				<label for="periodo">Antes</label>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="texto">
+				<label for="periodo">Durante</label>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="texto">
+				<label for="periodo">Después</label>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<label class="radio-inline"> <input type="radio"
+				name="optradio" id="antes" checked="checked">
+			</label>
+		</div>
+		<div class="col-sm-4">
+			<label class="radio-inline"> <input type="radio"
+				name="optradio" id="durante">
+			</label>
+		</div>
+		<div class="col-sm-4">
+			<label class="radio-inline"> <input type="radio"
+				name="optradio" id="despues">
+			</label>
+		</div>
+	</div>
+	<div class="antes" th:include="ip/analisis-politica/momentos/momento-antes.html"></div>
+	<div class="durante" style="display: none;" th:include="ip/analisis-politica/momentos/momento-durante.html"></div>
+	<div class="despues" style="display: none;" th:include="ip/analisis-politica/momentos/momento-despues.html"></div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2({
+			minimumResultsForSearch : Infinity
+		});
+		
+	$('#durante').click(function() {
+		$('.antes').hide();
+		$('.durante').show();
+		$('.despues').hide();
+	})
+	$('#antes').click(function() {
+		$('.durante').hide();
+		$('.antes').show();
+		$('.despues').hide();
+	})
+	$('#despues').click(function() {
+		$('.durante').hide();
+		$('.antes').hide();
+		$('.despues').show();
+	})
+	})
+</script>
+</html>

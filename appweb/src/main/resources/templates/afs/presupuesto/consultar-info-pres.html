@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Consultar informacion presupuestal</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/modal/modal.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-consultar-info-pres.css}">
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+<body>
+
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administración funcional</a></li>
+			<li class="breadcrumb-item">Presupuesto</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administración
+				presupuestal</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Administración establecimientos públicos alcaldias
+				locales</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div class="form-row">
+				<div class="form-group col-md-6">
+					<div class="form-group">
+						<div class="texto-archivo-plano">
+							<label for="periodo">Plan de desarrollo:*</label>
+						</div>
+						<div class="caja">
+							<select style="width: 100% !important" class="form-control js-example-basic-single"   id="idPlan"
+								name="idBancoProyecto">
+								<option value="-1">Seleccione una opción</option>
+								<option th:each="plan : ${planDesarrollo}"
+									th:value="${plan.idPlanDesarrollo}" th:text="${plan.nombrePlan}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-md-6">
+					<div class="form-group">
+						<div class="texto-archivo-plano">
+							<label for="periodo">Entidad:*</label>
+						</div>
+						<div class="caja">
+							<select style="width: 100% !important" class="form-control js-example-basic-single"   id="idEntidad"
+								name="idLsClasificacion">
+ 								<option value="-1">Seleccione una opción</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+		<div class="float-right">
+		  <form th:action="@{/filtro-presupuestal}" th:object="${busqueda}" method="post">
+		  <input type="hidden" id="idDistrital" name="codigoDistrital">
+		  <input type="hidden" id="idDesarrollo" name="idPlanDesarrollo">
+		  <input type="hidden" id="tipoClasificaPresupuestal" name="auxClasificacion">
+			<button type="submit" class="boton-agregar" id="busqueda">
+				<img src="css/img/lupa-over.png" class="agregar" alt="icono buscar">&nbsp;&nbsp;Buscar
+			</button>
+			</form>
+		</div>
+		<br><br>	
+		<div class="float-left">
+			<button type="button" class="boton-agregar" 
+				 id="btn_crear">
+				<img src="css/img/icono-agregar.png" class="agregar" alt="icono agregar"> Agregar
+			</button>
+		</div>
+		<br><br><br>
+		<form id="accionEliminar" th:object="${pres}" th:action="@{/eliminar-presupuesto}" method="post">
+		 <input type="hidden" id="pres" name="idInfoPresupuestal">
+		 <input type="hidden" id="distrital" name="codigoDistrital">
+		 <input type="hidden" id="desarrollo" name="idPlanDesarrollo">
+		</form>
+		  <div th:include="afs/presupuesto/tabla.cargar-datos1.html"></div>
+          
+		</div>
+		<br>
+		<br>
+
+	<footer th:replace="/home:: footer"></footer>
+</body>
+	<div th:include="afs/presupuesto/modal-agregar-pre-al.html"></div>
+	<div th:include="afs/presupuesto/modal-agregar-pre-eic.html"></div>
+	<div th:include="afs/presupuesto/modal-editar-pre-al.html"></div>
+	<div th:include="afs/presupuesto/modal-editar-pre-eic.html"></div>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+<script th:inline="javascript">
+var tableFront;
+var contador=0;
+var entidades = null;
+var entidadSeguridad;
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2({
+			minimumResultsForSearch : Infinity
+		});
+		/*<![CDATA[*/
+	     var filtro = /*[[${filtro}]]*/;
+		 var mensaje = /*[[${message}]]*/;
+		 var entidad = /*[[${idEntidad}]]*/; 
+		 var plan = /*[[${idDesarrollo}]]*/;
+		 console.log(filtro);
+ 	     entidades = /*[[${entidades}]]*/;
+ 	     entidadSeguridad = /*[[${entidad}]]*/;
+ 	     
+
+ 	    var select = document.getElementById("idEntidad");
+ 	   for (var j = 0; j < entidadSeguridad.length; j++ ){
+       	 	 let opcion = document.createElement('option')
+       		 opcion.value = entidadSeguridad[j].codigoDistrital;
+       		 opcion.text = entidadSeguridad[j].codigoDistrital+" - "+entidadSeguridad[j].nombre;
+       	     select.add(opcion);
+   
+       }
+ 	    
+		 if (filtro != null){
+			 $("#btn_crear").css('visibility', 'visible');
+			 $("#idPlan").val(filtro.idPlanDesarrollo).trigger('change');
+			 document.getElementById("idEntidad").value = filtro.codigoDistrital;
+			 cargarDatos(filtro.idPlanDesarrollo, filtro.codigoDistrital, filtro.auxClasificacion);
+			 var tablaPres = document.getElementById("dtablaPresupuesto");
+			 tablaPres.style.display = "block";
+			
+			 
+		 }else {
+			 var tablaPres = document.getElementById("dtablaPresupuesto");
+				 tablaPres.style.display = "none";
+				 $("#btn_crear").css('visibility', 'hidden');
+		 }
+		 		 
+		 if (plan != null){
+			 $("#btn_crear").css('visibility', 'visible');
+			 $("#idPlan").val(plan).trigger('change');
+			 document.getElementById("idEntidad").value = entidad;
+			 cargarDatos(plan, entidad);
+			 var tablaPres = document.getElementById("dtablaPresupuesto");
+			 tablaPres.style.display = "block";
+		 }
+
+		 if (mensaje != null){
+	    	  Swal.fire({
+			        title: 'Información',
+			        text: mensaje,
+			        icon: 'warning',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			    })	    	    
+	     }
+	  
+	  
+		
+        
+        $('#busqueda').click(function () {
+        	
+        	  var plan = document.getElementById("idPlan").value;
+        	  var entidad= document.getElementById("idEntidad").value;
+
+        	  for (var i = 0; i< entidades.length; i++){
+     			 if (entidades[i].codigoEntidad== entidad){
+     				document.getElementById("tipoClasificaPresupuestal").value = entidades[i].stringClasificacion;
+     			 }
+     			 
+     		 }
+        	  
+        	 if (plan == "-1" && entidad == "-1"){
+  
+    			 Swal.fire({
+    			        title:"¡Advertencia!",
+    				    text: "Existen campos obligatorios que no se han registrado",
+    			        icon: "warning",
+    			        confirmButtonText: 'Aceptar',
+    			        allowOutsideClick: () => false
+    		   })
+    		   return false;
+    		 }
+        	 else {
+        		
+        		 document.getElementById("idDistrital").value = entidad;
+        		 document.getElementById("idDesarrollo").value = plan;
+        		 
+        		  Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });   
+        		 return true;
+   	       
+        	 }
+        
+        });
+        
+        $('#btn_crear').click(function () {
+        	var plan = document.getElementById("idPlan").value;
+    		var enti = document.getElementById("idEntidad").value;
+    		var namePlan = $('select[name="idBancoProyecto"] option:selected').text();
+            var tipoEntidad = "";
+    		 for (var i = 0; i< entidades.length; i++){
+    			 if (entidades[i].codigoEntidad== enti){
+    				 tipoEntidad = entidades[i].stringClasificacion;
+    			 }
+    			 
+    		 }
+    		
+    		if (tipoEntidad == "EIC"){
+    			$('#agregarPresupuestoEIC').modal('show');
+    	    	$('#codigoDis').text($('#codigoDis').val(enti));
+    	    	$('#idPlanDes').text($('#idPlanDes').val(plan));
+    	    	$('#idTxtPlanDesarrollo').text($('#idTxtPlanDesarrollo').val(plan+" - "+namePlan));
+    	    	
+    		}else if (tipoEntidad == "Alcaldía"){
+    			$('#agregarPresupuestoAL').modal('show');
+    			$('#codigoDistr').text($('#codigoDistr').val(enti));
+    			$('#idPlanDesa').text($('#idPlanDesa').val(plan));
+    			$('#idTxtPlan').text($('#idTxtPlan').val(plan+" - "+namePlan));
+    		}	
+        });
+        /*]]>*/
+        
+		
+	});
+
+    function cargarDatos(plan, entidad, tipoClas) {
+       'use strict';
+       $.fn.DataTable.ext.pager.numbers_length = 5;
+	    var table = $('#dtablaPresupuesto').DataTable({
+			"colReorder" : true,
+			"processing" : true,
+			"serverSide" : true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10,25, 50, "Mostrar Todo"] ],
+            "pageLength": 5,
+		    "language": {
+		    	"processing": 'Cargando...',
+	            "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+	            "infoEmpty": '<div class="formato">0 de 0.</div>',
+	            "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+	            "zeroRecords": "No se han encontrado coincidencias.",
+	            "responsive": true,
+	            "paginate": {
+	                "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+	                "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+	                "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+	                "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+	            },
+	            "lengthMenu": "_MENU_",
+	        },
+	        "pagingType": "full_numbers",
+	        "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+	        "<'row'<'col-sm-8 col-md-7'tr>>" +
+	        "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+			"ajax" : {
+				"url" : "/Segplan/listPresupuestoByPage/"+plan+"/"+entidad,
+				"type" : "POST"
+			},
+		
+			"columns" : [ 
+				{ data : "year", className: 'derechaPresupuesto'},
+				{ data : "mes", className: 'derechaPresupuesto'},
+				{ data : "codigoClasificacionPresupuestal"},
+				{ data : "codigoProyecto", className: 'derechaPresupuesto'},
+				{ data : "codigoInterno", className: 'derechaPresupuesto'},
+				{ data : "nombreProyecto"},
+				{ data : "apropiacionDefinitiva", className: 'derechaPresupuesto', render: $.fn.dataTable.render.number( '.', ',', 2, '$' )},
+				{ data : "ejecucionVigencia", className: 'derechaPresupuesto', render: $.fn.dataTable.render.number( '.', ',', 2, '$' )},
+				{ data : "girosVigencia", className: 'derechaPresupuesto', render: $.fn.dataTable.render.number( '.', ',', 2, '$' )},
+				{ data : "recursosSuspendidos", className: 'derechaPresupuesto', render: $.fn.dataTable.render.number( '.', ',', 2, '$' )},
+				{ data : "constitucionReserva", className: 'derechaPresupuesto',render: $.fn.dataTable.render.number( '.', ',', 2, '$' )},
+				{ data : "apropiacionReserva", className: 'derechaPresupuesto',render: $.fn.dataTable.render.number( '.', ',', 2, '$' )},
+				{ data : "ejecucionGiroReservas", className: 'derechaPresupuesto',render: $.fn.dataTable.render.number( '.', ',', 2, '$' )},
+				 {"render": function () {
+					    if (tipoClas === "Alcaldía"){
+					    return 	'<button type="button" id="ButtonEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button>';
+					    }else {
+				        return '<button type="button" id="ButtonEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button><button  type="button" id="btnIdEliminarPres" class="delete"><img src="css/img/icono-eliminar.png" class="eliminar"></button>';
+					    }
+				    }, "orderable": false
+				    },],
+               "footerCallback" : function(row, data, start, end,
+						display) {
+					var api = this.api(), data;
+					var intVal = function(i) {
+						return typeof i === 'string' ? i.replace(
+								/[\$,]/g, '') * 1
+								: typeof i === 'number' ? i : 0;
+					};
+
+					// Total over all pages
+					var total = api.column(6).data().reduce(
+							function(a, b) {
+								return intVal(a) + intVal(b);
+							}, 0);
+                   
+					// Total over this page
+					
+					for (var i=6; i<13; i++){
+						var pageTotal = api.column(i, {
+							page : 'current'
+						}).data().reduce(function(a, b) {
+							return intVal(a) + intVal(b);
+						}, 0);
+						var auxi = pageTotal.toString();
+						var alex = maskDinero(unmaskDinero(auxi));
+						$(api.column(i).footer()).html(alex);
+					}
+					
+
+					// Update footer
+					
+				},
+		
+		})
+		yadcf.init(table, [ {
+			column_number : 0,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+			
+		}, {
+			column_number : 1,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 2,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 3,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 4,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 5,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 6,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 7,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 8,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 2,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 9,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 10,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 11,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		{
+			column_number : 12,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		}
+		]);
+		$('div.dataTables_length select').addClass("formato-2");
+		var sumador=0;
+		
+	    editar("#dtablaPresupuesto tbody",table);
+	    eliminar("#dtablaPresupuesto tbody",table);
+
+	}
+    function unmaskDinero(numeroString) {
+        return +(numeroString.replace(/[^0-9.-]/g,""));
+    }
+    function maskDinero(numeroInt) {
+        var money = "$" + parseFloat(numeroInt).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        var valor = money
+        .replace(/,/g , "__COMMA__") // Replace `,` by some unique string
+        .replace(/\./g, ',')         // Replace `.` by `,`
+        .replace(/__COMMA__/g, '.'); // Replace the string by `.`
+        return valor;
+    }
+    function editar(tbody, table){
+		$(tbody).on("click","button.edit", function(){
+		    if(table.row(this).child.isShown()){
+		        var data = table.row(this).data();
+		   
+		      
+		    }else{
+		        var data = table.row($(this).parents("tr")).data();
+		    }
+		  
+		    var data = table.row($(this).parents("tr")).data();
+		    editarInfoPresupuesto(data.year, data.mes, data.codigoClasificacionPresupuestal, data.codigoProyecto,
+		    		data.codigoInterno, data.nombreProyecto, data.apropiacionDefinitiva, data.ejecucionVigencia,
+		    		data.girosVigencia, data.recursosSuspendidos, data.constitucionReserva,
+		    		data.apropiacionReserva, data.ejecucionGiroReservas, data.idInfoPresupuestal,
+		    		data.codigoN1Aux, data.codigoN2Aux, data.codigoN3Aux);
+		  })
+	}
+    function eliminar(tbody, table){
+    	$(tbody).on("click","button.delete", function(){
+		    if(table.row(this).child.isShown()){
+		        var data = table.row(this).data();
+		      
+		    }else{
+		        var data = table.row($(this).parents("tr")).data();
+		    }
+		    
+		    var data = table.row($(this).parents("tr")).data();
+		    var idPresupuesto = data.idInfoPresupuestal;
+		    var plan = document.getElementById("idPlan").value;
+		    var entidad = document.getElementById("idEntidad").value;
+		    document.getElementById("pres").value = data.idInfoPresupuestal;
+		    document.getElementById("distrital").value = entidad;
+		    document.getElementById("desarrollo").value = plan;
+			Swal.fire({
+				  title: '¡Advertencia!',
+				  text: "¿Está seguro de eliminar este registro?",
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Aceptar',
+				  cancelButtonText: 'Cancelar'
+				}).then((result) => {
+				  if (result.value) {
+					  $("#accionEliminar").submit();
+				  
+				  }
+				})
+		  
+		  })
+    }
+    function editarInfoPresupuesto(year, mes, clas, codProyecto, codInterno, nombreProy, 
+    		apropiacion, ejecucion, giros, recursos, constitucion, reserva, ejecGiro, idInfo,
+    		auxnivel1, auxnivel2, auxnivel3){
+
+    	var plan = document.getElementById("idPlan").value;
+		var entid= document.getElementById("idEntidad").value;
+
+		var tipoEntidad = "";
+		for (var i = 0; i< entidades.length; i++){
+			 if (entidades[i].codigoEntidad == entid){
+				 tipoEntidad = entidades[i].stringClasificacion;
+			 }	 
+		}
+    	if (tipoEntidad == "EIC"){
+    
+    		$('#editarPresupuestoEIC').modal('show');
+    		var namePlan = $('select[name="idBancoProyecto"] option:selected').text();
+    		$('#idTxtDesarrollo').text($('#idTxtDesarrollo').val(plan+" - "+namePlan));
+    		
+     		$('#idInfo').text($('#idInfo').val(idInfo));	
+    		$('#idPlanDesarr').text($('#idPlanDesarr').val(plan));	
+    		$('#year').text($('#year').val(year));
+    		$('#mes').text($('#mes').val(mes));
+    		$('#codigoClasificacionPresupuestal').text($('#codigoClasificacionPresupuestal').val(clas));
+    		$('#codigoDistrital').text($('#codigoDistrital').val(entid));
+    		$('#girosVigencia').text($('#girosVigencia').val(giros));
+    		$('#codigoProyecto').text($('#codigoProyecto').val(codProyecto));
+    		$('#recursosSuspendidos').text($('#recursosSuspendidos').val(recursos));
+    		$('#codigoInterno').text($('#codigoInterno').val(codInterno));
+    		$('#constitucionReserva').text($('#constitucionReserva').val(constitucion));
+    		$('#nombreProyecto').text($('#nombreProyecto').val(nombreProy));
+    		$('#apropiacionReserva').text($('#apropiacionReserva').val(reserva));
+    		$('#aprobacionDefinitiva').text($('#aprobacionDefinitiva').val(apropiacion));
+    		$('#ejecucionGiroReservas').text($('#ejecucionGiroReservas').val(ejecGiro));
+    		$('#ejecucionVigencia').text($('#ejecucionVigencia').val(ejecucion));
+    		var nivel1 = "";
+    		var nivel2 = "";
+    		var nivel3 = "";
+    		for (var i =0; i< clas.length; i++){
+    			if (i == 7 || i == 8){
+    				nivel1  += clas.charAt(i);
+    			}
+    			if (i == 9 || i == 10){
+    				nivel2 += clas.charAt(i);
+    			}
+    			if (i == 11 || i == 12 || i== 13 || i == 14){
+    				nivel3 += clas.charAt(i);
+    			}
+    		
+    		}
+    		document.getElementById("nivel1EICEdit").value = nivel1;
+    		document.getElementById("nivel2EICEdit").value = nivel2;
+    		document.getElementById("nivel3EICEdit").value = nivel3;
+    		
+    		
+    	} else if (tipoEntidad == "Alcaldía") {
+    		$('#editarPresupuestoAL').modal('show');
+    		var namePlan = $('select[name="idBancoProyecto"] option:selected').text();
+    		$('#idTxtDesarro').text($('#idTxtDesarro').val(plan+" - "+namePlan));
+    		
+    		$('#idInfor').text($('#idInfor').val(idInfo));	
+    		$('#idPlanDesarro').text($('#idPlanDesarro').val(plan));	
+    		$('#anio').text($('#anio').val(year));
+    		$('#month').text($('#month').val(mes));
+    		$('#codClasi').text($('#codClasi').val(clas));
+    		$('#codigoDistrit').text($('#codigoDistrit').val(entid));
+    		$('#girosVig').text($('#girosVig').val(giros));
+    		$('#codigoProy').text($('#codigoProy').val(codProyecto));
+    		$('#recursosSuspen').text($('#recursosSuspen').val(recursos));
+    		$('#codigoInter').text($('#codigoInter').val(codInterno));
+    		$('#constitucionReserva').text($('#constitucionReserva').val(constitucion));
+    		$('#nombreProyec').text($('#nombreProyec').val(nombreProy));
+    		$('#apropiacionReserva').text($('#apropiacionReserva').val(reserva));
+    		$('#aprobacionDefinitiva').text($('#aprobacionDefinitiva').val(apropiacion));
+    		$('#ejecucionGiroReservas').text($('#ejecucionGiroReservas').val(ejecGiro));
+    		$('#ejecucionVigencia').text($('#ejecucionVigencia').val(ejecucion));
+    		
+    	
+    		var nivel1 = "";
+    		var nivel2 = "";
+    		var nivel3 = "";
+    		for (var i =0; i< clas.length; i++){
+    			if (i == 7 || i == 8){
+    				nivel1  += clas.charAt(i);
+    			}
+    			if (i == 9 || i == 10){
+    				nivel2 += clas.charAt(i);
+    			}
+    			if (i == 11 || i == 12 || i== 13 || i == 14){
+    				nivel3 += clas.charAt(i);
+    			}
+    		
+    		}
+    		document.getElementById("nivel1ALEdit").value = nivel1;
+    		document.getElementById("nivel2ALEdit").value = nivel2;
+    		document.getElementById("nivel3ALEdit").value = nivel3;
+    	}
+
+    }
+ </script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

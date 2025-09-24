@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ <head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Crear entidad</title>
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/adm-usuarios.css}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+              href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>	
+<script type="text/javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+
+
+</head>
+<body>
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administración funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page">Administración
+				de entidades y alcaldias locales</li>
+		</ul>
+	</nav>
+
+
+	<section class="row justify-content-center">
+		<section class="col-10 col-sm-10 col-md-10 col-lg-10">
+			<div class="form-container3">
+
+
+				<div class="abs-center">
+					<span>Crear nueva entidad o alcaldia local</span><br>
+				</div>
+				<div class="hr-1"></div>
+				<br>
+				<section class="row justify-content-center">
+				 <section class="col-md-10">
+				 <div class="container">
+				<form>
+					<div class="form-row">
+						<div class="form-group col-md-6">
+							<label for="tipoIdent">Código (PREDIS):</label> <input
+								type="text" class="form-control" id="codigo">
+						</div>
+						<div class="form-group col-md-6">
+							<label for="identif">Nombre entidad o alcaldia local:</label> <input
+								type="text" class="form-control" id="codigo">
+						</div>
+					</div>
+				
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="tipoIdent">Sigla asignada:</label> <input type="text"
+							class="form-control" id="codigo">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="identif">Dominio correo electronico:</label> <input
+							type="text" class="form-control" id="codigo">
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="identif">Acto administrativo:</label> <input
+							type="text" class="form-control" id="codigo">
+					</div>
+				</div>
+
+
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="inlineFormInputGroupUsername">Fecha inicial</label>
+						<div class="input-group">
+
+							<input type="date" class="form-control" id="codigo"
+								placeholder="Username">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fa fa-calendar"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="inlineFormInputGroupUsername">Fecha final</label>
+						<div class="input-group">
+
+							<input type="date" class="form-control" id="codigo"
+								placeholder="Username">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fa fa-calendar"></i>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<div class="form-group">
+							<label for="periodo">Banco de proyecto:</label> <select
+								class="form-control" id="codigo">
+								<option value="+47">Item 1</option>
+								<option value="+46">Item 2</option>
+								<option value="+45">Item 2</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<div class="form-group">
+
+							<label for="periodo">Clasificacion:</label> <select
+								class="form-control" id="codigo">
+								<option value="+47">Item 1</option>
+								<option value="+46">Item 2</option>
+								<option value="+45">Item 2</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<div class="form-group">
+
+							<label for="periodo">Asociación:</label> <select
+								class="form-control" id="codigo">
+								<option value="+47">Item 1</option>
+								<option value="+46">Item 2</option>
+								<option value="+45">Item 2</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group col-md-6">
+						<div class="form-group">
+
+							<label for="periodo">Sector:</label> <select class="form-control"
+								id="codigo">
+								<option value="+47">Item 1</option>
+								<option value="+46">Item 2</option>
+								<option value="+45">Item 2</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="tipoIdent">Delegar gestión de usuarios</label><br>
+						<input value="" type="checkbox" id="tipoIdent"> <label
+							class="form-check-label" for="inlineCheckbox1">Activo</label>
+					</div>
+					<div class="form-group col-md-5">
+						<label for="identif">Delegar gestion de proyecto</label><br>
+						<input value="" type="checkbox" id="identif"> <label
+							class="form-check-label" for="inlineCheckbox1">Activo</label>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-6">
+						<label for="tipoIdent">Estado</label><br> <input value=""
+							type="checkbox" id="tipoIdent"> <label
+							class="form-check-label" for="inlineCheckbox1">Activo</label>
+					</div>
+				</div>
+				<div align="right">
+					<a href=""><button type="submit"  class="boton-agregar">
+					<i class="fa fa-check"></i>
+					&nbsp;&nbsp;CREAR&nbsp;&nbsp;</button></a>
+				</div>
+				</form>
+				</div>
+				</section>
+				</section>
+				<br>
+				<div class="hr-1"></div>
+				<br>
+
+				<div class="tabs">
+					<div class="tab-button-outer">
+						<ul id="tab-button">
+							<li><a href="#tab01">Funcionarios claves</a></li>
+							<li><a href="#tab02">Historial administrativo</a></li>
+							<li><a href="#tab03">Historial sectorial</a></li>
+
+						</ul>
+					</div>
+					<div class="tab-select-outer">
+						<select id="tab-select">
+							<option value="#tab01">Funcionarios claves</option>
+							<option value="#tab02">Historial administrativo</option>
+							<option value="#tab03">Historial sectorial</option>
+						</select>
+					</div>
+
+					<div id="tab01" class="tab-contents">
+						<div align="Left">
+							<button type="button"  class="boton-agregar"
+								data-toggle="modal" data-target="#exampleModalCenter">
+								<i class="fa fa-plus-circle"></i> AGREGAR
+							</button>
+
+						</div>
+						<br>
+						<div class="table-responsive">
+							<table id="dtabla" class="table-striped">
+								<thead>
+									<tr class="color">
+										<th>Función</th>
+										<th>Nombre</th>
+										<th>Cargo</th>
+										<th>Correo electronico</th>
+										<th>Genero</th>
+										<th><div class="subir">Acciones</div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="#">Work 1</a></td>
+										<td>Doe</td>
+										<td>john@example.com</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td><a href=""><i class="fas fa-edit"></i></a>
+											<i class="fa fa-eye-slash"></i></td>
+
+									</tr>
+									<tr>
+										<td><a href="#">Work 1</a></td>
+										<td>Doe</td>
+										<td>john@example.com</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td><a href=""><i
+												class="fas fa-edit"></i></a> <i class="fa fa-eye-slash"></i></td>
+
+									</tr>
+									<tr>
+										<td><a href="#">Work 1</a></td>
+										<td>Doe</td>
+										<td>john@example.com</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td><a href=""><i class="fas fa-edit"></i></a>
+											<i class="fa fa-eye-slash"></i></td>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+					<div id="tab02" class="tab-contents">
+						<div align="Left">
+							<button type="button"  class="boton-agregar"
+								data-toggle="modal" data-target="#exampleModalCenter1">
+								<i class="fa fa-plus-circle"></i> AGREGAR
+							</button>
+
+						</div>
+						<br>
+						<div class="table-responsive">
+							<table  id="dtabla2" class="table-striped">
+								<thead>
+									<tr class="color">
+										<th>Código</th>
+										<th>Nombres</th>
+										<th>Siglaext</th>
+										<th>Acto administrativo</th>
+										<th>Fecha inicio</th>
+										<th>Fecha final</th>
+										<th><div class="subir">Acciones</div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="historial: ${historialAdmList}">
+										<td th:text="${historial.codigoHisAdmin}" />
+										<td th:text="${historial.nombre}" />
+										<td th:text="${historial.sigla}" />
+										<td th:text="${historial.actoAdministrativo}">
+										<td th:text="${historial.fechaInicio}" />
+										<td th:text="${historial.fechaFinal}" />
+										<td><a href=""><i class="fas fa-edit"></i></a>
+											<i class="fa fa-eye-slash"></i></td>
+
+									</tr>
+									</tbody>
+							</table>
+						</div>
+					</div>
+					<div id="tab03" class="tab-contents">
+						<div align="Left">
+							<button type="button"  class="boton-agregar"
+								data-toggle="modal" data-target="#exampleModalCenter2">
+								<i class="fa fa-plus-circle"></i> AGREGAR
+							</button>
+
+						</div>
+						<br>
+						<div class="table-responsive">
+							<table id="dtabla3" class="table-striped">
+								<thead>
+									<tr class="color">
+										<th>Código</th>
+										<th>Nombres</th>
+										<th>Acto administrativo</th>
+										<th>Estado</th>
+										<th>Fecha inicio</th>
+										<th>Fecha final</th>
+										<th><div class="subir">Acciones</div></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><a href="#">Work 1</a></td>
+										<td>Doe</td>
+										<td>john@example.com</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td><a href=""><i class="fas fa-edit"></i></a>
+											<i class="fa fa-eye-slash"></i></td>
+
+									</tr>
+									<tr>
+										<td><a href="#">Work 1</a></td>
+										<td>Doe</td>
+										<td>john@example.com</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td><a href=""><i
+												class="fas fa-edit"></i></a> <i class="fa fa-eye-slash"></i></td>
+
+									</tr>
+									<tr>
+										<td><a href="#">Work 1</a></td>
+										<td>Doe</td>
+										<td>john@example.com</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td>Doe</td>
+										<td><a href=""><i class="fas fa-edit"></i></a>
+											<i class="fa fa-eye-slash"></i></td>
+								</tbody>
+							</table>
+						</div>
+
+
+					</div>
+				</div>
+
+
+			</div>
+		</section>
+	</section>
+	<br>
+	<br>
+
+	<footer th:replace="/home:: footer"></footer>
+	<div th:include="entidades/modal-crear-funcionarios.html"></div>
+	<div th:include="entidades/modal-crear-hist-adm.html"></div>
+	<div th:include="entidades/modal-crear-hist-sect.html"></div>
+</body>
+
+
+<script type="text/javascript">
+	$(function() {
+		var $tabButtonItem = $('#tab-button li'), $tabSelect = $('#tab-select'), $tabContents = $('.tab-contents'), activeClass = 'is-active';
+
+		$tabButtonItem.first().addClass(activeClass);
+		$tabContents.not(':first').hide();
+
+		$tabButtonItem.find('a').on('click', function(e) {
+			var target = $(this).attr('href');
+
+			$tabButtonItem.removeClass(activeClass);
+			$(this).parent().addClass(activeClass);
+			$tabSelect.val(target);
+			$tabContents.hide();
+			$(target).show();
+			e.preventDefault();
+		});
+
+		$tabSelect.on('change', function() {
+			var target = $(this).val(), targetSelectNum = $(this).prop(
+					'selectedIndex');
+
+			$tabButtonItem.removeClass(activeClass);
+			$tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+			$tabContents.hide();
+			$(target).show();
+		});
+	});
+</script>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-submenu a.test').on("click", function(e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+	});
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

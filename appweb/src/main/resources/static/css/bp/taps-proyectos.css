@@ -1,0 +1,778 @@
+@font-face {
+	font-family: "Apex new bold";
+	src: url(../font/ufonts.com_apexnew-bold-opentype.otf);
+}
+
+@font-face {
+	font-family: "Apex new book";
+	src: url(../font/ufonts.com_apexnew-book-opentype.otf);
+}
+
+@font-face {
+	font-family: "Apex new bold italic";
+	src: url(../font/Apex-New-Bold-Italic.otf);
+}
+
+@font-face {
+	font-family: "Apex new medium";
+	src: url(../font/ufonts.com_apexnew-medium-opentype.otf);
+}
+
+.hr-1 {
+	height: 2px;
+	background-color: #0a5292;
+}
+
+.editar {
+	width: 20px;
+	margin-left: 20px;
+}
+.eliminar-pp{
+	width: 20px;
+	margin-left: -5px;
+}
+.padin {
+	padding-left: 10%;
+	padding-right: 10%
+}
+
+.boton-guardar {
+	background: #513388;
+	border-radius: 6px;
+	font-size: 12px;
+	height: 37px;
+	width: 80px;
+	opacity: 1;
+	color: #fff;
+	font-family: Apex new medium;
+	border: 2px solid #513388;
+}
+
+
+
+.boton-regresar {
+	background-color: #513388;
+	border-radius: 6px;
+	border: 2px solid #513388;
+	padding: 8px;
+	height: 37px;
+	width: 90px;
+	font-family: Apex new medium;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 300px;
+	color: #fff;
+}
+
+#actEntidad {
+	background-color: #513388;
+	border-radius: 6px;
+	border: 2px solid #513388;
+	padding: 8px;
+	height: 37px;
+	width: 90px;
+	font-family: Apex new medium;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 300px;
+	color: #fff;
+}
+
+.abs-center {
+	font-size: 24px;
+	letter-spacing: 0;
+	color: #00529C;
+	opacity: 1;
+	font-family: Apex new bold italic;
+}
+
+.formato {
+	font-family: Apex new book;
+	letter-spacing: 0;
+	color: #00529C;
+	opacity: 1;
+}
+
+.edit {
+	background-color: transparent !important;
+	border: 2px solid transparent !important;
+
+}
+.deletepp{
+	background-color: transparent !important;
+	border: 2px solid transparent !important;
+	margin-left: 20px;
+}
+
+
+.formato-2 {
+	font-family: Apex new book;
+	font-size: 12px;
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+	border: 1px solid #00529C;
+	border-radius: 6px;
+	color: #00529C;
+	padding-left: 6px;
+	padding-right: 5px;
+	height: 36px;
+	width: 50px;
+	opacity: 1;
+}
+
+.color-head {
+	color: #fff;
+	text-align: center;
+	font-size: 14px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #FFFFFF;
+	text-shadow: 0px 2px 2px #00000075;
+	opacity: 1;
+	padding-bottom: -5px;
+}
+
+.texto-archivo-plano {
+	text-align: left;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+}
+
+.input-1 {
+	padding-left: 2px ! important;
+}
+
+.input-2 {
+	padding-right: 2px ! important;
+}
+
+.tabs {
+	margin: 0 auto;
+	padding: 0;
+}
+
+#tab-button {
+	display: table;
+	table-layout: fixed;
+	width: 140%;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	text-align: left;
+	list-style: none;
+}
+
+#tab-button li {
+	display: table-cell;
+	padding-right: 10px;
+	font-family: Apex new medium;
+	width: 20%;
+}
+
+#tab-button li a {
+	display: block;
+	padding: .5em;
+	text-align: center;
+	background: #99BAD79E;
+	border-radius: 10px 10px 0px 0px;
+	border-bottom-color: #00529C;
+	color: #00458B;
+	text-align: left;
+	opacity: 1;
+	color: #00458B;
+}
+
+#tab-button li a:hover {
+	background: #00529C 0% 0% no-repeat padding-box;
+	color: #fff;
+}
+
+#tab-button li:not (:first-child ) a {
+	border-left: none;
+}
+
+#tab-button li a:hover, #tab-button .is-active a {
+	background: #00529C 0% 0% no-repeat padding-box;
+	color: #fff;
+}
+
+.tab-contents {
+	padding: .5em 2em 1em;
+	border: 1px solid #00529C;
+	border-radius: 0px 10px 10px 10px;
+	opacity: 1;
+}
+
+.tab-button-outer {
+	display: none;
+}
+
+@media screen and (min-width: 768px) {
+	.tab-button-outer {
+		position: relative;
+		z-index: 2;
+		display: block;
+		overflow-x: scroll;
+	}
+	.tab-select-outer {
+		display: none;
+	}
+	.tab-contents {
+		position: relative;
+		top: -1px;
+		margin-top: 0;
+	}
+}
+
+.boton-agregar {
+	background-color: #76A4CC;
+	border-radius: 5px;
+	font-family: Apex new medium;
+	border: 2px solid #76A4CC;
+	font-size: 14px;
+	padding: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+
+.boton-asignar {
+	background-color: #54348c;
+	border-radius: 6px;
+	border: 2px solid #54348c;
+	padding: 8px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 380px;
+	font-family: "Apex new medium";
+}
+
+.subir {
+	color: #fff;
+	text-align: center;
+	font-size: 14px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #FFFFFF;
+	text-shadow: 0px 2px 2px #00000075;
+	opacity: 1;
+}
+
+.blanco {
+	font-size: 14px;
+}
+
+.blanco2 {
+	color: #fff;
+	font-size: 14px;
+}
+
+.centrado {
+	display: flex;
+	justify-content: center;
+}
+
+.centrado4 {
+	display: flex;
+	justify-content: center;
+}
+
+#centrado2 {
+	text-align: center;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #FFFFFF;
+	text-shadow: 0px 2px 2px #00000075;
+	opacity: 1;
+}
+
+#centrado3 {
+	text-align: center;
+}
+
+.caja {
+	height: 35px;
+	position: relative;
+	border-radius: 10px;
+	opacity: 1;
+}
+
+/* #idLsClasificacion{ */
+/* 	border-radius: 10px; */
+/* 	border: 1px solid #00529C; */
+/* } */
+/* #idLsAsociacion { */
+/* 	border-radius: 10px; */
+/* 	border: 1px solid #00529C; */
+/* } */
+.caja::after {
+	content: "\025be";
+	border-left: 1px solid #00529C;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	display: table-cell;
+	padding-top: 7px;
+	text-align: center;
+	width: 30px;
+	height: 35px;
+	background-color: #EBEBEB;
+	position: absolute;
+	top: 1px;
+	right: 1px;
+	pointer-events: none;
+}
+
+a.paginate_button {
+	background: none;
+	color: blue;
+	border: none;
+	padding-top: 30px;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	font-size: 12px;
+	margin-top: 20px;
+	font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+}
+
+.page.info {
+	color: red:  
+        background:red;
+}
+
+.dataTables_info {
+	margin-top: 20px;
+	color: blue;
+	font-size: 12px;
+}
+
+.dataTables_length {
+	margin-top: 20px;
+	width: 62px;
+	padding-left: -50px;
+}
+
+a.paginate_button:hover {
+	padding-top: 30px;
+}
+
+a.paginate_button.current {
+	padding-top: 30px;
+}
+
+.paginate_button.next:after {
+	padding-top: 30px;
+}
+
+.table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th
+	{
+	background-color: #e4f4fc;
+}
+
+.table-striped>tbody>tr:nth-child(even)>td, .table-striped>tbody>tr:nth-child(even)>th
+	{
+	background-color: #c8d4e4;
+}
+
+.table-striped>thead>tr>th {
+	background-color: #76A4CC;
+}
+
+.table-striped th:first-child {
+	border-radius: 10px 0 0 0;
+}
+
+.table-striped th:last-child {
+	border-radius: 0 10px 0 0;
+}
+
+table {
+	width: 500px;
+	border-collapse: collapse;
+	border-spacing: 0;
+	font-size: 13px;
+}
+
+table th, table td {
+	border-left: 1px solid #0a5292;
+	border-width: 1.1px;
+	border-bottom: none;
+	font-family: Apex new book;
+	text-align: left;
+	letter-spacing: 0;
+	color: #00529C;
+	opacity: 1;
+}
+
+table tr:first-child th {
+	border-top: none;
+}
+
+table tr:last-child td {
+	border-bottom: none;
+}
+
+table th:first-child, table td:first-child {
+	border-left: none;
+}
+
+table th:last-child, table td:last-child {
+	border-right: none;
+	border-bottom: none;
+}
+
+table#dtabla tr.even:hover td {
+	background-color: #84c4fc;
+}
+
+table#dtabla tr.odd:hover td {
+	background-color: #84c4fc;
+}
+
+#codigo {
+	border-color: #4170d9;
+	border-radius: 6px;
+	height: 35px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+#entidad {
+	border-color: #4170d9;
+	border-radius: 9px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+#correo_electronico {
+	border-color: #4170d9;
+	border-radius: 9px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+#nombre {
+	border-color: #4170d9;
+	border-radius: 9px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+#tipoIdent {
+	border-color: #4170d9;
+	border-radius: 9px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+#identif {
+	border-color: #4170d9;
+	border-radius: 9px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+#contraAnt {
+	border-color: #4170d9;
+	border-radius: 9px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+#contraNueva {
+	border-color: #4170d9;
+	border-radius: 9px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+#rContra {
+	border-color: #4170d9;
+	border-radius: 9px;
+	box-shadow: 0px 0px 2px 0px #000;
+}
+
+.agregar {
+	width: 23px;
+}
+
+.nh {
+	border: 1px solid #00529C;
+	border-radius: 0px 10px 10px 10px;
+	opacity: 1;
+}
+
+.list-group-item.active {
+	background: #00529C;
+	color: #fff;
+}
+
+.izq {
+	background-color: #fff;
+	border-radius: 6px;
+	border: 2px solid #fff;
+	margin-top: 120%;
+}
+
+.izqDoble {
+	background-color: #fff;
+	border-radius: 6px;
+	border: 2px solid #fff;
+	margin-top: 35%;
+}
+
+.der {
+	background-color: #fff;
+	border-radius: 6px;
+	border: 2px solid #fff;
+	margin-top: 35%;
+}
+
+.derDoble {
+	background-color: #fff;
+	border-radius: 6px;
+	border: 2px solid #fff;
+	margin-top: 35%;
+}
+
+.flecha-paginador {
+	width: 14px;
+	opacity: 1;
+}
+
+#inputGenerico {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+.inputGenerico {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idVersion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idDel {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idInscripcion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idRegistro {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idEtapa {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idTipo {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#codigoProyectoInscripcion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#nombreProyectoInscripcion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	font-size: 12px;
+}
+
+#bpinInscripcion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#nombreBpinInscripcion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	font-size: 12px;
+}
+
+#tipoProyectoInscripcion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#etapaInscripcion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#nombreProyectoInscripcion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	font-size: 12px;
+}
+
+#nombreProyGeneral {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#nombreBpinGeneral {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#inputCodigoDistrital {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#pp {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+}
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> developer
+.btnAction {
+	background-color: transparent !important;
+	border: 2px solid transparent !important;
+}
+.centrarItems {
+
+	width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+	
+<<<<<<< HEAD
+}
+=======
+}
+
+#codigoProyectoGenerico {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#tipoSectorAlLocal {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#bancoProyecto {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#inputSectorEntidad {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#sectorEic {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#codigoProyectoInscripcionEdit {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#nombreProyectoInscripcionEdit {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	font-size: 12px;
+}
+
+#nombreBpinInscripcionEdit {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	font-size: 12px;
+}
+
+#nombreProyectoInscripcionEditar {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	font-size: 12px;
+}
+#textareaDescripcionProyecto{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	font-size: 12px;
+}
+
+>>>>>>> developer

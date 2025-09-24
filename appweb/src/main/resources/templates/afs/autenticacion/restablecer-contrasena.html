@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+	<div class="modal fade" id="restablecerModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content bg1">
+				<div class="modal-header bg2">
+                     <div class="row">
+						<div class="col-6 col-sm-5 col-md-5 col-lg-5">
+
+							<img id="logo-segplan" th:src="@{/css/img/icono-seg.png}"
+								alt="Icono para iniciar sesion">
+						</div>
+						
+							<span class="restablecer">Restablecer contraseña</span>
+						
+					</div>
+				</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form method="post" th:object="${restablecer}"
+						th:action="@{restablecer_contrasenia}">
+						<div class="col-lg-12 col-md-1">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Usuario</label>
+								</div>
+								<input class="form-control" id="usuario" name="nombreUsuario"
+									type="text" maxlength="100" placeholder="Usuario">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Identificación</label>
+								</div>
+								<input class="form-control" id="identificacion"
+									name="identificacion" type="text" placeholder="Identificacion" maxlength="15">
+
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Correo Electrónico</label>
+								</div>
+								<input class="form-control" id="correo_electronico" maxlength="100"
+									name="correo" type="email" placeholder="Correo electronico">
+
+							</div>
+						</div>
+						<div class="col-12 col-sm-12 col-lg-12 col-md-12">
+							<div class="row">
+								<div class="col-lg-4 col-md-4">
+									<div class="texto-capcha">
+										<label for="">Captcha:</label>
+									</div>
+								</div>
+								<div class="col-8 col-sm-8 col-lg-8 col-md-8">
+									<h3 class="label-capcha2">
+										<label id="lblCapcha2"></label>&nbsp; &nbsp;<a href="#"
+											class="btn btn-primary btn-sm"
+											style="margin-right: 20px; width: 35px; height: 30px; color: #fff; background-color: #513388"
+											title="Actualizar" onclick="randomString2();"><em
+											class="fa fa-refresh"></em></a>
+									</h3>
+								</div>
+							</div>
+						</div>
+						<div class="centrado">
+							<span id="msgCapcha2" style="color: red;"></span> <span
+								style="font-size: 10px;">El captcha distingue entre
+								mayúsculas y minúsculas.</span> <input type="text" id="txtCapcha2"
+								name="txtCapcha2" onkeyup="validaCapcha2();" required
+								autocomplete="off">
+
+						</div>
+						<br>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="centrado">
+							<input type="submit" class="boton-restablecer"
+								id="boton-restablecer" value="Restablecer contraseña">
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		randomString2();
+		 
+		  $('#boton-restablecer').click(function () {	
+			  var textoCapt = $("#lblCapcha2").text();
+			  var txtCapcha =  document.getElementById("txtCapcha2").value;
+		  if ($('#usuario').val().length == 0 || $('#identificacion').val().length == 0 || $('#correo_electronico').val().length == 0)
+			 {
+			  Swal.fire({
+			        title:"¡Advertencia!",
+				    text: "Existen campos obligatorios que no se han registrado",
+			        icon: "warning",
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+		       })
+		   return false;
+			 }
+			  else {
+	  			   if (textoCapt != txtCapcha && txtCapcha != ""){
+	  				   Swal.fire({
+	  				        title:"¡Advertencia!",
+	  					    text: "Código captcha erróneo",
+	  				        icon: "warning",
+	  				        confirmButtonText: 'Aceptar',
+	  				        allowOutsideClick: () => false
+	  			   }) 
+	  			   return false;
+	  			   }
+	  			 else {
+	  				  if (txtCapcha == "") {
+		  					 Swal.fire({
+			  				        title:"¡Advertencia!",
+			  					    text: "Necesitamos validar que no eres un robot. Por favor validarlo a través del Captcha",
+			  				        icon: "warning",
+			  				        confirmButtonText: 'Aceptar',
+			  				        allowOutsideClick: () => false
+			  				        
+		  					 })
+		  					 return false;
+		  				   }
+	  				  else  {
+	 	  			  Swal.fire({
+	 	                    title: 'Cargando...',
+	 	                    position: 'top',
+	 	                    allowOutsideClick: () => !Swal.isLoading(),
+	 	                    onBeforeOpen: () => {
+	 	                        Swal.showLoading();
+	 	                    }
+	 	                });   
+	 	  			   
+	 	  		   return true;
+	  			   }
+	  		   }
+			  }
+		  }); 
+		
+	});
+
+	function randomString2() {
+		var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+		var string_length = 5;
+		var randomstring = '';
+		for (var i = 0; i < string_length; i++) {
+			var rnum = Math.floor(Math.random() * chars.length);
+			randomstring += chars.substring(rnum, rnum + 1);
+		}
+		$('#lblCapcha2').html(randomstring);
+		$('#txtCapcha2').val('');
+		$("#msgCapcha2").html("");
+	}
+	function validaCapcha2() {
+		var clave = $("#lblCapcha2").text();
+		var confirmaClave = $("#txtCapcha2").val();
+
+		if (confirmaClave != clave) {
+	
+			$("#msgCapcha2").html("Captcha Inválido.");
+		} else {
+			$("#msgCapcha2").html("");
+		}
+	}
+</script>
+</html>

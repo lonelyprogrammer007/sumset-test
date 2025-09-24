@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Editar Pot</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<div class="modal fade" id="modalPotEditar" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}" alt="icono seg">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="tituloPot">Editar POT Proyectos-Instrumentos</span>
+					</div>
+				</div>
+
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" class="formPotEditar" th:object="${proyecto}" method="post"
+						th:action="editar_ProyectosPOT">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="col-lg-12 col-md-15">
+									<div class="form-group">
+										<input class="form-control" id="idProyectoInstrumento"
+											type="hidden" name="idProyectoInstrumento">
+
+									</div>
+								</div>
+								<div class="texto">
+									<label for="periodo">Pot Proyecto:*</label>
+								</div>
+								<select name="idPotProyecto" required="required"
+									id="idLsPotProyecto" class="form-control selectpicker">
+									<option th:each="potProyectoInstrumento : ${potProyecto}"
+										th:value="${potProyectoInstrumento.idObraProyPot}"
+										th:text="${potProyectoInstrumento.codigo}"></option>
+								</select>
+
+								<div class="texto">
+									<label for="periodo">Instrumento:*</label>
+								</div>
+								<select style="width: 100% !important" name="idPotInstrumento" required="required"
+									id="idLsInstrumento" class="form-control js-example-basic-single">
+
+									<option th:each="instrumento : ${instrumentos}"
+										th:value="${instrumento.idInstrumentoPot}"
+										th:text="${instrumento.codigo}"></option>
+								</select>
+
+
+							</div>
+
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="resultado">Estado:</label>
+								</div>
+								<input type="checkbox" id="checkestado"> <label
+									for="resultado">Activo</label> <input type="hidden" id="estado"
+									name="estado">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" class="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+							<button type="submit" class="myFormButton" name="edit" id="boton-modal">
+								 <img src="css/img/icono-guardar.png" class="guardar" alt="icono guardar">Guardar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2({
+			  minimumResultsForSearch: Infinity
+		});
+		$('#checkestado').click(function() {
+
+			var isChecked = document.getElementById('checkestado').checked;
+			console.log(isChecked);
+			if (isChecked) {
+				$('#estado').text($('#estado').val(1));
+			} else if (!isChecked) {
+				$('#estado').text($('#estado').val(0));
+			}
+
+		});
+		
+	});
+</script>
+
+</html>

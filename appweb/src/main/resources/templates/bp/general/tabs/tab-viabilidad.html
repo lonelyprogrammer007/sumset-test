@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title></title>
+
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span>Entidades Adscritas</span><br>
+		<div class="hr-1"></div>
+	</div>
+
+	<div class="table-responsive mt-4">
+		<table class="table-striped" id="dtablapp" style="width: 160%">
+			<caption style="display: none;">Entidades Adscritas</caption>
+			<thead>
+				<tr>
+					<th scope="col" class="color-head">Concepto Viabilidad Entidad<br></th>
+					<th scope="col" class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span>Archivos que respaldan la Viabilidad del Proyecto</span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="mb-3 mt-3 float-left">
+		<a href="#">
+			<button class="boton-agregar " type="button" data-toggle="modal"
+				data-target="#agregarRespaldoModalViabilidad">
+				<em class="fa fa-plus-circle"></em> Agregar
+			</button>
+		</a>
+	</div>
+	<div class="table-responsive mt-3">
+		<table class="table-striped" id="dtablapp" style="width: 160%">
+			<caption style="display: none;">Archivo que respaldan la
+				Viabilidad del proyecto</caption>
+			<thead>
+				<tr>
+					<th scope="col" class="color-head">Consecutivo<br></th>
+					<th scope="col" class="color-head">Nombre Archivo<br></th>
+					<th scope="col" class="color-head">Realizado Por<br></th>
+					<th scope="col" class="color-head">Fecha de Estudio<br></th>
+					<th scope="col" class="color-head">Archivo Relacionado<br></th>
+					<th scope="col" class="color-head">Accion<br></th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+	<div class="row mt-4">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label>Sustentación del concepto de Viabilidad:</label>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-12">
+			<textarea rows="" cols="3" class="form-control"></textarea>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label>Observaciones del concepto de Viabilidad:</label>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-12">
+			<textarea rows="" cols="3" class="form-control"></textarea>
+		</div>
+	</div>
+
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span>Responsables del concepto de viabilidad:</span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Nombre</label>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Cargo</label>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Telefono</label>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Correo</label>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Area</label>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Fecha</label>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+		<div class="col-sm-6">
+			<input type="date" class="form-control" readonly="readonly">
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Nombre Viabiliza Proyecto Entidad Adscrita:</label>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Cargo</label>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Telefono</label>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Correo</label>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Area</label>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="texto">
+				<label>Fecha</label>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-6">
+			<input type="text" class="form-control">
+		</div>
+		<div class="col-sm-6">
+			<input type="date" class="form-control" readonly="readonly">
+		</div>
+	</div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-respaldo-viabilidad.html"></div>
+</body>
+</html>

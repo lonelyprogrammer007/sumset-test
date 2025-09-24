@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Niveles POT</title>
+</head>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/afs/archivo-plano.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/ip/componentes.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/arbol-ce.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/modal.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/afs/listas.css}">
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment-with-locales.min.js"
+	integrity="sha256-ZykW30UBCXWkPGsVyVPdJlUrce9/PawgYCEzinA4pnU="
+	crossorigin="anonymous"></script>
+<script src="https://unpkg.com/select-pure@latest/dist/bundle.min.js"></script>
+
+<body>
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>Instrumentos de planeación</li>
+			<li class="breadcrumb-item " aria-current="page">Plan de ordenamiento territorial</li>
+			<li class="breadcrumb-item active" aria-current="page"><a th:href="@{/consultar-pot-ip}">Creación de la estructura POT</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consultar o agregar estructura/niveles</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+		<div class="row">
+			<div class="col-sm-2">
+				<div class="mt-2">
+					<label class="texto">Código POT: </label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<input type="text" class="form-control disenioInput"
+					readonly="readonly" id="codigoPot">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="mt-2">
+					<label class="texto">Nombre, número y Fecha de Acto
+						Administrativo:</label>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<input type="text" class="form-control disenioInput" id="fecha"
+					readonly="readonly">
+			</div>
+		</div>
+		<form id="peticionCrearRama" >
+			<input type="hidden" name="idPot" id="idPot">
+
+		</form>
+		<input type="hidden" id="validarRama">
+		<div align="left" class="mt-3">
+
+			<button id="rama" type="button" class="boton-agregar">
+				<i class="fa fa-plus"></i>Agregar Rama
+			</button>
+
+		</div>
+		<div id="menuBase" class="mt-3">
+			<ul class="nav">
+			</ul>
+		</div>
+		<div align="left" class="mt-3">
+
+			<button class="boton-agregar mt-3" type="button" 
+			id="agregarPotObraB"> Agregar
+			</button>
+
+		</div>
+		<input type="hidden" id="id1">
+		<div class="table-responsive mt-3">
+			<table id="dtabla" class="table-striped" style="width: 250%">
+			<thead>
+			<tr class="color">
+			<th style="width: 10%" class="color-head">Código <br></th>
+			<th style="width: 30%" class="color-head">Descripción (Obra / Proyecto POT)  <br></th>
+			<th style="width: 30%" class="color-head">Entidad(es) Responsable(s) <br></th>
+			<th style="width: 10%" class="color-head">Plazo ejecución <br></th>
+			<th style="width: 10%" class="color-head">Acción <br></th>
+			</tr>
+			</thead>
+			<tbody></tbody>
+			</table>
+		</div>
+		<div align="right" class="mt-3">
+	
+		<button style="width: auto !important;" id="refresco" class="btn_guardar"
+					type="button">
+					<img src="css/img/icono-guardar.png" class="iconGuardar" alt="Icono guardar"> Guardar
+				</button>
+		
+		</div>
+	</div>
+	<div
+									th:include="ip/estructura-pot/modales/modal-agregar-pot-obra.html"></div>
+	<div
+									th:include="ip/estructura-pot/modales/modal-editar-pot-obra.html"></div>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script th:inline="javascript">
+let contenidoLista=new Set();
+let contenido2= new Set();
+let valido = false;
+var table;
+var contador = 0;
+var contadormulti=0;
+var contadormulti2=0;
+var concatenar="";
+var concatenar2= "";
+var multi2="";
+var multi="";
+$(document).ready(function() {
+	
+	$('#refresco'). click(function() {
+		
+		location.reload();
+		});
+	
+	/*<![CDATA[*/
+			var potDTO = /*[[${potDTOGet}]]*/
+			
+			moment.locale('es');
+			fecha_convertida = moment(potDTO.fecha).format('LL');
+			document.getElementById("codigoPot").value=potDTO.codigoPot;
+			document.getElementById("fecha").value=potDTO.nombreAdoptado +". "+potDTO.actoAdministrativo+", "+fecha_convertida;
+			cargarRamas(potDTO.idPot);
+			$('#rama').click(function() {
+				
+				Swal.fire({
+					 
+					  text: "¿Desea agregar una nueva  rama?",
+					  icon: 'info',
+					  showCancelButton: true,
+					  confirmButtonColor: '#3085d6',
+					  cancelButtonColor: '#d33',
+					  confirmButtonText: 'Si , Agregar',
+					  cancelButtonText: 'No , Cancelar'
+					}).then((result) => {
+					  if (result.value) {
+					    document.getElementById("idPot").value=potDTO.idPot;
+					    $('#peticionCrearRama').submit();
+					  }
+					});
+			});
+ 			
+			$('#peticionCrearRama').submit(function(e) {
+				var potDTO = /*[[${potDTOGet}]]*/ 
+		        $.ajax({
+		            url: 'crear-rama',
+		            type: 'POST',
+		            data: JSON.stringify({idPotRama: '', 
+		            	idPot: potDTO.idPot, numeroRama: '',cerrada:0}),
+		            processData: false,
+		            contentType: "application/json",
+		            	success: function (data) {
+		               	 
+		               	var contenido='';
+               		 contenido += '<ul id="menuBase1 rama" class="'+data.idPotRama+'"><li>';
+               		 contenido += '<span onclick="funcionArbol(this.id)" id="'+data.idPotRama+'" class="titulo rama"><img src="css/img/arbol-azul.png" id="'+data.idPotRama+'" >&nbsp;&nbsp; Rama'+data.numeroRama+'</span>';
+               		contenido +='&nbsp;&nbsp;<button onclick="eliminarRama('+data.idPotRama+')"  onclick="agregarNivel('+data.idRamaPot+','+data.idNivelPot+')" type="button" id="nivel" class="boton-agregar mt-1 nivel  "><i class="fa fa-times-circle"></i> </button>' 
+               		contenido+='&nbsp;&nbsp;<button type="button" onclick="agregarNivel('+data.idPotRama+',null)" id="nivel" class="boton-agregar mt-1 nivel agregar-nivel'+data.idPotRama+'"><i class="fa fa-plus"></i> Nivel</button>'
+               		 contenido += '<ul>';
+               		 contenido += '</ul></li></ul>';
+               		 $('#menuBase').append(contenido);
+		            	},
+		            	
+		                error: function () {
+		                           
+
+		                  },
+		                complete: function (data) {
+		            	        
+		                 	 
+		                         
+		                     }
+		        });
+		      	e.preventDefault();
+		    });
+	/*]]>*/
+	
+	
+	
+	$('#agregarPotObraB').click(function() {
+		
+		document.getElementById("idObraProyPot").value="";
+		document.getElementById("codigoPotObra").value="";
+		document.getElementById("obra").value="";
+		document.getElementById("idLsPlazo").value="";
+		document.getElementById("concatena").value="";
+		concatenar2="";
+	
+		crearMenu();
+		if(document.getElementById("idNivelPot").value!=""){
+			$('#agregarPotObra').modal('show');
+		}
+	});
+	function crearMenu(){
+		/*<![CDATA[*/
+		var entidades = /*[[${entidades}]]*/;
+	var text="";
+	var value="";
+	var ddEntidades = [];
+	$('.select-pure__label').show();
+	for (var i = 0; i < entidades.length; i++) {
+		text=entidades[i].codigoEntidad;
+		value=entidades[i].codigoDistrital;
+		var myOptions =
+	    {
+	 label: text,
+	 value: value
+		}		
+	ddEntidades.push(myOptions);
+	}
+
+		if(contadormulti2==0){
+			contadormulti2=contadormulti2+1;
+		}else{
+			$('.multi2').remove();
+		}
+	multi2 = new SelectPure(".multi-select", {
+		
+	    options: ddEntidades,
+	    multiple: true,
+	    value:null,
+	    icon: "fa fa-times",
+	    placeholder: "-Seleccione una entidad-",
+	    onChange: value => { console.log(value);
+	    verCodigoDistrital2(value);
+	    },
+	    classNames: {
+	      select: "select-pure__select multi2",
+	      dropdownShown: "select-pure__select--opened",
+	      multiselect: "select-pure__select--multiple",
+	      label: "select-pure__label",
+	      placeholder: "select-pure__placeholder",
+	      dropdown: "select-pure__options",
+	      option: "select-pure__option",
+	      autocompleteInput: "select-pure__autocomplete",
+	      selectedLabel: "select-pure__selected-label",
+	      selectedOption: "select-pure__option--selected",
+	      placeholderHidden: "select-pure__placeholder--hidden",
+	      optionHidden: "select-pure__option--hidden",
+	    }
+	    
+	  });
+		
+	
+	}
+/*]]>*/	
+function verCodigoDistrital2(codigoDistrital) {
+	
+	if (codigoDistrital.length == 0){
+		   concatenar2 = "";
+		   document.getElementById("concatena").value = concatenar2;
+	   }
+	   
+	   concatenar = "";
+	   for (var i = 0; i < codigoDistrital.length; i++){
+		   auxi = codigoDistrital[i];
+		   
+		   concatenar2 += auxi +";";
+		   document.getElementById("concatena").value = concatenar2;
+	   }
+}
+	
+	function cargarRamas(idPot) {
+		
+		var data = $(this).serialize(); 
+		$.ajax({
+             type: 'GET',
+             url: '/Segplan/' + 'lista-ramas-pot/'+idPot,
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+            	 
+                 if(data.lstObjectsDTO!=null && data.lstObjectsDTO.length>0){
+                	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+                		  
+                		 var contenido='';
+                		 
+                		 contenido += '<ul id="menuBase1 rama" class="'+data.lstObjectsDTO[i].idPotRama+'"><li>';
+                		 contenido += '<span onclick="funcionArbol(this.id)" id="'+data.lstObjectsDTO[i].idPotRama+'" class="titulo rama"><img src="css/img/arbol-azul.png"  >&nbsp;&nbsp; Rama'+data.lstObjectsDTO[i].numeroRama+'</span>';
+                		 contenido +='&nbsp;&nbsp;<button onclick="eliminarRama('+data.lstObjectsDTO[i].idPotRama+')"  type="button" id="nivel" class="boton-agregar mt-1 nivel"><i class="fa fa-times-circle"></i> </button>';
+                		 if(data.lstObjectsDTO[i].cerrada){
+                			 contenido +='&nbsp;&nbsp;<button onclick="agregarNivel('+data.lstObjectsDTO[i].idPotRama+',null)" style="display:none;" type="button" id="nivel" class="boton-agregar mt-1 nivel agregar-nivel'+data.lstObjectsDTO[i].idPotRama+'"><i class="fa fa-plus"></i> Nivel</button>';
+                		 }else{
+                			 contenido +='&nbsp;&nbsp;<button onclick="agregarNivel('+data.lstObjectsDTO[i].idPotRama+',null)" type="button" id="nivel" class="boton-agregar mt-1 nivel agregar-nivel'+data.lstObjectsDTO[i].idPotRama+'"><i class="fa fa-plus"></i> Nivel</button>'; 
+                		 }
+                		 
+                		 
+                		 contenido += '';
+                		 contenido += '</li></ul>';
+                		 $('#menuBase').append(contenido);
+					}
+                 } 
+            	 Swal.close();
+                
+
+
+
+
+             },
+             error:
+                     function () {
+                        
+
+                     },
+
+             complete: function (data) {
+            	        
+            	 
+                         
+                     }
+         });
+         
+	}
+	
+});
+
+
+
+
+function eliminarNivel(idNivel) {
+	Swal.fire({
+		 
+		  text: "¿Desea eliminar el nivel?",
+		  icon: 'info',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Eliminar nivel',
+		  cancelButtonText: 'No,cancelar'
+		}).then((result) => {
+		  if (result.value) {
+		   		eliminarNivelAjax(idNivel);
+		  }
+		});
+}
+function eliminarNivelAjax(idNivel) {
+	var data = $(this).serialize(); 
+	$.ajax({ 
+		url: 'eliminar-nivel/'+idNivel,
+		type: 'POST',
+		data: data,
+		success: function (data) {
+			
+			if(data.codigoRespuesta === 200){
+				
+				Swal.fire({
+					  icon: 'info',
+					  title: 'Operación exitosa',
+					  text: data.msgRespuesta,
+					  
+					})
+				$('.'+data.idNivelPot).remove();
+				if(data.esObra==1){
+					if(data.idNivelPadre==null){
+						editarRama(data.idRamaPot,0);
+						$('.agregar-nivel'+data.idRamaPot).show();
+					}else{
+						editarEstadoNivel(data.idNivelPadre,0);
+						$('.nivel-agregar-nivel'+data.idNivelPadre).show();
+					}
+				}
+			}else{
+				Swal.fire({
+					  icon: 'error',
+					  title: 'No se pudo completar la operación',
+					  text: data.msgRespuesta,
+					  
+					})
+			}
+			
+			
+		}
+		
+	});
+}
+function eliminarRama(idRama) {
+	
+	Swal.fire({
+		 
+		  text: "¿Desea eliminar la Rama?",
+		  icon: 'info',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Eliminar Rama',
+		  cancelButtonText: 'No,Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+		   		eliminarRamaAjax(idRama);
+		  }
+		});
+	
+}
+function eliminarRamaAjax(idRama) {
+	var data = $(this).serialize(); 
+	$.ajax({ 
+		url: 'eliminar-rama/'+idRama,
+		type: 'POST',
+		data: data,
+		success: function (data) {
+		if(data.codigoRespuesta === 200){
+				
+				Swal.fire({
+					  icon: 'info',
+					  title: 'Operación exitosa',
+					  text: data.msgRespuesta,
+					  
+					})
+				$('.'+data.idPotRama).remove();
+			}else{
+				Swal.fire({
+					  icon: 'error',
+					  title: 'No se pudo completar la operación',
+					  text: data.msgRespuesta,
+					  
+					})
+			}
+			
+		}
+		
+	});
+}
+function agregarNivel(idRama,idNivel) {
+	
+	Swal.fire({
+		 
+		  text: "¿Desea agregar un nuevo nivel o agregar el nivel final Obra/Proyecto?",
+		  icon: 'info',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: ' Agregar Nuevo Nivel',
+		  cancelButtonText: 'Agregar Nivel Obra/Proyecto'
+		}).then((result) => {
+		  if (result.value) {
+		   		agregarNivelAjax(idRama,idNivel);
+		  }else{
+			  	agregarNivelObraProyectoAjax(idRama,idNivel);
+		  }
+		});
+}
+$('#peticionModificarObra').submit(function(e){
+	e.preventDefault();
+	var campos= $('.required2');
+	console.log(campos);
+	var bandera = false;
+	for (var i = 0; i < campos.length; i++) {
+		if($(campos[i]).val()===""){
+			$(campos[i]).addClass('vacio');
+			console.log("entro")
+			bandera = true;
+		}else{
+			$(campos[i]).removeClass('vacio');
+		}
+	}
+	if(bandera){
+		Swal.fire({
+	        title: 'Información',
+	        text: "Existen campos obligatorios que no se han registrado",
+	        icon: 'info',
+	        confirmButtonText: 'Aceptar',
+	        allowOutsideClick: () => false
+	  })
+	 
+	}else{
+		var idObraProyPot=document.getElementById("idObraProyPot2").value;
+		var codigoPotObra=document.getElementById("codigoPotObra2").value;
+		var obra=document.getElementById("obra2").value;
+		var idLsPlazo=document.getElementById("idLsPlazo2").value;
+		var idNivelPot=document.getElementById("idNivelPot2").value;
+		var codigoEntidadConcatenados=document.getElementById("concatena2").value;
+		$.ajax({
+			
+			 url: 'modificar-pot-obra',
+	        type: 'POST',
+	        data: JSON.stringify({codigoPotObra: codigoPotObra, 
+	        	obra: obra, idLsPlazo: idLsPlazo,idNivelPot:idNivelPot,
+	        	codigoEntidadConcatenados:codigoEntidadConcatenados,
+	        	idObraProyPot:idObraProyPot}),
+	        processData: false,
+	        contentType: "application/json",
+	        success: function (data) {
+	        	
+	        	Swal.fire({
+	    	        title: '',
+	    	        text: data.msgRespuesta,
+	    	        icon: 'info',
+	    	        confirmButtonText: 'Aceptar',
+	    	        allowOutsideClick: () => false
+	    	  });
+	        	$('#editarPotObra').modal('hide');
+	    	  verObras(idNivelPot);
+	        }
+		});
+		e.preventDefault();
+	}
+});
+
+$('#peticionAgregarObra').submit(function(e) {
+	
+	 e.preventDefault();
+	var campos= $('.required');
+	console.log(campos);
+	var bandera = false;
+	for (var i = 0; i < campos.length; i++) {
+		if($(campos[i]).val()===""){
+			$(campos[i]).addClass('vacio');
+			console.log("entro")
+			bandera = true;
+		}else{
+			$(campos[i]).removeClass('vacio');
+		}
+	}
+	if(bandera){
+		Swal.fire({
+	        title: 'Información',
+	        text: "Existen campos obligatorios que no se han registrado",
+	        icon: 'info',
+	        confirmButtonText: 'Aceptar',
+	        allowOutsideClick: () => false
+	  })
+	 
+	}else{
+		
+		var codigoPotObra=document.getElementById("codigoPotObra").value;
+		var obra=document.getElementById("obra").value;
+		var idLsPlazo=document.getElementById("idLsPlazo").value;
+		var idNivelPot=document.getElementById("idNivelPot").value;
+		var codigoEntidadConcatenados=document.getElementById("concatena").value;
+		$.ajax({
+			
+			 url: 'crear-pot-obra',
+	        type: 'POST',
+	        data: JSON.stringify({codigoPotObra: codigoPotObra, 
+	        	obra: obra, idLsPlazo: idLsPlazo,idNivelPot:idNivelPot,
+	        	codigoEntidadConcatenados:codigoEntidadConcatenados}),
+	        processData: false,
+	        contentType: "application/json",
+	        success: function (data) {
+	        	Swal.fire({
+	    	        title: '',
+	    	        text: data.msgRespuesta,
+	    	        icon: 'info',
+	    	        confirmButtonText: 'Aceptar',
+	    	        allowOutsideClick: () => false
+	    	  });
+	        	$('#agregarPotObra').modal('hide');
+	    	  verObras(idNivelPot);
+	        }
+		});
+		e.preventDefault();
+	}
+});
+function agregarNivelObraProyectoAjax(idRama,idNivel) {
+	$.ajax({
+		
+		 url: 'crear-nivel',
+        type: 'POST',
+        data: JSON.stringify({idNivelPot: '', 
+       	 idRamaPot: idRama, descripcion: 'Obra/Proyecto',idNivelPadre:idNivel,
+       	 esObra:1,cerrado:0}),
+        processData: false,
+        contentType: "application/json",
+        success: function (data) {
+       	 console.log(data);
+       	document.getElementById("idNivelPot").value=data.idNivelPot;
+       	
+          	 if(data.idNivelPadre==null){
+          		obtenerNivelesPorRama(idRama);
+          		contenidoLista.add(idRama);
+          		editarRama(idRama,1);
+          		$('.agregar-nivel'+idRama).hide();
+      		
+      		
+   		 
+          	 }else{
+          		obtenerNivelesPorNivel(idNivel);
+          		contenido2.add(idNivel);
+          		console.log(idNivel);
+          		editarEstadoNivel(idNivel,1);
+          		$('.nivel-agregar-nivel'+idNivel).hide();
+      		
+      		
+   		 
+          	 }
+           	
+        	},
+        
+        
+	});
+}
+function editarEstadoNivel(idNivel,estado) {
+	$.ajax({
+		
+		 url: 'modificar-estado-nivel',
+      type: 'POST',
+      data: JSON.stringify({idNivelPot: idNivel, 
+   	   cerrado: estado}),
+      processData: false,
+      contentType: "application/json",
+	});
+}
+function editarRama(idRama,estado){
+	$.ajax({
+		
+		 url: 'modificar-estado-rama',
+       type: 'POST',
+       data: JSON.stringify({idPotRama: idRama, 
+    	   cerrada: estado}),
+       processData: false,
+       contentType: "application/json",
+	});  
+}
+function agregarNivelAjax(idRama,idNivel) {
+	
+	
+	$.ajax({
+		
+		 url: 'crear-nivel',
+         type: 'POST',
+         data: JSON.stringify({idNivelPot: '', 
+        	 idRamaPot: idRama, descripcion: '',idNivelPadre:idNivel,
+        	 esObra:0,cerrado:0}),
+         processData: false,
+         contentType: "application/json",
+         success: function (data) {
+        	 
+           	 if(data.idNivelPadre==null){
+           		obtenerNivelesPorRama(idRama);
+           		contenidoLista.add(idRama);
+           		
+       		
+       		
+    		 
+           	 }else{
+           		obtenerNivelesPorNivel(idNivel);
+           		contenido2.add(idNivel);
+           		
+       		
+       		
+    		 
+           	 }
+            	
+         	},
+         
+         
+	});
+	
+}
+function guardarNivel(idNivel,idRama,idPadre,numero,descripcion,esObra,cerrado) {
+	
+	
+	$.ajax({
+		
+		 url: 'editar-nivel',
+        type: 'POST',
+        data: JSON.stringify({idNivelPot: idNivel, 
+       	 idRamaPot: idRama, descripcion: descripcion,idNivelPadre:idPadre,
+       	 numeroNivel:numero,cerrado:cerrado,esObra:esObra}),
+        processData: false,
+        contentType: "application/json",
+     });   
+}
+function funcionArbol(lista2) {
+	
+	lista2=parseInt(lista2);
+	console.log($('#'+lista2));
+	if($('#'+lista2).hasClass('rama') && !contenidoLista.has(lista2)){
+		contenidoLista.add(lista2);
+		obtenerNivelesPorRama(lista2);
+	}else if($('#'+lista2).hasClass('nivel') && !contenido2.has(lista2)){
+		contenido2.add(lista2)
+		obtenerNivelesPorNivel(lista2);
+	}
+	if($('#'+lista2).hasClass('despliega')){
+		$('#'+lista2).css("color", "#00529C");
+		$('#'+lista2).find('img').attr("src","css/img/arbol-azul.png");
+		$('#'+lista2).removeClass('despliega');
+	}else{
+		$('#'+lista2).css("color", "#A079E6");
+		$('#'+lista2).find('img').attr("src","css/img/arbol-morado.png");
+		$('#'+lista2).addClass('despliega');
+	}
+	
+	var lista = $('#'+lista2).parent().parent().find('ul');
+	for (var i = 0; i < lista.length; i++) {
+		
+	
+	if ($(lista[i]).is(':visible')) {
+		$(lista[i]).css("color", "#00529C");
+		
+		
+		$('#'+lista2).find('i').removeClass(
+				'fa-minus-square');
+		$(this).find('i')
+				.addClass('fa-plus-square');
+		$(lista[i]).slideUp();
+		
+		
+	} else {
+		
+		$('#'+lista2).find('li').find('titulo').css("color", "#A079E6");
+		$(this).find('i').removeClass(
+				'fa-plus-square');
+		$(this).find('i').addClass(
+				'fa-minus-square');
+	
+		$(lista[i]).slideDown();
+	}
+	}
+
+}
+
+function obtenerNivelesPorNivel(nivel) {
+	var data = $(this).serialize(); 
+	$.ajax({
+		type: 'GET',
+         url: '/Segplan/' + 'listar-nivel-pot-nivel/'+nivel,
+         data: data,
+         beforeSend: function () {
+             Swal.fire({
+                 title: 'Cargando...',
+                 position: 'top',
+                 allowOutsideClick: () => !Swal.isLoading(),
+                 onBeforeOpen: () => {
+                     Swal.showLoading();
+                 }
+             });
+         },
+         
+ success: function (data) {
+        	 
+        	 
+        	 
+             if(data.lstObjectsDTO!=null && data.lstObjectsDTO.length>0){
+            	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+            		 $('.'+data.lstObjectsDTO[i].idNivelPot).remove();
+            		 var contenido='';
+            		 if(data.lstObjectsDTO[i].esObra===1){
+            		 contenido += '<ul id="menuBase1 rama"  class="'+data.lstObjectsDTO[i].idNivelPot+'"><li>';
+            		 contenido += '<span onclick="verObras('+data.lstObjectsDTO[i].idNivelPot+')" id="'+data.lstObjectsDTO[i].idNivelPot+'" class="titulo nivel">&nbsp;&nbsp; Nivel'+data.lstObjectsDTO[i].numeroNivel+'</span>';
+            		 if(data.lstObjectsDTO[i].descripcion!=null){
+                  		contenido+='&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="guardarNivel('+data.lstObjectsDTO[i].idNivelPot+','+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPadre+','+data.lstObjectsDTO[i].numeroNivel+',this.value)" class="disenioInput"  value="'+data.lstObjectsDTO[i].descripcion+'">';
+             		 }else{
+                  		contenido+='&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="guardarNivel('+data.lstObjectsDTO[i].idNivelPot+','+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPadre+','+data.lstObjectsDTO[i].numeroNivel+',this.value)" class="disenioInput"  >';
+
+             		 }
+            		contenido +='&nbsp;&nbsp;<button onclick="eliminarNivel('+data.lstObjectsDTO[i].idNivelPot+')"  type="button" id="nivel" class="boton-agregar mt-1 nivel"><i class="fa fa-times-circle"></i> </button>'
+            		
+            		 contenido += '<ul></ul>';
+            		 contenido += '</li></ul>';
+            		 }else{
+            			 contenido += '<ul id="menuBase1 rama"  class="'+data.lstObjectsDTO[i].idNivelPot+'"><li>';
+                		 contenido += '<span onclick="funcionArbol(this.id)" id="'+data.lstObjectsDTO[i].idNivelPot+'" class="titulo nivel"><img src="css/img/arbol-azul.png"  >&nbsp;&nbsp; Nivel'+data.lstObjectsDTO[i].numeroNivel+'</span>';
+                		 if(data.lstObjectsDTO[i].descripcion!=null){
+                      		contenido+='&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="guardarNivel('+data.lstObjectsDTO[i].idNivelPot+','+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPadre+','+data.lstObjectsDTO[i].numeroNivel+',this.value,'+data.lstObjectsDTO[i].esObra+','+data.lstObjectsDTO[i].cerrado+')" class="disenioInput"  value="'+data.lstObjectsDTO[i].descripcion+'">';
+                 		 }else{
+                      		contenido+='&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="guardarNivel('+data.lstObjectsDTO[i].idNivelPot+','+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPadre+','+data.lstObjectsDTO[i].numeroNivel+',this.value,'+data.lstObjectsDTO[i].esObra+','+data.lstObjectsDTO[i].cerrado+')" class="disenioInput"  >';
+
+                 		 }
+                		contenido +='&nbsp;&nbsp;<button onclick="eliminarNivel('+data.lstObjectsDTO[i].idNivelPot+')"  type="button" id="nivel" class="boton-agregar mt-1 nivel"><i class="fa fa-times-circle"></i> </button>';
+                		if(data.lstObjectsDTO[i].cerrado==1){
+                			contenido +='&nbsp;&nbsp;<button style="display:none" onclick="agregarNivel('+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPot+')" type="button" id="nivel" class="boton-agregar mt-1 nivel-agregar-nivel'+data.lstObjectsDTO[i].idNivelPot+'"><i class="fa fa-plus"></i> Nivel</button>'
+                		}else{
+                			contenido +='&nbsp;&nbsp;<button  onclick="agregarNivel('+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPot+')" type="button" id="nivel" class="boton-agregar mt-1 .agregar-nivel-nivel'+data.lstObjectsDTO[i].idNivelPot+'"><i class="fa fa-plus"></i> Nivel</button>'
+                		}
+                		
+                		 contenido += '<ul></ul>';
+                		 contenido += '</li></ul>';
+            		 }
+            		 $('.'+nivel).append(contenido);
+				}
+             } 
+        	 Swal.close();
+            
+
+
+
+
+         },
+         error:
+                 function () {
+                    
+
+                 },
+
+         complete: function (data) {
+        	        
+        	 
+                     
+                 }
+	});
+}
+
+function obtenerNivelesPorRama(rama) {
+	var data = $(this).serialize(); 
+	$.ajax({
+         type: 'GET',
+         url: '/Segplan/' + 'lista-nivel-pot-rama/'+rama,
+         data: data,
+         beforeSend: function () {
+             Swal.fire({
+                 title: 'Cargando...',
+                 position: 'top',
+                 allowOutsideClick: () => !Swal.isLoading(),
+                 onBeforeOpen: () => {
+                     Swal.showLoading();
+                 }
+             });
+         },
+
+         success: function (data) {
+        	 
+        	 
+        	 
+             if(data.lstObjectsDTO!=null && data.lstObjectsDTO.length>0){
+            	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+            		 if(data.lstObjectsDTO[i].idNivelPadre==null){
+            		
+            			 $('.'+data.lstObjectsDTO[i].idNivelPot).remove();
+            		 
+            		 var contenido='';
+            		 if(data.lstObjectsDTO[i].esObra===1){
+            			 
+            			 $('.agregar-nivel'+data.lstObjectsDTO[i].idRamaPot).hide();
+            		 contenido += '<ul id="menuBase1 rama"  class="'+data.lstObjectsDTO[i].idNivelPot+'"><li>';
+            		 contenido += '<span onclick="verObras('+data.lstObjectsDTO[i].idNivelPot+')" id="'+data.lstObjectsDTO[i].idNivelPot+'" class="titulo nivel">&nbsp;&nbsp; Nivel'+data.lstObjectsDTO[i].numeroNivel+'</span>';
+            		 if(data.lstObjectsDTO[i].descripcion!=null){
+                 		contenido+='&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="guardarNivel('+data.lstObjectsDTO[i].idNivelPot+','+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPadre+','+data.lstObjectsDTO[i].numeroNivel+',this.value)" class="disenioInput"  value="'+data.lstObjectsDTO[i].descripcion+'">';
+            		 }else{
+                 		contenido+='&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="guardarNivel('+data.lstObjectsDTO[i].idNivelPot+','+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPadre+','+data.lstObjectsDTO[i].numeroNivel+',this.value)" class="disenioInput"  >';
+
+            		 }
+            		
+            		contenido +='&nbsp;&nbsp;<button onclick="eliminarNivel('+data.lstObjectsDTO[i].idNivelPot+')"  type="button" id="eliminar" class="boton-agregar mt-1 nivel"><i class="fa fa-times-circle"></i> </button>'
+            		
+            		 contenido += '<ul></ul>';
+            		 contenido += '</li></ul>';
+            		 }else{
+            			 contenido += '<ul id="menuBase1 rama"  class="'+data.lstObjectsDTO[i].idNivelPot+'"><li>';
+                		 contenido += '<span onclick="funcionArbol(this.id)" id="'+data.lstObjectsDTO[i].idNivelPot+'" class="titulo nivel"><img src="css/img/arbol-azul.png"  >&nbsp;&nbsp; Nivel'+data.lstObjectsDTO[i].numeroNivel+'</span>';
+                		 if(data.lstObjectsDTO[i].descripcion!=null){
+                     		contenido+='&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="guardarNivel('+data.lstObjectsDTO[i].idNivelPot+','+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPadre+','+data.lstObjectsDTO[i].numeroNivel+',this.value,'+data.lstObjectsDTO[i].esObra+','+data.lstObjectsDTO[i].cerrado+')" class="disenioInput"  value="'+data.lstObjectsDTO[i].descripcion+'">';
+                		 }else{
+                     		contenido+='&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" onchange="guardarNivel('+data.lstObjectsDTO[i].idNivelPot+','+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPadre+','+data.lstObjectsDTO[i].numeroNivel+',this.value,'+data.lstObjectsDTO[i].esObra+','+data.lstObjectsDTO[i].cerrado+')" class="disenioInput"  >';
+
+                		 }
+                		
+                		contenido +='&nbsp;&nbsp;<button onclick="eliminarNivel('+data.lstObjectsDTO[i].idNivelPot+')"  type="button" id="eliminar" class="boton-agregar mt-1 nivel"><i class="fa fa-times-circle"></i> </button>'
+                		if(data.lstObjectsDTO[i].cerrado==1){
+                			contenido +='&nbsp;&nbsp;<button style="display:none" onclick="agregarNivel('+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPot+')" type="button" id="nivel" class="boton-agregar mt-1 nivel-agregar-nivel'+data.lstObjectsDTO[i].idNivelPot+'"><i class="fa fa-plus"></i> Nivel</button>'
+                		}else{
+                			contenido +='&nbsp;&nbsp;<button  onclick="agregarNivel('+data.lstObjectsDTO[i].idRamaPot+','+data.lstObjectsDTO[i].idNivelPot+')" type="button" id="nivel" class="boton-agregar mt-1 nivel-agregar-nivel'+data.lstObjectsDTO[i].idNivelPot+'"><i class="fa fa-plus"></i> Nivel</button>'
+                		}
+                		 contenido += '<ul></ul>';
+                		 contenido += '</li></ul>'; 
+            		 }
+            		 $('.'+rama).append(contenido);
+            		 }
+				}
+             } 
+        	 Swal.close();
+            
+
+
+
+
+         },
+         error:
+                 function () {
+                    
+
+                 },
+
+         complete: function (data) {
+        	        
+        	 
+                     
+                 }
+     });
+}
+
+function verObras(idNivel) {
+	document.getElementById("idNivelPot").value=idNivel;
+	document.getElementById("id1").value=idNivel;
+	
+	if(contador==0){
+		contador+=1;
+		verObrasTabla(idNivel);
+		
+	}else{
+		table.ajax.reload();
+		
+	}
+    
+    
+}
+function verObrasTabla(idNivel) {
+	
+	'use strict';
+	 table = $('#dtabla')
+	.DataTable(
+			{
+				"initComplete": function(settings, json) {
+					 var info = table.page.info();
+					   
+					  var count = info.recordsTotal;
+					  
+				  },
+				"responsive" : true,
+				"colReorder" : true,
+				"processing" : true,
+				"serverSide" : true,
+				"lengthChange" : true,
+				"searching" : true,
+				"ordering" : true,
+				"info" : true,
+				"autoWidth" : true,
+				"pagingType": "first_last_numbers",									    
+				"lengthMenu" : [
+						[ 5, 10, 25, 50, -1 ],
+						[ 5, 10, 25, 50,"Mostrar Todo" ] ],
+				"pageLength" : 5,
+				"language" : {
+					"processing" : 'Cargando...',
+					"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+					"infoEmpty" : '<div class="formato">0 de 0.</div>',
+					"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+					"zeroRecords" : "No se han encontrado coincidencias.",
+					"paginate" : {
+						"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+						"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+						"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+						"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+					},
+					"lengthMenu" : "_MENU_",
+				},
+				"pagingType" : "full_numbers",
+				"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+						+ "<'row'<'col-sm-8 col-md-7'tr>>"
+						+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+				"order" : [ 0, 'desc' ],
+				"ajax" : {
+					"url" : "/Segplan/listaPotObraByPage",
+					"type" : "POST",
+					"data": function (d) {
+		                return $.extend({}, d, {
+		                    "obra": $('#id1').val(),
+		                    
+		                });
+		            }
+				},
+				
+				"columns" : [
+						
+						{
+							data : "codigoPotObra"
+						},
+						{
+							data : "obra"
+						},
+						{
+							data : "nombreEntidadConcatenados"
+						},
+						{
+							data : "stringLsPlazo"
+						},
+						{
+							"render" : function() {
+								return '<button href="" type="button" id="ButtonEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button><button href="" type="button" id="ButtonEliminar" class="edit"><img src="css/img/icono-eliminar.png" class="eliminar"></button>';
+								
+							},
+							"orderable" : false, className:"icon"
+						}
+				],
+			});
+	$('div.dataTables_length select').addClass("formato-2");
+	editar('#dtabla tbody', table); 
+	eliminar('#dtabla tbody', table); 
+	
+}
+function editar(tbody, table) {
+	
+
+	$(tbody)
+			.on("click",
+					"button#ButtonEditar",
+					function() {
+						if (table.row(this).child.isShown()) {
+							var data = table.row(this).data();
+						} else {
+							var data = table.row($(this).parents("tr"))
+									.data();
+						}
+						var data = table.row($(this).parents("tr")).data();
+						
+						document.getElementById("idObraProyPot2").value="";
+						document.getElementById("idNivelPot2").value="";
+						document.getElementById("codigoPotObra2").value="";
+						document.getElementById("obra2").value="";
+						document.getElementById("idLsPlazo2").value="";
+						document.getElementById("concatena2").value="";
+						
+						
+						document.getElementById("idObraProyPot2").value=data.idObraProyPot;
+						document.getElementById("idNivelPot2").value=data.idNivelPot;
+						document.getElementById("codigoPotObra2").value=data.codigoPotObra;
+						document.getElementById("obra2").value=data.obra;
+						document.getElementById("idLsPlazo2").value=data.idLsPlazo;
+						document.getElementById("concatena2").value=data.codigoEntidadConcatenados;
+						concatenar = "";
+						$('#editarPotObra').modal('show');
+						armarMenu(data.codigoEntidadConcatenados);
+						
+					})
+}
+function eliminar(tbody, table) {
+	
+
+	$(tbody)
+			.on("click",
+					"button#ButtonEliminar",
+					function() {
+						if (table.row(this).child.isShown()) {
+							var data = table.row(this).data();
+						} else {
+							var data = table.row($(this).parents("tr"))
+									.data();
+						}
+						var data = table.row($(this).parents("tr")).data();
+						eliminarPotObra(data.idObraProyPot);
+					
+						
+						
+						
+						
+					})		
+	}
+function eliminarPotObra(idObraProyPot) {
+	Swal.fire({
+		 
+		  text: "¿Desea Eliminar La Obra/Proyecto?",
+		  icon: 'info',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Eliminar Obra/Proyecto',
+		  cancelButtonText: 'No,Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  eliminarPotObraAjax(idObraProyPot);
+		  }
+		})
+}
+function eliminarPotObraAjax(idObraProyPot) {
+	$.ajax({
+		
+		 url: 'eliminar-pot-obra',
+       type: 'POST',
+       data: JSON.stringify({idObraProyPot: idObraProyPot
+      	}),
+      	processData: false,
+        contentType: "application/json",
+   	success: function (data) {
+		if(data.codigoRespuesta === 200){
+				
+				Swal.fire({
+					  icon: 'info',
+					  title: 'Operación exitosa',
+					  text: data.msgRespuesta,
+					  
+					})
+					verObras(data.idNivelPot);
+			}else{
+				Swal.fire({
+					  icon: 'error',
+					  title: 'No se pudo completar la operación',
+					  text: data.msgRespuesta,
+					  
+					})
+			}
+			
+		}
+    }); 
+}
+function armarMenu(codigoEntidad){
+		/*<![CDATA[*/
+		var entidades = /*[[${entidades}]]*/;
+	var text="";
+	var value="";
+	concatenar = codigoEntidad;
+	var ddEntidades = [];
+
+	for (var i = 0; i < entidades.length; i++) {
+		text=entidades[i].codigoEntidad;
+		value=entidades[i].codigoDistrital;
+		var myOptions =
+        {
+	 label: text,
+	 value: value
+		}		
+  ddEntidades.push(myOptions);
+	}
+	console.log(ddEntidades);
+		if(contadormulti == 0){
+			contadormulti = contadormulti+1;
+		}else{
+			var multisEditar =$('.multi-select2');
+			$('.select-pure__select').remove();
+			
+		}
+		
+			
+		 multi = new SelectPure(".multi-select2", {
+		    
+			options: ddEntidades,
+		    multiple: true,
+		   	value:codigoEntidad.split(";"),
+		    icon: "fa fa-times",
+		    placeholder: "-Seleccione una entidad-",
+		    onChange: value => { 
+		    verCodigoDistrital(value);
+		    },
+		    classNames: {
+		      select: "select-pure__select",
+		      dropdownShown: "select-pure__select--opened",
+		      multiselect: "select-pure__select--multiple",
+		      label: "select-pure__label",
+		      placeholder: "select-pure__placeholder",
+		      dropdown: "select-pure__options",
+		      option: "select-pure__option",
+		      autocompleteInput: "select-pure__autocomplete",
+		      selectedLabel: "select-pure__selected-label",
+		      selectedOption: "select-pure__option--selected",
+		      placeholderHidden: "select-pure__placeholder--hidden",
+		      optionHidden: "select-pure__option--hidden",
+		    }
+		  });
+		
+		
+		
+	
+		
+	   
+		/*]]>*/	
+	}
+
+function verCodigoDistrital(codigoDistrital) {
+	
+		if (codigoDistrital.length == 0){
+			   concatenar = "";
+			   document.getElementById("concatena2").value = concatenar;
+		   }
+		   
+		   concatenar = "";
+		   for (var i = 0; i < codigoDistrital.length; i++){
+			   auxi = codigoDistrital[i];
+			   
+			   concatenar += auxi +";";
+			   document.getElementById("concatena2").value = concatenar;
+		   }
+	}
+	
+
+</script>
+
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/dist/bundle.min.js}"></script>
+</html>

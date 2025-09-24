@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Administrar consecutivos</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/sweetalert2.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.css}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+</head>
+<body>
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administracion funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administrar
+				consecutivos</li>
+		</ul>
+	</nav>
+
+
+
+	<div class="form-container3">
+
+		<div class="abs-center">
+			<span>Administrar consecutivos</span> <br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div class="table-responsive">
+			<table id="dtabla" class="table-striped">
+				<thead>
+					<tr class="color">
+						<th>PDD</th>
+						<th>Nombres</th>
+						<th>Descripcion</th>
+						<th>Secuencia</th>
+						<th>Vigencia</th>
+						<th>Entidad</th>
+						<th><div class="subir">Acciones</div></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="consecutivo: ${consecutivoList}">
+						<td class="azul" th:text="${consecutivo.idPlanDesarrollo}" />
+						<td class="azul" th:text="${consecutivo.nombre}" />
+						<td class="azul" th:text="${consecutivo.descripcion}" />
+						<td class="azul" th:text="${consecutivo.secuencia}" />
+						<td class="azul" th:text="${consecutivo.vigencia}" />
+						<td class="azul" th:text="${consecutivo.entidad}" />
+						<td class="azul"><div align="center">
+								<a
+									th:attr="onclick=|editarConsecutivo('${consecutivo.idPlanDesarrollo}','${consecutivo.idConsecutivo}','${consecutivo.nombre}','${consecutivo.descripcion}',
+                                        '${consecutivo.secuencia}', '${consecutivo.vigencia}', '${consecutivo.entidad}')|">
+                                        <img th:src="@{/img/icono-1-azul.png}" class="editar"></a>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+		<br>
+	</div>
+	<br>
+
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<div th:include="parametros-consecutivos/modal-editar-consecutivo.html"></div>
+<script type="text/javascript">
+	function editarConsecutivo(id, idConse, nombre, descripcion, secuencia,
+			vigencia, entidad) {
+		$('#editarConsecutivoModal').modal('show');
+		$('#idPlanDesarrollo').text($('#idPlanDesarrollo').val(id));
+		$('#idConsecutivo').text($('#idConsecutivo').val(idConse));
+		$('#nombre').text($('#nombre').val(nombre));
+		$('#descripcion').text($('#descripcion').val(descripcion));
+		$('#secuencia').text($('#secuencia').val(secuencia));
+		$('#vigencia').text($('#vigencia').val(vigencia));
+		$('#entidad').text($('#entidad').val(entidad));
+	}
+</script>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-submenu a.test').on("click", function(e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+	});
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

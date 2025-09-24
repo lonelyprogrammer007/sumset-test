@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span id="labelIdMeta">Metas de resultado</span><br>
+
+	</div>
+	<div class="float-left mb-3">
+
+		<button class="boton-agregar mt-3" type="button" id="btnAgregarMeta" onclick="agregarMetaResultado()">
+			<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar"> Agregar
+		</button>
+
+	</div>
+	<input type="hidden" id="idMetaEliminar">
+	<form id="formEliminarMeta" method="get" ></form>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablaMeta" style="width: 450%">
+		<caption><div class="hr-2"></div></caption>
+			<thead>
+				<tr>
+					<th style="width: 4%;" class="color-head">Meta<br></th>
+					<th style="width: 6%;" class="color-head">Verbo<br></th>
+					<th style="width: 4%;" class="color-head">Magnitud<br></th>
+					<th style="width: 7%;" class="color-head">Unidad de Medida<br></th>
+					<th style="width: 12%;" class="color-head">Complemento<br></th>
+					<th style="width: 7%;" class="color-head">Indicador<br></th>
+					<th style="width: 8%;" class="color-head">Tipo de Indicador<br></th>
+					<th style="width: 8%;" class="color-head">Tipo de Anualización<br></th>
+					<th style="width: 8%;" class="color-head">Ponderación<br></th>
+					<th style="width: 8%;" class="color-head">Estado<br></th>
+					<th style="width: 6%;" class="color-head">MR PDD<br></th>
+					<th style="width: 10%;" class="color-head">Fecha de Creación<br></th>
+					<th style="width: 5%;" class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+			 <tbody>
+					</tbody>
+			<tfoot>
+							<tr class="total">
+								<td colspan="8"><div class="total_2">Total ponderación</div></td>
+     							<td id="contaAsigna">0</td>
+								<td colspan="4"></td>
+							</tr>
+						</tfoot>
+		</table>
+	</div>
+	<br>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span id="labelIdIndicador">Indicadores metas resultado</span><br>
+
+	</div>
+	<div class="float-left mb-3">
+
+		<button class="boton-agregar mt-3" type="button" id="btnAgregarIndicador" onclick="agregarIndicadorMeta()">
+			<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar"> Agregar
+		</button>
+
+	</div>
+	<input type="hidden" id="idIndicadorEliminar">
+	<form id="formEliminarIndicador" method="get" ></form>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablaIndicador" style="width: 400%">
+		<caption><div class="hr-2"></div></caption>
+			<thead>
+				<tr>
+					<th style="width: 10%;" class="color-head">Indicador Meta Resultado<br></th>
+					<th class="color-head">Denominación<br></th>
+					<th class="color-head">Magnitud<br></th>
+					<th class="color-head">Periodicidad<br></th>
+					<th class="color-head">Estado<br></th>
+					<th class="color-head">Fuente Externa<br></th>
+					<th class="color-head">Fuente<br></th>
+					<th class="color-head">Linea Base<br></th>
+					<th style="width: 10%;" class="color-head">Magnitud Linea Basa<br></th>
+					<th style="width: 10%;" class="color-head">Descripción Linea Basa<br></th>
+					<th style="width: 10%;" class="color-head">Fecha de Creación<br></th>
+					<th style="width: 8%;" class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<form id="formBtnMetaSeguir" method="get">
+	<div class="float-right">
+			   <button type="submit" id="btnSeguirMeta"
+					class="boton-regresar">
+						<img src="css/img/continuar-over.png" class="volver" alt="Icono agregar">&nbsp;&nbsp; Seguir
+			 </button>
+		</div>
+	</form>	
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-agregar-meta-resultado.html"></div>
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-editar-meta-resultado.html"></div>
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-agregar-indicador-meta.html"></div>
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-editar-indicador-meta.html"></div>
+</body>
+<script type="text/javascript">
+function agregarMetaResultado(){
+	$('#agregarMeta').modal('show');
+	document.getElementById("idProblematica").value = "";
+	document.getElementById("idVerbo").value = "";
+	document.getElementById("idMagnitud").value = "";
+	document.getElementById("idUnidadMedida").value = "";
+	document.getElementById("complemento").value = "";
+	document.getElementById("anualizacion").value = "";
+	document.getElementById("idPonderacionAgregar").value = "";
+	document.getElementById("estadoMeta").value = "";
+}
+function agregarIndicadorMeta(){
+	$('#agregarIndicadorMeta').modal('show');
+	document.getElementById("areaDescripcion").value = "";
+	document.getElementById("idMagnitudAgregar").value = "";
+	document.getElementById("idPeriodicidad").value = "";
+	document.getElementById("idExterna").value = "";
+	document.getElementById("idFuente").value = "";
+	document.getElementById("idLinea").value = "";
+	document.getElementById("idMagnitudLinea").value = "";
+	document.getElementById("descripcionLinea").value = "";
+}
+
+</script>
+</html>

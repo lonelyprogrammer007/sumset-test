@@ -1,0 +1,239 @@
+@font-face {
+	font-family: "Apex new medium";
+	src: url(../font/ufonts.com_apexnew-medium-opentype.otf);
+}
+
+@font-face {
+	font-family: "Apex new bold italic";
+	src: url(../font/Apex-New-Bold-Italic.otf);
+}
+
+.abs-center {
+	font-size: 24px;
+	letter-spacing: 0;
+	color: #00529C;
+	opacity: 1;
+	font-family: Apex new bold italic;
+}
+
+.hr-1 {
+	border: 0.9px solid #513388;
+	opacity: 1;
+}
+
+.vacio {
+	border: 1px solid red !important;
+}
+
+.btn_guardar {
+	background-color: #513388;
+	border-radius: 5px;
+	font-family: Apex new medium;
+	border: 2px solid #513388;
+	font-size: 14px;
+	padding: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+
+.disenioInput {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+.iconGuardar {
+	width: 25px;
+}
+
+.textoInstrumento {
+	color: #797979;
+	text-align: left;
+	letter-spacing: 0px;
+	opacity: 1;
+	font-family: Apex new Medium;
+}
+
+#disenioInput {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+.caja {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#fechaPot {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idNiveles {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#denominacion {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#codigoInst {
+	box-shadow: 0px 3px 6px #00000040;
+	border: 1px solid #00529C;
+	border-radius: 10px;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idLsAdoptado {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idPddBalanceo {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idPlanBalanceo {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#codigoInst::placeholder {
+	font-size: 12px;
+}
+
+.edit {
+	background-color: transparent !important;
+	border: 2px solid transparent !important;
+}
+
+.eliminar {
+	background-color: transparent !important;
+	border: 2px solid transparent !important;
+}
+
+.editarPot {
+	width: 20px;
+}
+
+.eliminarPot {
+	width: 20px;
+}
+
+.titulo-sintesis {
+	background-color: #78A4CC;
+	border-radius: 5px;
+}
+
+.title-sintesis {
+	font-size: 15px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #00529C;
+}
+
+.subtitulo-sintesis {
+	font-size: 14px;
+	padding-left: 60px; 
+	opacity: 1;
+	font-family: Apex new bold;
+}
+.subtitulo-sintesis1{
+	font-size: 14px;
+	padding-left: 120px; 
+	opacity: 1;
+	font-family: Apex new bold;
+}
+.hijoAntes{
+	font-size: 14px;
+	padding-left: 210px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+}
+.sub-sintesis {
+	font-size: 14px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+}
+
+.sub-sintesis1 {
+	font-size: 14px;
+	padding-left: 60px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+}
+
+.sub-sintesis2 {
+	font-size: 14px;
+	padding-left: 80px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+}
+.sub-sintesis3 {
+	font-size: 14px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+}
+.sub-sintesis4 {
+	font-size: 14px;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+	
+}
+.editarIndic {
+	background-color: transparent !important;
+	border: 2px solid transparent !important;
+}
+
+.eliminarIndic {
+	background-color: transparent !important;
+	border: 2px solid transparent !important;
+	margin-left: -10px;
+}
+
+.body-sintesis {
+	background-color: #E5F0F8;
+	border-radius: 5px;
+}

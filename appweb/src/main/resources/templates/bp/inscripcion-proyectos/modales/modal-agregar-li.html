@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<body>
+	<div class="modal fade" id="agregarLiModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="titulo">Agregar líneas de inversión</span>
+						</div>
+					</div>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+						<form id="formAgregarLinea" method="post">
+                          <input type="hidden" id="idProyInvLinea" name="idProyInversion">
+							<div class="row">
+								<div class="col-sm-12 ">
+									<div class="texto">
+										<label for="tematica">Líneas de inversión:* </label>
+									</div>
+									<select style="width: 100% !important"
+										class="form-control js-example-basic-single"
+										id="idLineaInversionSelect" name="idLineaInversion">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${listLineaInversion}"
+											th:value="${lista.idLineaInversion}"
+											th:text="${lista.descripcion}" />
+									</select>
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col-sm-12 mt-1">
+									<div class="texto">
+										<label for="tematica">Sector </label>
+									</div>
+								</div>
+								<div class="col-sm-12 mt-1">
+									<input type="text" class="form-control inputGenerico"
+										readonly="readonly" id="sectorString" name="stringLsSectorLineaInversion">
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col-sm-12 mt-1">
+									<div class="texto">
+										<label for="tematica">Concepto de inversión </label>
+									</div>
+								</div>
+								<div class="col-sm-12 mt-1">
+									<input type="text" class="form-control inputGenerico"
+										readonly="readonly" id="conceptoString" name="conceptoLineaInversion">
+								</div>
+							</div>
+							<br>
+							<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+							<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+								<button class="btnAgregarLineaI" 
+									type="submit" id="boton-modal">
+									<img src="css/img/icono-guardar.png" class="guardar"
+										alt="Icono guardar">&nbsp;&nbsp;Guardar
+								</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+$(document).ready(function() {
+	
+	/*<![CDATA[*/
+	var lineaInversion = /*[[${listLineaInversion}]]*/;	
+		
+	/*]]>*/
+	$('.js-example-basic-single').select2({
+           
+     });
+	$('.filter').on('click', function(e) {
+		e.stopPropagation();
+	});
+	
+	$('#idLineaInversionSelect').change(function() {
+		var id = $(this).val();
+		for (var i= 0; i<lineaInversion.length; i++){
+			if (lineaInversion[i].idLineaInversion == id){
+				document.getElementById("sectorString").value = lineaInversion[i].nombreSector;
+				document.getElementById("conceptoString").value = lineaInversion[i].concepto;
+			}
+		}
+	});
+	
+	$(document).on('submit', '#formAgregarLinea', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'POST',
+	            url: '/Segplan/'+'agregarLineaInversion',
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+	            success: function (data) {
+	                Swal.close();
+	                mensajeRespuesta = data.msgRespuesta;
+
+	                $("#agregarLiModal").modal('hide');
+	                $('#dtablaLi').DataTable().clear().destroy();
+	            },
+	            error: function () {
+	                Swal.close();
+               },         
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       }).then((result) => {
+	    	 		    	  if (result.value) {
+	    	 		          cargarDatosLineaInversion(idProyectoDeInversion);
+	                      }
+	    	  		      })
+	            }
+	             });
+	        return false;
+		});
+});
+</script>
+</html>

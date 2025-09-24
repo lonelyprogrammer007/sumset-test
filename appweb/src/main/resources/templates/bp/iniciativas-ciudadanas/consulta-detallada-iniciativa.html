@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+
+<title id="pageTitle">Consulta Detallada Iniciativa</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/componentes.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/afs/archivo-plano.css}">
+<body>
+
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Banco distrital de programas y proyectos</a></li>
+			<li class="breadcrumb-item " aria-current="page" id="act">Iniciativa
+				Ciudadana</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consulta
+				iniciativa Ciudadana</li>
+		</ul>
+
+		<div class="form-container3">
+			<div class="abs-center mt-2">
+				<span>Iniciativa Ciudadana</span><br>
+			</div>
+			<div class="hr-1"></div>
+			<div class="row mt-3">
+				<div class="col-sm-6  mt-2">
+					<div class="texto">
+						<label>Alcaldía local</label>
+					</div>
+					<input type="text" class="form-control disenioInput" disabled id="nombreEntidad">
+				</div>
+			</div>
+			<div class="abs-center mt-2 " style="font-size: 16px">
+				<span><b>Radicado de la iniciativa</b></span><br>
+				<div class="hr-1"></div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3 mt-2">
+					<div class="texto">
+						<label>Código</label>
+					</div>
+					<input type="text" id="codigo" class="form-control disenioInput " disabled>
+				</div>
+				<div class="col-sm-3 mt-2">
+					<div class="texto">
+						<label>Fecha de Código</label>
+					</div>
+					<input type="text" id="fechaCodigo" class="form-control disenioInput" disabled>
+				</div>
+				<div class="col-sm-3 mt-2">
+					<div class="texto">
+						<label>Número de Radicado</label>
+					</div>
+					<input type="text" class="form-control disenioInput" id="numeroRad" disabled>
+				</div>
+				<div class="col-sm-3 mt-2">
+					<div class="texto">
+						<label>Fecha de Radicado</label>
+					</div>
+					<input type="text" class="form-control disenioInput" id="fechaRad" disabled>
+				</div>
+			</div>
+			<div class="abs-center mt-2 " style="font-size: 16px">
+				<span><b>Iniciativa</b></span><br>
+				<div class="hr-1"></div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-12 mt-2">
+					<div class="texto">
+						<label>Nombre de la iniciativa</label>
+					</div>
+					<input type="text" class="form-control disenioInput" id="nombre" disabled>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-5 mt-2 mr-5">
+					<div class="texto">
+						<label>Origen de la iniciativa</label>
+					</div>
+					<input type="text" class="form-control disenioInput" id="nombreOrigen" disabled>
+				</div>
+				<div class="col-sm-5 mt-2">
+					<div class="texto">
+						<label>Línea de inversión </label>
+					</div>
+					<input type="text" id="nombreLineaInversion" class="form-control disenioInput" disabled>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-5 mt-2 mr-5">
+					<div class="texto">
+						<label>Plan de desarrollo distrital</label>
+					</div>
+					<input type="text" class="form-control disenioInput" disabled>
+				</div>
+				<div class="col-sm-5 mt-2">
+					<div class="texto">
+						<label>Sector </label>
+					</div>
+					<input type="text" class="form-control disenioInput" disabled>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-5 mt-2 mr-5">
+					<div class="texto">
+						<label>Concepto de inversión </label>
+					</div>
+					<input type="text" class="form-control disenioInput" disabled>
+				</div>
+			</div>
+			<div class="abs-center mt-2 " style="font-size: 16px">
+				<span><b>Problemática</b></span><br>
+				<div class="hr-1"></div>
+			</div>
+
+			<div class="row">
+
+				<div class="col-sm-12 mt-3">
+					<div class="texto">
+						<label>Problemática o Necesidad Identificada </label>
+					</div>
+					<textarea class="form-control disenioInput" id="problematica"
+						disabled="disabled" rows="3"></textarea>
+				</div>
+			</div>
+
+			<div class="abs-center mt-2 " style="font-size: 16px">
+				<span><b>Localización de la Problemática</b></span><br>
+
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6 mt-3">
+					<div class="texto mt-2">
+						<label>UPZ </label>
+					</div>
+					<input type="text" id="nombreUpz" class="form-control disenioInput" disabled="disabled">
+					<div class="texto mt-2">
+						<label>Barrio</label>
+					</div>
+					<input type="text" id="nombreBarrio" class="form-control disenioInput" disabled="disabled">
+					<div class="texto mt-2">
+						<label>Grupo Etario </label>
+					</div>
+					<input id="nombreGruposEtarios" type="text" class="form-control disenioInput" disabled="disabled">
+				</div>
+				<div class="col-sm-6 mt-3">
+					<div class="texto mt-2">
+						<label>UPR </label>
+
+					</div>
+					<input id="nombreUpr" type="text" class="form-control disenioInput" disabled="disabled">
+					<div class="texto mt-2">
+						<label>Vereda </label>
+
+					</div>
+					<input id="nombreVereda" type="text" class="form-control disenioInput" disabled="disabled">
+
+					<div class="texto mt-2">
+						<label>Total Población Afectada </label>
+
+					</div>
+					<input id="totalPoblacion" type="text" class="form-control disenioInput" disabled="disabled">
+					<div class="texto mt-2">
+						<label>Condición Poblacional </label>
+					</div>
+					<input type="text" class="form-control disenioInput" disabled="disabled" id="nombrePoblaciones">
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-12 mt-3">
+					<div class="texto ">
+						<label>Alternativa de Solución </label>
+
+					</div>
+					<textarea class="form-control disenioInput" id="alternativaSolucion"
+						disabled="disabled" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="abs-center mt-2 " style="font-size: 16px">
+				<span><b>Proponente </b></span><br>
+				<div class="hr-1"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 mt-3">
+					<div class="texto ">
+						<label>Nombre u Organización Proponente</label>
+
+					</div>
+					<textarea class="form-control disenioInput" id="nombreProp"
+						disabled="disabled" rows="2"></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6 mt-3">
+					<div class="texto ">
+						<label>Teléfono </label>
+
+					</div>
+					<input type="text" class="form-control disenioInput" id="telefonoProp" disabled="disabled">
+					<div class="texto mt-2">
+						<label>Correo Electrónico </label>
+
+					</div>
+					<input type="text" class="form-control disenioInput" id="emailProp" disabled="disabled">
+				</div>
+				<div class="col-sm-6 mt-3">
+					<div class="texto ">
+						<label>No. Identificación </label>
+
+					</div>
+					<input type="text" class="form-control disenioInput" id="identificacionProp" disabled="disabled">
+				</div>
+			</div>
+			<div class="abs-center mt-2 " style="font-size: 16px">
+				<span><b>Estado y Vinculación </b></span><br>
+				<div class="hr-1"></div>
+			</div>
+			<div class="row">
+				<div class="col-sm-5 mt-3">
+					<div class="texto ">
+						<label>Estado de la Iniciativa </label> <input id="nombreEstado" type="text"
+							class="form-control disenioInput" disabled="disabled">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 mt-3">
+					<div class="texto ">
+						<label>Observaciones </label>
+
+					</div>
+					<textarea class="form-control disenioInput" id="observacion"
+						disabled="disabled" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="abs-center mt-2 " style="font-size: 16px">
+				<span><b>Vinculada o Proyecto </b></span><br>
+
+			</div>
+
+			<div class="table-responsive">
+
+				<table class="table-striped" id="dtable" style="width: 175%">
+					<thead>
+						<tr>
+							<th class="color-head">Fecha Asociación<br></th>
+							<th class="color-head">Código Proyecto<br></th>
+							<th class="color-head">Nombre Proyecto<br></th>
+							<th class="color-head">Fecha de Versión de Ficha EBI<br></th>
+							<th class="color-head">Estado de Proyecto<br></th>
+						</tr>
+					</thead>
+					<tbody>
+					<tr th:each="proyecto : ${proyectos}">
+					<td th:text="${proyecto.fecha}"></td>
+					<td th:text="${proyecto.codigoProyInversion}"></td>
+					<td th:text="${proyecto.stringProyInversion}"></td>
+					<td th:text="${proyecto.fechaVersionProyInversion}"></td>
+					<td th:text="${proyecto.stringLsEstadoProyInversion}"></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<div align="right" class="mt-3">
+				<a th:href="@{/consultar-iniciativa-ciudadana}">Cancelar</a>
+				<button type="button" class="boton-archivo" id="boton-cargar">
+					Volver</button>
+
+			</div>
+		</div>
+	</nav>
+</body>
+<script th:inline="javascript">
+	$(document).ready(function() {
+		/*<![CDATA[*/
+			var iniciativa =/*[[${iniciativaDTO}]]*/;
+			var proyectos =/*[[${proyectos}]]*/;
+			console.log(proyectos);
+			/*]]>*/
+					$('#codigo').val(iniciativa.codigoIn);
+					$('#fechaCodigo').val(iniciativa.fechaCodigo);
+					$('#alternativaSolucion').val(iniciativa.alternativaSolucion);
+					$('#nombreOrigen').val(iniciativa.nombreOrigen);
+					$('#nombre').val(iniciativa.nombre);
+					$('#nombreProp').val(iniciativa.nombreProp);
+					$('#problematica').val(iniciativa.problematica);
+					$('#telefonoProp').val(iniciativa.telefonoProp);
+					$('#emailProp').val(iniciativa.emailProp);
+					$('#identificacionProp').val(iniciativa.identificacionProp);
+					$('#nombreEstado').val(iniciativa.nombreEstado);
+					$('#observacion').val(iniciativa.observacion);
+					$('#nombreLineaInversion').val(iniciativa.nombreLineaInversion);
+					$('#totalPoblacion').val(iniciativa.totalPoblacion);
+					$('#fechaRad').val(iniciativa.fechaRad);
+					$('#numeroRad').val(iniciativa.numeroRad);
+					$('#nombreUpz').val(iniciativa.nombreUpz);
+					$('#nombreUpr').val(iniciativa.nombreUpr);
+					$('#nombreVereda').val(iniciativa.nombreVereda);
+					$('#nombreBarrio').val(iniciativa.nombreBarrio);
+					$('#nombreGruposEtarios').val(iniciativa.nombreGruposEtarios);
+					$('#nombrePoblaciones').val(iniciativa.nombrePoblaciones);
+					$('#nombreEntidad').val(iniciativa.nombreEntidad);
+					var tableAsignarEntidad = $('#dtable').DataTable({
+						 
+				        "language": {
+				            "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+				            "infoEmpty": '<div class="formato">0 de 0.</div>',
+				            "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+				            "zeroRecords": "No se han encontrado coincidencias.",
+				            "responsive": true,
+				            "paginate": {
+				                "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+				                "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+				                "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+				                "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+				            },
+				            "lengthMenu": "_MENU_",
+				        },
+				        "lengthMenu": [5, 10, 20, 50, 100],
+				        "pageLength": 5,
+				        "pagingType": "full_numbers",
+				        "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+				                "<'row'<'col-sm-8 col-md-7'tr>>" +
+				                "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+
+				    });			
+					$('div.dataTables_length select').addClass("formato-2");
+				    $('#dtable  thead th').each( function () {
+				        var title = $(this).text();
+				        if (title !== "Acción" && title!=="Logo") {
+				        $(this).html( '<div class="form-group" id="centrado2">' + '<label for="th" class="blanco">' + title + '</label>' + '<div class="centrado">' + '<input class="form-control filter" id="nombre1" type="text"  placeholder="&#xf0b0; Filtrar ' + title + '" />' + '</div>' + '</div>' );
+				        }
+				    } );
+				    tableAsignarEntidad.columns().every(function () {
+				        var that = this;
+
+				        $('input', this.header()).on('keyup change clear', function () {
+				            if (that.search() !== this.value) {
+				                that
+				                        .search(this.value)
+				                        .draw();
+				            }
+				        });
+				    });
+				    $('.filter').on('click', function(e) {
+						e.stopPropagation();
+					});
+	});
+	
+</script>
+<script type="text/javascript"
+		th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+	<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+	<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

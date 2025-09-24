@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+
+<title id="pageTitle">Consultar inscripcion proyecto</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bp/taps-proyectos.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/modal/modal.css}">
+
+
+<body>
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>
+				Banco distrital de programas y proyectos</li>
+			<li class="breadcrumb-item" aria-current="page">Ficha EBI</li>
+			<li class="breadcrumb-item" aria-current="page"><a th:href="@{/consultar-proyecto-entidad/1}">Consultar inscripción de proyectos</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consultar proyecto</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+		<div class="row mt-2">
+			<div class="col-sm-2">
+				<div class="texto-archivo-plano mt-2 input-2">
+					<label>Banco</label>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="bancoProyecto" readonly="readonly">
+			</div>
+			<div class="col-sm-1">
+				<div class="texto-archivo-plano mt-2">
+					<label>Entidad</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" id="inputCodigoDistrital" readonly="readonly">
+			</div>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="inputSectorEntidad" readonly="readonly">
+			</div>
+		</div>
+		<div class="row mt-3" id="idSectorProyIn">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano mt-2">
+					<label>Sector</label>
+				</div>
+			</div>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="sectorEic" readonly="readonly">
+			</div>
+		</div>
+		<div class="row mt-3" id="idSectorAlEntidad">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano mt-2">
+					<label>Sector</label>
+				</div>
+			</div>
+			<div class="col-sm-10">
+			<select class="form-control" id="tipoSectorAlLocal">
+				<option value="">Selecccione una opción</option>
+				<option th:each="lista : ${listLineaLocal}"
+					th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+			</select>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano ">Código del Proyecto</div>
+			</div>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="codigoProyectoGenerico" readonly="readonly">
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano ">Nombre del Proyecto</div>
+			</div>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="nombreProyGeneral" readonly="readonly">
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano mt-2">
+					<b>Codigo BPIN</b>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="nombreBpinGeneral" readonly="readonly">
+			</div>
+		</div>
+		
+		<div id="versiones">
+			<div class="row mt-3">
+				<div class="col-sm-2">
+					<div class="texto-archivo-plano">Versión del proyecto</div>
+				</div>
+				<div class="col-sm-1">
+					<input type="text" readonly="readonly" class="form-control" id="idVersion">
+				</div>
+				<div class="col-sm-1">
+					<div class="texto-archivo-plano">del</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" readonly="readonly" class="form-control" id="idDel">
+				</div>
+				<div class="col-sm-1">
+					<div class="texto-archivo-plano">Inscripción</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" readonly="readonly" class="form-control" id="idInscripcion">
+				</div>
+				<div class="col-sm-1">
+					<div class="texto-archivo-plano">Registro</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" readonly="readonly" class="form-control" id="idRegistro">
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-2">
+					
+						<div class="texto-archivo-plano">Etapa</div>
+					
+				</div>
+				<div class="col-sm-3">
+						<input type="text" class="form-control" readonly="readonly" id="idEtapa">
+					
+				</div>
+				<div class="col-sm-2">
+					
+						<div class="texto-archivo-plano">Tipo</div>
+					
+				</div>
+				<div class="col-sm-3">
+						<input type="text" class="form-control" readonly="readonly" id="idTipo">
+					
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="hr-1"></div>
+		<br>
+
+		<div th:include="bp/general/tabs/tab-inscripcion-editar.html" id="idTabInsEditar"></div>
+		
+		<br><br>
+		</div><br><br>
+		<footer th:replace="/home:: footer"></footer>
+</body>
+
+<script type="text/javascript">
+	$(function() {
+		var $tabButtonItem = $('#tab-button li'), $tabSelect = $('#tab-select'), $tabContents = $('.tab-contents'), activeClass = 'is-active';
+
+		$tabButtonItem.first().addClass(activeClass);
+		$tabContents.not(':first').hide();
+
+		$tabButtonItem.find('a').on('click', function(e) {
+			var target = $(this).attr('href');
+
+			$tabButtonItem.removeClass(activeClass);
+			$(this).parent().addClass(activeClass);
+			$tabSelect.val(target);
+			$tabContents.hide();
+			$(target).show();
+			e.preventDefault();
+		});
+
+		$tabSelect.on('change', function() {
+			var target = $(this).val(), targetSelectNum = $(this).prop(
+					'selectedIndex');
+
+			$tabButtonItem.removeClass(activeClass);
+			$tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+			$tabContents.hide();
+			$(target).show();
+		});
+	});
+</script>
+<script th:inline="javascript">
+$(document).ready(function() {
+	/*<![CDATA[*/
+	  var proyecInversion = /*[[${listaEntidadProy}]]*/;
+	  var listEntidadProyecto = /*[[${listaEntidadProy}]]*/;
+	  var proyecto = /*[[${proyecto}]]*/;
+
+	  $('.btnEditarInscripcion').css('display', 'none'); 
+	  document.getElementById("inputCodigoDistrital").value = proyecto.codigoEntidad;
+	  document.getElementById("codigoProyectoInscripcionEdit").value = proyecto.codigoProyecto;
+	  document.getElementById("idProyInvEdit").value = proyecto.idProyInversion;
+	  document.getElementById("tipoSectorAlLocal").value = proyecto.idLsSectorAl;
+	  document.getElementById("codigoProyectoGenerico").value = proyecto.codigoProyecto;
+	  document.getElementById("nombreProyGeneral").value = proyecto.nombreProyecto;
+	  document.getElementById("nombreProyectoInscripcionEdit").value = proyecto.nombreProyecto;
+	  document.getElementById("nombreBpinGeneral").value = proyecto.codigoBpin;
+	  document.getElementById("bpinInscripcionEdit").value = proyecto.codigoBpin;
+	  document.getElementById("nombreBpinInscripcionEdit").value = proyecto.nombreBpin;
+	  document.getElementById("etapaInscripcionEdit").value = proyecto.idLsEtapa;
+	  document.getElementById("nombreProyectoInscripcionEditar").value = proyecto.nombrePoai;
+	  var clasificacion  = proyecto.stringEntidad.toLowerCase();
+	  if (clasificacion === "alcaldía"){
+    	  $('#idSectorProyIn').css('display', 'none');
+      }else {
+    	  document.getElementById("inputSectorEntidad").value = proyecto.stringSector;
+    	  document.getElementById("sectorEic").value = proyecto.stringSector;
+		  $('#idSectorAlEntidad').css('display', 'none'); 
+	  }
+	  
+	/*]]>*/
+		
+		$('#versiones').css('display', 'none');
+		
+
+			
+		
+
+	});
+</script>
+<script type="text/javascript" th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>

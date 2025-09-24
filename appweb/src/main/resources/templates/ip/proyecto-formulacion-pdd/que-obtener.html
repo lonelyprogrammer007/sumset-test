@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 20px">
+		<span><b>Objetivo</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Objetivo:</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+		<textarea rows="" cols="" class="form-control caja"  maxlength="500" placeholder="longitud 500">
+		
+		</textarea>
+		</div>
+	</div>
+	<div class="abs-center mt-2 " style="font-size: 20px">
+		<span><b>Tipo de Indicador de la problemática/ Asociación del Indicador:</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="float-left mt-3 mb-3">
+		
+			<button type="button" class="boton-agregar" id="agregarIndicadorProblematica">
+				<img src="css/img/icono-agregar.png" class="agregar"
+					alt="Icono agregar">Agregar
+			</button>
+		
+	</div>
+	<div class="table-responsive mt-3">
+		<table id="dtablaObras" class="table-striped" style="width: 100%">
+			<thead>
+				<tr class="color">
+					
+
+					<th style="width: 5%" class="color-head">Nombre Indicador</th>
+					<th style="width: 5%" class="color-head">Origen Indicador</th>
+				
+					<th style="width: 5%" class="color-head">Acción</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<div th:include="ip/proyecto-formulacion-pdd/modales/modal-agregar-indicador.html"></div>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#agregarIndicadorProblematica').click(function() {
+		$('#agregarIndicadorModal').modal('show');
+	})
+})
+</script>
+</html>

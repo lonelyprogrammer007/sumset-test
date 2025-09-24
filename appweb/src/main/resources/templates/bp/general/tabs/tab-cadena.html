@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bp/tab-cadena.css}">
+</head>
+<body>
+	<div class="row mt-2">
+		<div class="col-sm-12">
+			<div class="texto-archivo-plano ">
+				Objetivo General <b style="color: red">*</b>
+			</div>
+		</div>
+	</div>
+
+	<div class="row mt-2">
+		<div class="col-sm-12">
+			<textarea rows="6" class="form-control"
+				placeholder="máximo 5000 caracteres"></textarea>
+		</div>
+	</div>
+	<div align="left" class="mt-3">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button">
+				<i class="fa fa-save"></i> Guardar
+			</button>
+		</a>
+	</div>
+	<div align="left" class="mb-3">
+
+		<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+			data-target="#agregarObjetivo">
+			<i class="fa fa-plus-circle"></i> Objetivo Específico
+		</button>
+
+	</div>
+	<div class="row">
+		<div class="col-4">
+			<div class="arbol">
+				<ul class="tematica">
+					<span class="titulo"><i class="fa fa-plus-square" id="icon"></i>Compromiso
+						Especifico:<br></span>
+					<input type="radio" id="radio">
+					<span class="texto-plano"> Lorem Ipsum es simplemente el
+						texto de relleno de las imprentas y archivos de texto…</span>
+					<li class="compromiso">
+
+						<ul>
+							<li class="problematica "><span
+								class="subtitulo nivel2 producto-tab"><i
+									class="fa fa-plus-square" id="icon"></i> Meta Plan de
+									desarrollo</span> <br> <input type="radio"> <span
+								class="texto-plano "> Lorem Ipsum es simplemente el texto
+									de relleno de las imprentas y archivos de texto…</span>
+								<ul style="display: none;">
+									<li class=""><input type="radio"><span
+										class="texto-plano actividad-tab">Producto Proyecto
+											Inversión</span></li>
+									<li><input type="radio"><span
+										class="texto-plano actividad-tab">Producto Proyecto
+											Inversión 2</span></li>
+								</ul></li>
+							<li><span class="subtitulo nivel2"><i
+									class="fa fa-plus-square" id="icon"></i> Compromiso 2</span> <br>
+								<input type="radio"> <span class="texto-plano">
+									Hola soy un Compromiso especifico</span>
+								<ul style="display: none;">
+									<li><input type="radio"><span
+										class="texto-plano actividad-tab">Problematica 1</span></li>
+									<li><input type="radio"><span
+										class="texto-plano actividad-tab">Problematica 2</span></li>
+								</ul></li>
+						</ul>
+					</li>
+				</ul>
+
+
+
+			</div>
+
+		</div>
+		<div class="col-8 opciones">
+			<div class=" metas" style="display: block;">
+				<div class="abs-center mt-2 " style="font-size: 16px">
+					<span><b>Metas Plan de Desarrollo</b></span><br>
+					<div class="hr-1"></div>
+				</div>
+				<div align="left" class="mb-3">
+					
+						<button class="boton-agregar mt-3" type="button"
+							data-toggle="modal" data-target="#asociarMetasModal">
+							<i class="fa fa-plus-circle"></i> Asociar
+						</button>
+					
+				</div>
+				<div class="table-responsive">
+					<table class="table-striped" id="dtablaAporte" style="width: 100%">
+						<thead>
+							<tr>
+								<th class="color-head">Codigo<br></th>
+								<th class="color-head">Nombre Meta<br></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<div class="producto" style="display: none;">
+				<div class="abs-center mt-2 " style="font-size: 16px">
+					<span><b>Indicador de Producto DNP</b></span><br>
+
+				</div>
+				<div align="left" class="mb-3">
+					
+						<button class="boton-agregar mt-3" type="button"
+							data-toggle="modal" data-target="#crearProductosModal">
+							<i class="fa fa-plus-circle"></i> Asociar
+						</button>
+					
+				</div>
+				<div class="table-responsive">
+					<table class="table-striped" id="dtablaAporte" style="width: 100%">
+						<thead>
+							<tr>
+								<th class="color-head">Código<br></th>
+								<th class="color-head">Denominación<br></th>
+								<th class="color-head">Magnitud<br></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<div class="actividad" style="display: none;">
+				<div class="abs-center mt-2 " style="font-size: 16px">
+					<span><b>Actividades</b></span><br>
+
+				</div>
+				<div align="left" class="mb-3">
+					
+						<button class="boton-agregar mt-3" type="button"
+							data-toggle="modal" data-target="#crearActividadModal">
+							<i class="fa fa-plus-circle"></i> Agregar
+						</button>
+					
+				</div>
+				<div class="table-responsive">
+					<table class="table-striped" id="dtablaAporte" style="width: 150%">
+						<thead>
+							<tr>
+								<th class="color-head">No<br></th>
+								<th class="color-head">Proceso<br></th>
+								<th class="color-head">Magnitud<br></th>
+								<th class="color-head">Unidad de Medida<br></th>
+								<th class="color-head">Linea Base<br></th>
+								<th class="color-head">Estado<br></th>
+								<th class="color-head">Acciones<br></th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div
+		th:include="bp/inscripcion-proyectos/modales/modal-agregar-objetivo.html">
+
+	</div>
+	<div
+		th:include="bp/inscripcion-proyectos/modales/modal-asociar-metas.html">
+
+	</div>
+	<div
+		th:include="bp/inscripcion-proyectos/modales/modal-crear-producto.html">
+
+	</div>
+	<div
+		th:include="bp/inscripcion-proyectos/modales/modal-agregar-actividad.html">
+
+	</div>
+</body>
+
+</html>

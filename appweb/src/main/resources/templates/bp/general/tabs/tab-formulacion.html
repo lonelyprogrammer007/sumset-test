@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Anexo Formulación Proyecto de Inversión </b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div align="left" class="mb-3 mt-3">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+				data-target="#agregarGrupoEtarioModal">
+				<i class="fa fa-save"></i> Agregar
+			</button>
+		</a>
+	</div>
+	
+	<div class="texto">
+	<label>Nombre Archivo:</label>
+	</div>
+	<div class="texto">
+	<small>Estudio 1</small>
+	</div>
+	<div class="texto">
+	<label>Fecha de cargue</label>
+	</div>
+	
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Estudios de Respaldo</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div align="left" class="mb-3 mt-3">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+				data-target="#agregarRespaldoModal">
+				<i class="fa fa-plus-circle"></i> Agregar
+			</button>
+		</a>
+	</div>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablapp" style="width: 160%">
+			<thead>
+				<tr>
+					<th class="color-head">Consecutivo<br></th>
+					<th class="color-head">Nombre Archivo<br></th>
+					<th class="color-head">Realizado por<br></th>
+					<th class="color-head">Fecha de Estudio<br></th>
+					<th class="color-head">Archivo Relacionado<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-respaldo.html"></div>
+</body>
+</html>

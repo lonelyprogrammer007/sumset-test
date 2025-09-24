@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Consultar archivos planos</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/archivo-plano.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-consultar-archivos.css}">
+<body>
+
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administración funcional</a></li>
+			<li class="breadcrumb-item">Cargue y gestión de información</li>	
+			<li class="breadcrumb-item active" aria-current="page" id="act">Carga de archivos planos</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Consulta de archivos planos</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div align="Left">
+			<a th:href="@{/cargar-archivos}">
+				<button type="button" class="boton-agregar">
+					<img src="css/img/icono-agregar.png" class="agregar" alt="Icono que permite agregar un archivo"> Agregar
+				</button>
+			</a>
+		</div>
+		<br>
+				<div class="table-responsive">
+				<form th:action="@{/ver-archivo}" th:object="${archivoPlano}" method="post">
+				    <input type="hidden" id="codigo" name="idArchivo">
+                    <input type="hidden" id="nombreModulo" name="nombreModulo">
+                    <input type="hidden" id="nombreTema" name="nombreTema">
+                    <input type="hidden" id="fechaCargue" >
+					<table id="dtabla" class="table-striped"  style="width:175%">
+					
+					  <caption><div class="hr-1"></div></caption>
+						<thead>
+							<tr class="color">
+								<th id="diez" class="color-head">Código<br></th>
+								<th id="" class="color-head">Modulo<br></th>
+								<th id="treinta" class="color-head">Tema<br></th>
+								<th id="treinta" class="color-head">Nombre archivo<br></th>
+								<th id="treinta" class="color-head">Fecha de cargue archivo plano<br></th>
+								<th id=""><div class="subir">Acción</div></th>
+							</tr>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				
+                    </form>
+				</div>
+				<br>
+			</div>
+			<br>
+		
+	<br>
+	<br>
+
+	<footer th:replace="/home:: footer"></footer>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html" ></div>
+</body>
+<script>
+	$(document).ready(function() {
+		cargarDatos();
+	});
+
+	function cargarDatos() {
+		'use strict';
+		$.fn.DataTable.ext.pager.numbers_length = 5;
+		var table = $('#dtabla')
+				.DataTable(
+						{
+							"colReorder" : true,
+							"processing" : true,
+							"serverSide" : true,
+							"lengthChange" : true,
+							"searching" : true,
+							"ordering" : true,
+							"info" : true,
+							"autoWidth" : true,
+							"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+									[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+							"pageLength" : 5,
+							"language" : {
+								"processing" : 'Cargando...',
+								"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+								"infoEmpty" : '<div class="formato">0 de 0.</div>',
+								"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+								"zeroRecords" : "No se han encontrado coincidencias.",
+								"responsive" : true,
+								"paginate" : {
+									"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+									"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+									"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+									"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+								},
+								"lengthMenu" : "_MENU_",
+							},
+							"pagingType" : "full_numbers",
+							"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+									+ "<'row'<'col-sm-8 col-md-7'tr>>"
+									+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+							"order": [0, 'desc'],
+								"ajax" : {
+								"url" : "/Segplan/listaArchivosByPage",
+								"type" : "POST"
+							},
+
+							"columns" : [
+									{
+										data : "idArchivo", className: 'derechaPresupuesto'
+									},
+									{
+										data : "nombreModulo"
+									},
+									{
+										data : "nombreTema"
+									},
+									{
+										data : "nombreArchivo"
+									},
+									{
+										data : "fechaCargue"
+									},
+									{
+										"render" : function() {
+											return '<button href="" type="submit" id="ButtonEditar" class="ver"><img src="css/img/icono-lupa.png" class="lupa"></button>';
+										},
+										"orderable" : false
+									}, ],
+
+						})
+		yadcf.init(table, [ {
+			column_number : 0,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+
+		}, {
+			column_number : 1,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 2,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 3,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 4,
+			filter_type : "date",
+			filter_reset_button_date : true,
+			filter_delay : 500
+		} ]);
+		$('div.dataTables_length select').addClass("formato-2");
+		editar("#dtabla tbody", table);
+
+	}
+	function editar(tbody, table) {
+		$(tbody).on("click", "button.ver", function() {
+			if (table.row(this).child.isShown()) {
+				var data = table.row(this).data();
+			} else {
+				var data = table.row($(this).parents("tr")).data();
+			}
+			var data = table.row($(this).parents("tr")).data();
+			document.getElementById("codigo").value = data.idArchivo;
+			document.getElementById("nombreModulo").value = data.nombreModulo;
+			document.getElementById("nombreTema").value = data.nombreTema;
+			document.getElementById("fechaCargue").value = data.fechaCargue;
+
+		})
+	}
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</body>
+</html>

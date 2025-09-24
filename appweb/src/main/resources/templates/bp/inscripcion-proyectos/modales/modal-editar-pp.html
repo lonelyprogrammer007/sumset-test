@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<body>
+	<div class="modal fade" id="editarPpModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="titulo">Asociar el proyecto a una política
+								pública</span>
+						</div>
+					</div>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+						<form id="formEditarPoliticaPubica" method="post">
+						<input type="hidden" id="idProyClasificacionEdit" name="idProyInversion">
+						<input type="hidden" id="idProyPoliticaEdit" name="idProyPolitica">
+							<div class="col-lg-12 col-md-15">
+								<div class="form-group">
+									<div class="texto">
+										<label for="tematica">Política pública</label>
+									</div>
+									<select class="form-control" id="ppEdit" name="idPolPub">
+										<option value="">Seleccione una opción</option>
+									</select>
+								</div>
+							</div>
+							<br>
+							<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+							<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+								<button class="botonMetaAgregar" name="btnAgregarNivel1"
+									type="submit" id="boton-modal">
+									<img src="css/img/icono-guardar.png" class="guardar"
+										alt="Icono guardar">&nbsp;&nbsp;Guardar
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

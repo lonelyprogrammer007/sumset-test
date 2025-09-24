@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<div align="left">
+	<button type="button" class="boton-agregar" onclick="crearMeta();" id="btnAgregarMeta">
+	<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar"> Agregar
+	</button>
+</div>
+<br>
+<div class="table-responsive">
+	<table id="dtablaMetas" class="table-striped" style="width: 175%">
+		<thead>
+			<tr class="color">
+				<th style="width: 10%" class="color-head">Tipo de meta<br>
+				<span>&nbsp;&nbsp;</span></th>
+				<th style="width: 25%" class="color-head">Meta</th>
+				<th style="width: 12%" class="color-head">Magnitud</th>
+				<th style="width: 10%" class="color-head">Acción</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="lista: ${metas}" th:if="${metas != null}">
+				<td th:text="${lista.nombreidTipoMetaLs}" />
+				<td th:text="${lista.meta}" />
+				<td th:text="${lista.magnitud}" />
+				<td class="azul"><button class="btnEditarMeta"
+						th:attr="onclick=|editarMeta('${lista.idTipoMetaLs}','${lista.meta}', 
+					'${lista.magnitud}','${lista.idEspecifico}','${lista.idMeta}')|">
+						<img src="css/img/icono-1-azul.png" class="edit-com">
+					</button>
+					<button th:attr="onclick=|eliminarMeta('${lista.idMeta}')|"
+						class="btnEliminarMeta">
+						<img th:src="@{/css/img/icono-eliminar.png}" class="eliminar-com">
+					</button></td>
+
+			</tr>
+
+		</tbody>
+	</table>
+</div>
+<br>
+<div align="right">
+	<button type="button"
+			class="boton-regresar">
+			<i class="fa fa-arrow-right" id="volver"></i>Seguir
+		</button>
+</div>
+<div th:include="ip/programa-gobierno/modal-agregar-metas.html"></div>
+<div th:include="ip/programa-gobierno/modal-editar-metas.html"></div>
+<script th:inline="javascript">
+$(document).ready(function() {
+	cargarMetas();
+	 
+});
+	function crearMeta() {
+		$('#agregarMetasModal').modal('show');
+	}
+	function editarMeta(idTipoMeta, meta, magnitud, idEspecifico,idMeta) {
+		$('#editarMetasModal').modal('show');
+		document.getElementById("idTipoMetaLs").value= idTipoMeta;
+		document.getElementById("metaNombre").value= meta;
+		document.getElementById("magnitud").value= magnitud;
+		document.getElementById("idEspecificoCompro").value= idEspecifico;
+		document.getElementById("idMetaa").value= idMeta;
+		
+	}
+	function eliminarMeta(idMeta){
+		Swal.fire({
+			  title: '¡Advertencia!',
+			  text: "¿Está seguro de eliminar esta meta?",
+			  icon: 'warning',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: 'Aceptar',
+			  cancelButtonText: 'Cancelar'
+			}).then((result) => {
+			  if (result.value) {
+				window.location = "eliminar-meta/" + idMeta;  
+			  
+			  }
+			})
+	}
+	function cargarMetas(){
+	      $('#dtablaMetas').DataTable({
+	    	"orderCellsTop": true,
+	    	"order": [ 0, 'desc' ],
+	    	"columnDefs": [
+	    	    { "orderable": false, "targets":3}
+	    	  ],
+	    	"processing" : true,
+	    	"ordering": true,
+	        "language": {
+	            "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+	            "infoEmpty": '<div class="formato">0 de 0.</div>',
+	            "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+	            "zeroRecords": "No se han encontrado coincidencias.",
+	            "responsive": true,
+	            "paginate": {
+	                "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+	                "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+	                "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+	                "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+	            },
+	            "lengthMenu": "_MENU_",
+	        },
+
+	        "lengthMenu": [5, 10, 20, 50, 100],
+	        "pageLength": 5,
+	        "pagingType": "full_numbers",
+	        "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+	                "<'row'<'col-sm-8 col-md-7'tr>>" +
+	                "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+
+	    });
+	 $('div.dataTables_length select').addClass("formato-2");
+}
+
+</script>
+</html>

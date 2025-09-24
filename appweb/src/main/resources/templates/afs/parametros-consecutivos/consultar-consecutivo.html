@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head  th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Administrar consecutivos</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/modal/modal.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-consultar-consecutivo.css}">
+<body>
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administracion funcional</a></li>
+			<li class="breadcrumb-item">Entidades, tablas, parámetros y consecutivos</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consecutivos</li>
+		</ul>
+	</nav>
+
+
+
+	<div class="form-container3">
+
+		<div class="abs-center">
+			<span>Administrar consecutivos</span> <br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div class="table-responsive">
+			<table id="dtabla" class="table-striped" style="width:280%">
+			<caption><div class="hr-2"></div></caption>
+				<thead>
+					<tr class="color">
+						<th scope="col" style="width:1%" class="color-head">PDD<br></th>
+						<th scope="col" style="width:20%" class="color-head">Nombres<br></th>
+						<th scope="col" style="width:30%" class="color-head">Descripción<br></th>
+						<th scope="col" style="width:13%" class="color-head">Secuencia<br></th>
+						<th scope="col" style="width:13%;" class="color-head">Vigencia<br></th>
+						<th scope="col" style="width:15%" class="color-head">Entidad<br></th>
+						<th scope="col" style="width:10%" class="subir" >Acción</th>
+					</tr>
+				</thead>
+				<tbody>
+		
+				</tbody>
+			</table>
+
+		</div>
+		<br>
+	</div>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<div th:include="afs/parametros-consecutivos/modal-editar-consecutivo.html"></div>
+<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+<script th:inline="javascript">
+	$(document).ready(function() {
+		
+		cargarDatos();
+		/*<![CDATA[*/
+	    var mensaje= /*[[${mensaje}]]*/;
+		if (mensaje != null){
+	    Swal.fire({
+	        title: 'Información',
+	        text: mensaje,
+	        icon: 'warning',
+	        confirmButtonText: 'Aceptar',
+	        allowOutsideClick: () => false
+	    })
+		}
+		
+	    /*]]>*/
+		
+		$('#dtabla tbody').on('mouseover','tr',function(){
+	    $(this).find('.icon').find('.edit').find('.editar').attr("src","css/img/editar-rollover.png");
+		});
+	    $('#dtabla tbody').on('mouseleave','tr',function(){
+	    $(this).find('.icon').find('.edit').find('.editar').attr("src","css/img/icono-1-azul.png") ;		 	 
+		 });	
+	});
+	function cargarDatos(){
+
+		'use strict';
+		$.fn.DataTable.ext.pager.numbers_length = 5;
+		
+		var table = $('#dtabla').DataTable({
+			"colReorder" : true,
+			"processing" : true,
+			"serverSide" : true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10,25, 50, "Mostrar Todo"] ],
+            "pageLength": 5,
+		    "language": {
+		    	"processing": 'Cargando...',
+	            "info": '<div class="formato">_END_ de _TOTAL_ páginas</div>',
+	            "infoEmpty": '<div class="formato">0 de 0.</div>',
+	            "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+	            "zeroRecords": "No se han encontrado coincidencias.",
+	            "responsive": true,
+	            "paginate": {
+	                "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+	                "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+	                "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+	                "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+	            },
+	            "lengthMenu": "_MENU_",
+	        },
+	        "pagingType": "full_numbers",
+	        "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+	        "<'row'<'col-sm-8 col-md-7'tr>>" +
+	        "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+	        "order": [0, 'desc'],
+			"ajax" : {
+				"url" : "/Segplan/listaConsecutivosByPage",
+				"type" : "POST"
+			},
+		
+			"columns" : [ 
+				{ data : "idPlanDesarrollo"},
+				{ data : "nombre"},
+				{ data : "descripcion"},
+				{ data : "secuencia", className: 'derechaPresupuesto'},
+				{ data : "vigencia", className: 'derechaPresupuesto'},
+				{ data : "codigoEntidad"},
+			    {"render": function () {
+			        return '<button href="" type="button" id="ButtonEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button>';
+			    }, "orderable": false, className:"icon"},
+               ],
+			
+		})
+		yadcf.init(table, [ {
+			column_number : 0,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+			
+		}, {
+			column_number : 1,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		 {
+			column_number : 2,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		 {
+			column_number : 3,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		 {
+			column_number : 4,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		},
+		 {
+			column_number : 5,
+			filter_type : "text",
+			filter_reset_button_text: false,
+			filter_delay : 500
+		}
+		]);
+		$('div.dataTables_length select').addClass("formato-2");
+		editar("#dtabla tbody",table);
+	}
+	function editar(tbody, table){
+		$(tbody).on("click","button.edit", function(){
+		    if(table.row(this).child.isShown()){
+		        var data = table.row(this).data();
+		    }else{
+		        var data = table.row($(this).parents("tr")).data();
+		    }
+		    var data = table.row($(this).parents("tr")).data();
+		    editarConsecutivo(data.idPlanDesarrollo, data.idConsecutivo, data.nombre,
+		    		data.descripcion, data.secuencia, data.vigencia, data.codigoEntidad);
+		  
+		  })
+	}
+	function editarConsecutivo(id, idConse, nombre, descripcion, secuencia,
+			vigencia, entidad) {
+		$('#editarConsecutivoModal').modal('show');
+		$('#idPlanDesarrollo').text($('#idPlanDesarrollo').val(id));
+		$('#idConsecutivo').text($('#idConsecutivo').val(idConse));
+		$('#nombreConsecutivo').text($('#nombreConsecutivo').val(nombre));
+		$('#descripcionConsecutivo').text($('#descripcionConsecutivo').val(descripcion));
+		$('#secuencia').text($('#secuencia').val(secuencia));
+		$('#vigencia').text($('#vigencia').val(vigencia));
+		$("#codigoEntidad").val(entidad).trigger('change');
+	 	document.getElementById("codigoEntidad").value=entidad;
+	}
+</script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

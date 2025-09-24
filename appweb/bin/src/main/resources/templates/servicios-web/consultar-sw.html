@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Consultar servicios web</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/listas.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+        <link rel="stylesheet" type="text/css"
+              th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    </head>
+    <body>
+
+        <header th:replace="/home:: header"></header>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Administracion
+                        funcional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Consulta 
+                    de servicios web</li>
+            </ol>
+        </nav>
+
+        <div class="form-container3">
+
+            <br>
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-curved">
+                        <thead>
+                            <tr class="color">
+                                <th><div align="center">Nombre servicio web<br><input type="text"></div></th>
+                                <th><div align="center">Tarea<br><input type="text"></div></th>
+                                <th><div align="center">Fecha solicitud<br><input type="text"></div></th>
+                                <th><div align="center">Estado solicitud<br><input type="text"></div></th>
+                                <th><div align="center">Fecha respuesta<br><input type="text"></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr  th:each="servicio: ${listaServicio}">
+                                <td class="azul" th:text="${servicio.nombreServicio}" />
+                                <td class="azul" th:text="${servicio.tarea}" />
+                                <td class="azul" th:text="${servicio.fechaSolicitud}" />
+                                <td class="azul" th:text="${servicio.estadoSolicitud}" />
+                                <td class="azul" th:text="${servicio.fechaRespuesta}" />
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <br>
+                <div class="hr1"></div>
+            </div>
+            <br>
+            <div align="right">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#"
+                                                 aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+                            </a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"
+                                                 aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+                            </a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div><br><br>
+
+        <footer th:replace="/home:: footer"></footer>
+
+    </body>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
+    <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+
+</body>
+</html>

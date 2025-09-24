@@ -1,0 +1,1229 @@
+@font-face {
+  font-family: "Apex New Bold";
+  src: url(../font/ufonts.com_apexnew-bold-opentype.otf);
+}
+
+@font-face {
+  font-family: "Apex New Book";
+  src: url(../font/ufonts.com_apexnew-book-opentype.otf);
+}
+
+.bg2 {
+  background-color: #51338840;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.bg1 {
+  border-radius: 15px;
+}
+
+.hr {
+  height: 1px;
+  background-color: #9c9c9c;
+}
+
+.requerido {
+  border: 1px solid red !important;
+}
+
+#btn-modal {
+  background-color: #54348c;
+  border-radius: 6px;
+  width: 80px;
+  color: #fff;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 300px;
+  border: 2px solid #54348c;
+}
+
+#cancelar {
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-family: Apex New Book;
+  font-size: 14px;
+  color: #000000b3;
+  opacity: 1;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 22px;
+  width: 22px;
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 1;
+  border: 1px solid #00529c;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #fff;
+}
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+  top: 7px;
+  left: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #808080;
+}
+
+.hr2 {
+  height: 30px;
+  border-left: 1px solid #9c9c9c;
+}
+
+.titulo {
+  font-family: Apex New Bold;
+  font-size: 22px;
+  font-style: normal;
+  text-align: left;
+  letter-spacing: 0;
+  color: #00458b;
+  opacity: 1;
+}
+
+.tituloEditar {
+  font-family: Apex New Bold;
+  font-size: 20px;
+  font-style: normal;
+  text-align: left;
+  letter-spacing: 0;
+  color: #00458b;
+  opacity: 1;
+}
+
+.tituloPot {
+  font-family: Apex New Bold;
+  font-size: 20px;
+  font-style: normal;
+  text-align: left;
+  margin-top: 10px;
+  letter-spacing: 0;
+  color: #00458b;
+  opacity: 1;
+}
+
+.tituloEq {
+  font-family: Apex New Bold;
+  font-size: 25px;
+  font-style: normal;
+  text-align: left;
+  letter-spacing: 0;
+  color: #00458b;
+  opacity: 1;
+}
+
+.tituloFuncionario {
+  font-family: Apex New Bold;
+  font-size: 20px;
+  font-style: normal;
+  text-align: left;
+  letter-spacing: 0;
+  color: #00458b;
+  opacity: 1;
+}
+
+.tituloCe {
+  font-family: Apex New Bold;
+  font-size: 18px;
+  font-style: normal;
+  text-align: left;
+  letter-spacing: 0;
+  color: #00458b;
+  opacity: 1;
+}
+
+.tituloPlantilla {
+  font-family: Apex New Bold;
+  font-size: 18px;
+  font-style: normal;
+  letter-spacing: 0;
+  color: #00458b;
+  position: relative;
+  opacity: 1;
+}
+
+.tituloPresupuesto {
+  font-family: Apex New Bold;
+  font-size: 18px;
+  font-style: normal;
+  letter-spacing: 0;
+  color: #00458b;
+  position: relative;
+  opacity: 1;
+}
+
+.texto {
+  font-weight: bold;
+  letter-spacing: 0;
+  color: #000000b3;
+  opacity: 1;
+}
+
+.option {
+  border-radius: 10px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000040;
+}
+
+.boton-login {
+  background-color: #54348c;
+  border-radius: 6px;
+  color: #fff;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 300px;
+  border: 2px solid #54348c;
+}
+
+#txtTematica {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000040;
+  border: 1px solid #00529c;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+#txtCompromiso {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000040;
+  border: 1px solid #00529c;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+#txtETematica {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idTxtPlanDesarrollo {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#year {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#anio {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#mes {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#month {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#codigoClasificacionPresupuestal {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#codClasi {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#girosVigencia {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#girosVig {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#codigoDistrital {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#codigoDistrit {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#codigoDis {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#codigoDistr {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#codigoProy {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#recursosSuspen {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#codigoInter {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nombreProyec {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsLocalidad {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsUpz {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsBarrio {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsUpr {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsVereda {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsPotProyectoPot {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsInstrumentoPot {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsPotProyecto {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsInstrumento {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#descripcionLinea {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#conceptoLinea {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#establecidoLinea {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#fechaLinea {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#logo-segPlan {
+  width: 9em;
+  height: auto;
+  margin-top: -10px;
+  margin-left: 12px;
+}
+
+#descripcionLinea {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#concepto {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#establecido {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#fechaLineaInversion {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsSector {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#tipoE {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsUnidadMedidaE {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsVerboE {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsVerbo {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsUnidadMedida {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#tipo {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nombreEq {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#descripcionEq {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsSectorEq {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsCategoriaEq {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nombreParametro {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#descripcionParametro {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#argumentoParametro {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#funcionFun {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nombreFun {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#cargoFun {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#correoFun {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#generoFun {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsFuncion {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nombreConsecutivo {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nombreFuncionario {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#cargo {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#correo {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idLsGenero {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#logo-segPlan1 {
+  width: 9em;
+  height: auto;
+  margin-top: -10px;
+  margin-left: 12px;
+}
+
+form input required {
+  box-shadow: 0px 3px 6px #00000040;
+  border: 1px solid #00529c;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+form input:valid {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #00529c;
+  border-radius: 10px;
+}
+
+form select:valid {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #00529c;
+  border-bottom: 1px solid #00529c;
+  border-radius: 10px;
+}
+
+#respues {
+  border: 1px solid #00529c;
+  box-shadow: 0px 3px 6px #00000040;
+  border-radius: 10px;
+}
+
+#accionReque {
+  border: 1px solid #00529c;
+  box-shadow: 0px 3px 6px #00000040;
+  border-radius: 10px;
+}
+
+#respues {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #00529c;
+  box-shadow: 0px 3px 6px #00000040;
+  border-radius: 10px;
+  /* otras propiedades */
+}
+#respues:disabled {
+  box-shadow: 0px 3px 6px #00000040;
+  border: 1px solid #00529c;
+  border-radius: 10px;
+  background-color: #e9ecef;
+  /* otras propiedades */
+}
+#secuencia {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #00529c;
+  box-shadow: 0px 3px 6px #00000040;
+  border-radius: 10px;
+}
+
+#vigencia {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#accion {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #00529c;
+  box-shadow: 0px 3px 6px #00000040;
+  border-radius: 10px;
+}
+
+#idApropiacion {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idGirosVigencia {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idApropiacionDefinitiva {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idEjecucionVigencia {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idConstitucion {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idGiroReserva {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idRecursosSuspendidos {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idTxtDesarrollo {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idEicClasificacionPresupuestal {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nivel1EIC {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nivel2EIC {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#nivel3EIC {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idEALClasificacionPresupuestal {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idTxtPlan {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+
+#idTxtDesarro {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel2EICEdit {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel3EICEdit {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel1EICEdit {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel1AL {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel2AL {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel3AL {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel1ALEdit {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel2ALEdit {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#nivel3ALEdit {
+  border: 1px solid #00529c;
+  border-radius: 9px;
+  opacity: 1;
+  box-shadow: 0px 3px 6px #00000040;
+  height: 35px;
+  font-size: 12px;
+}
+#codigoParametro{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	box-shadow: 0px 3px 6px #00000040;
+	height: 35px;
+	font-size: 12px;
+}
+#codigoComponenteCg::placeholder {
+  font-size: 11px;
+}
+
+#nombreComponenteCg::placeholder {
+  font-size: 11px;
+}
+
+input[type="text"][disabled] {
+  border: 1px solid #00529c;
+  border-radius: 10px;
+  height: 35px;
+  /* otras propiedades */
+}
+input[type="textarea"][disabled] {
+<<<<<<< HEAD
+  border: 1px solid #00529c;
+  border-radius: 10px;
+  /* otras propiedades */
+}
+
+/*spinner*/
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 30px;
+}
+
+.lds-ellipsis div {
+  position: absolute;
+  top: 6px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #00529c;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+=======
+	border: 1px solid #00529C;
+	border-radius: 10px;
+	/* otras propiedades */
+}
+
+
+.lds-ellipsis {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 30px;
+        }
+
+        .lds-ellipsis div {
+            position: absolute;
+            top: 6px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00529C;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+
+        .lds-ellipsis div:nth-child(1) {
+            left: 8px;
+            animation: lds-ellipsis1 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(2) {
+            left: 8px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(3) {
+            left: 32px;
+            animation: lds-ellipsis2 0.6s infinite;
+        }
+
+        .lds-ellipsis div:nth-child(4) {
+            left: 56px;
+            animation: lds-ellipsis3 0.6s infinite;
+        }
+
+        @keyframes lds-ellipsis1 {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes lds-ellipsis3 {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(0);
+            }
+        }
+
+        @keyframes lds-ellipsis2 {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(24px, 0);
+            }
+        }
+>>>>>>> developer

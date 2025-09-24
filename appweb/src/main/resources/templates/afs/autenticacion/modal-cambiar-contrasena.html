@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Cambiar contraseña</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<!-- Modal -->
+<div class="modal fade" id="ModalCambiarContrasenia" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content back1">
+			<div class="modal-header back2">
+
+				<div class="row">
+					<div class="col-5 col-sm-5 col-md-5 col-lg-5">
+
+						<img id="logo-index" th:src="@{/css/img/icono-seg.png}" alt="Icono segplan">
+					</div>
+
+					<div class="col-7 col-sm-7 col-md-7 col-lg-7">
+						<span class="label-cambiar">Cambiar contraseña</span>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" th:object="${user}" method="post"
+						th:action="@{cambiar_contrasenia}">
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="usuario">Usuario:</label>
+								</div>
+								<input class="form-control" id="usuario" name="nombreUsuario"
+									th:value="${usuarioSesion}" type="text" 
+									readonly="readonly">
+
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="entidad">Entidad:</label>
+								</div>
+								<input class="form-control" id="entidad" type="text"
+									th:value="${codigoEntidadUsuario}" name="entidad"
+									 readonly="readonly">
+
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="correo_electronico">Correo Electrónico:</label>
+								</div>
+								<input class="form-control" id="correo_electronico" type="text"
+									
+									th:value="${respuestaAutenticacion.correo}" name="correo"
+									readonly="readonly">
+
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="nombre">Nombre:</label>
+								</div>
+								<input class="form-control" id="nombre" type="text"
+									th:value="${nombreUsuarioSesion}" name="nombre"
+									 readonly="readonly">
+
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12">
+
+							<div class="form-group">
+								<div class="texto">
+									<label for="identif">Identificación:</label>
+								</div>
+								<input type="text" class="form-control" id="identificacion"
+									
+									th:value="${respuestaAutenticacion.identificacion}"
+									name="identificacion" readonly="readonly">
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="contraAnt">Contraseña anterior:</label>
+								</div>
+								<input class="form-control" id="contraAnt" type="password"
+									 name="contraseniaActual">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="contraNueva">Contraseña nueva:</label>
+								</div>
+								<input class="form-control" id="contraNueva" type="password"
+								 name="contraseniaNueva">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="rContra">Repetir contraseña nueva:</label>
+								</div>
+								<input class="form-control" id="rContra" type="password"
+									 name="">
+
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+							<button type="submit" class="myFormButton" name="save"
+								id="boton-modal"> <img src="css/img/icono-guardar.png" class="guardar"
+								alt="Icono guadar">Cambiar contraseña</button>
+						</div>
+
+						<br>
+					</form>
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script th:inline="javascript">
+$(document).ready(function() {
+	/*<![CDATA[*/
+	var popup = /*[[${modal}]]*/;	
+	var message = /*[[${message}]]*/;	
+	console.log(popup);
+	console.log(message);
+    
+	/*]]>*/
+	if (popup==1 && message!=null){
+		 $('#ModalCambiarContrasenia').modal('show');
+		 Swal.fire({
+		        title: 'Información',
+		        text: message,
+		        icon: 'warning',
+		        confirmButtonText: 'Aceptar',
+		        allowOutsideClick: () => false
+		    })
+	 }
+
+		
+		 $('#boton-cambiar').click(function () {
+ 		 var contraNueva = document.getElementById("contraNueva").value;
+ 		 var contraNuevaConfirma = document.getElementById("rContra").value;
+
+ 		 if ($('#contraAnt').val().length == 0 || $('#contraNueva').val().length == 0 ||  $('#rContra').val().length == 0){
+			 Swal.fire({
+ 			        title:"¡Advertencia!",
+ 				    text: "Existen campos obligatorios que no se han registrado",
+ 			        icon: "warning",
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+		   })
+		   
+ 		    return false;
+
+ 		 } else {
+ 			 if (contraNueva != contraNuevaConfirma){
+ 				 Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "Los campos 'Nueva Contraseña' y 'Repetir Contraseña Nueva' no coinciden",
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			   })
+
+			    return false;
+			 }
+			 else  {
+				 Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });   
+	  			   
+	  		   return true;
+ 			}
+           }
+	});	
+
+});
+</script>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title  id="pageTitle">Consultar entidades/alcaldias</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<script type="text/javascript" th:src="@{/js/nhspdd/datatable-consultas.js}"></script>
+<body id="body1">
+
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administración funcional</a></li>
+			<li class="breadcrumb-item">Entidades, tablas, parámetros y consecutivos</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administrar
+				 entidades alcaldías locales</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+
+		<div class="abs-center">
+			<span>Administración de entidades y alcaldías locales</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+
+		<div class="table-responsive">
+			<form th:action="@{/crear-ent}" th:object="${entidad}" method="POST">
+				<input type="hidden" id="input1" name="codigoDistrital"> <input
+					type="hidden" id="input2" name="codigoEntidad"> <input
+					type="hidden" id="input3" name="sigla"> <input
+					type="hidden" id="input4" name="dominioCorreo"> <input
+					type="hidden" id="input5" name="sector.codigoSector">
+				<table id="dtablaEntidades" class="table-striped"
+					style="width: 200%">
+					<caption>
+						<div class="hr-2"></div>
+					</caption>
+					<thead>
+						<tr class="color">
+							<th id="seix" class="subir">Código distrital</th>
+							<th id="trece" class="subir">Nombres</th>
+							<th id="cinco" class="subir">Sigla</th>
+							<th id="catorce" class="subir">Acto administrativo</th>
+							<th id="cinco" class="subir">Estado</th>
+							<th id="tres" class="subir">Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="lista: ${entidades}">
+
+							<td style="text-align: right;" class="azul" th:text="${lista.codigoDistrital}" />
+							<td class="azul" th:text="${lista.codigoEntidad}" />
+							<td class="azul" th:text="${lista.sigla}" />
+							<td class="azul" th:text="${lista.nombre}" />
+							<td><span th:if="${lista.estado == '1'}">Activo</span> <span
+								th:if="${lista.estado == '0' }">Inactivo</span></td>
+							<td class="azul"><button type="submit" class="ver"
+									th:attr="onclick=|enviarDatos('${lista.codigoDistrital}',
+							'${lista.codigoEntidad}','${lista.sigla}','${lista.dominioCorreo}','${lista.sector}')|">
+									<img src="css/img/icono-1-azul.png" class="editar" alt="Icono editar">
+								</button></td>
+
+						</tr>
+					</tbody>
+				</table>
+
+			</form>
+		</div>
+		<br>
+		<div class="hr1"></div>
+		<br>
+	</div>
+	<br>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('.filter').on('click', function(e) {
+			e.stopPropagation();
+		});
+	});
+	function enviarDatos(dato1, dato2, dato3, dato4, dato5) {
+		document.getElementById("input1").value = dato1;
+		document.getElementById("input2").value = dato2;
+		document.getElementById("input3").value = dato3;
+		document.getElementById("input4").value = dato4;
+		document.getElementById("input5").value = dato5;
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

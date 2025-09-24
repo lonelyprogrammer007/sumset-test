@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+
+    <div class="modal fade" id="editarParametroModal" tabindex="-1"
+         role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg2">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Editar
+                        parametro</h5>
+
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-container2">
+                        <form id="form" name="form" th:object="${parametro}" method="post">
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <input class="form-control" id="codigoParametro" type="hidden"
+                                           name="codigoParametro">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <input class="form-control" id="fechaCreacion" type="hidden"
+                                           name="fechaCreacion" required="required">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <input class="form-control" id="fechaModificacion" type="hidden"
+                                           name="fechaModificacion" required="required">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <input class="form-control" id="usuarioCreacion" type="hidden"
+                                           name="usuarioCreacion" required="required">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <input class="form-control" id="usuarioModificacion"
+                                           type="hidden" name="usuarioModificacion" required="required">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="resultado">Nombre:</label>
+                                    </div>
+                                    <input class="form-control" id="nombre" type="text"
+                                           name="nombre" required="required">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="descripcion">Descripción:</label>
+                                    </div>
+                                    <input class="form-control" id="descripcion" type="text"
+                                           name="descripcion" required="required">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="resultado">Argumento:</label>
+                                    </div>
+                                    <input class="form-control" id="argumento" type="text"
+                                           name="argumento" required="required">
+
+                                </div>
+                            </div>
+                            <br>
+                            <div class="hr"></div>
+                            <br> <input type="hidden" id="edit" value="editarParametro">
+                            <div class="form-row">
+                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                                <div class="texto3">
+                                    <a data-dismiss="modal" aria-label="Close">Cancelar</a>
+                                </div>
+                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                                <div align="right">
+                                    <button type="submit" class="myFormButton" id="boton-modal"
+                                            name="edit">&nbsp;&nbsp;Editar&nbsp;&nbsp;</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

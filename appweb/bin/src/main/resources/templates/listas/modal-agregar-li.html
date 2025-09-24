@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+
+    <div class="modal fade" id="agregarLineaInversionModal" tabindex="-1"
+         role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear
+                        linea de inversión</h5>
+
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-container2">
+                        <form id="form" name="form" th:object="${lineaInversion}"
+                              method="post">
+
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="periodo">Descripción linea de inversión:</label>
+                                    </div>
+                                    <input class="form-control" required="required" name="descripcion" id="descripcion"
+                                           type="text">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="codigo_comp">Concepto:</label>
+                                    </div>
+                                    <input class="form-control" name="concepto" id="concepto"
+                                           type="text">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="codigo_comp">Establecido mediante:</label>
+                                    </div>
+                                    <input class="form-control" name="establecido" id="establecido"
+                                           type="text">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="codigo_comp">Fecha Incorporación:</label>
+                                    </div>
+                                    <input class="form-control" name="fecha" id="fecha" type="date">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="texto">
+                                    <label for="periodo">Sector:</label>
+                                </div>
+                                <select required="required" name="idLsSector" id="idLsSector"
+                                        class="form-control selectpicker">
+                                    <option value=""></option>
+                                    <option  th:each="sector : ${sectores}"
+                                             th:value="${sector.idArgumento}"
+                                             th:text="${sector.argumento}"></option>
+                                </select>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <label for="resultado">Estado:</label><br> <input
+                                        type="checkbox" id="estado" checked="checked" disabled> 
+                                    <label for="resultado">Activo</label>
+                                </div>
+                            </div>
+                            <input type="hidden" id="agregar" value="crear_linea_inversion">
+                            <a data-dismiss="modal">Cancelar</a>
+                            <button type="submit" class="myFormButton" name="save">
+                                ACEPTAR
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

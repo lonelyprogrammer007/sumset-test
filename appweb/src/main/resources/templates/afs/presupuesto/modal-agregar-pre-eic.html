@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<div class="modal fade" id="agregarPresupuestoEIC" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-5 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}"
+							alt="icono seg">
+					</div>
+					<div class="col-7 col-sm-7 col-md-7 col-lg-7">
+						<span class="tituloPresupuesto">Agregar información
+							presupuestal EIC</span>
+					</div>
+				</div>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form th:object="${presupuesto}" name="crearEic"
+						th:action="@{/crear_info_presupuestal}" method="post">
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Plan de desarrollo:</label>
+								</div>
+								<input type="text" class="form-control" id="idTxtPlanDesarrollo"
+								  readonly="readonly">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código distrital</label>
+								</div>
+								<input type="text" class="form-control" id="codigoDis" readonly="readonly" name="codigoDistrital"
+									>
+							</div>
+						</div>
+
+
+						<div class="form-row">
+							<input type="hidden" id="idPlanDes" name="idPlanDesarrollo">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Año:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									name="year" required="required" maxlength="4"
+									onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Mes:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									required="required" name="mes" maxlength="2"
+									onkeypress='return validacionMesCrearEic(event)'>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código clasificación
+										presupuestal:</label>
+								</div>
+								<input type="text" class="form-control" id="idEicClasificacionPresupuestal"
+									maxlength="21" required="required"
+									name="codigoClasificacionPresupuestal"
+									onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+							</div>
+
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código del plan de nivel 1</label>
+								</div>
+								<input type="text" class="form-control" id="nivel1EIC"
+									readonly="readonly" name="codigoN1Aux">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código del plan de nivel 2 </label>
+								</div>
+								<input type="text" class="form-control" id="nivel2EIC"
+									readonly="readonly" name="codigoN2Aux">
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código del plan de nivel 3</label>
+								</div>
+								<input type="text" class="form-control" id="nivel3EIC"
+									readonly="readonly" name="codigoN3Aux">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Giros vigencia</label>
+								</div>
+								<input type="text" class="form-control" id="idGirosVigencia"
+									required="required" maxlength="15"> <input
+									type="hidden" id="auxGiroVigencia" name="girosVigencia">
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código proyecto:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									required="required" maxlength="6" name="codigoProyecto"
+									onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Recursos suspendidos:</label>
+								</div>
+								<input type="text" class="form-control"
+									id="idRecursosSuspendidos" required="required" maxlength="15">
+								<input type="hidden" id="auxRecursosSuspendidos"
+									name="recursosSuspendidos">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código interno:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									required="required" maxlength="6" name="codigoInterno"
+									onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Constitución reservas(CxP):</label>
+								</div>
+								<input type="text" class="form-control" id="idConstitucion"
+									required="required" maxlength="15"> <input
+									type="hidden" id="auxConstitucion" name="constitucionReserva">
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Nombre proyecto:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									required="required" maxlength="500" name="nombreProyecto">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Apropiación reservas(CxP):</label>
+								</div>
+								<input type="text" class="form-control" id="idApropiacion"
+									required="required" maxlength="20"> <input
+									type="hidden" id="auxApropiacion" name="apropiacionReserva">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Apropiación definitiva:</label>
+								</div>
+								<input type="text" class="form-control"
+									id="idApropiacionDefinitiva" required="required" maxlength="20">
+								<input type="hidden" id="auxApropiacionDefinitiva"
+									name="apropiacionDefinitiva">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Ejecución giro reservas(CxP):</label>
+								</div>
+								<input type="text" class="form-control" id="idGiroReserva"
+									required="required" maxlength="20"> <input
+									type="hidden" id="auxGiroReserva" name="ejecucionGiroReservas">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+
+								<div class="texto">
+									<label for="identif">Ejecución vigencia (Compromisos):</label>
+								</div>
+								<input type="text" class="form-control" id="idEjecucionVigencia"
+									required="required" maxlength="20"> <input
+									type="hidden" id="auxEjecucionVigencia"
+									name="ejecucionVigencia">
+							</div>
+						</div>
+						<br>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a> <span>&nbsp;&nbsp;</span>
+
+							<button type="submit" class="btnAgregarEIC" name="save"
+								id="boton-modal">
+								<img src="css/img/icono-guardar.png" class="guardar"
+									alt="icono guardar">Guardar
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#idApropiacion').on('change', function () {
+		  this.value = maskDinero(unmaskDinero(this.value));	 
+	});
+	$('#idGirosVigencia').on('change', function () {
+		  this.value = maskDinero(unmaskDinero(this.value));	 
+	});
+	$('#idApropiacionDefinitiva').on('change', function () {
+		  this.value = maskDinero(unmaskDinero(this.value));	 
+	});
+	$('#idEjecucionVigencia').on('change', function () {
+		  this.value = maskDinero(unmaskDinero(this.value));	 
+	});
+	$('#idConstitucion').on('change', function () {
+		  this.value = maskDinero(unmaskDinero(this.value));	 
+	});
+	$('#idGiroReserva').on('change', function () {
+		  this.value = maskDinero(unmaskDinero(this.value));
+	});
+	$('#idRecursosSuspendidos').on('change', function () {
+		  this.value = maskDinero(unmaskDinero(this.value));	
+	});
+	
+	  $('.btnAgregarEIC').click(function () {
+		 var idApropiacion = document.getElementById("idApropiacion").value;
+		 var idGirosVigencia = document.getElementById("idGirosVigencia").value;
+		 var idApropiacionDefinitiva = document.getElementById("idApropiacionDefinitiva").value;
+		 var idEjecucionVigencia = document.getElementById("idEjecucionVigencia").value;
+		 var idConstitucion = document.getElementById("idConstitucion").value;
+		 var idGiroReserva = document.getElementById("idGiroReserva").value;
+		 var idRecursosSuspendidos = document.getElementById("idRecursosSuspendidos").value;
+		 var aux = idApropiacion.replace(/\./g, "").replace('$', "").replace(/\,/g, ".");
+		 var aux1 = idGirosVigencia.replace(/\./g, "").replace('$', "").replace(/\,/g, "."); 
+		 var aux2 = idApropiacionDefinitiva.replace(/\./g, "").replace('$', "").replace(/\,/g, ".");
+		 var aux3 = idEjecucionVigencia.replace(/\./g, "").replace('$', "").replace(/\,/g, ".");
+		 var aux4 = idConstitucion.replace(/\./g, "").replace('$', "").replace(/\,/g, ".");
+		 var aux5 = idGiroReserva.replace(/\./g, "").replace('$', "").replace(/\,/g, ".");
+		 var aux6 = idRecursosSuspendidos.replace(/\./g, "").replace('$', "").replace(/\,/g, ".");
+		 document.getElementById("auxApropiacion").value = aux;
+		 document.getElementById("auxGiroVigencia").value = aux1;
+		 document.getElementById("auxApropiacionDefinitiva").value = aux2;
+		 document.getElementById("auxEjecucionVigencia").value = aux3;
+		 document.getElementById("auxConstitucion").value = aux4;
+		 document.getElementById("auxGiroReserva").value = aux5;
+		 document.getElementById("auxRecursosSuspendidos").value = aux6;
+		
+	  });
+	  
+	  $('#idEicClasificacionPresupuestal').change(function() {
+			codigo = $(this).val();
+			var tamanio = codigo.length;
+			var nivel1 = "";
+			var nivel2 = "";
+			var nivel3 = "";
+			for (var i =0; i< codigo.length; i++){
+				if (i == 7 || i == 8){
+					nivel1  += codigo.charAt(i);
+				}
+				if (i == 9 || i == 10){
+					nivel2 += codigo.charAt(i);
+				}
+				if (i == 11 || i == 12 || i== 13 || i == 14){
+					nivel3 += codigo.charAt(i);
+				}
+			
+			}
+			document.getElementById("nivel1EIC").value = nivel1;
+			document.getElementById("nivel2EIC").value = nivel2;
+			document.getElementById("nivel3EIC").value = nivel3;
+
+
+		});
+	
+});
+function unmaskDinero(numeroString) {
+    return +(numeroString.replace(/[^0-9.-]/g,""));
+}
+function maskDinero(numeroInt) {
+    var money = "$" + parseFloat(numeroInt).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+    var valor = money
+    .replace(/,/g , "__COMMA__") // Replace `,` by some unique string
+    .replace(/\./g, ',')         // Replace `.` by `,`
+    .replace(/__COMMA__/g, '.'); // Replace the string by `.`
+    return valor;
+}
+function validacionMesCrearEic(event){
+	var key = event.which || event.keyCode;
+	var mes = parseInt(crearEic.mes.value + String.fromCharCode(key));
+	
+	if (isNaN(mes) === true || mes < 1 ||  mes > 12) {
+		    return false;
+		  }
+		  return true;
+}
+</script>

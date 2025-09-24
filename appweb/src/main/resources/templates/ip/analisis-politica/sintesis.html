@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+<body>
+
+	<div class="abs-center mt-2 " style="font-size: 20px">
+		<span><b>Diagnóstico ejecutivo</b></span><br>
+
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-12 titulo-sintesis">
+			<div class="color-head">
+				<span>Sintesis/definición del problema</span>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12 body-sintesis">
+			<span class="title-sintesis">Problemática identificada</span><br>
+			<span class="sub-sintesis" id="textoProblematicaSintesis"></span><br><br> 
+			<span class="title-sintesis">Reconocimiento de la problemática</span><br><br>
+			<span class="subtitulo-sintesis">Descripcion de las situaciones problematicas:</span><br>
+			<span class="sub-sintesis1" id="textoDescripcionProblematicaSintesis"></span><br><br>
+			<span class="subtitulo-sintesis">Población y actores involucrados :</span>
+			<span class="sub-sintesis2" id="textoPoblacionSintesis"></span>
+			<span class="subtitulo-sintesis">Localización del problema:</span><br>
+			<span class="sub-sintesis" id="textoLocalizacionSintesis"></span>
+			<span class="subtitulo-sintesis">Causas que originan el problema:</span><br>
+			<span  class="sub-sintesis"  id="textoCausaSintesis"></span>
+			<span class="subtitulo-sintesis">Consecuencias o efectos que produce el problema:</span><br>
+			<span class="sub-sintesis" id="textoConsecuenciasSintesis"></span><br>
+		
+			
+			
+			<br> <span class="title-sintesis">Valoración de la problemática</span><br> 
+			
+		
+			
+			<span class="subtitulo-sintesis">Antes</span><br>
+			<span class="subtitulo-sintesis1">Valoración de la situación</span><br>
+			<span class="hijoAntes">Balance inicial :</span>
+			<span class="sub-sintesis" id="textoBalanceAntes"></span><br>
+			<span class="hijoAntes">Observación :</span>
+			<span class="sub-sintesis" id="textoObservacionAntes"></span><br>
+			<span class="subtitulo-sintesis1">Componentes asociados a las competencias sectoriales:</span><br>
+			<span class="hijoAntes">Sector :</span>
+			<span class="sub-sintesis" id="textoSectorAntes"></span><br>
+			<span class="hijoAntes">Competencias asociadas :</span><br>
+			<span class="sub-sintesis4" id="textoAsociadaAntes"></span>
+			<span class="subtitulo-sintesis1">Dimensión del desarrollo asociado:</span><br>
+			<span class="hijoAntes" id="textoDimensionAntes" ></span><br><br>
+			
+			
+	
+			
+			<span class="subtitulo-sintesis">Durante</span><br>
+			<span class="subtitulo-sintesis1">Valoración de la situación</span><br>
+			<span class="hijoAntes">Balance inicial :</span>
+			<span class="sub-sintesis" id="textoBalanceDurante"></span><br>
+			<span class="hijoAntes">Observación :</span>
+			<span class="sub-sintesis" id="textoObservacionDurante"></span><br>
+			<span class="subtitulo-sintesis1">Componentes asociados a las competencias sectoriales</span><br>
+			<span class="hijoAntes">Sector :</span>
+			<span class="sub-sintesis" id="textoSectorDurante"></span><br>
+			<span class="hijoAntes">Competencias asociadas :</span><br>
+			<span class="sub-sintesis4" id="textoAsociadaDurante"></span><br>
+			<span class="subtitulo-sintesis1">Dimensión del desarrollo asociado</span><br>
+			<span class="hijoAntes" id="textoDimensionDurante" ></span><br><br>
+			
+			
+		
+			<span class="subtitulo-sintesis">Después</span><br>
+			<span class="subtitulo-sintesis1">Valoración de la situación</span><br>
+			<span class="hijoAntes">Balance inicial :</span>
+			<span class="sub-sintesis" id="textoBalanceDespues"></span><br>
+			<span class="hijoAntes">Observación :</span>
+			<span class="sub-sintesis" id="textoObservacionDespues"></span><br>
+			<span class="subtitulo-sintesis1">Componentes asociados a las competencias sectoriales</span><br>
+			<span class="hijoAntes">Sector :</span>
+			<span class="sub-sintesis" id="textoSectorDespues"></span><br>
+			<span class="hijoAntes">Competencias asociadas :</span><br>
+			<span class="sub-sintesis" id="textoAsociadaDespues"></span><br>
+			<span class="subtitulo-sintesis1">Dimensión del desarrollo asociado</span>
+			<span class="hijoAntes" id="textoDimensionDespues" ></span><br>
+			
+			
+	
+			<span class="sub-sintesis"></span>
+		</div>
+	</div>
+	<div class="abs-center mt-2 mb-3" style="font-size: 20px">
+		<span><b>Indicadores de problemática</b></span><br>
+
+	</div>
+	<div class="table-responsive mt-3">
+		<table id="dtablaIndicadorSi" class="table-striped" style="width: 120%">
+			<thead>
+				<tr class="color">
+					<th style="width: 5%" class="color-head">Id indicador<br></th>
+					<th style="width: 5%" class="color-head">Nombre Indicador</th>
+					<th style="width: 5%" class="color-head">Origen Indicador</th>
+					<th style="width: 5%" class="color-head">Línea Base</th>
+					<th style="width: 5%" class="color-head">Fuente</th>
+					<th style="width: 5%" class="color-head">Año Línea Base</th>
+				
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</body>
+<script type="text/javascript">
+function cargarIndicadoresSintesis(idProblematica){
+	'use strict';
+    var table = $('#dtablaIndicadorSi').DataTable({
+  	    "destroy":true,
+  	    "colReorder" : true,
+		"processing" : true,
+		"serverSide" : true,
+		"lengthChange" : true,
+		"searching" : true,
+		"ordering" : true,
+		"info" : true,
+		"autoWidth" : true,
+		"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+		"pageLength" : 5,
+  	
+      "language": {
+          "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+          "infoEmpty": '<div class="formato">0 de 0.</div>',
+          "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+          "zeroRecords": "No se han encontrado coincidencias.",
+          "responsive": true,
+          "paginate": {
+              "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+              "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+              "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+              "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+          },
+          "lengthMenu": "_MENU_",
+      },
+
+      "lengthMenu": [5, 10, 20, 50, 100],
+      "pageLength": 5,
+      "pagingType": "full_numbers",
+      "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+              "<'row'<'col-sm-8 col-md-7'tr>>" +
+              "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+              "ajax" : {
+					"url" : "/Segplan/listarIndicadorProblematica/"+idProblematica,
+					"type" : "POST"
+		 },
+		 "columns" : [
+				{ data : "idIndicador"},
+				{ data : "nombre"},
+				{ data : "tipo"},
+				{ data : "lineaBase"},
+				{ data : "fuente"},
+				{ data : "yearLineaBase"},
+				],
+
+  });
+    yadcf.init(table, [ {
+  		column_number : 0,
+  		filter_type : "text",
+  		filter_reset_button_text : false,
+  		filter_delay : 500
+  	},{
+		column_number : 1,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 2,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 3,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 4,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 5,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	}
+	]);
+    $('div.dataTables_length select').addClass("formato-2");
+}
+
+
+</script>
+</html>

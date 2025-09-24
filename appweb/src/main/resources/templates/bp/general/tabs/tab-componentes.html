@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Componentes de Inversión y Flujo Financiero</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div align="left" class="mb-3">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+				data-target="#agregarComponenteModalApp">
+				<i class="fa fa-plus-circle"></i> Agregar
+			</button>
+		</a>
+	</div>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablapp" style="width: 160%">
+			<thead>
+				<tr>
+					<th class="color-head">Tipo Proyecto<br></th>
+					<th class="color-head">Componente<br></th>
+					<th class="color-head">2016<br></th>
+					<th class="color-head">2017<br></th>
+					<th class="color-head">2018<br></th>
+					<th class="color-head">2019<br></th>
+					<th class="color-head">2020<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div class="abs-center mt-4 mb-4" style="font-size: 16px">
+		<span><b>Ejecutado Años Anteriores</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablapp" style="width: 100%">
+			<thead>
+				<tr>
+					<th class="color-head">Año<br></th>
+					<th class="color-head">Ejecutado<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div class="abs-center mt-4 mb-4 " style="font-size: 16px">
+		<span><b>Proyección Años Posteriores</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div align="left" class="mb-3">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+				data-target="#agregarProyeccionModal">
+				<i class="fa fa-plus-circle"></i> Agregar
+			</button>
+		</a>
+	</div>
+	<div class="table-responsive mt-3 ">
+		<table class="table-striped" id="dtablapp" style="width: 100%">
+			<thead>
+				<tr>
+					<th class="color-head">Año<br></th>
+					<th class="color-head">Ejecutado<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div class="texto mt-5">
+		<span>¿El proyecto tiene aprobadas vigencias futuras?</span>
+	</div>
+
+	<div class="custom-control custom-radio custom-control-inline texto">
+		<input type="radio" id="customRadioInline1" name="customRadioInline1"
+			class="custom-control-input"> <label
+			class="custom-control-label" for="customRadioInline1">Si</label>
+	</div>
+	<div class="custom-control custom-radio custom-control-inline texto">
+		<input type="radio" id="customRadioInline2" name="customRadioInline1"
+			class="custom-control-input"> <label
+			class="custom-control-label" for="customRadioInline2">No</label>
+	</div>
+	<div align="left" class="mb-3">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+				data-target="#agregarActoAdminModal">
+				<i class="fa fa-plus-circle"></i> Agregar
+			</button>
+		</a>
+	</div>
+	<div class="table-responsive mt-3 ">
+		<table class="table-striped" id="dtablapp" style="width: 100%">
+			<thead>
+				<tr>
+					<th class="color-head">Acto Admministrativo<br></th>
+					<th class="color-head">Número<br></th>
+					<th class="color-head">Fecha<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+	<div class="row mt-3">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label>Observaciones</label>
+			</div>
+		</div>
+
+	</div>
+	<div class="row ">
+	<div class="col-sm-12">
+	<textarea rows="" cols="6" class="form-control" placeholder="Longitud 1000"></textarea>
+	</div>
+	</div>
+	
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-componente.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-componente-app.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-proyeccion.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-actoAdmin.html"></div>
+</body>
+</html>

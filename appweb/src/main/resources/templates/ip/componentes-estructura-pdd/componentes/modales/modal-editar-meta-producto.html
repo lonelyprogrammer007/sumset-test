@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="modal fade" id="editarMetaProducto" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="tituloProducto">Editar meta/producto</span>
+						</div>
+					</div>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+						<form id="formEditarMetaProducto" th:object="${producto}"
+							method="post">
+							<input type="hidden" id="idSumPondProdEdit" name="sumPond">
+							<input type="hidden" id="fechaCreacionProducto"
+								name="fechaCreacion">
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Meta de resultado</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" readonly="readonly"
+										id="metaResIdEdit" name="idMetaResultado">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Código meta producto</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" readonly="readonly"
+										id="codigoMetaProductoEdit" name="idMetaProducto">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Verbo:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<select class="form-control" id="idVerboProductoEditar"
+										name="idLsVerbo">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${verbo}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+									</select>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Magnitud:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="number" class="form-control" maxlength="20"
+										id="magnitudProductoEdit" name="magnitud">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Unidad de medida:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<select class="form-control" id="unidadMedidaProductoEdit"
+										name="idLsUnidadMedida">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${unidadMedida}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+									</select>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Complemento:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" maxlength="250"
+										id="complementoProductoEdit" name="complemento">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Tipo de anualización:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<select class="form-control" id="tipoAnualProductoEdit"
+										name="idLsTipoAnualizacion">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${anualizacion}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+									</select>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Ponderación</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control"
+										id="ponderacionProductoEdit" name="ponderacion">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Estado:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<select class="form-control" id="estadoProductoEdit"
+										name="idLsEstado">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${estado}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+									</select>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>¿Es MP PDD?</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" readonly="readonly"
+										value="No" id="mpProducto"> <input type="hidden"
+										value="0" name="esFormulacion">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Justificación/observaciones</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<textarea rows="3" cols="3" class="form-control"
+										maxlength="400" id="areaJustificacionEdit"
+										name="observaciones"></textarea>
+								</div>
+							</div>
+							<br>
+							<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+							<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+								<button class="" name="btnAgregarNivel1" type="submit"
+									id="boton-modal">
+									<img src="css/img/icono-guardar.png" class="guardar"
+										alt="Icono guardar">&nbsp;&nbsp;Guardar
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

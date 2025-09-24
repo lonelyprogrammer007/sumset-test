@@ -1,0 +1,48 @@
+.arbol {
+	height: 400px;
+	border-radius: 5px;
+	box-shadow: 0px 3px 6px #0000005C;
+	border-radius: 15px;
+	overflow-y: scroll;
+	border-radius: 5px;
+	background: #F2F2F2 0% 0% no-repeat padding-box;
+}
+
+.titulo {
+	text-align: left;
+	font-family: Apex new bold;
+	font-size: 16px;
+	letter-spacing: 0;
+	color: #00529C;
+}
+
+ul {
+	list-style: none;
+	cursor: pointer;
+}
+
+.compromiso {
+	display: none;
+}
+
+.activo {
+	color: #A079E6;
+}
+
+.texto-plano {
+	text-align: left;
+	font-family: Apex new bold;
+	font-size: 11px;
+	letter-spacing: 0;
+	color: #1D1D1D;
+	opacity: 1;
+}
+
+.subtitulo {
+	text-align: left;
+	font-family: Apex new bold;
+	font-size: 14px;
+	letter-spacing: 0;
+	color: #00529C;
+	opacity: 1;
+}

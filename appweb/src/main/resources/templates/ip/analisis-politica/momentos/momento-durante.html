@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<form action="" th:object="${pddPrbValoracion}" id="agregarValoracionDurante">
+<div class="row ">
+		<div class="col-sm-6">
+			<div class="texto">
+				<label for="periodo">Factores que contrarrestan grado de afectación</label>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="texto">
+				<label for="periodo">Factores que agravan grado de afectación</label>
+			</div>
+		</div>
+		
+	</div>
+	<div class="row durante" >
+	<input type="hidden" name="momento" value="2">
+		<input type="hidden" name="idProblematica" id="idProblematicaDurante">
+	<input type="hidden" name="idCompetenciaAsociada1" id="idLsCompetencia1Durante">
+	<input type="hidden" name="idCompetenciaAsociada2" id="idLsCompetencia2Durante">
+	<input type="hidden" name="balanceInicial" id="balanceInicialDurante2">
+	<input type="hidden" name="idValoracion" id="idValoracionDurante">
+		
+		<div class="col-sm-6">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single contadorMenos requerido" name="contrarresta" id="contrarresta">
+				<option value="0">Seleccione Una opcion</option>
+				<option value="3">Contrarrestan mucho</option>
+				<option value="2">Contrarrestan medianamente</option>
+				<option value="1">Contrarrestan poco</option>
+			</select>
+		</div>
+		<div class="col-sm-6">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single contadorMas requerido" name="agrava" id="agrava">
+				<option value="0">Seleccione Una opcion</option>
+				<option value="3">Agravan mucho</option>
+				<option value="2">Agravan medianamente</option>
+				<option value="1">Agravan poco</option>
+				
+			</select>
+		</div>
+		
+	</div>
+<div class="row mt-2">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Balance Total</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<input type="text" class="form-control disenioInput" id="balanceTotal"
+				readonly="readonly">
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Observaciones</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<textarea rows="" cols="" class="form-control caja requerido" maxlength="1500" id="observacionesDurante" name="observaciones"
+				placeholder="Longitud 1500"></textarea>
+		</div>
+	</div>
+	<div class="abs-center mt-2 " style="font-size: 20px">
+		<span><b>Componentes asociados a las competencias
+				sectoriales </b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Sector</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single requerido" name="idLsSector" id="sectorDurante">
+				<option value="">Seleccione Una opcion</option>
+				<option th:each="sector :${sectores}" th:value="${sector.idArgumento}"
+				th:text="${sector.resultado}"> 
+			</select>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Competencias Asociadas</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-multiple-limit requerido" multiple="multiple"  id="idCompetenciaDurante">
+				<option>Seleccione Una opcion</option>
+			</select>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Dimensión del desarrollo asociada</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single requerido" name="idLsDimension" id="idLsDimensionDurante">
+				<option value="">Seleccione Una opcion</option>
+				<option th:each="dimension: ${dimensiones}" th:value="${dimension.idArgumento}" 
+				th:text="${dimension.resultado}">
+			</select>
+		</div>
+	</div>
+	<div align="right" class="mt-3">
+			<button type="submit"
+					class="boton-regresar">
+					<i class="fa fa-save" id="volver"></i>Guardar
+				</button>
+		</div>
+	</form>
+</body>
+<script th:inline="javascript">
+$(document).ready(function () {
+	var sectores = /*[[${competencias}]]*/;
+	$('#sectorDurante').change(function() {
+		var valor = $(this).val()
+		var listaCompetencias = /*[[${competencias}]]*/;
+		var select = document.getElementById("idCompetenciaDurante");
+		 select.innerHTML = '<option value="">Seleccione una opcion</option>'
+			 $('#idCompetenciaDurante').val(null).trigger("change");
+		    $('#idCompetenciaDurante').empty();
+		for (var i = 0; i < listaCompetencias.length; i++) {
+			if(listaCompetencias[i].idLsSector==valor){
+				let opcion = document.createElement('option')
+        		
+       		 opcion.value = listaCompetencias[i].idCompetencia;
+       		 opcion.text = listaCompetencias[i].nombreCompetencia;
+       	     select.add(opcion);
+			}
+		}
+	})
+		/*]]>*/
+	$('.contadorMas').change(function() {
+			var pretotal = parseInt($('#balanceInicial').val())+parseInt($('.contadorMas').val())
+			console.log(pretotal);
+			var total=parseInt($('.contadorMenos').val());
+			total = pretotal-total;
+			
+			
+			if(total==1){
+				$('#balanceTotal').val('Problema bajo control');
+			}else if(total==2){
+				$('#balanceTotal').val('Problema grave');
+			}else if (total==3){
+				$('#balanceTotal').val('Problema muy grave');
+			}
+			$('#balanceInicialDurante2').val(total);
+		})
+	$(".js-example-basic-multiple-limit").select2({
+  maximumSelectionLength: 2
+  
+});
+	$(document).on('submit','#agregarValoracionDurante',function(e) {
+			var competencias = $('#idCompetenciaDurante').val();
+			
+			if(competencias.length<=1){
+				
+				$('#idLsCompetencia1Durante').val(competencias[0]);
+				$('#idLsCompetencia2Durante').val('');
+			}else{
+				
+				$('#idLsCompetencia1Durante').val(competencias[0]);
+				$('#idLsCompetencia2Durante').val(competencias[1]);
+			}
+			e.preventDefault();
+			 var data = $(this).serialize();
+		     var mensajeRespuesta = "";
+		     var array = $('.requerido');
+				var bandera = false;
+				for (var i = 0; i < array.length; i++) {
+					if($(array[i]).val()==="" || $(array[i]).val===undefined){
+						$(array[i]).addClass('vacio');
+						
+						bandera = true;
+					}else{
+						$(array[i]).removeClass('vacio');
+					}
+				}
+				if(bandera){
+					Swal.fire({
+				        title: 'Información',
+				        text: "Existen campos obligatorios que no se han registrado",
+				        icon: 'info',
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+				  })
+				  
+				}else{
+			$.ajax({
+		         type: 'POST',
+		         url: '/Segplan/'+'crear-prb-valoracion',
+		         data: data,
+		         beforeSend: function () {
+		             Swal.fire({
+		                 title: 'Cargando...',
+		                 position: 'top',
+		                 allowOutsideClick: () => !Swal.isLoading(),
+		                 onBeforeOpen: () => {
+		                     Swal.showLoading();
+		                 }
+		             });
+		         },
+
+		         success: function (data) {
+		             Swal.close();
+		             
+		             mensajeRespuesta = data.msgRespuesta;
+		           console.log(data);
+		           
+		         },
+		         error:
+		                 function () {
+		                     Swal.close();
+
+		                 },
+		                 
+		         complete: function () {
+		                     Swal.close();
+		                   
+		                     Swal.fire({
+		 	 			        title:"¡Información!",
+		 	 				    text: mensajeRespuesta,
+		 	 			        icon: "warning",
+		 	 			        confirmButtonText: 'Aceptar',
+		 	 			        allowOutsideClick: () => false
+		 	 		       })
+
+		                 }
+		          });
+				}
+			
+		})
+	
+});
+</script>
+</html>

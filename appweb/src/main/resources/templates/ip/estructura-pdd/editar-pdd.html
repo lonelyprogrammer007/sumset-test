@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head  th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Editar PDD</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/pdd.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-consultar-pg.css}">
+<body>
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>
+				Instrumentos de planeación</li>
+			<li class="breadcrumb-item"  aria-current="page">Estructura plan de desarrollo</li>
+			<li class="breadcrumb-item"  aria-current="page"><a th:href="@{/estructura-pdd/1}">Estructura plan de desarrollo</a></li>	
+			<li class="breadcrumb-item " aria-current="page" id="act">Edición del plan de desarrollo</li>
+			
+		</ul>
+	</nav>
+	<div class="form-container3">
+		<div class="abs-center m">
+			<span>Edición del plan de desarrollo</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<input id="idPdd" th:value="${tipoPdd}" type="hidden">
+		<form th:action="@{/modificarPddPost}" th:object="${pdd}" id="form"
+			method="POST">
+			<input type="hidden"  th:if="${pddDTO != null}"  id="idPddAuxiliarDto"
+			th:value="${pddDTO.idPlanDesarrollo}">
+			<div class="row mt-3">
+
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label> Código del Plan:</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" readonly="readonly" id="idPddEditDesarrollo"
+					>
+					<input type="hidden" id="idPddEditarAuxiliar" name=idPlanDesarrollo>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label> Nombre del Plan:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<input type="text" name="nombrePlan" class="form-control requerido"
+						placeholder="longitud 200" required="required" id="disenioInput" 
+						th:if="${pddDTO != null}" th:value="${pddDTO.nombrePlan}" maxlength="200">
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Sigla del Plan:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<input type="text" required="required" name="siglaPlan"
+						class="form-control requerido" placeholder="longitud 10" id="disenioInput"
+						th:if="${pddDTO != null}" th:value="${pddDTO.siglaPlan}" maxlength="10">
+				</div>
+			</div>
+			
+			<input type="hidden" th:if="${pddDTO != null}" th:value="${pddDTO.idLsAdoptado}" id="tipoActo">
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Tipo Acto Administrativo:</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<select class="form-control" name="idLsAdoptado" id="idLsAdoptado">
+						<option  value="" selected="selected">Seleccione una opcion</option>
+						<option th:each="adoptado: ${adoptados}"
+							th:value="${adoptado.idArgumento}"
+							th:text="${adoptado.resultado}">
+					</select>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>N° Acto Administrativo:</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<input type="text" name="actoAdministrativo" id="disenioInput"
+						class="form-control number" placeholder="longitud 10" maxlength="10"
+						th:if="${pddDTO != null}" th:value="${pddDTO.actoAdministrativo}">
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Fecha Acto Administrativo:</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<input type="date" name="fechaActo" class="form-control" id="disenioInput" 
+					th:if="${pddDTO != null}" th:value="${pddDTO.fechaActo}">
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					 <div class="texto ">
+						<label>Año Inicio:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" name="yearInicio"
+						class="form-control number inicial requerido" id="yearInicio"
+						placeholder="longitud 4" maxlength="4" required="required"
+						th:if="${pddDTO != null}" th:value="${pddDTO.yearInicio}">
+				</div>
+				<div class="col-sm-2" align="right">
+					<div class="texto ">
+						<label>Año Final:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" name="yearFinal"
+						class="form-control number final requerido" id="yearFinal"
+						placeholder="longitud 4" maxlength="4" required="required"
+						th:if="${pddDTO != null}" th:value="${pddDTO.yearFinal}">
+				</div>
+				<div class="col-sm-2" align="right">
+					<div class="texto">
+						<label>No Años:</label>
+					</div>
+				</div>
+				<div class="col-sm-1">
+					<input type="text" class="form-control total" disabled="disabled" id="numAnio">
+				</div>
+			</div>
+			<input type="hidden" th:if="${pddDTO != null}" th:value="${pddDTO.idLsNiveles}" id="nivel">
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Número de Niveles:</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<select class="form-control" name="idLsNiveles" id="idLsNiveles">
+						<option value="" selected="selected">Seleccione una opción</option>
+						<option th:each="nivel: ${niveles}"
+							th:value="${nivel.idArgumento}" th:text="${nivel.resultado}">
+					</select>
+				</div>
+			</div>
+			<input type="hidden" th:if="${pddDTO != null}" th:value="${pddDTO.idLsEstadoPlan}" id="estado">
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Estado del Plan:</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<select class="form-control"  id="idLsEstadoPlan">
+                        <option th:each="nivel: ${estado}"
+							th:value="${nivel.idArgumento}" th:text="${nivel.resultado}">
+					</select>
+					<input type="hidden" id="idEstate" name="idLsEstadoPlan">
+				</div>
+			</div>
+         
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto">
+						<label>Nombre de Alcalde:</label>
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<input type="text" name="nombreAlcalde" class="form-control"
+						placeholder="longitud 100" id="disenioInput" maxlength="100"
+						th:if="${pddDTO != null}" th:value="${pddDTO.nombreAlcalde}">
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Correo de Alcalde:</label>
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<input type="email" class="form-control" name="correoAlcalde"
+						placeholder="longitud 100" id="disenioInput" maxlength="100"
+						th:if="${pddDTO != null}" th:value="${pddDTO.correoAlcalde}">
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Programa de Gobierno:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<input type="text" name="programaGobierno"
+						class="form-control requerido" placeholder="longitud 100" maxlength="100"
+						required="required" id="disenioInput" th:if="${pddDTO != null}" th:value="${pddDTO.programaGobierno}">
+				</div>
+			</div>
+			<input type="hidden" th:if="${pddDTO != null}" th:value="${pddDTO.idLsAvanceSgr}" id="avance">
+			<div class="row mt-3">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Solicitar Avance SGR?:</label>
+					</div>
+				</div>
+				<div class="col-sm-3">
+					<select class="form-control" name="idLsAvanceSgr" id="idLsAvanceSgr">
+						<option value="" selected="selected">Seleccione una
+							opción</option>
+						<option th:each="avance: ${avanceSgr}"
+							th:value="${avance.idArgumento}" th:text="${avance.resultado}">
+					</select>
+				</div>
+
+			</div>
+			<input type="hidden" th:value="${agregar}" id="agregarPdd">
+			<div align="right">
+
+				<a th:href="@{/estructura-pdd/1}" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<button class="btn-guardar" type="submit">
+					 <img src="css/img/icono-guardar.png" class="guardar" alt="Icono guardar">&nbsp;&nbsp;Guardar
+				</button>
+
+			</div>
+		</form>
+		
+	</div><br><br>
+    <div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+	<footer th:replace="/home:: footer"></footer>
+	</body>
+<script th:inline="javascript">
+$(document).ready(function() {
+	/*<![CDATA[*/
+var mensajeRes = /*[[${messageRespuesta}]]*/;
+var estadoConsulta = /*[[${estado}]]*/;
+var idPdd = document.getElementById("idPdd").value;
+var tipoActo = document.getElementById("tipoActo").value;
+var niveles = document.getElementById("nivel").value;
+var estado = document.getElementById("estado").value;
+var avance = document.getElementById("avance").value;
+var anioInicio = document.getElementById("yearInicio").value;
+var anioFinal =document.getElementById("yearFinal").value;
+document.getElementById("idLsAdoptado").value = tipoActo;
+document.getElementById("idLsNiveles").value = niveles;
+document.getElementById("idLsAvanceSgr").value = avance;
+var sumaAnio = anioFinal - anioInicio;
+document.getElementById("numAnio").value = sumaAnio;
+
+
+	  var idPddDto = document.getElementById("idPddAuxiliarDto").value;
+	  document.getElementById("idPddEditDesarrollo").value = idPddDto;
+	  document.getElementById("idPddEditarAuxiliar").value = idPddDto;
+	  document.getElementById("idEstate").value= estado;
+ 
+  
+
+     if (mensajeRes != null){
+	       Swal.fire({
+			        title: 'Información',
+			        text: mensajeRes,
+			        icon: 'info',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			  }).then((result) => {
+				  if (result.value) {
+				  window.location = "/Segplan/estructura-pdd/" + idPdd;  
+			  }
+			  })
+     }
+     // validar estado en editar
+      
+      $("#idLsEstadoPlan option[value='"+ estado +"']").attr("selected",true);
+      $("#idLsEstadoPlan").change(function() {
+    	  var idEstado = $(this).val();
+    	  document.getElementById("idEstate").value= idEstado;
+      });
+
+  
+/*]]>*/
+
+});
+
+</script>	
+<script type="text/javascript">
+		$(document).ready(function() {
+			$('.number').on('input', function() {
+				this.value = this.value.replace(/[^0-9]/g, '');
+			});
+			var inicial = 0;
+			var fin = 0;
+			$('.inicial').change(function() {
+				inicial = $(this).val();
+				if (fin != 0) {
+					$('.total').val(fin - inicial);
+				}
+
+			});
+			$('.final').change(function() {
+				fin = $(this).val();
+				if (inicial != 0) {
+					$('.total').val(fin - inicial);
+				}
+
+			});
+
+		});
+	</script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

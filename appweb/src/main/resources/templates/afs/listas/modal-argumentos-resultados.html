@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Argumentos</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<!-- Modal -->
+<div class="modal fade" id="editarArgumentoModal" tabindex="-1"
+	role="dialog" aria-labelledby="editarModalTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+			 <div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}" alt="Icono seg">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="tituloPot" id="editarModalCenterTitle"></span>
+					</div>
+				</div>
+			
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" class="editarArg" th:object="${argumento}" th:action="@{editar-argumento}" method="post">
+						<input class="form-control" id="idListaSimple"
+							name="idListaSimple" type="hidden">
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+							 <input type="hidden" id="idArgumento" name="idArgumento">
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="argumento">Argumento:*</label>
+								</div>
+								<input class="form-control required1" id="argumento" name="argumento"
+									type="text" maxlength="5">
+
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="resultado">Resultado:*</label>
+								</div>
+								<input class="form-control required1" id="resultado" name="resultado"
+									type="text">
+
+							</div>
+						</div>
+						
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+							<div class="texto">
+								<label for="resultado">Estado:</label></div> <input
+									type="checkbox" id="checkestado"> <label
+									for="resultado">Activo</label>
+									<input type="hidden" id="estado"
+									name="estado">
+							</div>
+						</div>
+					<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+						 <a href="#" data-dismiss="modal" aria-label="Close" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+						 <button type="submit" class="myFormButton" name="edit"
+								id="boton-modal"> <img src="css/img/icono-guardar.png" class="guardar" alt="icono guardar">Guardar</button>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+	
+	 $('#checkestado').click(function () {
+      
+		 var isChecked = document.getElementById('checkestado').checked;
+		 console.log(isChecked);
+		 if(isChecked){
+		 $('#estado').text($('#estado').val(1));
+		 }
+		 else 
+			 if (!isChecked){
+				 $('#estado').text($('#estado').val(0));
+			 }
+		 
+	   }); 
+	 $('.editarArg').submit(function(e){
+     	
+			var variables = $('.required1');
+			
+			var contador = variables.length;
+			for (var i = 0; i < variables.length; i++) {
+				if($(variables[i]).val()=='' || $(variables[i]).val()==undefined){
+					$(variables[i]).addClass('requerido');
+					contador = contador-1;
+				}else{
+					$(variables[i]).removeClass('requerido');
+				}
+			}
+			if(contador!=variables.length){
+				e.preventDefault();
+				  Swal.fire({
+				        title: 'Información',
+				        text: "Existen campos obligatorios que no se han registrado",
+				        icon: 'warning',
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+				    })
+			}
+			
+		});
+});
+</script>
+</html>

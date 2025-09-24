@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+
+<!-- Modal -->
+<div class="modal fade" id="inicioSesionModal" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content bg1">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-5 col-md-9 col-lg-9">
+
+						<img id="logo-index" src="static/img/SegPlan.png"
+							th:src="@{/img/SegPlan.png}">
+					</div>
+					<div class="col-3 col-sm-3 col-md-3 col-lg-3">
+						<span class="autenticacion">Autenticación</span>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" name="form" method="post" th:object="${datos}"
+						th:action="@{iniciar-sesion}">
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="usuario">Usuario</label>
+								</div>
+								<input class="form-control" id="txtUsuario" type="text"
+									placeholder="Usuario" name="nombreUsuario" required="required"
+									size="20">
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12">
+							<div class="form-group">
+								<div class="texto">
+									<label for="contrasena">Contraseña</label>
+								</div>
+								<input class="form-control" id="txtClave" type="password"
+									placeholder="Contraseña" name="contrasenia" required="required"
+									size="20">
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12">
+							<div class="form-row">
+
+								<div class="texto">
+									<label id="tipo">Tipo de Usuario &nbsp;</label>
+								</div>
+								<div class="hr2"></div>
+								<h4>&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+
+								<div class="texto2">
+									<label class="container"> Interno <input type="radio"
+										name="tipoUsuario" id="tipoUsuario" required="required"
+										value="I"> <span class="checkmark"></span>
+									</label>
+								</div>
+								<div class="hr2"></div>
+								<h4>&nbsp;&nbsp;</h4>
+								<div class="texto2">
+									<label class="container"> Externo <input type="radio"
+										name="tipoUsuario" id="tipoUsuario" required="required"
+										value="E"> <span class="checkmark"></span>
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-12">
+							<div class="row">
+								<div class="col-lg-4 col-md-4">
+									<div class="texto-capcha">
+										<label for="">Captcha:</label>
+									</div>
+								</div>
+								<div class="col-lg-8 col-md-8">
+									<h3 class="label-capcha">
+										<label id="lblCapcha"></label><a href="#"
+											class="btn btn-primary btn-sm"
+											style="margin-right: 20px; width: 35px; height: 30px; color: #fff; background-color: #513388"
+											title="Actualizar" onclick="randomString();"><i
+											class="fa fa-refresh"></i></a>
+									</h3>
+								</div>
+							</div>
+						</div>
+						<div align="center">
+						<span id="msgCapcha" style="color: red;"></span> <span
+							style="font-size: 10px;">El captcha distingue entre
+							mayúsculas y minúsculas.</span> <input type="text" id="txtCapcha"
+							name="txtCapcha" onkeyup="validaCapcha();" required
+							autocomplete="off">
+
+                        </div>
+					
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="form-row">
+							<div class="col-4 col-sm-4 col-md-4 col-lg-4">
+								<div class="texto3">
+									<a th:href="@{/restablecer}">¿Olvidó su Contraseña?</a>
+								</div>
+							</div>
+							<div class="col-5 col-sm-5 col-md-5 col-lg-5">
+								<div class="hr2"></div>
+							</div>
+							<div class="col-2 col-sm-2 col-md-2 col-lg-2">
+								<input type="submit" class="boton-login" value="Iniciar sesion"
+									id="boton-login">
+							</div>
+
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script th:inline="javascript">
+$(document).ready(function () {
+	randomString();
+	/*<![CDATA[*/
+    var popup = /*[[${modal}]]*/;
+    var message = /*[[${mensaje}]]*/;
+    console.log(message);
+    console.log(popup);
+     if (popup==1&&message!=null){
+    	 
+    	  $('#inicioSesionModal').modal('show');
+    	  Swal.fire({
+		        title: 'Información',
+		        text: message,
+		        icon: 'warning',
+		        confirmButtonText: 'Aceptar',
+		        allowOutsideClick: () => false
+		    })
+    	  
+    	  
+    	  
+     }
+  
+/*]]>*/
+	
+	 
+	   $("#txtClave").on('paste', function (e) {
+           e.preventDefault();
+           $("#msgClave").html('Esta acción no está permitida');
+       });
+	   $("#txtClave").on('copy', function (e) {
+           e.preventDefault();
+           $("#msgClave").html('Esta acción no está permitida');
+       });
+	   
+	   $('#boton-login').click(function () {
+		   var response = grecaptcha.getResponse();
+		   if ($('#txtUsuario').val().length == 0 || $('#txtClave').val().length == 0 || !document.querySelector('input[name="tipoUsuario"]:checked')) {
+			   Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "Existen campos obligatorios que no se han registrado",
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			   })
+			   
+			    return false;
+			  }
+		   else if (response.length == 0) {
+			   Swal.fire({
+				    title:"¡Advertencia!",
+				    text: "Necesitamos validar que no eres un robot. Por favor validarlo a través del Captcha",
+			        icon: 'warning',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+		   })
+	  		   return false;
+	  		   event.preventDefault();
+	    	 } 
+	  		   else {
+	  		   return true;
+	  	   }
+        }); 
+	   
+});
+function randomString() {
+    var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
+    var string_length = 5;
+    var randomstring = '';
+    for (var i = 0; i < string_length; i++) {
+        var rnum = Math.floor(Math.random() * chars.length);
+        randomstring += chars.substring(rnum, rnum + 1);
+    }
+    $('#lblCapcha').html(randomstring);
+    $('#txtCapcha').val('');
+    $("#btnLogin").attr("disabled", "true");
+    $("#msgCapcha").html("");
+}
+function validaCapcha()
+{
+    var clave = $("#lblCapcha").text();
+    var confirmaClave = $("#txtCapcha").val();
+
+    if (confirmaClave != clave)
+    {
+        $("#btnLogin").attr("disabled", "true");
+        $("#msgCapcha").html("Captcha Inválido.");
+    } else {
+        $("#btnLogin").removeAttr("disabled");
+        $("#msgCapcha").html("");
+    }
+}
+</script>
+</html>

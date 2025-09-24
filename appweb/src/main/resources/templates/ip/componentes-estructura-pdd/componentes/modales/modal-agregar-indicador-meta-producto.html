@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="modal fade" id="agregarIndicadorMetaProducto" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="titulo" style="font-size: 16px">Agregar
+								indicadores de la meta producto</span>
+						</div>
+					</div>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+						<form id="formAgregarIndicadorMetaProducto" th:object="${indicador}" method="post">
+							<input type="hidden" id="auxIDproductoIndicador" name="idMetaProducto">
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Indicador meta de producto</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<select class="form-control" id="idIndicadorProductoMeta"
+										name="idMetaProdInd">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${indicadorProblematica}"
+											th:value="${lista.idIndicador}" th:text="${lista.nombreIndicador}" />
+									</select>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>ID Indicador</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" readonly="readonly"
+										id="idIndicadorPro">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Nombre del Indicador:</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control"
+										id="nombreIndicadorProd" readonly="readonly" name="nombre">
+								</div>
+							</div>
+
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Magnitud</label>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Periodicidad</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-6">
+									<input type="text" class="form-control"
+										id="idMagnitudIndicador" readonly="readonly" name="magnitud">
+								</div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control" name="periodicidad"
+										id="idPeriodicidadIndicador" readonly="readonly">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Estado</label>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Tipo de agregación</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-6">
+									<select class="form-control" id="idEstadoIndicador"
+										disabled="disabled">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${estadoIndicador}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+									</select> <input type="hidden" id="auxiIdEstadoIndicador"
+										name="idLsEstado">
+								</div>
+								<div class="col-sm-6">
+									<select class="form-control" id="idAgregacion"
+										disabled="disabled">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${agregacion}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+									</select> <input type="hidden" id="auxiIdAgregacion" name="idLsAgregacion">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Fuente externa:</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<select class="form-control" id="idFuenteExterna"
+										disabled="disabled">
+										<option value="">Selecciona una opción</option>
+										<option value="1">Si</option>
+										<option value="0">No</option>
+									</select> <input type="hidden" id="auxIdFuenteExterna"
+										name="fuenteExterna">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Fuente </label>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" readonly="readonly"
+										id="idFuenteIndicador" name="fuente">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Línea base</label>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Magnitud línea base</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-6">
+									<select class="form-control" id="idMagnitudLineaBaseIndicador"
+										disabled="disabled">
+										<option value="">Seleccione una opción</option>
+										<option value="1">Si</option>
+										<option value="0">No</option>
+									</select> 
+									<input type="hidden" id="auxIdMagnitudLineaBaseIndicador"
+										name="lineaBase">
+								</div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control"
+										id="idLineaBaseIndicador" readonly="readonly"
+										name="magnitudLb">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Descripción Línea Base </label>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<textarea rows="3" cols="3" class="form-control"
+										id="idDescripcionIndicador" readonly="readonly"
+										name="lineaBaseDesc"></textarea>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Ponderación</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" name="ponderacion"
+										id="idPonderacionIndicador" readonly="readonly">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>¿Es Indicador PDD?: </label>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" readonly="readonly"
+										value="No" id="idIndicadorPdd"> <input type="hidden"
+										value="0" name="esPdd">
+								</div>
+							</div>
+							<br>
+							<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+							<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+								<button class="" name="btnAgregarNivel1" type="submit"
+									id="boton-modal">
+									<img src="css/img/icono-guardar.png" class="guardar"
+										alt="Icono guardar">&nbsp;&nbsp;Guardar
+								</button>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+$(document).ready(function() {
+	/*<![CDATA[*/
+	 indicaMetaProducto = /*[[${indicadorProblematica}]]*/;
+	
+	 $("#idIndicadorProductoMeta").change(function() {
+		 console.log(indicaMetaProducto);
+		 var idIndic = $(this).val();
+		 for (var z = 0; z < indicaMetaProducto.length; z++){
+			 if (idIndic == indicaMetaProducto[z].idIndicador && idIndic != "-1"){
+				 $("#nombreIndicadorProd").attr('readonly','readonly');
+ 				 $("#idMagnitudIndicador").attr('readonly','readonly');
+ 				 $("#idPeriodicidadIndicador").attr('readonly','readonly');
+ 				 $("#idEstadoIndicador").attr('disabled', true);
+ 			     $("#idAgregacion").attr('disabled', true);
+ 			     $("#idFuenteExterna").attr('disabled', true);
+ 			     $("#idFuenteIndicador").attr('readonly','readonly');
+ 			     $("#idMagnitudLineaBaseIndicador").attr('disabled', true);
+ 			     $("#idLineaBaseIndicador").attr('readonly','readonly');
+ 			     $("#idDescripcionIndicador").attr('readonly','readonly');
+ 			     $("#idPonderacionIndicador").attr('readonly','readonly');
+				 
+ 			     document.getElementById("idIndicadorPro").value = indicaMetaProducto[z].idIndicador;
+				 document.getElementById("nombreIndicadorProd").value = indicaMetaProducto[z].nombreIndicador;
+				 document.getElementById("idMagnitudIndicador").value = indicaMetaProducto[z].magnitud; 
+				 document.getElementById("idPeriodicidadIndicador").value = indicaMetaProducto[z].periodicidad; 
+				 document.getElementById("idEstadoIndicador").value = indicaMetaProducto[z].idLsEstado; 
+				 document.getElementById("auxiIdEstadoIndicador").value = indicaMetaProducto[z].idLsEstado; 
+ 				 document.getElementById("idAgregacion").value = indicaMetaProducto[z].idLsAgregacion; 
+ 				 document.getElementById("auxiIdAgregacion").value = indicaMetaProducto[z].idLsAgregacion; 
+				 document.getElementById("idFuenteExterna").value = indicaMetaProducto[z].longFuenteExterna; 
+				 document.getElementById("auxIdFuenteExterna").value = indicaMetaProducto[z].longFuenteExterna; 
+ 				 document.getElementById("idFuenteIndicador").value = indicaMetaProducto[z].fuente; 
+ 				 document.getElementById("idMagnitudLineaBaseIndicador").value = indicaMetaProducto[z].longLineaBase;
+ 				 document.getElementById("auxIdMagnitudLineaBaseIndicador").value = indicaMetaProducto[z].longLineaBase;
+ 				
+ 				 document.getElementById("idLineaBaseIndicador").value = indicaMetaProducto[z].magnitudLb; 
+ 				 document.getElementById("idDescripcionIndicador").value = indicaMetaProducto[z].lineaBaseDesc; 
+ 				 document.getElementById("idPonderacionIndicador").value = indicaMetaProducto[z].ponderacion; 
+ 				
+ 			 }else if (idIndic == "-1" ){
+ 				 $("#nombreIndicadorProd").removeAttr('readonly','readonly');
+ 				 $("#idMagnitudIndicador").removeAttr('readonly','readonly');
+ 				 $("#idPeriodicidadIndicador").removeAttr('readonly','readonly');
+ 				 $("#idEstadoIndicador").attr('disabled', false);
+ 			     $("#idAgregacion").attr('disabled', false);
+ 			     $("#idFuenteExterna").attr('disabled', false);
+ 			     $("#idFuenteIndicador").removeAttr('readonly','readonly');
+ 			     $("#idMagnitudLineaBaseIndicador").attr('disabled', false);
+ 			     $("#idLineaBaseIndicador").removeAttr('readonly','readonly');
+ 			     $("#idDescripcionIndicador").removeAttr('readonly','readonly');
+ 			     $("#idPonderacionIndicador").removeAttr('readonly','readonly');
+ 			 }
+			 
+ 			 
+	    	}
+		 
+	   });
+	 
+	 $("#idEstadoIndicador").change(function() {
+		var id = $(this).val();
+		document.getElementById("auxiIdEstadoIndicador").value = id;
+	 });
+	 
+     $("#idAgregacion").change(function() {
+    	var id = $(this).val();
+ 		document.getElementById("auxiIdAgregacion").value = id;
+	 });
+     $("#idFuenteExterna").change(function() {
+    	var id = $(this).val();
+  		document.getElementById("auxIdFuenteExterna").value = id;
+	 });
+     $("#idMagnitudLineaBaseIndicador").change(function() {
+     	var id = $(this).val();
+   		document.getElementById("auxIdMagnitudLineaBaseIndicador").value = id;
+ 	 });
+	
+	 /*]]>*/
+});
+
+</script>
+</html>

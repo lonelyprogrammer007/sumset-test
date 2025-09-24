@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+
+<div class="modal fade" id="modalFiltroCompromiso" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="tituloEsp">Filtrar compromiso</span>
+					</div>
+				</div>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" name="form" th:object="${filtro}"
+						method="post" th:action="@{/consultar-especifico}">
+						<input type="hidden" id="idComproFiltro" name="idCompromiso"> 
+						
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="codigo_comp">Tematica:*</label>
+								</div>
+								<select class="form-control" id="idTematicaFiltro" name="idTematica" required="required">
+									<option value="">Seleccione una opción</option>	
+									<option th:each="tematica: ${tematicaCompromiso}"
+										th:value="${tematica.idArgumento}"
+										th:text="${tematica.resultado}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="nombre_componente">Compromiso estrategico:*</label>
+								</div>
+								<select class="form-control" id="idCompromisoFiltro"
+									name="idLsEstrategico" required="required">
+								<option value="">Seleccione una opción</option>	
+								</select>
+
+							</div>
+						</div>
+						
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div align="right">
+							<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a> <span>&nbsp;&nbsp;</span>
+							<button type="submit" class="myFormButton" name="save"
+								id="btn-modal">Aplicar</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script th:inline="javascript">
+$(document).ready(function() {
+	
+	/*<![CDATA[*/
+		
+	$("#idTematicaFiltro").change(function() {
+        var tematica = $(this).val();
+        var compromisos = /*[[${compromisoDTO}]]*/;	
+        var select = document.getElementById("idCompromisoFiltro");
+        var idCompromiso = "";
+        select.innerHTML = '<option value="">Seleccione una opcion</option>'
+        for (var j = 0; j < compromisos.length; j++ ){
+        	
+        	if (compromisos[j].idTematica == tematica){
+        		let opcion = document.createElement('option')
+        		
+        		 opcion.value = compromisos[j].idCompromiso;
+        		 opcion.text = compromisos[j].nombreCompromisoEstrategico;
+        	     select.add(opcion);
+        	     
+        	}
+        }
+    });
+	
+    $("#idCompromisoFiltro").change(function() { 
+    	var compromiso = $(this).val();
+    	document.getElementById("idComproFiltro").value = compromiso;
+    });
+	/*]]>*/
+	
+	
+});
+</script>

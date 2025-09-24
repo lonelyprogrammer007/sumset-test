@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Editar funcionario</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+
+<div class="modal fade" id="editarFuncionarioModal" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan1" th:src="@{/css/img/icono-seg.png}"
+							alt="Icono segplan">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="tituloFuncionario">Editar funcionarios claves</span>
+					</div>
+				</div>
+
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+
+					<form id="form4" name="form4" th:object="${funcionario}"
+						method="post" th:action="@{editar_funcionarios_claves}">
+						<input type="hidden" id="idFuncionarioEntidad"
+							name="idFuncionarioEntidad">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Función:*</label>
+								</div>
+								<select style="width: 100% !important" class="form-control js-example-basic-single" name="idLsFuncion" id="idLsFuncion"
+									required="required">
+									<option value=""></option>
+									<option th:each="lista : ${funcion}"
+										th:value="${lista.idArgumento}" th:text="${lista.resultado}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="correo_electronico">Nombre:*</label>
+								</div>
+								<input class="form-control" id="nombreFuncionario" name="nombre"
+									type="text" required="required" maxlength="100">
+
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="correo_electronico">Cargo:*</label>
+								</div>
+								<input class="form-control" id="cargo" name="cargo" type="text"
+									required="required" maxlength="100">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="correo_electronico">Correo electrónico:*</label>
+								</div>
+								<input class="form-control" id="correo" name="correo"
+									required="required" type="email" maxlength="100">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Genero:*</label>
+								</div>
+								<select style="width: 100% !important" class="form-control js-example-basic-single" name="idLsGenero" id="idLsGenero"
+									required="required">
+									<option value=""></option>
+									<option th:each="lista : ${genero}"
+										th:value="${lista.idArgumento}" th:text="${lista.resultado}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" aria-label="Close" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+							<button type="submit" class="myFormButton" name="edit"
+								id="btn-modal">
+								<img src="css/img/icono-guardar.png" class="guardar" alt="icono guardar">&nbsp;&nbsp;Guardar
+							</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.js-example-basic-single').select2({
+		  minimumResultsForSearch: Infinity
+	});
+});
+
+</script>

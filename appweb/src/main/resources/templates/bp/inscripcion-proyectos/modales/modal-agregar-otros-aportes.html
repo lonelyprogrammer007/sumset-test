@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title></title>
+</head>
+<body>
+	<div class="modal fade" id="agregarAportesModal" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="titulo">Agregar otros Aportes Ciudadanos</span>
+						</div>
+					</div>
+
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+						<form th:object="${BpAporteCiudadanoDTO}" method="POST" id="formAgregarAporte">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="tematica texto-archivo-plano">
+									<label>Consecutivo</label>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" name="idProyInversion" id="idProyInversion" value="5">
+						<input type="hidden" name="idAporte" id="idAporteModal">
+						<input type="hidden" id="idProyAporteModal">
+						<div class="row mt-2">
+							<div class="col-sm-4">
+								<input type="text" class="form-control" readonly="readonly" name="consecutivo" value="1">
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-sm-12">
+								<div class="tematica texto-archivo-plano">
+									<label>Aportes Ciudadanos Acción de cambio</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 ">
+								<textarea rows="" cols="3" class="form-control" name="accion" id="accion"></textarea>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-sm-4">
+								<div class="tematica texto-archivo-plano" >
+									<label>Nivel 1</label>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="tematica texto-archivo-plano">
+									<label>Nivel 2</label>
+								</div>
+							</div>
+							<div class="col-sm-4 texto-archivo-plano" >
+								<div class="tematica">
+									<label>Nivel 3</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-sm-4">
+								<select style="width: 100% !important" class="form-control js-example-basic-single" 
+								id="pddNivelAtributo1" name="idNivelAtributoPddOpcion1">
+									<option value="">Seleccione una Opcion</option>
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<select style="width: 100% !important" name="idNivelAtributoPddOpcion2" class="form-control js-example-basic-single" id="pddNivelAtributo2">
+									<option value="">Seleccione una Opcion</option>
+								</select>
+							</div>
+							<div class="col-sm-4">
+								<select style="width: 100% !important" name="idNivelAtributoPddOpcion3" class="form-control js-example-basic-single" id="pddNivelAtributo3">
+									<option value="">Seleccione una Opcion</option>
+								</select>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<div class="tematica texto-archivo-plano">
+									<label>Fuente Aporte</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 ">
+								<textarea rows="" cols="3" class="form-control" name="fuente" id="fuente" maxlength="200"></textarea>
+							</div>
+						</div>
+						<div align="right" class="mt-3">
+							<a href="#" data-dismiss="modal">Cancelar</a>
+
+							<button type="submit" class="myFormButton agregar" name="save"
+								id="boton-modal">GUARDAR</button>
+						</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

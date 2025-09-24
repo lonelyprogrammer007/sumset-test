@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Home</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/afs/cambiar-contrasenia.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap/sweetalert2.css}">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="js/src/stomp.js"></script>
+<script src="js/src/menu.js"></script>
+<script src="js/src/sockjs-0.3.4.js"></script>
+<script type="text/javascript" th:src="@{/js/src/myjs.js}"></script>
+
+<script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+
+</head>
+<body>
+	<header th:fragment="header">
+
+		<section class="container-fluid color-fondo-2">
+			<section>
+				<div class="row">
+					<div class="col-8 col-sm-8 col-md-4 col-lg-4">
+						<div class="row">
+							<div class="col-3 col-sm-3 col-md-3 col-lg-3">
+								<a th:href="@{/home}"><img id="logo-alcaldia"
+									th:src="@{/css/img/logo-alcaldia-bogota.png}"
+									class="img-responsive" alt="logo alcaldia"></a>
+								<h4>&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+							</div>
+							<div class="col-1 col-sm-1 col-md-1 col-lg-1">
+								<div class="barra"></div>
+							</div>
+
+							<div class="col-5 col-sm-5 col-md-6 col-lg-6">
+								<img id="logo-segplan" th:src="@{/css/img/icono-seg.png}"
+									class="img-responsive" alt="logoSegplan">
+							</div>
+						</div>
+					</div>
+					<div class="col-0 col-sm-0 col-md-4 col-lg-4">
+						<span></span>
+					</div>
+					<div class="col-1 col-sm-1 col-md-1 col-lg-1">
+						<a th:href="@{/consultar_buzon_todos}"><img id="campana" th:src="@{/css/img/icono-campana.png}"
+							class="img-responsive" alt="notificaciones">
+							</a>
+						<hr class="barra-notificaciones"></hr>
+						<div class="mensajeria">Mensajería</div>
+						<div class="notificaciones-texto">y notificaciones</div>
+					</div>
+					<div class="col-1 col-sm-1 col-md-1 col-lg-1">
+						<div class="row">
+							<div class="form-group">
+								<div id="notificaciones" class="color-azul"></div>
+								<hr class="barra-mensajes"></hr>
+								<div class="notifica">Notificaciones</div>
+								<div class="no-leida">no leídas</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="col-1 col-sm-1 col-md-2 col-lg-2">
+						<div class="row">
+							<div class="col-3 col-sm-3 col-md-1 col-lg-1">
+
+								<div class="barra-2"></div>
+
+							</div>
+							<div class="col-1 col-sm-1 col-md-10 col-lg-10">
+								<div class="dropdown">
+									<button type="button" class="boton-home" data-toggle="dropdown">
+										<span class="menu-title" th:text="${nombreUsuarioSesion}"></span>
+									</button>
+									<div class="dropdown-menu">
+										<a class="dropdown-item contrasesion" data-toggle="modal"
+											data-target="#ModalCambiarContrasenia">Cambiar contraseña</a>
+										<a class="dropdown-item contrasesion"
+											th:href="@{/cerrar-sesion}">Cerrar sesión</a>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<input type="hidden" id="usuarioSesion" name="usuarioSesion"
+						th:value="${usuarioSesion}"> <input type="hidden"
+						id="socket" name="socket"
+						th:value="${@environment.getProperty('socket.url')}">
+
+				</div>
+			</section>
+		</section>
+		<nav class="navbar navbar-expand-md navbar-dark bg-home">
+
+			<div class="menu-toggle">
+				<h3>Menu</h3>
+				<button type="button" id="menu-btn">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+
+
+			<ul id="respMenu" class="ace-responsive-menu"
+				data-menu-style="horizontal">
+
+				<li class="dropdown drop-menu"><a href="javascript:;"
+					class="nivel1" data-toggle="dropdown">
+						<div class="row item-drop administracion">
+							<img th:src="@{/css/img/administracion-funcional.png}"
+								aria-hidden="true" class="afs" alt="icono afs">
+							<div class="form-group">
+								<div class="instrumentos">Administración</div>
+								<div class="planeacion">funcional</div>
+
+							</div>
+						</div>
+				</a>
+					<ul class="dropdown-menu ">
+
+
+						<li class="dropdown-submenu menu1"><a class="test sub-menu"
+							data-toggle="collapse" href="#multiCollapseExample1">
+								Usuarios y funcionalidades</a>
+
+							<ul class="collapse multi-collapse nivel2"
+								id="multiCollapseExample1">
+								<a th:href="@{/admin-usuario}"><li class="nivel2">Administración
+										de usuarios</li>
+									<hr class="separador2"></a>
+
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu menu2"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample2">Entidades, tablas, parámetros y
+								consecutivos </a>
+
+							<ul class="collapse multi-collapse" id="multiCollapseExample2">
+								<a th:href="@{/consultar-ent}">
+									<li class="item-menu">Administrar entidades alcaldías
+										locales
+										<hr class="separador2">
+								</li>
+								</a>
+								<a th:href="@{/consultar-parametro}"><li>Parámetros</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar-ls}"><li>Listas simples</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar_lista_compuesta}"><li>Listas
+										compuestas</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar-consecutivo}"><li>Consecutivos
+								</li>
+									<hr class="separador2"></a>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu menu3"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample3">Presupuesto </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample3">
+								<a th:href="@{/consultar-info-pre}"><li>Administración
+										presupuestal</li></a>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu menu4"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample4">Periodos de seguimiento </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample4">
+
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu menu5"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample5">Cargue y gestión de información
+						</a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample5">
+								<a th:href="@{/consultar-archivos}"><li>Carga de
+										archivos planos</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar_estado_servicio}"><li>Consulta
+										de servicios web</li>
+									<hr class="separador2"></a>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu menu5"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample6">Mensajería y notificaciones</a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample6">
+								<a th:href="@{/consultar_buzon_todos}"><li>Administrar
+										notificaciones</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar_plantilla_notificacion}"><li>Plantillas
+										de notificaciones</li>
+									<hr class="separador2"></a>
+							</ul></li>
+
+
+					</ul></li>
+				<li class="dropdown drop-menu"><a href="javascript:;"
+					class="nivel1" data-toggle="dropdown">
+						<div class="row item-drop instrumento">
+							<img th:src="@{/css/img/instrumentos-de-planeacion.png}"
+								aria-hidden="true" class="ip" alt="ip">
+							<div class="form-group">
+								<div class="instrumentos">Instrumentos de</div>
+								<div class="planeacion">planeación</div>
+
+							</div>
+						</div>
+				</a>
+
+					<ul class="dropdown-menu">
+						<li class="dropdown-submenu menu1"><a class="test sub-menu"
+							data-toggle="collapse" href="#multiCollapseExample7">Formulación
+								plan de desarrollo </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample7">
+
+								<a th:href="@{/consultar-compromisos}"><li>Programas de
+										gobierno</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar-politica}"><li>Análisis de
+										política</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/ver-programas-formulacion}"><li>Proyecto
+										de formulación plan de desarrollo</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar_plantilla_notificacion}"><li>Parametrización
+										techos hacienda</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar_plantilla_notificacion}"><li>Justificaciones
+										DPDFL</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar_plantilla_notificacion}"><li>Cierre
+										de versiones</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar_plantilla_notificacion}"><li>Cargue
+										de archivos</li>
+									<hr class="separador2"></a>
+
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu menu5"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample5">Formulación de la estructura de
+								plan de desarrollo </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample5">
+								<a th:href="@{/consultar-archivos}"><li>Carga de
+										archivos planos</li>
+									<hr class="separador2"></a>
+								<a th:href="@{/consultar_estado_servicio}"><li>Consulta
+										de servicios web</li>
+									<hr class="separador2"></a>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu"><a class="test sub-menu"
+							data-toggle="collapse" href="#multiCollapseExample8">Estructura
+								plan de desarrollo </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample8">
+
+								<a th:href="@{/estructura-pdd/1}"><li>Estructura plan de Desarrollo</li>
+							<hr class="separador2"></a>
+								<a th:href="@{/estructura-pdd/2}"><li>Componentes de la estructura PDD</li>
+							<hr class="separador2"></a>
+								<a th:href="@{/estructura-pdl}"><li>Estructura plan de desarrollo local</li>
+							<hr class="separador2"></a>
+							<a th:href="@{/consultar-compromisos}"><li>Componentes de la estructura PDL</li>
+							<hr class="separador2"></a>
+							<a th:href="@{/consultar-compromisos}"><li>Plan plurianual de inversiones</li>
+							<hr class="separador2"></a>
+							<a th:href="@{/consultar-compromisos}"><li>Temas transversales</li>
+							<hr class="separador2"></a>
+							<a th:href="@{/consultar-compromisos}"><li>Seguimiento de programas</li>
+							<hr class="separador2"></a>
+							<a th:href="@{/consultar-compromisos}"><li>Armonización presupuestal</li>
+							<hr class="separador2"></a>
+						</ul>
+						<hr class="separador"></li>
+						<li class="dropdown-submenu"><a class="test sub-menu"
+							data-toggle="collapse" href="#multiCollapseExample20">Plan de 0rdenamiento territorial
+							</a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample20">
+								<a th:href="@{/consultar-pot-ip}"><li>Creación de la estructura POT</li>
+							<hr class="separador2"></a>
+								<li><a href="#">Sub Item Link 2</a></li>
+								<li><a href="#">Sub Item Link 3</a></li>
+
+							</ul>
+							
+							</li>
+						
+						
+					</ul></li>
+				<li class="dropdown banco drop-menu"><a href="javascript:;"
+					class="nivel1" data-toggle="dropdown">
+						<div class="row item-drop bancos">
+							<img th:src="@{/css/img/banco-distrital.png}" aria-hidden="true"
+								class="bp" alt="bp">
+							<div class="form-group">
+								<div class="instrumentos">Banco distrital de</div>
+								<div class="planeacion">programas y proyectos</div>
+
+							</div>
+						</div>
+				</a>
+					<ul class="dropdown-menu ">
+						<li class="dropdown-submenu"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample10">Iniciativas ciudadanas </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample10">
+								<a th:href="@{/consultar-iniciativa-ciudadana}"><li>Iniciativa
+										ciudadana
+										<hr class="separador2">
+								</li></a>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample11">Ficha EBI </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample11">
+								<a th:href="@{/consultar-proyecto-entidad/1}"><li>Inscripción
+										de proyectos
+										<hr class="separador2">
+								</li></a>
+								<a th:href="@{/consultar-proyecto-entidad/2}"><li>Registro
+										de proyectos
+										<hr class="separador2">
+								</li></a>
+								<a th:href="@{/consultar-proyecto-entidad/3}"><li>Actualización
+										de Proyectos
+										<hr class="separador2">
+								</li></a>
+								<a th:href="@{/consultar-proyecto-entidad/4}"><li>Versionamiento
+										<hr class="separador2">
+								</li></a>
+							</ul>
+							<hr class="separador"></li>
+						<li><a href="javascript:;">Sub Item Three </a>
+							<ul>
+								<li><a href="#">Sub Item Link 1</a></li>
+								<li><a href="#">Sub Item Link 1</a></li>
+								<li><a href="#">Sub Item Link 1</a></li>
+							</ul></li>
+						<li><a href="#">Sub Item Four </a></li>
+					</ul></li>
+				<li class="dropdown plan drop-menu"><a href="javascript:;"
+					class="nivel1" data-toggle="dropdown">
+
+						<div class="row item-drop planes">
+							<img th:src="@{/css/img/plan-de-accion.png}" aria-hidden="true"
+								class="accion" alt="plan accion">
+							<div class="form-group">
+								<div class="instrumentos">Plan de acción</div>
+
+
+							</div>
+						</div>
+
+				</a>
+					<ul class="dropdown-menu">
+						<li><a th:href="@{consultar_buzon_todos}">Administrar
+								Notificaciones </a></li>
+						<li><a th:href="@{consultar_buzon_admin}">Crear Mensaje </a>
+						<li><a th:href="@{consultar_plantilla_notificacion}">Plantillas
+						</a>
+					</ul></li>
+				<li class="dropdown reporte drop-menu"><a href="javascript:;"
+					class="nivel1" data-toggle="dropdown">
+
+						<div class="row item-drop reportes">
+							<img th:src="@{/css/img/reportes.png}" aria-hidden="true"
+								class="rp" alt="reportes">
+							<div class="form-group">
+								<div class="instrumentos">Reportes</div>
+
+
+							</div>
+						</div>
+				</a>
+					<ul class="dropdown-menu">
+						<li class="dropdown-submenu"><a class="test sub-menu"
+							tabindex="-1" data-toggle="collapse"
+							href="#multiCollapseExample12">Banco distrital de programas y
+								proyectos </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample12">
+								<a th:href="@{/reporte-proyecto-especifico}"><li>Proyecto
+										Especifico
+										<hr class="separador2">
+								</li></a>
+								<a th:href="@{/reporte-ficha-ebi}"><li>Proyectos Ficha
+										EBI
+										<hr class="separador2">
+								</li></a>
+								<a th:href="@{/reporte-proyecto-registrado}"><li>Estado
+										de los Proyectos
+										<hr class="separador2">
+								</li></a>
+								<a th:href="@{/reporte-iniciativas-ciudadanas}"><li>Iniciativas
+										Ciudadanas
+										<hr class="separador2">
+								</li></a>
+							</ul>
+							<hr class="separador"></li>
+					</ul></li>
+
+			</ul>
+
+		</nav>
+	</header>
+
+	<section>
+		<div class="row">
+			<div class="col-12 col-sm-12 col-md-9 col-lg-9">
+				<div class="container home">
+
+					<img id="logo-bogota" th:src="@{/css/img/imagen-bogota.png}"
+						class="img-responsive" alt="logo bogota">
+
+					<div class="texto-encima">
+						<span>Bienvenido</span><br>
+					</div>
+
+					<div class="hr-home"></div>
+
+					<br>
+					<div class="container home-2">
+
+						<p class="texto-home">
+
+							La plataforma de <strong><em>"Seguimiento al plan
+									de desarollo distrital"</em></strong> comprende varios modulos que le
+							ayudaran a obtener la informacion que usted necesita de manera
+							ágil Lorem Ipsum es simplemente el texto de relleno de las
+							imprentas y archivos de texto. Lorem Ipsum ha sido el texto de
+							relleno estándar de las industrias desde el año 1500, cuando un
+							impresor (N. del T.persona que se dedica a la imprenta)
+							desconocido usó una galería de textos y los mezcló de tal manera
+							que logró hacer un libro de textos especimen. No sólo sobrevivió
+							500 años, sino que tambien ingresó como texto de relleno en
+							documentos electrónicos, quedando esencialmente igual al
+							original.Fue popularizado en los 60s.
+
+						</p>
+
+					</div>
+
+
+				</div>
+			</div>
+			<div class="col-12-col-sm-12 col-md-3 col-lg-3">
+				<div class="twiter">
+					<a class="twitter-timeline" data-width="300" data-height="515"
+						data-theme="dark"
+						href="https://twitter.com/planeacionbog?ref_src=twsrc%5Etfw">Tweets
+						by planeacionbog</a>
+					<script async src="https://platform.twitter.com/widgets.js"
+						charset="utf-8"></script>
+				</div>
+			</div>
+		</div>
+	</section>
+	<br>
+
+	<footer th:fragment="footer">
+		<div class="container-fluid color-fondo-3">
+			<div class="row">
+				<div class="col-0 col-sm-0 col-md-2 col-lg-2"></div>
+				<div class="col-11 col-sm-11 col-md-9 col-lg-9">
+					<div class="text-footer">Secretaría Distrital de Planeación |
+						Seguimiento al plan de desarrollo distrital SEGPLAN | 2019 todos
+						los derechos reservados</div>
+				</div>
+				<div class="col-1 col-sm-1 col-md-1 col-lg-1">
+				<span class="text-footer">Versión 1.69</span>	
+
+				</div>
+			</div>
+		</div>
+
+	</footer>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+</body>
+<script th:inline="javascript">
+	$(document).ready(function() {
+		 /*<![CDATA[*/
+		var prohibido = /*[[${prohibido}]]*/;	
+		var mensajePermisos = /*[[${messagePermisos}]]*/;	
+		console.log(prohibido);
+		if (prohibido == 1){
+	    	 
+	    	  Swal.fire({
+			        title: 'Información',
+			        text: '¡Lo sentimos!, No tiene permisos para acceder a esta pagina',
+			        icon: 'warning',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			    })
+	     }
+		if (mensajePermisos != null){
+	    	 
+	    	  Swal.fire({
+			        title: 'Información',
+			        text: mensajePermisos,
+			        icon: 'warning',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			    })
+	     }
+		
+	/*]]>*/
+		
+		
+	});
+</script>
+
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+
+</html>

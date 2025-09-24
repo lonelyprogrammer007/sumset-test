@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Gestión de usuarios</title>
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/adm-usuarios.css}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery.dataTables.css}">
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+
+
+
+</head>
+<body>
+	<header th:replace="/home:: header"></header>
+
+
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administración funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administración
+				de usuario</li>
+		</ul>
+	</nav>
+
+
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Gestión de usuarios</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="tipoIdent">Código de Usuario</label>
+				</div>
+				<input type="text" class="form-control" id="codigousuario"
+					disabled="disabled">
+			</div>
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="identif">Entidad</label>
+				</div>
+				<input type="text" class="form-control" id="codigousuario"
+					disabled="disabled">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="tipoIdent">Correo Eléctronico</label>
+				</div>
+				<input type="text" class="form-control" id="codigousuario"
+					disabled="disabled">
+			</div>
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="identif">Nombre</label>
+				</div>
+				<input type="text" class="form-control" id="codigousuario"
+					disabled="disabled">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="identif">Identificación</label>
+				</div>
+				<input type="text" class="form-control" id="codigousuario"
+					disabled="disabled">
+			</div>
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="identif">Rol</label>
+				</div>
+				<input type="text" class="form-control" id="codigousuario"
+					disabled="disabled">
+			</div>
+		</div>
+
+		<div class="tabs">
+			<div class="tab-button-outer">
+				<ul id="tab-button">
+					<li><a href="#tab01">Asignar Entidades y/o Alcaldias
+							Locales</a></li>
+					<li><a href="#tab02">Asignar Componentes de Gestión</a></li>
+					<li><a href="#tab03">Asignar Proyectos de Inversión</a></li>
+
+				</ul>
+			</div>
+			<div class="tab-select-outer">
+				<select id="tab-select">
+					<option value="#tab01">Asignar Entidades y/o Alcaldias</option>
+					<option value="#tab02">Asignar Componentes de Gestión</option>
+					<option value="#tab03">Asignar Proyectos de Inversión</option>
+				</select>
+			</div>
+
+			<div id="tab01" class="tab-contents nh">
+				<br>
+				<div class="table-responsive">
+					<table id="dtabla" class="table-striped">
+						<thead>
+							<tr class="color">
+								<th>Código Usuario<br> <input type="text"></th>
+								<th>Entidad<br> <input type="text"></th>
+								<th>Asignar<br> <input type="text"></th>
+								<th>Modificar datos<br> <input type="text"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="azul"><a href="#">Work 1</a></td>
+								<td class="azul">Doe</td>
+								<td class="azul">john@example.com</td>
+								<td class="azul">Doe</td>
+
+							</tr>
+							<tr>
+								<td class="amarillo"><a href="#">Work 1</a></td>
+								<td class="amarillo">Doe</td>
+								<td class="amarillo">john@example.com</td>
+								<td class="amarillo">Doe</td>
+
+							</tr>
+							<tr>
+								<td class="azul"><a href="#">Work 1</a></td>
+								<td class="azul">Doe</td>
+								<td class="azul">john@example.com</td>
+								<td class="azul">Doe</td>
+						</tbody>
+					</table>
+
+				</div>
+				<div align="right">
+					<button type="button" class="boton-guardar">Guardar</button>
+				</div>
+
+			</div>
+			<div id="tab02" class="tab-contents">
+				<div class="container padin">
+					<br>
+					<div class="row">
+						<div class="col-sm-4 col-md-5 col-lg-5">
+							<div class="list-group" id="list1">
+								<a class="list-group-item active">Componentes Disponibles</a> <select
+									name="origen[]" id="origen" multiple="multiple" size="8"
+									class="form-control">
+									<option value="1" th:text="${componentegestiondto.nombre}"
+										th:each="componentegestiondto: ${list1}" />
+
+								</select>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<div class="form-group">
+								<button class="pasartodos izq">
+									<img th:src="@{/img/icono-flecha-doble-derecha.png}">
+								</button>
+								<button class="pasar izqDoble">
+									<img th:src="@{/img/icono-flecha-derecha.png}" class="asignar">
+								</button>
+								
+								<button class="quitar der">
+									<img th:src="@{/img/icono-flecha-izquierda.png}" class="asignar">
+								</button>
+								<button class="quitartodos derDoble">
+									<img th:src="@{/img/icono-flecha-doble-izquierda.png}" class="asignar">
+								</button>
+							</div>
+						</div>
+						<div class="col-sm-4 col-md-5 col-lg-5">
+							<div class="list-group" id="list2">
+								<a class="list-group-item active">Componentes Asignados</a> <select
+									name="destino[]" id="destino" multiple="multiple" size="8"
+									class="form-control"></select>
+							</div>
+						</div>
+					</div>
+					<br>
+					<div class="row">
+					<div class="col-md-7 col-lg-7"></div>
+					<div class="col-md-4 col-lg-4">
+					<div align="right">
+						<input type="submit" class="boton-asignar"
+							value="Guardar" />
+
+					</div></div></div>
+				</div>
+			</div>
+			<div id="tab03" class="tab-contents">
+				<div class="container padin">
+				<br>
+					<div class="row">
+						<div class="col-sm-4 col-md-5 col-lg-5">
+							<div class="list-group" id="list3">
+								<a class="list-group-item active">Proyectos de inversion
+									Disponibles</a> <select name="origen[]" id="origen1"
+									multiple="multiple" size="8" class="form-control">
+									<option value="1" th:each="proyectoinversiondto: ${list3}"
+										th:text="${proyectoinversiondto.nombre}" />
+								</select>
+							</div>
+						</div>
+						<div class="col-md-1">
+							<button class="pasartodos1 izq">
+								<i class="fa fa-angle-double-right"></i>
+							</button>
+							<button class="pasar1 izqDoble">
+								<i class="fa fa-angle-right"></i>
+							</button>
+							<button class="quitartodos1 der">
+								<i class="fa fa-angle-double-left"></i>
+							</button>
+							<button class="quitar1 derDoble">
+								<i class="fa fa-angle-left"></i>
+							</button>
+
+						</div>
+						<div class="col-sm-4 col-md-5 col-lg-5">
+							<form class="form" role="form" th:object="${proyectoInversion}"
+								th:action="@{/asignarProyectos}" method="post">
+								<div class="list-group" id="list2">
+									<a class="list-group-item active">Proyectos de inversion
+										Asignados</a> <select name="destino[]" id="destino1"
+										multiple="multiple" size="8" class="form-control" type="text"></select>
+								</div>
+								<div align="right">
+									<input type="submit" class="btn btn-primary btn-lg"
+										value="Asignar" />
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<br>
+		<div align="right">
+			<a href=""><button type="button" class="boton-regresar">
+					Volver</button></a>
+		</div>
+	</div>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script type="text/javascript">
+	$().ready(function() {
+		$('.pasar').click(function() {
+			return !$('#origen option:selected').remove().appendTo('#destino');
+		});
+		$('.quitar').click(function() {
+			return !$('#destino option:selected').remove().appendTo('#origen');
+		});
+		$('.pasartodos').click(function() {
+			$('#origen option').each(function() {
+				$(this).remove().appendTo('#destino');
+			});
+		});
+		$('.quitartodos').click(function() {
+			$('#destino option').each(function() {
+				$(this).remove().appendTo('#origen');
+			});
+		});
+		$('.submit').click(function() {
+			$('#destino option').prop('selected', 'selected');
+		});
+	});
+</script>
+<script type="text/javascript">
+	$().ready(
+			function() {
+				$('.pasar1').click(
+						function() {
+							return !$('#origen1 option:selected').remove()
+									.appendTo('#destino1');
+						});
+				$('.quitar1').click(
+						function() {
+							return !$('#destino1 option:selected').remove()
+									.appendTo('#origen1');
+						});
+				$('.pasartodos1').click(function() {
+					$('#origen1 option').each(function() {
+						$(this).remove().appendTo('#destino1');
+					});
+				});
+				$('.quitartodos1').click(function() {
+					$('#destino1 option').each(function() {
+						$(this).remove().appendTo('#origen1');
+					});
+				});
+				$('.submit').click(function() {
+					$('#destino1 option').prop('selected', 'selected');
+				});
+			});
+</script>
+
+<script type="text/javascript">
+	$(function() {
+		var $tabButtonItem = $('#tab-button li'), $tabSelect = $('#tab-select'), $tabContents = $('.tab-contents'), activeClass = 'is-active';
+
+		$tabButtonItem.first().addClass(activeClass);
+		$tabContents.not(':first').hide();
+
+		$tabButtonItem.find('a').on('click', function(e) {
+			var target = $(this).attr('href');
+
+			$tabButtonItem.removeClass(activeClass);
+			$(this).parent().addClass(activeClass);
+			$tabSelect.val(target);
+			$tabContents.hide();
+			$(target).show();
+			e.preventDefault();
+		});
+
+		$tabSelect.on('change', function() {
+			var target = $(this).val(), targetSelectNum = $(this).prop(
+					'selectedIndex');
+
+			$tabButtonItem.removeClass(activeClass);
+			$tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+			$tabContents.hide();
+			$(target).show();
+		});
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#respMenu").aceResponsiveMenu({
+			resizeWidth : '768', // Set the same in Media query       
+			animationSpeed : 'fast', //slow, medium, fast
+			accoridonExpAll : false
+		//Expands all the accordion menu on click
+		});
+	});
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

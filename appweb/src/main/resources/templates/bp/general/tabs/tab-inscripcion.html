@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<style>
+body {
+	font-family: "Roboto", sans-serif;
+}
+
+.select-wrapper {
+	margin: auto;
+	max-width: 600px;
+	width: calc(100% - 40px);
+}
+
+.select-pure__select {
+	align-items: center;
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+	box-shadow: 0px 3px 6px #00000040;
+	border-radius: 10px;
+	border: 1px solid #00529C;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	color: #363B3E;
+	cursor: pointer;
+	display: flex;
+	font-size: 12px;
+	justify-content: left;
+	min-height: 34px;
+	padding: 5px 10px;
+	position: relative;
+	transition: 0.2s;
+	width: 100%;
+}
+
+.select-pure__options {
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	color: #363B3E;
+	display: none;
+	left: 0;
+	max-height: 221px;
+	overflow-y: scroll;
+	position: absolute;
+	top: 50px;
+	width: 100%;
+	z-index: 5;
+}
+
+.select-pure__select--opened .select-pure__options {
+	display: block;
+}
+
+.select-pure__option {
+	background: #fff;
+	border-bottom: 1px solid #E4E4E4;
+	box-sizing: border-box;
+	
+	line-height: 25px;
+	padding: 10px;
+}
+
+.select-pure__option--selected {
+	color: #E4E4E4;
+	cursor: initial;
+	pointer-events: none;
+}
+
+.select-pure__option--hidden {
+	display: none;
+}
+
+.select-pure__selected-label {
+	align-items: 'center';
+	background: #5E6264;
+	border-radius: 4px;
+	color: #fff;
+	cursor: initial;
+	display: inline-flex;
+	justify-content: 'center';
+	margin: 5px 10px 5px 0;
+	padding: 3px 7px;
+}
+
+.select-pure__selected-label:last-of-type {
+	margin-right: 0;
+}
+
+.select-pure__selected-label i {
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 7px;
+}
+
+.select-pure__selected-label img {
+	cursor: pointer;
+	display: inline-block;
+	height: 18px;
+	margin-left: 7px;
+	width: 14px;
+}
+
+.select-pure__selected-label i:hover {
+	color: #E4E4E4;
+}
+
+.select-pure__autocomplete {
+	background: #F9F9F8;
+	border-bottom: 1px solid #E4E4E4;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	box-sizing: border-box;
+	font-size: 16px;
+	outline: none;
+	padding: 10px;
+	width: 100%;
+}
+
+.select-pure__placeholder--hidden {
+	display: none;
+}
+</style>
+<body>
+	<form id="formAgregarProyectoInscripcion" method="post">
+	   <input type="hidden" id="codigoEntiDistri" name="codigoEntidad">
+	   <input type="hidden" id="idLsSectorAlLocal" name="idLsSectorAl">
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto-archivo-plano ">Código proyecto:</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-6">
+
+				<input type="text" class="form-control" readonly="readonly"
+					id="codigoProyectoInscripcion" name="codigoProyecto">
+
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto-archivo-plano ">Nombre del proyecto:*</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<textarea class="form-control" cols="3" maxlength="500"
+					placeholder="máximo 500 caracteres" id="nombreProyectoInscripcion"
+					name="nombreProyecto"></textarea>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto-archivo-plano ">Código BPIN:</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+
+			<div class="col-sm-6">
+				<input type="text" class="form-control" id="bpinInscripcion"
+					name="codigoBpin" maxlength="20">
+			</div>
+		</div>
+		
+		<div class="row mt-2">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="texto">
+						<div class="texto-archivo-plano ">Tipo de proyecto:*</div>
+					</div>
+					<span class="multi-select" id="sect"></span> <input type="hidden"
+						id="concatena" name="idsTipoProy" class="required">
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="texto-archivo-plano ">Etapa:*</div>
+
+				<select class="form-control" id="etapaInscripcion" name="idLsEtapa">
+					<option value="">Selecccione una opción</option>
+					<option th:each="lista : ${listEtapaProyecto}"
+						th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+				</select>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-12">
+				<div class="texto-archivo-plano ">Nombre del proyecto de POAI:</div>
+				<textarea class="form-control" cols="3" name="nombrePoai" maxlength="500"
+					id="nombreProyectoInscripcion" placeholder="máximo 500 caracteres"></textarea>
+			</div>
+		</div>
+		<input type="hidden" value="0" name="bloqueo">
+		<br> <br>
+		<div class="float-right">
+			<a th:href="@{/consultar-proyecto-entidad/1}" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+			<button class="botonAgregarInscripcion" 
+				type="submit" id="boton-modal" >
+				<img src="css/img/icono-guardar.png" class="guardar"
+					alt="Icono guardar">&nbsp;&nbsp;Guardar
+			</button>
+		</div>
+	</form>
+</body>
+<script th:inline="javascript">
+
+$(document).ready(function() {
+	/*<![CDATA[*/
+	var tipoProyecto = /*[[${listTipoProyecto}]]*/;		
+	/*]]>*/	
+	
+	$('#nombreProyectoInscripcion').change(function() {
+		var nombre = $(this).val();
+		document.getElementById("nombreProyGeneral").value = nombre;
+	});
+	$('#bpinInscripcion').change(function() {
+		var nombre = $(this).val();
+		document.getElementById("nombreBpinGeneral").value = nombre;
+	});
+	$('#tipoSectorAlLocal').change(function() {
+		var id = $(this).val();
+		document.getElementById("idLsSectorAlLocal").value = id;
+	});
+	
+	  $('.botonAgregarInscripcion').click(function () {
+			 var nombre = document.getElementById("nombreProyectoInscripcion").value;
+			 var tipo = document.getElementById("concatena").value;
+			 var etapa = document.getElementById("etapaInscripcion").value;
+			 if (nombre === "" || tipo === "" || etapa === ""){
+				 Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "Existen campos obligatorios que no se han registrado",
+				        type: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			   })
+			    return false;
+			 }
+		  });
+	
+	//llenar lista tipo Proyecto
+	var ddTipoProyectos = [];
+	var option;
+	var argumento;
+	 for (var i = 0; i < tipoProyecto.length; i++){
+		    option = tipoProyecto[i].resultado;
+		    argumento = tipoProyecto[i].idArgumento;
+		    arg = argumento.toString();
+		  var myOptions =
+		        {
+			 label: option,
+			 value: arg
+				}		
+		  ddTipoProyectos.push(myOptions);
+	 }
+	
+	var multi = new SelectPure(".multi-select", {
+    options: ddTipoProyectos,
+    multiple: true,
+    icon: "fa fa-times",
+    placeholder: "-Seleccione un tipo de proyecto-",
+    onChange: value => {
+    verTipoDeProyectos(value);
+    },
+    classNames: {
+      select: "select-pure__select",
+      dropdownShown: "select-pure__select--opened",
+      multiselect: "select-pure__select--multiple",
+      label: "select-pure__label",
+      placeholder: "select-pure__placeholder",
+      dropdown: "select-pure__options",
+      option: "select-pure__option",
+      autocompleteInput: "select-pure__autocomplete",
+      selectedLabel: "select-pure__selected-label",
+      selectedOption: "select-pure__option--selected",
+      placeholderHidden: "select-pure__placeholder--hidden",
+      optionHidden: "select-pure__option--hidden",
+    }
+  });
+	
+	$(document).on('submit', '#formAgregarProyectoInscripcion', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        
+	        
+	        // AJAX.
+	        $.ajax({
+	            type: 'POST',
+	            url: '/Segplan/'+'agregarIdentificacionProyecto',
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+	            success: function (data) {
+	                Swal.close();
+	           
+	                idProyectoDeInversion = data.idProyInversion;
+	                document.getElementById("idProyectoDescripcion").value = data.idProyInversion;
+	                mensajeRespuesta = data.msgRespuesta;
+	                $('#idTab002').css('visibility', 'visible'); 
+	   			  $('#idTab003').css('visibility', 'visible'); 
+	   		      $('#idTab004').css('visibility', 'visible'); 
+	   			  $('#idTab005').css('visibility', 'visible'); 
+	   			  $('#idTab006').css('visibility', 'visible'); 
+	   			  $('#idTab007').css('visibility', 'visible'); 
+	   			  $('#idTab008').css('visibility', 'visible'); 
+	   			  $('#idTab009').css('visibility', 'visible');
+	   			  $('#idTab0010').css('visibility', 'visible');
+	   			  $('#idTab0011').css('visibility', 'visible'); 
+	      
+	            },
+	            error: function () {
+	                Swal.close();
+                 },         
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       })
+	                    }
+	             });
+	        return false;
+		});
+	
+});
+function verTipoDeProyectos(value){
+	if (value.length == 0){
+		   concatenar = "";
+		   document.getElementById("concatena").value = concatenar;
+	   }
+	   concatenar = "";
+	   for (var i = 0; i < value.length; i++){
+		   auxi = value[i];
+		   concatenar += auxi +";";
+		   document.getElementById("concatena").value = concatenar;
+	   }
+}
+</script>
+<script type="text/javascript" th:src="@{/js/dist/bundle.min.js}"></script>
+</html>

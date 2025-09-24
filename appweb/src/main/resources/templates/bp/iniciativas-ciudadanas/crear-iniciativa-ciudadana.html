@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+
+<title id="pageTitle">Crear iniciativa ciudadana</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/componentes.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/afs/archivo-plano.css}">
+
+<style>
+body {
+	font-family: "Roboto", sans-serif;
+}
+
+.select-wrapper {
+	margin: auto;
+	max-width: 600px;
+	width: calc(100% - 40px);
+}
+
+.select-pure__select {
+	align-items: center;
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+	box-shadow: 0px 3px 6px #00000040;
+	border-radius: 10px;
+	border: 1px solid #00529C;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	color: #363B3E;
+	cursor: pointer;
+	display: flex;
+	font-size: 16px;
+	font-weight: 500;
+	justify-content: left;
+	min-height: 44px;
+	padding: 5px 10px;
+	position: relative;
+	transition: 0.2s;
+	width: 100%;
+}
+
+.select-pure__options {
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	color: #363B3E;
+	display: none;
+	left: 0;
+	max-height: 221px;
+	overflow-y: scroll;
+	position: absolute;
+	top: 50px;
+	width: 100%;
+	z-index: 5;
+}
+
+.select-pure__select--opened .select-pure__options {
+	display: block;
+}
+
+.select-pure__option {
+	background: #fff;
+	border-bottom: 1px solid #E4E4E4;
+	box-sizing: border-box;
+	height: 44px;
+	line-height: 25px;
+	padding: 10px;
+}
+
+.select-pure__option--selected {
+	color: #E4E4E4;
+	cursor: initial;
+	pointer-events: none;
+}
+
+.select-pure__option--hidden {
+	display: none;
+}
+
+.select-pure__selected-label {
+	align-items: 'center';
+	background: #5E6264;
+	border-radius: 4px;
+	color: #fff;
+	cursor: initial;
+	display: inline-flex;
+	justify-content: 'center';
+	margin: 5px 10px 5px 0;
+	padding: 3px 7px;
+}
+
+.select-pure__selected-label:last-of-type {
+	margin-right: 0;
+}
+
+.select-pure__selected-label i {
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 7px;
+}
+
+.select-pure__selected-label img {
+	cursor: pointer;
+	display: inline-block;
+	height: 18px;
+	margin-left: 7px;
+	width: 14px;
+}
+
+.select-pure__selected-label i:hover {
+	color: #E4E4E4;
+}
+
+.select-pure__autocomplete {
+	background: #F9F9F8;
+	border-bottom: 1px solid #E4E4E4;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	box-sizing: border-box;
+	font-size: 16px;
+	outline: none;
+	padding: 10px;
+	width: 100%;
+}
+
+.select-pure__placeholder--hidden {
+	display: none;
+}
+</style>
+<body>
+
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Banco distrital de programas y proyectos</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Iniciativa
+				ciudadana</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Agregar
+				iniciativa ciudadana</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+
+		<div class="abs-center mt-2">
+			<span>Agregar/ editar Iniciativa ciudadana</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<form id="peticionIniciativa" th:action="@{/registar-iniciativa}" th:object="${bpIniciativaCiudadanaDTO}" method="post">
+		<div class="row">
+		<input type="hidden" id="idIniciativa" name="idIniciativa">
+			<div class="col-sm-6  mt-2">
+				<div class="texto">
+					<label>Alcaldía local</label>
+				</div>
+				<input type="text" class="form-control disenioInput" readonly="readonly" id="nombreEntidad">
+			</div>
+		</div>
+		<div class="abs-center mt-2 " style="font-size: 16px">
+			<span><b>Radicado de la iniciativa</b></span><br>
+			<div class="hr-1"></div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2 mt-2 mr-5 ">
+				<div class="texto">
+					<label>Código</label>
+				</div>
+				<input type="text" class="form-control disenioInput" name="codigoIn" id="codigoIn" readonly="readonly">
+			</div>
+			<div class="col-sm-4 mt-2 ml-5">
+				<div class="texto">
+					<label>Fecha de código</label>
+				</div>
+				<input type="date" class="form-control disenioInput" name="fechaCodigo" id="fechaCodigo" readonly="readonly">
+				<input type="hidden" id="codigoEntidad" name="codigoEntidad">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2 mt-2 mr-5">
+				<div class="texto">
+					<label>¿Radicado? *</label>
+				</div>
+				<div class="form-check form-check-inline mt-1">
+					<input class="form-check-input radicado1 radicado" type="radio"
+						name="radicado" id="inlineRadio1" value="1"> <label
+						class="form-check-label texto-archivo-plano" for="inlineRadio1">SI</label>
+				</div>
+				<div class="form-check form-check-inline mt-1">
+					<input class="form-check-input radicado0 radicado" type="radio"
+						name="radicado" id="inlineRadio2" value="0"> <label
+						class="form-check-label texto-archivo-plano" for="inlineRadio2">NO</label>
+				</div>
+			</div>
+			<div class="col-sm-4 mt-2 ml-5 mr-3">
+				<div class="texto">
+					<label>Número de radicado *</label>
+				</div>
+				<input name="numeroRad" type="text" class="form-control disenioInput" id="numeroRad">
+			</div>
+			<div class="col-sm-3 mt-2 ml-3">
+				<div class="texto">
+					<label>Fecha de Radicado *</label>
+				</div>
+				<input name="fechaRad" type="date" class="form-control disenioInput" id="fechaRad">
+			</div>
+		</div>
+		<div class="abs-center mt-2 " style="font-size: 16px">
+			<span><b>Ingreso de la iniciativa</b></span><br>
+			<div class="hr-1"></div>
+		</div>
+		<div class="row mt-3">
+
+			<div class="col-sm-12">
+				<div class="texto">
+					<label>Nombre de la iniciativa: *</label>
+				</div>
+				<input id="nombre" name="nombre" maxlength="500" type="text" class="form-control disenioInput required">
+			</div>
+		</div>
+		<div class="row mt-3">
+
+			<div class="col-sm-6">
+				<div class="texto">
+					<label>Origen de la iniciativa *</label>
+				</div>
+				<select class="form-control caja required" name="idLsOrigen" id="idLsOrigen">
+					<option value="">Seleccione una opción </option>
+					<option th:each="origen: ${origen}"
+					th:value="${origen.idArgumento}"
+					th:text="${origen.resultado}"
+					></option>
+				</select>
+			</div>
+			<div class="col-sm-3 mt-2 ml-4">
+				<div class="texto">
+					<label>Aplica a Linea de Inversión *</label>
+				</div>
+				<div class="form-check form-check-inline mb-1">
+					<input class="form-check-input linea linea1" type="radio"
+						name="aplicaLinea"  value="1" id="aplicaLinea"> <label
+						class="form-check-label texto-archivo-plano" for="inlineRadio1">SI</label>
+				</div>
+				<div class="form-check form-check-inline mb-1">
+					<input class="form-check-input linea linea0" type="radio"
+						name="aplicaLinea"  value="0" id="aplicaLinea2"> <label
+						class="form-check-label texto-archivo-plano" for="inlineRadio2" >NO</label>
+				</div>
+			</div>
+		</div>
+		<div id="linea">
+			<div class="row ">
+				<div class="col-sm-6 ">
+					<div class="texto mt-3">
+						<label>Línea de Inversión</label>
+					</div>
+					<select class="form-control caja" name="idLcLineaInv" id="idLcLineaInv">
+						<option value="-1">Seleccione una opción</option>
+						<option th:each="linea : ${listaLineas}"
+						th:value="${linea.idLineaInversion}"
+						th:text="${linea.descripcion}+ '+' +${linea.nombreSector}+'+ ' +${linea.concepto}"
+						></option>
+					</select>
+				</div>
+				<div class="col-sm-6 ">
+					<div class="texto mt-3">
+						<label>Plan de Desarrollo Distrital:</label>
+					</div>
+					<input id="planDesarrollo" type="text" class="form-control disenioInput" disabled="disabled">
+					<input type="hidden" name="idPlanDesarrollo" id="idPlanDesarrollo">
+				</div>
+			</div>
+			<div class="row ">
+				<div class="col-sm-6 ">
+					<div class="texto mt-3">
+						<label>Sector:</label>
+					</div>
+					<input id="sector" type="text" class="form-control disenioInput" disabled="disabled">
+				</div>
+				<div class="col-sm-6 ">
+					<div class="texto mt-3">
+						<label>Concepto de Inversión:</label>
+					</div>
+					<input id="concepto" type="text" class="form-control disenioInput" disabled="disabled">
+				</div>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-12 ">
+				<div class="texto">
+					<label>Problemática o Necesidad Identificada:* <small>(Máximo 500 caracteres)</small></label>
+				</div>
+				<textarea name="problematica" class="form-control disenioInput required" id="problematica" maxlength="500"
+					placeholder="(Máximo 500 caracteres)" rows="3"></textarea>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-6 ">
+				<div class="texto mt-3">
+				<input type="hidden" name="nombreSector" id="nombreSector">
+					<label>UPZ *</label>
+				</div>
+				<select class="form-control caja required" id="upz" name="idLsUpz">
+					<option value="">Seleccione una opción</option>
+					
+				</select>
+				<div class="texto mt-4">
+					<label>Barrio *</label>
+				</div>
+				<select class="form-control caja " id="upzBarrio" name="idLsBarrio">
+					<option selected>Seleccione una opción</option>
+				</select>
+				<div class="texto mt-4">
+					<label>Grupo Etario *</label>
+				</div>
+				
+				<span class="multi-select" id="sect"></span> <input
+					type="hidden" id="concatena" name="gruposEtarios" class="required">
+							
+						
+			</div>
+
+			<div class="col-sm-6 ">
+				<div class="texto mt-3">
+					<label>UPR *</label>
+				</div>
+				<select class="form-control caja required" id="upr" name="idLsUpr">
+					<option value="">Seleccione una opción</option>
+					
+				</select>
+
+				<div class="texto mt-4">
+					<label>Vereda *</label>
+				</div>
+				<select class="form-control caja " id="uprVereda" name="idLsVereda">
+					<option value="">Seleccione una opción</option>
+				</select>
+				<div class="texto mt-4">
+					<label>Total Población Afectada * </label>
+				</div>
+				<input type="text" class="form-control disenioInput number required" name="totalPoblacion" id="totalPoblacion">
+				<div class="texto mt-4">
+					<label>Condición Poblacional *</label>
+				</div>
+				<span class="multi-select2" id="sect"></span> <input
+									type="hidden" id="concatena2" name="codicionesPoblacionales" class="required">
+							
+				
+			</div>
+
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-12 ">
+				<div class="texto">
+					<label>Alternativa de Solución: * </label>
+				</div>
+				<textarea maxlength="500" name="alternativaSolucion" class="form-control disenioInput required" placeholder="(Máximo 500 caracteres)" id="alternativaSolucion"
+					rows="4"></textarea>
+			</div>
+		</div>
+		<div class="abs-center mt-2 " style="font-size: 16px">
+			<span><b>Ingreso del Proponente</b></span><br>
+			<div class="hr-1"></div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-12">
+				<div class="texto">
+					<label>Nombre u Organización Proponente:*</label>
+				</div>
+				<input id="nombreProp" name="nombreProp" type="text" class="form-control disenioInput required">
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-4 mr-5 ">
+				<div class="texto">
+					<label>Teléfono: *</label>
+				</div>
+				<input name="telefonoProp" id="telefonoProp" type="text" class="form-control disenioInput number">
+			</div>
+			<div class="col-sm-4 ml-5 ">
+				<div class="texto">
+					<label>No. Identificación: * </label>
+				</div>
+				<input type="text" id="identificacionProp" name="identificacionProp" class="form-control disenioInput number">
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-4 mr-5 ">
+				<div class="texto">
+					<label>Correo Electrónico : * </label>
+				</div>
+				<input name="emailProp" id="emailProp" type="email" class="form-control disenioInput">
+			</div>
+		</div>
+		<div class="abs-center mt-2 " style="font-size: 16px">
+			<span><b>Estado y Vinculación</b></span><br>
+			<div class="hr-1"></div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-5 ">
+				<div class="texto">
+					<label>Estado de la Iniciativa: *</label>
+				</div>
+				<select class="form-control caja required" name="idLsEstadoInicia" id="idLsEstadoInicia">
+					<option value="">Seleccione una opción</option>
+					<option th:each="estado :${estado}" 
+					th:value="${estado.idArgumento}" th:text="${estado.resultado}">
+					</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-sm-12 ">
+				<div class="texto">
+					<label>Observaciones</label>
+				</div>
+				<textarea id="observacion" name="observacion" class="form-control disenioInput" placeholder="(Máximo 500 caracteres)"  
+					rows="4">
+					</textarea>
+			</div>
+		</div>
+		<div align="right">
+		<a th:href="@{/consultar-iniciativa-ciudadana}">Cancelar</a>
+					<button type="submit" class="boton-archivo" id="boton-cargar">
+						 Agregar
+					</button>
+
+				</div>
+		</form>
+	</div>
+
+
+
+</body>
+<script th:inline="javascript">
+	var listaUpr= new Set();
+	var listaUpz= new Set();
+	var concatena="";
+	var concatena2="";
+	var gruposEtariosMulti = "";
+	var condicionesMulti =[];
+	$(document).ready(function() {
+		/*<![CDATA[*/
+			var modificar =/*[[${editar}]]*/;
+			var iniciativa =/*[[${iniciativaDTO}]]*/;
+			var msgRespuesta = /*[[${messageRespuesta}]]*/;
+			var listaTerritorios = /*[[${listaTerritorios}]]*/;
+			var listaLineas = /*[[${listaLineas}]]*/;
+			var consecutivo = /*[[${consecutivo}]]*/;
+			var entidad=/*[[${entidad}]]*/;
+			console.log(entidad);
+			$('#nombreEntidad').val(entidad.codigoEntidad);
+			console.log(consecutivo);
+			var select = document.getElementById("upr");
+	        var select2 = document.getElementById("upz");
+	        
+	        
+	        
+	        for (var j = 0; j < listaTerritorios.length; j++ ){
+	        	
+	        	if (listaTerritorios[j].idLsUpr !=-1 && !listaUpr.has(listaTerritorios[j].idLsUpr)){
+	        		let opcion = document.createElement('option')
+	        			listaUpr.add(listaTerritorios[j].idLsUpr);
+	        		 opcion.value = listaTerritorios[j].idLsUpr;
+	        		 opcion.text = listaTerritorios[j].nombreUpr;
+	        	     select.add(opcion);
+	        	     
+	        	}
+	        }
+			for (var j = 0; j < listaTerritorios.length; j++ ){
+	        	
+	        	if (listaTerritorios[j].idLsUpz !=-1 && !listaUpz.has(listaTerritorios[j].idLsUpz)){
+	        		let opcion = document.createElement('option')
+	        			listaUpz.add(listaTerritorios[j].idLsUpz);
+	        		 opcion.value = listaTerritorios[j].idLsUpz;
+	        		 opcion.text = listaTerritorios[j].nombreUpz;
+	        	     select2.add(opcion);
+	        	     
+	        	}
+	        }
+			if(modificar==1){
+				if(iniciativa!=null){
+					console.log(iniciativa);
+					$('#codigoIn').val(iniciativa.codigoIn);
+					$('#fechaCodigo').val(iniciativa.fechaCodigo);
+					$('#alternativaSolucion').val(iniciativa.alternativaSolucion);
+					$('#idLsOrigen').val(iniciativa.idLsOrigen);
+					$('#nombre').val(iniciativa.nombre);
+					$('#nombreProp').val(iniciativa.nombreProp);
+					$('#problematica').val(iniciativa.problematica);
+					$('#telefonoProp').val(iniciativa.telefonoProp);
+					$('#emailProp').val(iniciativa.emailProp);
+					$('#identificacionProp').val(iniciativa.identificacionProp);
+					$('#idLsEstadoInicia').val(iniciativa.idLsEstadoInicia);
+					$('#observacion').val(iniciativa.observacion);
+					$('#idLcLineaInv').val(iniciativa.idLcLineaInv);
+					$('#totalPoblacion').val(iniciativa.totalPoblacion);
+					$('#fechaRad').val(iniciativa.fechaRad);
+					$('#numeroRad').val(iniciativa.numeroRad);
+					$('#idIniciativa').val(iniciativa.idIniciativa);
+					gruposEtariosMulti = iniciativa.gruposEtarios.split(";");
+					condicionesMulti=iniciativa.codicionesPoblacionales.split(";");
+					concatenar=iniciativa.gruposEtarios.split(";");
+					concatenar2=iniciativa.codicionesPoblacionales.split(";");
+					$('#concatena2').val(concatenar2);
+					$('#concatena').val(concatenar);
+					document.getElementById("idPlanDesarrollo").value=iniciativa.idPlanDesarrollo;
+					document.getElementById("nombreSector").value=listaTerritorios[0].nombreLocalidad;
+					if(iniciativa.idLcTerritorializacionUpr==-2){
+						document.getElementById("upr").value=iniciativa.idLcTerritorializacionUpr;
+					}else{
+						document.getElementById("upr").value=iniciativa.idLsUpr;
+						var listaTerritorios = /*[[${listaTerritorios}]]*/;
+				        var select = document.getElementById("uprVereda");
+				        var idCompromiso = "";
+				        select.innerHTML = '<option value="">Seleccione una opcion</option>'
+				        for (var j = 0; j < listaTerritorios.length; j++ ){
+				        	
+				        	if (listaTerritorios[j].idLsUpr == iniciativa.idLsUpr && upr!=-2){
+				        		let opcion = document.createElement('option')
+				        		
+				        		 opcion.value = listaTerritorios[j].idLsVereda;
+				        		 opcion.text = listaTerritorios[j].nombreVereda;
+				        	     select.add(opcion);
+				        	     
+				        	}
+				        }
+				        document.getElementById("uprVereda").value=iniciativa.idLsVereda;
+					}
+					
+					if(iniciativa.idLcTerritorializacionUpz==-2){
+						document.getElementById("upz").value=iniciativa.idLcTerritorializacionUpz;
+					}else{
+						document.getElementById("upz").value=iniciativa.idLsUpz;
+						 var listaTerritorios = /*[[${listaTerritorios}]]*/;
+					        var select = document.getElementById("upzBarrio");
+					       
+					        select.innerHTML = '<option value="">Seleccione una opcion</option>'
+					        for (var j = 0; j < listaTerritorios.length; j++ ){
+					        	
+					        	if (listaTerritorios[j].idLsUpz == iniciativa.idLsUpz ){
+					        		let opcion = document.createElement('option')
+					        		
+					        		 opcion.value = listaTerritorios[j].idLsBarrio;
+					        		 opcion.text = listaTerritorios[j].nombreBarrio;
+					        	     select.add(opcion);
+					        	     
+					        	}
+					        }
+					        document.getElementById("upzBarrio").value=iniciativa.idLsBarrio;
+					        
+					}
+					if(iniciativa.radicado==0){
+						$(".radicado0").attr("checked", true);
+					}else{
+						$(".radicado1").attr("checked", true);
+					}
+					if(iniciativa.aplicaLinea==1){
+						$("#linea").show();
+						$('#idLcLineaInv').addClass('required');
+						$(".linea1").attr("checked", true);
+					}else{
+						$(".linea0").attr("checked", true);
+						$("#linea").hide();
+						$('#idLcLineaInv').removeClass('required');
+					}
+					document.getElementById("fechaCodigo").value=iniciativa.fechaCodigo;
+					document.getElementById("codigoEntidad").value=iniciativa.codigoEntidad;
+					document.getElementById("idIniciativa").value=iniciativa.idIniciativa;
+				}
+			}else{
+				$('#codigoIn').val(consecutivo.secuencia);
+				$(".radicado1").attr("checked", true);
+				$(".linea0").attr("checked", true);
+				$("#linea").hide();
+				$('#idLcLineaInv').removeClass('required');
+				var listaLineas = /*[[${listaLineas}]]*/;
+				
+				
+				var entidad=/*[[${entidad}]]*/;
+				var pddDTO =/*[[${pddDTO}]]*/;
+				document.getElementById("idPlanDesarrollo").value=pddDTO.idPlanDesarrollo;
+				document.getElementById("codigoEntidad").value=entidad.codigoDistrital;
+				document.getElementById("nombreSector").value=listaTerritorios[0].nombreLocalidad;
+			}
+			
+			var condiciones = /*[[${condiciones}]]*/;
+			var gruposEtarios=/*[[${gruposEtarios}]]*/;
+			
+			
+			
+			
+			var text="";
+			var value="";
+			if(msgRespuesta!=null){
+				 Swal.fire({
+				        title: 'Información',
+				        text: msgRespuesta,
+				        icon: 'info',
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+				  }).then((result) => {
+					  if (result.value) {
+					  window.location = "consultar-iniciativa-ciudadana";  
+				  }
+				  })
+			}
+			var ddCondiciones = [];
+			
+			
+	        
+			
+			$('.number').on('input', function() {
+				this.value = this.value.replace(/[^0-9]/g, '');
+			});
+			
+			for (var i = 0; i < condiciones.length; i++) {
+				text=condiciones[i].resultado;
+				value=condiciones[i].idArgumento.toString();
+				 arg = value.toString();
+				var myOptions =
+		        {
+			 label: text,
+			 value: arg
+				}		
+		  ddCondiciones.push(myOptions);
+			}
+			
+			var multi1 = new SelectPure(".multi-select2", {
+				    
+					options: ddCondiciones,
+				    multiple: true,
+				   	value:condicionesMulti,
+				    icon: "fa fa-times",
+				    placeholder: "-Seleccione una condición-",
+				    onChange: value => { 
+				    verCodigoCondiciones(value);
+				    },
+				    classNames: {
+				      select: "select-pure__select",
+				      dropdownShown: "select-pure__select--opened",
+				      multiselect: "select-pure__select--multiple",
+				      label: "select-pure__label",
+				      placeholder: "select-pure__placeholder",
+				      dropdown: "select-pure__options",
+				      option: "select-pure__option",
+				      autocompleteInput: "select-pure__autocomplete",
+				      selectedLabel: "select-pure__selected-label",
+				      selectedOption: "select-pure__option--selected",
+				      placeholderHidden: "select-pure__placeholder--hidden",
+				      optionHidden: "select-pure__option--hidden",
+				    }
+				  });
+			var ddGruposEtarios =[];
+			for (var i = 0; i < gruposEtarios.length; i++) {
+				text=gruposEtarios[i].resultado;
+				value=gruposEtarios[i].idArgumento;
+				arg = value.toString();
+				var myOptions =
+		        {
+			 label: text,
+			 value: arg
+				}		
+		  ddGruposEtarios.push(myOptions);
+			}
+			
+			var multi = new SelectPure(".multi-select", {
+			    options: ddGruposEtarios,
+			    
+			    multiple: true,
+			    value:gruposEtariosMulti,
+			    icon: "fa fa-times",
+			    placeholder: "-Seleccione un grupo-",
+			    onChange: value => {
+			    verCodigoGrupos(value);
+			    },
+			    classNames: {
+			      select: "select-pure__select",
+			      dropdownShown: "select-pure__select--opened",
+			      multiselect: "select-pure__select--multiple",
+			      label: "select-pure__label",
+			      placeholder: "select-pure__placeholder",
+			      dropdown: "select-pure__options",
+			      option: "select-pure__option",
+			      autocompleteInput: "select-pure__autocomplete",
+			      selectedLabel: "select-pure__selected-label",
+			      selectedOption: "select-pure__option--selected",
+			      placeholderHidden: "select-pure__placeholder--hidden",
+			      optionHidden: "select-pure__option--hidden",
+			    }
+			  });
+			 $("#upr").change(function() {
+			        var upr = $(this).val();
+			        if(upr==-2){
+			        	$('#uprVereda').attr('disabled',true);
+			        	$('#uprVereda').removeClass('required');
+			        }else{
+			        	$('#uprVereda').attr('disabled',false);
+			        	$('#uprVereda').addClass('required');
+			        var listaTerritorios = /*[[${listaTerritorios}]]*/;
+			        var select = document.getElementById("uprVereda");
+			        var idCompromiso = "";
+			        select.innerHTML = '<option value="">Seleccione una opcion</option>'
+			        for (var j = 0; j < listaTerritorios.length; j++ ){
+			        	
+			        	if (listaTerritorios[j].idLsUpr == upr && upr!=-2){
+			        		let opcion = document.createElement('option')
+			        		
+			        		 opcion.value = listaTerritorios[j].idLsVereda;
+			        		 opcion.text = listaTerritorios[j].nombreVereda;
+			        	     select.add(opcion);
+			        	     
+			        	}
+			        }
+			        }
+			    });
+			 $("#upz").change(function() {
+			        var upz = $(this).val();
+			        if(upz==-2){
+			        	$('#upzBarrio').attr('disabled',true);
+			        	$('#upzBarrio').removeClass('required');
+			        }else{
+			        	$('#upzBarrio').attr('disabled',false);
+			        	$('#upzBarrio').addClass('required');
+			        var listaTerritorios = /*[[${listaTerritorios}]]*/;
+			        var select = document.getElementById("upzBarrio");
+			       
+			        select.innerHTML = '<option value="">Seleccione una opcion</option>'
+			        for (var j = 0; j < listaTerritorios.length; j++ ){
+			        	
+			        	if (listaTerritorios[j].idLsUpz == upz && upz!=-2){
+			        		let opcion = document.createElement('option')
+			        		
+			        		 opcion.value = listaTerritorios[j].idLsBarrio;
+			        		 opcion.text = listaTerritorios[j].nombreBarrio;
+			        	     select.add(opcion);
+			        	     
+			        	}
+			        }
+			        }
+			    });
+			 $('#idLcLineaInv').change(function () {
+				 var idLinea = $(this).val();
+				 var pddDTO =/*[[${pddDTO}]]*/;
+				 var listaLineas = /*[[${listaLineas}]]*/;
+				 if(idLinea==-1){
+					 $('#planDesarrollo').val('');
+						$('#concepto').val('');
+						$('#sector').val('');
+				 }
+				 for (var i = 0; i < listaLineas.length; i++) {
+					if(listaLineas[i].idLineaInversion==idLinea && idLinea!=-1){
+						$('#planDesarrollo').val(pddDTO.nombrePlan);
+						$('#concepto').val(listaLineas[i].concepto);
+						$('#sector').val(listaLineas[i].nombreSector);
+					}
+				}
+			});
+				/*]]>*/
+		$(".linea").click(function(evento) {
+
+			var valor = $(this).val();
+
+			if (valor == '1') {
+				$("#linea").slideDown();
+				$('#idLcLineaInv').addClass('required');
+
+			} else {
+				$("#linea").slideUp();
+				$('#idLcLineaInv').removeClass('required');
+			}
+		});
+		$(".radicado").click(function(evento) {
+
+			var valor = $(this).val();
+
+			if (valor == '0') {
+				$('#fechaRad').prop('disabled', true);
+			
+
+			} else {
+				$('#fechaRad').prop('disabled', false);
+				$("#fRadicado").prop('disabled', false);
+			}
+		});
+		$('#peticionIniciativa').submit(function(e) {
+			var requeridos=$('.required');
+			
+			var completo = true;
+			for (var i = 0; i < requeridos.length; i++) {
+				if($(requeridos[i]).val()=="" || $(requeridos[i]).val()=="-1"){
+					$(requeridos[i]).addClass('vacio');
+					console.log(requeridos[i]);
+					completo = false;
+				}else{
+					$(requeridos[i]).removeClass('vacio');
+				}
+			}
+			if(!completo){
+				Swal.fire({
+			        title: 'Información',
+			        text: "Existen campos obligatorios que no se han registrado",
+			        icon: 'info',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			  })
+			  e.preventDefault();
+			}
+		});
+		function verCodigoGrupos(codigoGrupos) {
+			
+			if (codigoGrupos.length == 0){
+				   concatenar = "";
+				   document.getElementById("concatena").value = concatenar;
+			   }
+			   
+			   concatenar = "";
+			   for (var i = 0; i < codigoGrupos.length; i++){
+				   auxi = codigoGrupos[i];
+				   
+				   concatenar += auxi +";";
+				   document.getElementById("concatena").value = concatenar;
+			   }
+		}
+		function verCodigoCondiciones(codigoGrupos) {
+			
+			if (codigoGrupos.length == 0){
+				   concatenar2 = "";
+				   document.getElementById("concatena2").value = concatenar2;
+			   }
+			   
+			   concatenar2 = "";
+			   for (var i = 0; i < codigoGrupos.length; i++){
+				   auxi = codigoGrupos[i];
+				   
+				   concatenar2 += auxi +";";
+				   document.getElementById("concatena2").value = concatenar2;
+			   }
+		}
+	});
+	
+</script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/dist/bundle.min.js}"></script>
+</html>

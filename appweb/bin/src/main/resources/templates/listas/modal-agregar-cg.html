@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+
+    <div class="modal fade" id="crearCGModal" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg2">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear
+                        componente de Gasto</h5>
+
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-container2">
+                        <form id="form" name="form" th:object="${componenteGasto}"
+                              method="post">
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="codigo_comp">Código componente:</label>
+                                    </div>
+                                    <input class="form-control" id="codigoComponente"
+                                           name="codigoComponente" type="number" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="nombre_componente">Nombre componente:</label>
+                                    </div>
+                                    <input class="form-control" required="required"
+                                           id="nombreComponente" name="nombreComponente" type="text">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="periodo">Tipo proyecto:</label>
+                                    </div>
+                                    <select required="required" name="idLsTipoProyecto"
+                                            id="idLsTipoProyecto" class="form-control selectpicker">
+                                        <option value=""></option>
+                                        <option th:each="lista : ${tipoProyecto}"
+                                                th:value="${lista.idArgumento}" th:text="${lista.argumento}"></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <label for="resultado">Estado:</label><br> <input
+                                        type="checkbox" id="estado" checked="checked" disabled>
+                                    <label for="resultado">Activo</label>
+                                </div>
+                            </div>
+                            <input type="hidden" id="agregar" value="crear_componente_gasto">
+                            <div class="hr"></div>
+                            <br>
+                            <div class="form-row">
+                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                                <div class="texto3">
+                                    <a data-dismiss="modal">Cancelar</a>
+                                </div>
+                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                                <button type="submit" class="myFormButton" name="save" id="boton-modal">
+                                    Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

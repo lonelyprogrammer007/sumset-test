@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<form id="formAgregarFuenteFinanciacion" method="post">
+		<input type="hidden" name="idFuente" id="idFuente"> 
+
+		
+
+		<div class="modal fade" id="agregarFuentesModal" tabindex="-1"
+			role="dialog" aria-labelledby="exampleModalCenterTitle"
+			aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header bg2">
+						<div class="row">
+							<div class="col-sm-5">
+								<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+							</div>
+							<div class="col-sm-7">
+								<span class="titulo">Crear Financiación</span>
+							</div>
+						</div>
+
+
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-container2">
+							<div class="row mt-2">
+
+								<div class="col-sm-12">
+									<div class="texto">
+										<label for="tematica">Fuentes de Financiación</label>
+									</div>
+								</div>
+							</div>
+
+
+<!-- 							<div id="seleccionFuentes" class="row"> -->
+<!-- 								<div class="col-sm-12 "> -->
+<!-- 									<span class="multi-selection" id="sect"></span> <input -->
+<!-- 										type="hidden" id="concatenafuentes" class="required" -->
+<!-- 										name="idsLsfuentes"> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
+							<div id="seleccionFuentes" class="row">
+								<div class="col-sm-12 ">
+									<select class="form-control" name="idsLsfuentes" id="idLsFuente" >
+										<option value="">Seleccione una fuente de financiación</option>
+										<div th:each="option: ${listfuenteFinanciacion}">
+										<option th:value="${option.idArgumento}" th:text="${option.resultado}"></option>
+										</div>
+										
+									</select>
+									
+								</div>
+							</div>
+							<div id="seleccionFuentes-edit" class="row">
+								<div class="col-sm-12 ">
+									 <input id="inputfuenteEdit" class="form-control"  name="stringLsFuente" readonly="readonly" type="text">
+								</div>
+							</div>
+							
+							
+							<!-- imputs de los años -->
+							<div id="ImputsMontosAños" class="mt-5"></div>
+
+
+
+						</div>
+						<div align="right" class="mt-5">
+							<a href="#" data-dismiss="modal">Cancelar</a>
+
+							<button type="submit" class="myFormButton agregar" name="save"
+								id="boton-modal">GUARDAR</button>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

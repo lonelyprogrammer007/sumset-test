@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Administracion de usuario</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/adm-usuarios.css}">
+<script type="text/javascript" th:src="@{/js/nhspdd/datatable-consultas.js}"></script>
+<body>
+
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administración funcional</a></li>
+			<li class="breadcrumb-item">Usuarios y funcionalidades</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administración de usuarios</li> 
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+
+		<div class="abs-center">
+			<span>Administración de usuarios</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+
+
+		<div class="table-responsive">
+			<form th:action="@{/gestion-usuario}" th:object="${usuario}"
+				method="post">
+				<input type="hidden" id="usuario" name="usuario"> 
+				<input type="hidden" id="correoElectronico" name="correoElectronico">
+				<input type="hidden" id="entidad" name="segEntidad.codigoEntidad">
+				<input type="hidden" id="nombre" name="nombre"> 
+				<input type="hidden" id="rol" name="segRol.codigoRol"> 
+				<input type="hidden" id="distrital" name="segEntidad.codigoDistrital">
+				<input type="hidden" id="identi" name="identificacion">
+
+				<table id="dtablaUsuarios" class="table-striped" style="width: 300%">
+					<caption><div class="hr-2"></div></caption>
+					<thead>
+						<tr class="color">
+							<th id="quince">Usuario</th>
+							<th id="quince">Correo Electrónico</th>
+							<th id="veinte">Nombre</th>
+							<th id="diez">Rol</th>
+							<th id="diez">Identificación</th>
+							<th id="quince">Entidad</th>
+							<th id="diez">Estado</th>
+							<th id="diez">Fecha de creación</th>
+							<th id="cinco"><div class="subir">Acción</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="lista: ${list3}">
+							<td class="azul" th:text="${lista.usuario}" />
+							<td class="azul" th:text="${lista.correoElectronico}" />
+							<td class="azul" th:text="${lista.nombre}" />
+							<td class="azul" th:text="${lista.segRol.codigoRol}" />
+							<td class="azul" th:text="${lista.identificacion}" />
+							<td class="azul" th:text="${lista.segEntidad.nombre}" />
+							<td><span th:if="${lista.estado == 1}">Activo</span> <span
+								th:if="${lista.estado == 0 }">Inactivo</span></td>
+							<td class="azul" th:text="${lista.fechaCreacionFormato}" />
+							<td class="azul"><button type="submit"
+									th:attr="onclick=|enviar('${lista.usuario}','${lista.correoElectronico}',
+							'${lista.segEntidad.nombre}', '${lista.nombre}','${lista.segRol.codigoRol}','${lista.segEntidad.codigoDistrital}'
+							,'${lista.identificacion}')|"
+									class="ver">
+									<img src="css/img/icono-1-azul.png" class="editar" alt="Icono para la edicion de formularios" />
+								</button></td>
+						</tr>		
+					</tbody>
+
+				</table>
+			</form>
+		</div>
+
+		<div class="hr1"></div>
+	</div>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function() {
+
+		$('.filter').on('click', function(e) {
+			e.stopPropagation();
+		});
+	});
+	function enviar(usuario, correo, entidad, nombre, rol, codigoDistrital, identificacion) {
+		document.getElementById("usuario").value = usuario;
+		document.getElementById("correoElectronico").value = correo;
+		document.getElementById("entidad").value = entidad;
+		document.getElementById("nombre").value = nombre;
+		document.getElementById("rol").value = rol;
+		document.getElementById("distrital").value = codigoDistrital;
+		document.getElementById("identi").value = identificacion;
+	}
+</script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

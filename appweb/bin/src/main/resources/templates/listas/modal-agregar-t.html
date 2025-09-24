@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+
+    <div class="modal fade" id="agregarTerritorializacionModal" tabindex="-1"
+         role="dialog" aria-labelledby="exampleModalCenterTitle"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Crear
+                        territorializacion</h5>
+
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-container2">
+                        <form id="form" name="form" th:object="${territorializacion}"
+                              method="post">
+                            <input type="hidden" name="idTerritorializacion" id="idTerritorializacion">
+                            <label for="periodo">Localidad:</label>
+
+                            <select required="required" name="idLsLocalidad"
+                                    id="idLsLocalidad" class="form-control selectpicker">
+                                <option value=""></option>
+                                <option th:each="lista : ${localidad}"
+                                        th:value="${lista.idArgumento}" th:text="${lista.argumento}"></option>
+                            </select>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-row">
+                                    <div class="texto2">
+                                        <label class="radio-inline"> &nbsp;UPZ&nbsp;<input
+                                                type="radio"  id="upz" th:onclick="upzMetodo()" required="required" value="upz"  name="season" />
+                                        </label>
+                                    </div>
+                                    <div class="texto2">
+                                        <label class="radio-inline"> &nbsp; &nbsp;&nbsp;|
+                                            &nbsp;&nbsp;UPR&nbsp;<input type="radio"required="required" name="season"  
+                                                                        id="upr" th:onclick="uprMetodo()"  value="upr" />
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="texto">
+                                <label for="periodo">UPZ:</label>
+                            </div>
+                            <select name="idLsUpz" required="required" id="idLsUpz"
+                                    class="form-control selectpicker">
+                                <option value=""></option>
+                                <option th:each="lista : ${upz}" th:value="${lista.idArgumento}"
+                                        th:text="${lista.argumento}"></option>
+                            </select>
+                            <div class="texto">
+                                <label for="periodo">Barrio:</label>
+                            </div>
+                            <select name="idLsBarrio" required="required" id="idLsBarrio"
+                                    class="form-control selectpicker">
+                                <option value=""></option>
+                                <option th:each="lista : ${barrio}"
+                                        th:value="${lista.idArgumento}" th:text="${lista.argumento}"></option>
+                            </select>
+                            <div class="texto">
+                                <label for="periodo">UPR:</label>
+                            </div>
+                            <select name="idLsUpr" required="required" id="idLsUpr"
+                                    class="form-control selectpicker">
+                                <option value=""></option>
+                                <option th:each="lista : ${upr}" th:value="${lista.idArgumento}"
+                                        th:text="${lista.argumento}"></option>
+                            </select>
+                            <div class="texto">
+                                <label for="periodo">Vereda:</label>
+                            </div>
+                            <select name="idLsVereda" required="required" id="idLsVereda"
+                                    class="form-control selectpicker">
+                                <option value=""></option>
+                                <option th:each="lista : ${vereda}"
+                                        th:value="${lista.idArgumento}" th:text="${lista.argumento}"></option>
+                            </select>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <label for="resultado">Estado:</label><br> <input
+                                        type="checkbox" id="estado" checked="checked" disabled>
+                                    <label for="resultado">Activo</label>
+                                </div>
+                            </div>
+                            <input type="hidden" id="agregar" value="gestion_terr">
+                            <input type="hidden" id="edit" value="gestion_terr">
+                            <a data-dismiss="modal">Cancelar</a>
+                            <button type="submit" class="myFormButton" name="save" id="gestion">Registrar</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

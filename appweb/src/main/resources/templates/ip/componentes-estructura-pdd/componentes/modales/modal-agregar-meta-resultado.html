@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head >
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="modal fade" id="agregarMeta" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="tituloMetaResultado">Agregar meta de resultado</span>
+						</div>
+					</div>
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+                    <form id="formAgregarMetaResultado" th:object="${meta}" method="post">
+                    <input type="hidden" value="0" name="sumPond">
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Proyecto estratégico/componentes:</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<input type="text" readonly="readonly" class="form-control" id="proyectoEstrategico">
+								<input type="hidden" id="idNameProy" name="idProyEstrategico">
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Código meta de resultado:</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<input type="text" readonly="readonly" class="form-control" id="codigoMeta">
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Indicador de problemática:*</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<select class="form-control" id="idProblematica" name="idIndicador">
+									<option value="">Seleccione una opción</option>
+									<option th:each="lista : ${indicadorProblematica}"
+									th:value="${lista.idIndicador}" th:text="${lista.nombreIndicador}" />
+								</select>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Línea base indicador: </label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<input type="text" readonly="readonly" class="form-control" id="lineaBaseInd">
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Verbo:*</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<select class="form-control" id="idVerbo" name="idLsVerbo">
+									<option value="">Seleccione una opción</option>
+									<option th:each="lista : ${verbo}"
+									th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+								</select>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Magnitud:* </label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<input type="text" class="form-control" id="idMagnitud" name="magnitud"
+								maxlength="20">
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Unidad de medida:* </label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<select class="form-control" id="idUnidadMedida" name="idLsUnidadMedida">
+									<option value="">Seleccione una opción</option>
+									<option th:each="lista : ${unidadMedida}"
+									 th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+								</select>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Complemento :*</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<input type="text" class="form-control" id="complemento" name="complemento"
+								maxlength="250">
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Tipo de anualización:* </label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<select class="form-control" id="anualizacion" name="idLsTipoAnualizacion">
+									<option value="">Seleccione una opción</option>
+									<option th:each="lista : ${anualizacion}"
+									 th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+								</select>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Ponderación:</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<input type="text" class="form-control" id="idPonderacionAgregar" name="ponderacion"
+								maxlength="20">
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>Estado:*</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<select class="form-control" id="estadoMeta" name="idLsEstado">
+									<option value="">Seleccione una opción</option>
+									<option th:each="lista : ${estado}"
+									 th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+								</select>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12 mt-2">
+								<div class="texto">
+									<label>¿MR PDD?</label>
+								</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<input type="text" class="form-control" readonly="readonly" value="No" id="mr">
+								<input type="hidden" id="formula" value="0" name="esFormulacion">
+							</div> 
+						</div>
+						<br>
+						<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+							<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+								<button class="botonMetaAgregar" name="btnAgregarNivel1" type="submit"
+									id="boton-modal">
+									<img src="css/img/icono-guardar.png" class="guardar"
+										alt="Icono guardar">&nbsp;&nbsp;Guardar
+								</button>
+							</div>
+						</form>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	 $('.botonMetaAgregar').click(function () {  
+		 var indicadorProblematica = document.getElementById("idProblematica").value;
+		 var verbo = document.getElementById("idVerbo").value;
+		 var magnitud = document.getElementById("idMagnitud").value;
+		 var unidadMedida = document.getElementById("idUnidadMedida").value;
+		 var complemento = document.getElementById("complemento").value;
+		 var tipoAnu = document.getElementById("anualizacion").value;
+		 var estado = document.getElementById("estadoMeta").value;
+		 if (indicadorProblematica == "" || verbo == "" || magnitud == "" || unidadMedida == ""
+				 || complemento == "" || tipoAnu == "" || estado == ""){
+			 Swal.fire({
+			        title:"¡Advertencia!",
+				    text: "Existen campos obligatorios que no se han registrado",
+			        icon: "warning",
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+		   })
+		   
+		    return false;
+		 }
+		 
+	 });
+	
+});
+
+</script>
+</html>

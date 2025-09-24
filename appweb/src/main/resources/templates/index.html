@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Ingreso</title>
+        
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/afs/index.css}">
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" th:href="@{/css/bootstrap/sweetalert2.css}">
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+     
+    </head>
+    <body>
+	<div class="row">
+		<div class="col-4 col-sm-4 col-md-5 col-lg-5"></div>
+		<div class="col-8 col-sm-8 col-md-7 col-lg-7">
+
+			<div class="row">
+				<div class="col-7 col-sm-7 col-md-9 col-lg-9">
+					<img 
+						th:src="@{/css/img/boton-ingreso.png}" data-toggle="modal"
+						data-target="#inicioSesionModal" id="boton-ingreso" alt="icono ingreso">
+				</div>
+				<div class="col-3 col-sm-3 col-md-3 col-lg-3">
+					<img 
+						th:src="@{/css/img/logo-alcaldia-bogota.png}" id="logo-alcaldia" alt="icono alcaldia">
+				</div>
+
+			</div>
+		</div>
+	</div>
+	</body>
+	<div th:include="afs/autenticacion/iniciar_sesion.html"></div>
+	<div th:include="afs/autenticacion/restablecer-contrasena.html"></div>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena-primera.html"></div>
+  
+ <script th:inline="javascript">
+ $(document).ready(function() {
+	 /*<![CDATA[*/
+		var inicio_sesion = /*[[${sesion}]]*/;	
+		var error_seguridad = /*[[${errorSeguridad}]]*/;
+		var restablecer = /*[[${messageRestablecer}]]*/;	
+		 if (inicio_sesion != null){
+	    	 
+	    	  Swal.fire({
+			        title: 'Información',
+			        text: 'No ha iniciado sesión',
+			        icon: 'warning',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			    })
+	     }
+		 if (error_seguridad != null){
+
+	    	  Swal.fire({
+			        title: 'Información',
+			        text: 'Ha ocurrido un error en el servicio de seguridad',
+			        icon: 'warning',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			    })
+		 }
+		 
+		 if (restablecer != null){
+
+	    	  Swal.fire({
+			        title: 'Información',
+			        text: restablecer,
+			        icon: 'warning',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			    })
+		 }
+		
+	/*]]>*/
+ });
+ </script>   
+    <script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

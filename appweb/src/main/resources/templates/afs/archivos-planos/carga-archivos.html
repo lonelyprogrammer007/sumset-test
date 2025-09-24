@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Cargar archivos planos</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/archivo-plano.css}">
+<body>
+
+	<header th:replace="/home:: header"></header>
+
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+			>Administración funcional</a></li>
+			<li class="breadcrumb-item">Cargue y gestión de información</li>	
+			<li class="breadcrumb-item" aria-current="page"><a th:href="@{/consultar-archivos}">Carga de archivos planos</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Carga de archivos planos</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Carga de archivo plano</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<form id="form" class="formArchiv" th:action="@{/archivoPlanoCargar}" method="post"
+			th:object="${archivoPlano}" enctype="multipart/form-data">
+			<div class="col-lg-12 col-md-12">
+			
+				<div class="form-group">
+					<div class="texto-archivo-plano">
+						<label for="periodo">Módulo:*</label>
+					</div>
+					<div class="caja">
+						<select class="form-control required" id="moduloArchivo" name="modulo" >
+							<option value=""></option>
+							<option th:each="lista : ${modulo}"
+								th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+
+						</select>
+						
+					</div>
+					<input type="hidden" id="nameModulo" name="nombreModulo">
+				</div>
+			</div>
+			<div class="col-lg-12 col-md-12">
+				<div class="form-group">
+					<div class="texto-archivo-plano">
+						<label for="periodo">Tema:*</label>
+					</div>
+					<div class="caja">
+						<select class="form-control required" id="temaArchivo" name="tema">
+							<option value=""></option>
+							<option th:each="lista : ${tema}" th:value="${lista.idArgumento}"
+								th:text="${lista.resultado}" />
+
+						</select>
+					</div>
+					<input type="hidden" id="nameTema" name="nombreTema">
+				</div>
+			</div>
+
+			<div class="col-lg-12 col-md-12">
+				<div class="form-group">
+					<div class="texto-archivo-plano">
+						<label for="periodo">Seleccionar archivo</label>
+					</div>
+       
+					<div class="input__row uploader requiredArchivo">
+						<div id="inputval" class="input-value"></div>
+						<label for="file_1"><img src="css/img/examinar-over.png" class="cargar" alt="Icono para examinar archivos del equipo y cargarlos">&nbsp;&nbsp;Examinar</label><input id="file_1"
+							class="upload" type="file" name="file1">
+					</div>
+
+
+				</div>
+			</div>
+			<div class="col-lg-12 col-md-12">
+				<div class="float-Left">
+					<button type="submit" class="boton-archivo" id="boton-cargar">
+						<img src="css/img/icono-cargar.png" class="cargar" alt="Icono para cargar en tabla el archivo seleccionado">&nbsp;&nbsp;&nbsp;&nbsp; Cargar archivo	&nbsp;&nbsp;
+					</button>
+
+				</div>
+			</div>
+		</form>
+		<br>
+		<div class="col-lg-12 col-md-12">
+			<div class="form-group">
+				<div class="texto-archivo-plano">
+					<label for="periodo">Resultado de cargue</label>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+		<div class="col-lg-4 col-md-4">
+		<label class="cargueLabel">Total registros del archivo:</label>
+		</div>
+		<div class="col-lg-4 col-md-4">
+		<span th:if="${cargue != null}" th:text="${cargue.totalRegistros}" class="numeroArchivo"></span>
+		</div></div>
+		
+		<div class="row">
+		<div class="col-lg-4 col-md-4">
+		<label class="cargueLabel">Total registros con error:</label>
+		</div>
+		<div class="col-lg-4 col-md-4">
+		<span th:if="${cargue != null}" th:text="${cargue.totalRegistrosConError}" class="numeroArchivo"></span>
+		</div></div>
+		
+		<div class="row">
+		<div class="col-lg-4 col-md-4">
+		<label class="cargueLabel">Total registros encontrados o actualizados:</label>
+		</div>
+		<div class="col-lg-4 col-md-4">
+		<span th:if="${cargue != null}" th:text="${cargue.totalRegistrosActualizados}" class="numeroArchivo"></span>
+		</div></div>
+		
+		<div class="row">
+		<div class="col-lg-4 col-md-4">
+		<label class="cargueLabel">Total registros insertados:</label>
+		</div>
+		<div class="col-lg-4 col-md-4">
+		<span th:if="${cargue != null}" th:text="${cargue.totalRegistrosInsertados}" class="numeroArchivo"></span>
+		</div></div>
+        <br>
+        <br>
+		<div  class="table-responsive">
+			<div th:include="afs/archivos-planos/tabla-presupuestal.html"></div>
+		</div>
+		<br>
+		<div class="float-right">
+			<a th:href="@{/consultar-archivos}"><button type="button"
+					class="boton-regresar">
+					<img src="css/img/volver-over.png" class="volver" alt="Icono para regresar">&nbsp;&nbsp;Volver
+				</button></a>
+		</div>
+		<br>
+	</div>
+	<br>
+	<br>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+	<footer th:replace="/home:: footer"></footer>
+	
+</body>
+<script th:inline="javascript">
+var ext ="";
+ $(document).ready(function () {
+           
+            /*<![CDATA[*/
+            var arch = /*[[${arch}]]*/;
+            var mensaje = /*[[${msgRespuesta}]]*/;
+            if (arch != null){
+            document.getElementById("moduloArchivo").value = arch.modulo;
+            document.getElementById("temaArchivo").value = arch.tema;
+            crear();
+            }else {
+            	 var tablaPres = document.getElementById("dtablaPresupuesto");
+                 tablaPres.style.display = "none";
+            }
+            if(mensaje != null) {
+            	 Swal.fire({
+				        title:"¡Advertencia!",
+					    text: mensaje,
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			   })
+			   
+            }
+            /*]]>*/
+            
+            $('#file_1').on('change',function(){
+             	
+             	 $('#inputval').text($(this).get(0).files.item(0).name);
+            });
+
+    
+           $('.formArchiv').submit(function(e){
+        	          	
+				var variables = $('.required');
+				var archivo = document.getElementById("file_1").value;
+				var archive = $('.requiredArchivo');
+				var contador = variables.length;
+			    $("select[name='tema']").each(function() {
+                  var temaString = $('select[name="tema"] option:selected').text();
+                  document.getElementById("nameTema").value = temaString;
+                });
+			    $("select[name='modulo']").each(function() {
+	              var moduloString = $('select[name="modulo"] option:selected').text();
+	              document.getElementById("nameModulo").value = moduloString;
+	             
+	           });
+			    var tema = document.getElementById("temaArchivo").value;
+                var modulo = document.getElementById("moduloArchivo").value; 
+				
+				
+				for (var i = 0; i < variables.length; i++) {
+					if($(variables[i]).val()=='' || $(variables[i]).val()==undefined){
+						$(variables[i]).addClass('requerido');
+						contador = contador-1;
+					}else{
+						$(variables[i]).removeClass('requerido');
+					}
+				}
+				if(contador!=variables.length && archivo == "" ){
+					
+					$(archive).addClass('requerido');
+					e.preventDefault();
+					  Swal.fire({
+					        title: 'Información',
+					        text: "Existen campos obligatorios que no se han registrado",
+					        icon: 'warning',
+					        confirmButtonText: 'Aceptar',
+					        allowOutsideClick: () => false
+					    })
+					    
+					    return false;
+				}else { 
+					if (tema!= "" && modulo!= "" && archivo == ""){
+					 $(archive).addClass('requerido');
+	             	 Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "No se ha seleccionado ningún archivo",
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			         })
+
+	             	 return false;
+				   }
+					else {
+						 if (ext != "txt"){
+				       Swal.fire({
+				 		 title:"¡Advertencia!",
+				 		 text: "El tipo de archivo seleccionado no corresponde a una extensión permitida",
+				 		 icon: "warning",
+				 		 confirmButtonText: 'Aceptar',
+				 	     allowOutsideClick: () => false
+				 	  })
+				      return false;
+				      }
+						 else {
+		 					  $(archive).removeClass('requerido');
+							 Swal.fire({
+			 	                    title: 'Cargando...',
+			 	                    position: 'top',
+			 	                    allowOutsideClick: () => !Swal.isLoading(),
+			 	                    onBeforeOpen: () => {
+			 	                        Swal.showLoading();
+			 	                    }
+			 	                });
+			             	  return true;
+						 }
+					}
+						
+				}	
+			   });
+     
+
+            $(document).on('change', 'input[type="file"]', function() {
+            	var fileName = this.files[0].name;
+            	var fileSize = this.files[0].size;
+            	ext = fileName.split('.').pop();
+            	
+            	switch (ext){
+            		case 'txt':
+            			
+            		break;
+            		default: 
+            			Swal.fire({
+     				        title:"¡Advertencia!",
+     					    text: "El tipo de archivo seleccionado no corresponde a una extensión permitida",
+     				        icon: "warning",
+     				        confirmButtonText: 'Aceptar',
+     				        allowOutsideClick: () => false
+     			   })
+     		
+     			   break;
+            	}
+            	
+            
+            });
+            
+ });
+ 
+function crear() {
+    
+     	
+     	var tablaPres = document.getElementById("dtablaPresupuesto");
+        tablaPres.style.display = "block";
+        
+        $('#dtablaPresupuesto thead th').each(function () {
+            var title = $(this).text();
+             $(this).html('<div class="form-group" id="centrado2">' + '<label for="th" class="blanco">' + title + '</label>' + '<div class="centrado">' + '<input class="form-control filter" id="nombre1" type="text"  placeholder="&#xf0b0; Filtrar ' + title + '" />' + '</div>' + '</div>');
+           
+        });
+        
+        
+         var table_2 = $('#dtablaPresupuesto').DataTable({
+         	"language": {
+                 "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+                 "infoEmpty": '<div class="formato">0 de 0.</div>',
+                 "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+                 "zeroRecords": "No se han encontrado coincidencias.",
+                 "responsive": true,
+                 "paginate": {
+                     "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+                     "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+                     "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+                     "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+                 },
+                 "lengthMenu": "_MENU_",
+             },
+             "lengthMenu": [5, 10, 20, 50, 100],
+             "pageLength": 5,
+             "pagingType": "full_numbers",
+             "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+             "<'row'<'col-sm-8 col-md-7'tr>>" +
+             "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+         });
+         $('div.dataTables_length select').addClass("formato-2");
+         
+         table_2.columns().every(function () {
+             var that = this;
+
+             $('input', this.header()).on('keyup change clear', function () {
+                 if (that.search() !== this.value) {
+                     that
+                             .search(this.value)
+                             .draw();
+                 }
+             });
+         });
+     	   
+ 
+ }
+</script> 
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

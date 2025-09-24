@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+
+    <div class="modal fade" id="modalPotEditar" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Editar
+                        POT Proyectos-Instrumentos</h5>
+
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-container2">
+                        <form id="form" name="form" th:object="${proyecto}"
+                              action="#" th:action="@{/editar_ProyectosPOT}" method="post">
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="periodo">POT Proyecto:</label>
+                                    </div>
+                                    <div class="col-lg-12 col-md-15">
+                                        <div class="form-group">
+                                            <input
+                                                class="form-control" id="idProyectoInstrumento" type="hidden"
+                                                name="idProyectoInstrumento">
+
+                                        </div>
+                                    </div>
+                                    <div class="texto">
+                                        <label for="periodo">Pot Proyecto:</label>
+                                    </div>
+                                    <select required="required" name="idLsPotProyecto" id="idLsPotProyecto"
+                                            class="form-control selectpicker">
+                                        <option  th:each="potProyectoInstrumento : ${potProyecto}"
+                                                 th:value="${potProyectoInstrumento.idArgumento}"
+                                                 th:text="${potProyectoInstrumento.argumento}"></option>
+                                    </select>
+
+                                    <div class="texto">
+                                        <label for="periodo">Instrumento:</label>
+                                    </div>
+                                    <select required="required" name="idLsInstrumento" id="idLsInstrumento"
+                                            class="form-control selectpicker">
+
+                                        <option  th:each="instrumento : ${instrumentos}"
+                                                 th:value="${instrumento.idArgumento}"
+                                                 th:text="${instrumento.argumento}"></option>
+                                    </select>
+
+
+                                </div>
+
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <label for="resultado">Estado:</label><br> <input
+                                        type="checkbox" id="estado" checked="checked" disabled> 
+                                    <label for="resultado">Activo</label>
+                                </div>
+                            </div>
+                            <input type="hidden" id="edit" value="editar_ProyectosPOT">
+                            <a data-dismiss="modal">Cancelar</a>
+                            <button type="submit" class="myFormButton" name="edit">
+                                ACEPTAR
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</html>

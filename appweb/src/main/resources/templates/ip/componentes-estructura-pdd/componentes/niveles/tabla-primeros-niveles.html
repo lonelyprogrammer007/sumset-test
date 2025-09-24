@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span id="nivel1"></span><br>
+
+	</div>
+	<div align="left" class="mb-3">
+
+		<button class="boton-agregar mt-3" type="button" onclick="agregarPrimerosNivelesModales()" id="btnAgregarPrimerNiveles">
+			<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar"> Agregar
+		</button>
+    <input type="hidden" id="labelAgregarNivel1">
+	</div>
+	<input type="hidden" id="idRegistroEliminar" name="idRegistro">
+	<form id="formEliminarRegistro"  method="get">
+		</form>
+	
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablaNivelesPrimeros" style="width: 175%">
+		<caption><div class="hr-2"></div></caption>
+			<thead>
+				<tr>
+					<th style="width: 15%;" class="color-head" id="campo1Nivel1"><br></th>
+					<th class="color-head">Denominación<br></th>
+					<th class="color-head">Ponderación<br></th>
+					<th class="color-head">Nombre<br></th>
+					<th style="width: 20%;" class="color-head">Gerente Nivel 1 Correo<br></th>
+					<th class="color-head">Genero<br></th>
+					<th style="width:12%;" class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+			        <tbody>
+					</tbody>
+					<tfoot>
+							<tr class="total">
+								<td colspan="2"><div class="total_2">Total ponderación</div></td>
+     							<td id="contaAsigna">0</td>
+								<td colspan="4"></td>
+							</tr>
+						</tfoot>
+		</table>
+		</div><br>
+		<form id="formBtnSeguir" th:object="${pdd}" method="get">
+		<div class="float-right">
+			   <button type="submit" id="btnSeguir" 
+					class="boton-regresar">
+						<img src="css/img/continuar-over.png" class="volver" alt="Icono agregar">&nbsp;&nbsp; Seguir
+			 </button>
+		</div>
+		</form>
+	    <br>
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-agregar-primeros-niveles.html"></div>
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-editar-primeros-niveles.html"></div>
+</body>
+
+
+<script th:inline="javascript">
+
+function agregarPrimerosNivelesModales(){
+	document.getElementById("idDenominacion").value = "";
+	document.getElementById("idPonderacion").value = "";
+	document.getElementById("nombreGerenteAgregar").value = "";
+	document.getElementById("correoGerenteAgregar").value = "";
+	document.getElementById("idLsGenero").value = "";
+	
+	$('#agregarEjePilar').modal('show');
+}
+
+</script>
+</html>

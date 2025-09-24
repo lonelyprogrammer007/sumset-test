@@ -1,0 +1,87 @@
+.tabs {
+	margin: 0 auto;
+	padding: 0;
+}
+
+#tab-button {
+	display: table;
+	table-layout: fixed;
+	width: 70%;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	text-align: left;
+	list-style: none;
+}
+
+#tab-button li {
+	display: table-cell;
+	padding-left:35px;
+	padding-right:35px;
+	font-family: Apex new medium;
+	width: 30%;
+}
+
+#tab-button li a {
+	display: block;
+	padding: .5em;
+	text-align: center;
+	background: #99BAD79E;
+	border-radius: 10px 10px 0px 0px;
+	border-bottom-color: #00529C;
+	color: #00458B;
+	text-align: left;
+	opacity: 1;
+	margin-left:-250px;
+	margin-right:200px;
+	margin-top: 10px;
+	color: #00458B;
+}
+
+#tab-button li a:hover {
+	background: #00529C 0% 0% no-repeat padding-box;
+	color: #fff;
+}
+
+#tab-button li:not (:first-child ) a {
+	border-left: none;
+}
+
+#tab-button li a:hover, #tab-button .is-active a {
+	background: #00529C 0% 0% no-repeat padding-box;
+	color: #fff;
+}
+
+.tab-contents {
+	padding: .5em 2em 1em;
+	border: 1px solid #00529C;
+	margin-left:-215px;
+	border-radius: 0px 10px 10px 10px;
+	opacity: 1;
+}
+
+.tab-button-outer {
+	display: none;
+}
+
+@media screen and (min-width: 768px) {
+	.tab-button-outer {
+		position: relative;
+		z-index: 2;
+		display: block;
+	}
+	.tab-select-outer {
+		display: none;
+	}
+	.tab-contents {
+		position: relative;
+		top: -1px;
+		margin-top: 0;
+	}
+}
+#txtPolitica {
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+	border: 1px solid #00529C;
+	border-radius: 10px;
+	opacity: 1;
+}

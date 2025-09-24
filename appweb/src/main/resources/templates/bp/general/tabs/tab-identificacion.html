@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Identificación del Problema o Necesidad</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<form>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto-archivo-plano ">
+					Antecedentes <b style="color: red">*</b>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<textarea rows="" class="form-control" cols="4"
+					placeholder="máximo 4000 caracteres" maxlength="4000"
+					name="antecedente" id="antecedente"></textarea>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto-archivo-plano ">
+					Situación Actual<b style="color: red">*</b>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<textarea rows="" class="form-control" cols="4"
+					placeholder="máximo 2000 caracteres" maxlength="2000"
+					name="situacion"></textarea>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto-archivo-plano ">
+					Descripción del Universo <b style="color: red">*</b>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<textarea rows="" class="form-control" cols="4"
+					placeholder="máximo 4000 caracteres" maxlength="4000"
+					name="descripcionUniverso"></textarea>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano ">
+					Cuantificación del Universo <b style="color: red">*</b>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano ">
+					Unidad de Medida <b style="color: red">*</b>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-4">
+				<input type="text" class="form-control">
+			</div>
+			<div class="col-sm-4">
+				<select class="form-control" name="idLsUnidad">
+					<option selected="selected">Seleccione una opción</option>
+					<option th:each="unidad : ${unidades}"
+						th:value="${unidad.idArgumento}" th:text="${unidad.resultado}">
+				</select>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-6">
+				<div class="texto-archivo-plano ">
+					Localización del universo <b style="color: red">*</b>
+				</div>
+			</div>
+
+			
+		</div>
+		<div class="row mt-2">
+		<div class="col-sm-6">
+				<select class="form-control">
+					<option value=" ">Seleccione una opción</option>
+					<option th:each="localizacion :${localizacion}"
+						th:value="${localizacion.idArgumento}"
+						th:text="${localizacion.resultado}"></option>
+				</select>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-6">
+				<div class="texto-archivo-plano ">
+					UPZ <b style="color: red">*</b>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="texto-archivo-plano ">
+					UPR <b style="color: red">*</b>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-6">
+				<select class="form-control">
+					<option selected="selected">Seleccione una opción</option>
+				</select>
+			</div>
+			<div class="col-sm-6">
+				<select class="form-control">
+					<option selected="selected">Seleccione una opción</option>
+				</select>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-6">
+				<div class="texto-archivo-plano ">
+					Barrio <b style="color: red">*</b>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="texto-archivo-plano ">
+					Vereda <b style="color: red">*</b>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-6">
+				<select class="form-control">
+					<option selected="selected">Seleccione una opción</option>
+				</select>
+			</div>
+			<div class="col-sm-6">
+				<select class="form-control">
+					<option selected="selected">Seleccione una opción</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row mt-4">
+
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano ">Arbol de problema de la
+					formulación del proyecto</div>
+			</div>
+
+			<div class="col-sm-3">
+				<button class="boton-agregar mt-3" type="button">
+					<i class="fa fa-save"></i> Examinar
+				</button>
+			</div>
+		</div>
+
+		<div class="table-responsive mt-3">
+			<table class="table-striped" id="dtablapp" style="width: 100%">
+				<thead>
+					<tr>
+						<th class="color-head">Consecutivo<br></th>
+						<th class="color-head">Nombre Archivo<br></th>
+						<th class="color-head">Fecha de Cargue<br></th>
+						<th class="color-head">Acciones<br></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div align="right" class="mt-3">
+			<a th:href="@{/consultar-proyecto-entidad/1}" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+			<button class="botonAgregarIndicadorMeta" name="btnAgregarNivel1"
+				type="submit" id="boton-modal">
+				<img src="css/img/icono-guardar.png" class="guardar"
+					alt="Icono guardar">&nbsp;&nbsp;Guardar
+			</button>
+
+		</div>
+	</form>
+</body>
+</html>

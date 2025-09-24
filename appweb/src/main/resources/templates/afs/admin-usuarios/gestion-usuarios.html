@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Gestión de usuarios</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/adm-usuarios.css}">
+<body>
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administración funcional</a></li>
+			<li class="breadcrumb-item">Usuarios y funcionalidades</li>
+			<li class="breadcrumb-item"><a th:href="@{/admin-usuario}">Administración de usuarios</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consultar gestión de usuarios</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Gestión de usuarios</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="tipoIdent">Código de Usuario</label>
+				</div>
+				<input type="text" th:value="${usuario.usuario}"
+					class="form-control" id="codigousuario" disabled="disabled">
+			</div>
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="identif">Entidad</label>
+				</div>
+				<input type="text" th:value="${usuario.segEntidad.codigoEntidad}"
+					class="form-control" id="codigousuario" disabled="disabled">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="tipoIdent">Correo Eléctronico</label>
+				</div>
+				<input type="text" class="form-control"
+					th:value="${usuario.correoElectronico}" id="codigousuario"
+					disabled="disabled">
+			</div>
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="identif">Nombre</label>
+				</div>
+				<input type="text" class="form-control" th:value="${usuario.nombre}"
+					id="codigousuario" disabled="disabled">
+			</div>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="identif">Identificación</label>
+				</div>
+				<input type="text" class="form-control"
+					th:value="${usuario.identificacion}" id="identificacion"
+					disabled="disabled">
+			</div>
+			<div class="form-group col-md-6">
+				<div class="texto-archivo-plano">
+					<label for="identif">Rol</label>
+				</div>
+				<input type="hidden" id="rolAuxiliar"
+					th:value="${usuario.segRol.codigoRol}"
+					th:attr="onclick=|enviar('${usuario.segRol.codigoRol}')|">
+				<input type="text" class="form-control" id="idRol"
+					disabled="disabled">
+			</div>
+
+		</div>
+
+
+		<div class="tabs" id="tabsUsuarios">
+			<div class="tab-button-outer">
+				<ul id="tab-button">
+					<li><a href="#tab01">Asignar Entidades y/o Alcaldias
+							Locales</a></li>
+					<li><a href="#tab02" id="componenteGes">Asignar
+							Componentes de Gestión</a></li>
+					<li><a href="#tab03"
+						th:if="${usuario.segEntidad.delegar == 1}">Asignar Proyectos
+							de Inversión</a></li>
+
+				</ul>
+			</div>
+			<div class="tab-select-outer">
+				<select id="tab-select">
+					<option value="#tab01">Asignar Entidades y/o Alcaldias</option>
+					<option value="#tab02">Asignar Componentes de Gestión</option>
+					<option value="#tab03" th:if="${usuario.segEntidad.delegar == 1}">Asignar
+						Proyectos de Inversión</option>
+				</select>
+			</div>
+
+			<div id="tab01" class="tab-contents nh">
+				<br>
+				<div class="table-responsive">
+					<table id="dtablaAsignarEntidad" class="table-striped"
+						style="width: 175%">
+						<caption><div class="hr-2"></div></caption>
+						<thead>
+							<tr class="color">
+								<th id="">Código entidad</th>
+								<th id="">Entidad</th>
+								<th id=""><div class="subir_checkbox">Asignar</div>
+								<div class="centrado"><input type="checkbox" value="-1" id="checkTodos"
+											onclick="asignarTodos();"></div></th>
+								<th id=""><div class="subir_checkbox">Modificar datos</div>
+								<div class="centrado"><input type="checkbox" value="-1" id="checkTodos2"
+											onclick="asignarTodos2();" disabled="disabled"></div></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr id="filter" th:each="lista: ${entidades}">
+								<td class="azul" th:text="${lista.codigoDistrital}" />
+								<td class="azul" th:text="${lista.nombre}" />
+								<td><div class="centrado">
+										<input type="checkbox" 
+											th:id="'check-'+${lista.codigoDistrital}"
+											class="chk_registro" name="chk_registro[]"
+											th:attr="onclick=|seleccionarIndividual('${lista.codigoDistrital}')|">
+									</div></td>
+								<td><div class="centrado">
+										<input type="checkbox"
+											th:id="'check'+${lista.codigoDistrital}"
+											class="chk_registro2" name="chk_registro2[]"
+											disabled="disabled"
+											th:attr="onclick=|seleccionarIndividual2('${lista.codigoDistrital}')|">
+									</div></td>
+
+							</tr>
+
+						</tbody>
+						<tfoot>
+							<tr class="total">
+								<td colspan="2"><div class="total_2">TOTAL</div></td>
+								<td id="contaAsigna">0</td>
+								<td id="contaModifica">0</td>
+							</tr>
+						</tfoot>
+					</table>
+
+
+				</div>
+			    <br>
+				<form th:action="@{/asignarEntidades}" th:object="${entidad}"
+					method="post">
+					<input type="hidden" id="entidades" name="stringConcatenado">
+					<input type="hidden" id="modificar" name="stringModificar">
+					<input type="hidden" id="usuario" name="codigoUsuario">
+					<div align="right">
+						<button type="submit" class="boton-guardar"
+							id="btn-asignarEntidad">
+							<img src="css/img/icono-guardar.png" class="editar"
+								alt="Icono para la edicion de formularios">&nbsp;&nbsp;Guardar&nbsp;
+						</button>
+					</div>
+				</form>
+
+			</div>
+			<div id="tab02" class="tab-contents">
+				<div class="container padin">
+					<br>
+					<div class="row">
+						<div class="col-sm-4 col-md-5 col-lg-5">
+							<div class="list-group" id="list1">
+
+								<a class="list-group-item active"><span class="proyInver">Componentes
+										Disponibles</span></a> <select name="origen[]" id="origen"
+									multiple="multiple" size="8" class="form-control">
+									<option value="1"
+										th:each="componentegestiondto: ${componenteGestionDisponible}"
+										th:text="${componentegestiondto.denominacion}"
+										th:value="${componentegestiondto.idAtributo}" />
+
+
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2 col-md-1">
+
+							<button class="pasartodos izq">
+								<img th:src="@{/css/img/icono-flecha-doble-derecha.png}" alt="Icono pasar todos los elementos">
+							</button>
+							<button class="pasar izqDoble">
+								<img th:src="@{/css/img/icono-flecha-derecha.png}" alt="Icono pasar elementos a la izquierda">
+							</button>
+
+							<button class="quitar der">
+								<img th:src="@{/css/img/icono-flecha-izquierda.png}"  alt="Icono pasar elementos a la derecha">
+							</button>
+							<button class="quitartodos derDoble">
+								<img th:src="@{/css/img/icono-flecha-doble-izquierda.png}" alt="Icono pasar todos los elementos">
+							</button>
+
+						</div>
+						<div class="col-sm-4 col-md-5 col-lg-5">
+							<form class="form" role="form" th:object="${componenteGestion}"
+								th:action="@{/asignarComponentes}" method="post">
+								<div class="list-group" id="list2">
+
+									<a class="list-group-item active"><span class="proyInver">Componentes
+											Asignados</span></a> <select name="destino[]" id="destino"
+										multiple="multiple" size="8" class="form-control">
+										<option value="1"
+											th:each="componentegestiondto: ${componenteGestionAsignado}"
+											th:text="${componentegestiondto.denominacion}"
+											th:value="${componentegestiondto.idComponenteGestion}" />
+									</select>
+
+								</div>
+								<br> <input type="hidden" id="inputProyecto1"
+									name="stringConcatenado"> <input type="hidden"
+									id="idUsuario" name="codigoUsuario">
+								<div class="float-right">
+									<button type="submit" class="boton-asignar"
+										id="boton-componente">
+										<img src="css/img/icono-guardar.png" class="editar" alt="Icono de guardar">&nbsp;&nbsp;Guardar
+									</button>
+
+								</div>
+							</form>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+			<div id="tab03" class="tab-contents">
+				<div class="container padin">
+					<br>
+					<div class="row">
+						<div class="col-sm-8 col-md-5 col-lg-5">
+							<div class="list-group" id="list3">
+								<a class="list-group-item active"><span class="proyInver">Proyectos
+										de inversion Disponibles</span></a> <select name="origen[]" id="origen1"
+									multiple="multiple" size="8" class="form-control">
+									<option th:each="proyectoinversiondto: ${proyectoInversion}"
+										th:text="${proyectoinversiondto.nombre}"
+										th:value="${proyectoinversiondto.idProyectoInversion}" />
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-2 col-md-1">
+							<button class="pasartodos1 izq">
+								<img th:src="@{/css/img/icono-flecha-doble-derecha.png}" alt="Icono pasar todos los elementos">
+							</button>
+							<button class="pasar1 izqDoble">
+								<img th:src="@{/css/img/icono-flecha-derecha.png}" alt="Icono pasar elementos a la izquierda">
+							</button>
+
+							<button class="quitar1 derDoble">
+								<img th:src="@{/css/img/icono-flecha-izquierda.png}"  alt="Icono pasar elementos a la derecha">
+							</button>
+							<button class="quitartodos1 der">
+								<img th:src="@{/css/img/icono-flecha-doble-izquierda.png}" alt="Icono pasar todos los elementos">
+							</button>
+
+						</div>
+						<div class="col-sm-8 col-md-5 col-lg-5">
+							<form class="form" role="form" th:object="${proyectoInversion}"
+								th:action="@{/asignarProyectos}" method="post">
+								<div class="list-group" id="list2">
+									<a class="list-group-item active"><span class="proyInver">Proyectos
+											de inversion Asignados</span></a> <select name="destino[]" id="destino1"
+										multiple="multiple" size="8" class="form-control">
+										<option
+											th:each="proyectoinversiondto: ${proyectoInversionAct}"
+											th:text="${proyectoinversiondto.nombre}"
+											th:value="${proyectoinversiondto.idProyectoInversion}" />
+
+									</select>
+								</div>
+								<br> <input type="hidden" id="inputProyecto"
+									name="stringConcatenado"> <input type="hidden"
+									id="idUsuario" name="codigoUsuario">
+								<div class="float-right">
+									<button type="submit" class="boton-asignar" id="boton-proyecto">
+										<img src="css/img/icono-guardar.png" class="editar" alt="Icono editar">&nbsp;&nbsp;Guardar&nbsp;
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<br>
+		<div class="float-right">
+			<a th:href="@{/admin-usuario}"><button type="button"
+					class="boton-regresar">
+					<img src="css/img/volver-over.png" class="editar" alt="Icono de regresar">&nbsp;&nbsp;Volver
+				</button></a>
+		</div>
+		<br>
+	</div>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+</body>
+<script type="text/javascript">
+	$().ready(function() {
+		$('.pasar').click(function() {
+			return !$('#origen option:selected').remove().appendTo('#destino');
+		});
+		$('.quitar').click(function() {
+			return !$('#destino option:selected').remove().appendTo('#origen');
+		});
+		$('.pasartodos').click(function() {
+			$('#origen option').each(function() {
+				$(this).remove().appendTo('#destino');
+			});
+		});
+		$('.quitartodos').click(function() {
+			$('#destino option').each(function() {
+				$(this).remove().appendTo('#origen');
+			});
+		});
+		$('.submit').click(function() {
+			$('#destino option').prop('selected', 'selected');
+		});
+		$('.filter').on('click', function(e){
+		       e.stopPropagation();    
+		    });
+	});
+</script>
+<script type="text/javascript">
+	$().ready(
+			function() {
+				$('.pasar1').click(
+						function() {
+							return !$('#origen1 option:selected').remove()
+									.appendTo('#destino1');
+						});
+				$('.quitar1').click(
+						function() {
+							return !$('#destino1 option:selected').remove()
+									.appendTo('#origen1');
+						});
+				$('.pasartodos1').click(function() {
+					$('#origen1 option').each(function() {
+						$(this).remove().appendTo('#destino1');
+					});
+				});
+				$('.quitartodos1').click(function() {
+					$('#destino1 option').each(function() {
+						$(this).remove().appendTo('#origen1');
+					});
+				});
+				$('.submit').click(function() {
+					$('#destino1 option').prop('selected', 'selected');
+				});
+			});
+</script>
+<script th:inline="javascript" async="async">
+var concatena =""; 
+var concatenaModificar = "";
+var str="";
+var str2="";
+var contadorAsignar = 0;
+var concatenaProyecto = "";
+var contaUnos = 0;
+var cerosUnos = "";
+
+
+$(document).ready(function() {
+	
+	cargarDatos();
+	var ident = document.getElementById("identificacion").value;
+	if (ident == "null"){
+		document.getElementById("identificacion").value = "Identificación no asignada";
+	}
+	
+	$('.filter').on('click', function(e){
+	       e.stopPropagation();    
+	    });
+	/*<![CDATA[*/
+     var tabComponente = /*[[${tabComponente}]]*/;
+     var entAsignada =  /*[[${entidadAsignada}]]*/;
+     console.log(entAsignada);
+     var ent = "";
+     var modifica = "";
+   
+     
+     var textRol = document.getElementById("rolAuxiliar").value;
+     var nombres = textRol.split("\t");     
+     document.getElementById("idRol").value = nombres;
+    
+     
+     
+     $('#dtablaAsignarEntidad').DataTable().on("draw", function(){
+    	   entAsignada.forEach(function(array) {
+  	         ent = array.codigoEntidad;
+  	         modifica = array.modificarDatos;
+  	         
+  	         $("#"+"check-"+ent).attr('checked', true);
+  	         
+  	         if (modifica == 1){
+  	        	  $("#check"+ent).attr("disabled", false);
+  	        	  $("#"+"check"+ent).attr('checked', true);
+  	        	  
+  	         }else {
+  	        	  $("#check"+ent).attr("disabled", false);
+  	      
+  	         }
+  	        
+  	        
+  	        
+  	         });
+    	})
+     
+    	 entAsignada.forEach(function(array) {
+    	         ent = array.codigoEntidad;
+    	       
+    	         modifica = array.modificarDatos;
+    	         
+    	         $("#"+"check-"+ent).attr('checked', true);
+    	         
+    	         if (modifica == 1){
+    	        	  $("#check"+ent).attr("disabled", false);
+    	        	  $("#"+"check"+ent).attr('checked', true);
+    	        	  cerosUnos +=ent+";";
+    	        	  contaUnos++;
+    	        	  
+    	         }else {
+    	        	  $("#check"+ent).attr("disabled", false);
+    	      
+    	         }
+    	         
+    	         contadorAsignar++;
+    	         concatena += ent+";";
+    	        
+    	         document.getElementById("contaAsigna").innerHTML = contadorAsignar;
+    	         document.getElementById("contaModifica").innerHTML = contaUnos;
+    	         });
+
+     document.getElementById("modificar").value = cerosUnos;
+     document.getElementById("entidades").value = concatena;
+
+	
+	 var user = document.getElementById("codigousuario").value;
+	 document.getElementById("usuario").value = user;
+	 document.getElementById("idUsuario").value = user;
+	
+	  /*]]>*/
+
+	
+	
+	 $('#boton-proyecto').click(function () {
+		 $("#destino1 option").each(function(){
+			   var proyecto = $(this).attr('value');
+			   concatenaProyecto += proyecto+";";
+			     
+			   
+		 });
+		   console.log(concatenaProyecto);
+		   document.getElementById("inputProyecto").value = concatenaProyecto;
+		 
+		 
+		 if (concatenaProyecto === ""){
+						 
+			   Swal.fire({
+			        title:"¡Advertencia!",
+				    text: "No se ha seleccionado ningún valor de la lista",
+			        icon: "warning",
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+		   })
+		   return false;
+		   }
+	  }); 
+	 
+	 $('#boton-componente').click(function () {
+		 $("#destino option").each(function(){
+			   var proyecto = $(this).attr('value');
+			   concatenaProyecto += proyecto+";";
+			     
+			   
+		 });
+		   console.log(concatenaProyecto);
+		   document.getElementById("inputProyecto1").value = concatenaProyecto;
+		 
+		 if (concatenaProyecto === ""){
+						 
+			   Swal.fire({
+			        title:"¡Advertencia!",
+				    text: "No se ha seleccionado ningún valor de la lista",
+			        icon: "warning",
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+		   })
+		   return false;
+		   }
+	  });  
+
+});
+	$(function() {
+		var $tabButtonItem = $('#tab-button li'), $tabSelect = $('#tab-select'), $tabContents = $('.tab-contents'), activeClass = 'is-active';
+		$tabButtonItem.first().addClass(activeClass);
+		$tabContents.not(':first').hide();
+		$tabButtonItem.find('a').on('click', function(e) {
+			var target = $(this).attr('href');
+
+			$tabButtonItem.removeClass(activeClass);
+			$(this).parent().addClass(activeClass);
+			$tabSelect.val(target);
+			$tabContents.hide();
+			$(target).show();
+			e.preventDefault();
+		});
+
+		$tabSelect.on('change', function() {
+			var target = $(this).val(), targetSelectNum = $(this).prop(
+					'selectedIndex');
+
+			$tabButtonItem.removeClass(activeClass);
+			$tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+			$tabContents.hide();
+			$(target).show();
+		});
+	});
+	function cargarDatos(){
+		 $('#dtablaAsignarEntidad thead th').each(function () {
+		        var title_3 = $(this).text();
+		        if (title_3 == "Código entidad" || title_3 == "Entidad") {
+		            $(this).html('<div class="form-group" id="centrado2">' + '<label for="th" class="blanco">' + title_3 + '</label>' + '<div class="centrado">' + '<input class="form-control filter" id="nombre1" type="text"   placeholder="&#xf0b0; Filtrar ' + title_3 + '" />' + '</div>' + '</div>');
+		        }
+
+		    });
+		 $.fn.DataTable.ext.pager.numbers_length = 5;
+		 var tableAsignarEntidad = $('#dtablaAsignarEntidad').DataTable({
+			 "columnDefs": [
+	        	    { "orderable": false, "targets": [2,3] }
+	        	  ],
+		        "language": {
+		            "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+		            "infoEmpty": '<div class="formato">0 de 0.</div>',
+		            "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+		            "zeroRecords": "No se han encontrado coincidencias.",
+		            "responsive": true,
+		            "paginate": {
+		                "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+		                "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+		                "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+		                "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+		            },
+		            "lengthMenu": "_MENU_",
+		        },
+		        "lengthMenu": [5, 10, 20, 50, 100],
+		        "pageLength": 5,
+		        "pagingType": "full_numbers",
+		        "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+		                "<'row'<'col-sm-8 col-md-7'tr>>" +
+		                "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+
+		    });
+		    $('div.dataTables_length select').addClass("formato-2");
+		    
+		    tableAsignarEntidad.columns().every(function () {
+		        var that = this;
+		        $('input', this.header()).on('keyup change clear', function () {
+		            if (that.search() !== this.value) {
+		            	if(this.value!="-1"){
+		                that.search(this.value).draw();
+		            	}
+
+		            }
+		        });
+		    });
+		    
+	
+		   
+	}
+	function seleccionarIndividual(entidad){
+		var checkbox1 = document.getElementById("check-"+entidad).checked;
+		var checkbox2 = document.getElementById("check"+entidad).checked;	
+		if (checkbox1== true) {
+			contadorAsignar++;
+			$("#check"+entidad).attr("disabled", false);
+			
+			document.getElementById("contaAsigna").innerHTML = contadorAsignar;
+			concatena += entidad+";";
+			
+			document.getElementById("entidades").value = concatena;
+		}else {
+			$("#check"+entidad).prop("checked", false);
+			$("#check"+entidad).attr("disabled", true);
+			var incluido = concatena.includes(entidad);
+			var incluido2 = cerosUnos.includes(entidad);
+			contadorAsignar--;
+			
+			if (checkbox2 == true){
+				contaUnos--;
+			}
+			
+	    	document.getElementById("contaAsigna").innerHTML = contadorAsignar;
+	    	document.getElementById("contaModifica").innerHTML = contaUnos;
+			str = concatena.replace(entidad, '');
+			str2 = cerosUnos.replace(entidad, '');
+			cerosUnos = str2;
+			document.getElementById("modificar").value = cerosUnos;
+			concatena = str;
+			document.getElementById("entidades").value = concatena;
+			
+		}
+		
+	}
+	function seleccionarIndividual2(entidad){
+		var checkbox2 = document.getElementById("check"+entidad).checked;	
+		if (checkbox2 == true) {
+		
+			cerosUnos+=entidad+";";
+	
+			contaUnos++;
+			document.getElementById("contaModifica").innerHTML = contaUnos;
+			document.getElementById("modificar").value = cerosUnos;
+		}else {
+			
+			var incluido = cerosUnos.includes(entidad);	
+	    	contaUnos--;
+	    	document.getElementById("contaModifica").innerHTML = contaUnos;
+	    	str2 = cerosUnos.replace(entidad, '');
+			cerosUnos = str2;
+			document.getElementById("modificar").value = cerosUnos;
+		
+			
+		}
+	
+	}
+	function asignarTodos(){
+		  contadorAsignar = 0;
+		  concatena = "";
+	      var checkboxTodos = document.getElementById("checkTodos").checked;
+	      $("#dtablaAsignarEntidad tbody tr").each(function (index) {
+            var campo1;
+			$(this).children("td").each(function (index2) {
+		    switch (index2) {
+			case 0:
+			campo1 = $(this).text();
+			break;
+			}
+		    })
+		    if (checkboxTodos == true) {
+		    	 $('#checkTodos2').attr("disabled", false);
+		    	 $("#check"+campo1).attr("disabled", false);
+		    	 $("#"+"check-"+campo1).prop('checked', true);
+		    	 
+		    	 contadorAsignar++;	 
+		    	 document.getElementById("contaAsigna").innerHTML = contadorAsignar;	    	 
+		    	 concatena += campo1+";";
+		    	 document.getElementById("entidades").value = concatena;
+		    	 
+		    }else {
+		    	$('#checkTodos2').attr("disabled", true);
+		    	$("#check"+campo1).attr("disabled", true);
+		    	$('#checkTodos2').prop('checked', false);
+		    	$("#"+"check-"+campo1).prop('checked', false);
+		    	$("#"+"check"+campo1).prop('checked', false);
+		   
+		    	cerosUnos = "";
+		    	concatena2="";
+		    	contadorAsignar = 0;
+		    	contaUnos = 0;
+		    	concatena = "";
+		    	document.getElementById("contaAsigna").innerHTML = "0";
+		    	document.getElementById("contaModifica").innerHTML = "0";
+		        document.getElementById("entidades").value = concatena2;
+		        document.getElementById("modificar").value = cerosUnos;
+		    	
+		    }
+	      });
+	
+			
+	}
+	function asignarTodos2(){
+		contaUnos = 0;
+		cerosUnos = "";
+		 var checkboxTodos = document.getElementById("checkTodos2").checked;
+		  $("#dtablaAsignarEntidad tbody tr").each(function (index) {
+			  var campo1;
+				$(this).children("td").each(function (index2) {
+			    switch (index2) {
+				case 0:
+				campo1 = $(this).text();
+				break;
+				}
+			    })
+			  if (checkboxTodos == true) {
+				 
+		    	 $("#check"+campo1).prop('checked', true);
+		    	 contaUnos++;
+		    	 cerosUnos +=campo1+";";
+		    	 document.getElementById("contaModifica").innerHTML = contaUnos; 
+		    	 document.getElementById("modificar").value = cerosUnos;
+			  }else {
+				 $("#check"+campo1).prop('checked', false);
+				 contaUnos = 0;
+				 cerosUnos = "";
+				 document.getElementById("contaModifica").innerHTML = contaUnos;
+				 document.getElementById("modificar").value = cerosUnos;
+			  }
+		  });
+		  
+	}
+
+	
+<!-- <script type="text/javascript"> -->
+<!-- // 	$(document).ready(function() { -->
+<!-- // 		$("#respMenu").aceResponsiveMenu({ -->
+<!-- // 			resizeWidth : '768', // Set the same in Media query        -->
+<!-- // 			animationSpeed : 'fast', //slow, medium, fast -->
+<!-- // 			accoridonExpAll : false -->
+<!-- // 		//Expands all the accordion menu on click -->
+<!-- // 		}); -->
+<!-- // 	}); -->
+	
+</script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

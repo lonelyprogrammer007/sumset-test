@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+
+<div class="modal fade" id="crearCompromisoModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="tituloEsp">Agregar compromiso</span>
+					</div>
+				</div>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" name="form" th:object="${compromiso}"
+						method="post" th:action="@{agregar-compromiso}">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="codigo_comp">Tematica:*</label>
+								</div>
+								<input type="hidden" th:value="${pddDTO.idPlanDesarrollo}" name="idPlanDesarrollo" >
+								<select style="width: 100% !important" class="form-control js-example-basic-single" id="tematicaCompromiso" name="idTematica">
+									<option value=""></option>
+									<option th:each="tematica: ${tematicas}"
+										th:value="${tematica.idArgumento}"
+										th:text="${tematica.resultado}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="nombre_componente">Compromiso estrategico:*</label>
+								</div>
+								<select style="width: 100% !important" class="form-control js-example-basic-single" id="compromisoCompromiso"
+									name="idLsEstrategico">
+									<option value="" selected></option>
+									<option th:each="compromiso : ${compro}"
+										th:value="${compromiso.idArgumento}"
+										th:text="${compromiso.resultado}"></option>
+								</select>
+
+							</div>
+						</div>
+						
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div align="right">
+							<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a> <span>&nbsp;&nbsp;</span>
+							<button type="submit" class="btnAgregarCompromiso" name="save"
+								id="btn-modal">Guardar</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.js-example-basic-single').select2({
+		  minimumResultsForSearch: Infinity
+	});
+	$('.btnAgregarCompromiso').click(function () {
+		var tematica = document.getElementById("tematicaCompromiso").value;
+		var compromiso = document.getElementById("compromisoCompromiso").value;
+		if (tematica === "" || compromiso === ""){
+			
+			  Swal.fire({
+			        title: 'Información',
+			        text: "Existen campos obligatorios que no se han registrado",
+			        icon: 'info',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			  })
+			  return false;
+		}
+	
+	});
+	
+});
+
+</script>

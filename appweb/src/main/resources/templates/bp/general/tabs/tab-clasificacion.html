@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><strong>Politicas públicas(pp)</strong></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="float-left mb-3">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+				data-target="#agregarPpModal">
+				<img src="css/img/icono-agregar.png" class="agregar"
+					alt="Icono agregar"> Agregar
+			</button>
+		</a>
+	</div>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablaPoliticaPublica"
+			style="width: 175%">
+			<caption>
+				<div class="hr-2"></div>
+			</caption>
+			<thead>
+				<tr>
+					<th style="width: 50%;" class="color-head">Política pública<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span id="labelPddl"><strong>Estructura del plan de desarrollo distrital (PDD)</strong></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-2">
+			<div class="texto-archivo-plano ">Código</div>
+		</div>
+		<div class="col-sm-7">
+			<div class="texto-archivo-plano ">Denominación</div>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-3">
+			<div class="texto-archivo-plano ">Plan de desarrollo</div>
+		</div>
+		<div class="col-sm-2">
+			<input type="text" class="form-control" readonly="readonly" id="id">
+
+		</div>
+		<div class="col-sm-7">
+			<input type="text" class="form-control" readonly="readonly">
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-3">
+			<div class="texto-archivo-plano ">Nivel 1*</div>
+		</div>
+		<div class="col-sm-2">
+			<select class="form-control">
+				<option selected="selected">1</option>
+			</select>
+
+		</div>
+		<div class="col-sm-7">
+			<select class="form-control">
+				<option selected="selected">1</option>
+			</select>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-3">
+			<div class="texto-archivo-plano ">Nivel 2*</div>
+		</div>
+		<div class="col-sm-2">
+			<select class="form-control">
+				<option selected="selected">1</option>
+			</select>
+
+		</div>
+		<div class="col-sm-7">
+			<select class="form-control">
+				<option selected="selected">1</option>
+			</select>
+		</div>
+	</div>
+
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Plan de Ordenamiento Territorial (POT)</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="float-left">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+				data-target="#agregarPotModal">
+				<img src="css/img/icono-agregar.png" class="agregar"
+					alt="Icono agregar"> Agregar
+			</button>
+		</a>
+	</div>
+	<br>
+	<br>
+	<br>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablapot" style="width: 200%">
+			<caption>
+				<div class="hr-2"></div>
+			</caption>
+			<thead>
+				<tr>
+					<th class="color-head">Nivel 1<br></th>
+					<th class="color-head">Nivel 2<br></th>
+					<th class="color-head">Nivel 3<br></th>
+					<th class="color-head">Nivel 4<br></th>
+					<th class="color-head">Nivel 5<br></th>
+					<th class="color-head">Código<br></th>
+					<th class="color-head">Descripción (Obra/Proyecto POT)<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Producto Meta-Resultado(PMR)</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="float-left">
+		<a href="#">
+			<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+				data-target="#agregarPmrModal">
+				<img src="css/img/icono-agregar.png" class="agregar"
+					alt="Icono agregar"> Agregar
+			</button>
+		</a>
+	</div>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablapmr" style="width: 120%">
+			<thead>
+				<tr>
+					<th class="color-head">Indicador PMR<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div id="idSeccionLineaInversion">
+		<div class="abs-center mt-2 " style="font-size: 16px">
+			<span><b>Líneas de inversión</b></span><br>
+			<div class="hr-1"></div>
+		</div>
+		<div class="float-left">
+			<a href="#">
+				<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+					data-target="#agregarLiModal">
+					<img src="css/img/icono-agregar.png" class="agregar"
+						alt="Icono agregar"> Agregar
+				</button>
+			</a>
+		</div>
+		<br>
+		<br>
+		<br>
+		<div class="table-responsive">
+			<table class="table-striped" id="dtablaLi" style="width: 175%">
+				<thead>
+					<tr>
+						<th style="width: 20%;" class="color-head">Línea de inversión<br></th>
+						<th class="color-head">Sector<br></th>
+						<th class="color-head">Concepto de inversión<br></th>
+						<th style="5%;" class="color-head">Acción<br></th>
+					</tr>
+				</thead>
+				<tbody id="idBodyLinea">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div class="float-right">
+		<a th:href="@{/consultar-proyecto-entidad/1}" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+		<button class="botonAgregarInscripcion" type="submit" id="boton-modal">
+			<img src="css/img/icono-guardar.png" class="guardar"
+				alt="Icono guardar">&nbsp;&nbsp;Guardar
+		</button>
+	</div>
+	<br>
+	<br>
+	<br>
+	<form id="formEliminarPoliticaPublica" method="get"></form>
+	<form id="formEliminarLineaInversion" method="get"></form>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-pp.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-editar-pp.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-pot.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-pmr.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-editar-pmr.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-li.html"></div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-editar-li.html"></div>
+</body>
+<script type="text/javascript">
+var idEliminarPP = "";
+var idEliminaLi = "";
+$(document).ready(function() {
+	
+	// agregar politica publica
+	$(document).on('submit', '#formAgregarPoliticaPubica', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'POST',
+	            url: '/Segplan/'+'agregarPoliticaPublica',
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+	            success: function (data) {
+	                Swal.close();
+	                mensajeRespuesta = data.msgRespuesta;
+
+	                $("#agregarPpModal").modal('hide');
+	                $('#dtablaPoliticaPublica').DataTable().clear();
+	    	        $('#dtablaPoliticaPublica').empty();
+	    			cargarDatosPp(idProyectoDeInversion);
+	    			
+	  
+	            },
+	            error: function () {
+	                Swal.close();
+                },         
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       }).then((result) => {
+	    	 				  if (result.value) {
+	    	 					 cargarSelectPoliticaPublica(idProyectoDeInversion);
+	    					  }
+	    					})
+	                    }
+	             });
+	        return false;
+		});
+	
+	// editar politica publica
+	
+	$(document).on('submit', '#formEditarPoliticaPubica', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'POST',
+	            url: '/Segplan/'+'editarPoliticaPublica',
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+	            success: function (data) {
+	                Swal.close();
+	                mensajeRespuesta = data.msgRespuesta;
+
+	                $("#editarPpModal").modal('hide');
+	                $('#dtablaPoliticaPublica').DataTable().clear();
+	    	        $('#dtablaPoliticaPublica').empty();
+	    			cargarDatosPp(idProyectoDeInversion);
+	    
+	  
+	            },
+	            error: function () {
+	                Swal.close();
+               },         
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       }).then((result) => {
+		    	 				 if (result.value) {
+			    	 				cargarSelectPoliticaPublica(idProyectoDeInversion);
+			    			    }
+	    	 		      }) 
+	                    }
+	             });
+	        return false;
+		});
+	
+	// eliminar politica publica
+	$(document).on('submit', '#formEliminarPoliticaPublica', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'GET',
+	            url: '/Segplan/'+'eliminarPoliticaPublica/'+idEliminarPP,
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+	            success: function (data) {
+	                Swal.close();
+	                mensajeRespuesta = data.msgRespuesta;
+
+	                $('#dtablaPoliticaPublica').DataTable().clear();
+	    	        $('#dtablaPoliticaPublica').empty();
+	    			cargarDatosPp(idProyectoDeInversion);
+	    			
+	            },
+	            error: function () {
+	                Swal.close();
+              },         
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       }).then((result) => {
+		    	 				  if (result.value) {
+			    	 					 cargarSelectPoliticaPublica(idProyectoDeInversion);
+			    					  }
+	    	 		      })
+	                    }
+	             });
+	        return false;
+		});
+	
+	// eliminar linea de inversion
+	$(document).on('submit', '#formEliminarLineaInversion', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'GET',
+	            url: '/Segplan/'+'eliminarLineaInversion/'+idEliminaLi,
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+	            success: function (data) {
+	                Swal.close();
+	                mensajeRespuesta = data.msgRespuesta;
+
+	                $('#dtablaLi').DataTable().clear().destroy();
+	    			
+	            },
+	            error: function () {
+	                Swal.close();
+              },         
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       }).then((result) => {
+		    	 				  if (result.value) {
+		    	 					 cargarDatosLineaInversion(idProyectoDeInversion);
+			    				}
+	    	 		      })
+	                    }
+	             });
+	        return false;
+		});
+	
+
+});
+function cargarDatosPp(idProyecto) {
+	'use strict';
+var tablePolitica = $('#dtablaPoliticaPublica').DataTable({
+	"colReorder" : true,
+	"processing" : true,
+	"serverSide" : true,
+    "lengthChange": true,
+    "searching": true,
+    "ordering": true,
+    "destroy": true,
+    "info": true,
+    "autoWidth": true,
+    "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10,25, 50, "Mostrar Todo"] ],
+    "pageLength": 5,
+    "language": {
+    	"processing": 'Cargando...',
+        "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+        "infoEmpty": '<div class="formato">0 de 0.</div>',
+        "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+        "zeroRecords": "No se han encontrado coincidencias.",
+        "responsive": true,
+        "paginate": {
+            "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+            "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+            "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+            "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+        },
+        "lengthMenu": "_MENU_",
+    },
+    "pagingType": "full_numbers",
+    "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+    "<'row'<'col-sm-8 col-md-7'tr>>" +
+    "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+    "order": [0,'desc'],
+	"ajax" : {
+		"url" : "/Segplan/listaPoliticaPublicaByPage/"+idProyecto,
+		"type" : "POST"
+	},
+
+	"columns" : [ 
+		{ data : "stringPolPub"},
+	    {"render": function () {
+	        return '<button href="" type="button" id="btnEditarPP" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button>'+
+	        '<button href="" type="button" id="btnEliminarPP" class="deletepp">'+
+			'<img src="css/img/icono-eliminar.png" class="eliminar-pp"></button>';
+	    }, "orderable": false, className:"icon"},
+       ],
+	
+})
+yadcf.init(tablePolitica, [ {
+	column_number : 0,
+	filter_type : "text",
+	filter_reset_button_text: false,
+	filter_delay : 500
+	
+}
+]);
+$('div.dataTables_length select').addClass("formato-2");
+editarPoliticaPublica("#dtablaPoliticaPublica tbody", tablePolitica);
+eliminarPoliticaPublica("#dtablaPoliticaPublica tbody", tablePolitica);	
+}
+function cargarDatosLineaInversion(idProyecto){
+	 $.ajax({
+         type: 'GET',
+         url: '/Segplan/'+'listLineaInversioByPage/'+idProyectoDeInversion, 
+         data: data,
+         success: function (data) {
+             Swal.close();
+             console.log("da")
+             console.log(data);
+         	 for (var i = 0; i<data.lstObjectsDTO.length; i++){
+         		 var contenido = "";
+         		 contenido += '<tr>';
+         		 contenido += '<td>'+data.lstObjectsDTO[i].stringLineaInversion+'</td>';
+         		 contenido += '<td>'+data.lstObjectsDTO[i].stringLsSectorLineaInversion+'</td>';
+         	     contenido += '<td>'+data.lstObjectsDTO[i].conceptoLineaInversion+'</td>';
+         	     contenido += '<td><button href="" type="button" onclick="editarLineaInversion('+data.lstObjectsDTO[i].idProyInversion+','+data.lstObjectsDTO[i].idProyLinea+', '+data.lstObjectsDTO[i].idLineaInversion+', \''+data.lstObjectsDTO[i].conceptoLineaInversion+'\', \''+data.lstObjectsDTO[i].stringLsSectorLineaInversion+'\')" class="edit">';
+         	     contenido += '<img src="css/img/icono-1-azul.png" class="editar"></button>';
+     	         contenido += '<button href="" type="button" class="deletepp" onclick="eliminarLineaInversion('+data.lstObjectsDTO[i].idProyInversion+')">';
+    			 contenido += '<img src="css/img/icono-eliminar.png" class="eliminar-pp"></button></td>';
+         		 contenido += '</tr>';
+         		 $("#idBodyLinea").append(contenido);
+         	 }
+         	 
+         	
+         	 crearTablaLinea();
+         	 
+         },
+         error: function () {
+             Swal.close();
+          },         
+         complete: function () {
+               
+                 }
+          });
+     return false;
+}
+function crearTablaLinea(){
+	 $('#dtablaLi thead th').each(function () {
+	        var title_1 = $(this).text();
+
+	        if (title_1 !== "Acción") {
+	            $(this).html('<div class="form-group" id="centrado2">' + '<label for="th" class="blanco">' + title_1 + '</label>' + '<div class="centrado">' + '<input class="form-control filter" id="nombre1" type="text"   placeholder="&#xf0b0; Filtrar ' + title_1 + '" />' + '</div>' + '</div>');
+	        }
+
+	    });
+	var tablaLinea = $('#dtablaLi').DataTable({
+    	"orderCellsTop": true,
+    	"order": [ 0, 'desc' ],
+    	"processing" : true,
+    	"ordering": true,
+        "language": {
+            "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+            "infoEmpty": '<div class="formato">0 de 0.</div>',
+            "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+            "zeroRecords": "No se han encontrado coincidencias.",
+            "responsive": true,
+            "paginate": {
+                "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+                "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+                "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+                "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+            },
+            "lengthMenu": "_MENU_",
+        },
+
+        "lengthMenu": [5, 10, 20, 50, "Todos"],
+        "pageLength": 5,
+        "pagingType": "full_numbers",
+        "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+                "<'row'<'col-sm-8 col-md-7'tr>>" +
+                "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+
+    });
+	  $('div.dataTables_length select').addClass("formato-2");
+	  tablaLinea.columns().every(function () {
+	        var that = this;
+
+	        $('input', this.header()).on('keyup change clear', function () {
+	            if (that.search() !== this.value) {
+	                that
+	                        .search(this.value)
+	                        .draw();
+	            }
+	        });
+	    });
+ 
+	  $('.filter').on('click', function(e) {
+			e.stopPropagation();
+		});
+		
+}
+function editarPoliticaPublica(tbody, table){
+	 $(tbody).on(
+				"click",
+				"button#btnEditarPP",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					$('#editarPpModal').modal('show');
+ 					document.getElementById("idProyClasificacionEdit").value = data.idProyInversion;
+ 					document.getElementById("idProyPoliticaEdit").value = data.idProyPolitica;
+ 					document.getElementById("ppEdit").value = data.idPolPub;
+				})	
+	
+}
+function editarLineaInversion(idProyecto, idLineaProy, idLineaInv, concepto, sector){
+	document.getElementById("idProyectoEdit").value = idProyecto;
+	document.getElementById("idProyLineaEdit").value = idLineaProy;
+	$("#idLineaInversionSelectEdit").val(idLineaInv).trigger('change');
+	document.getElementById("sectorStringEdit").value = sector;
+	document.getElementById("conceptoStringEdit").value = concepto;
+	$('#editarLiModal').modal('show');
+}
+function eliminarPoliticaPublica(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEliminarPP",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "¿Está seguro que desea eliminar este registro?",
+						  type: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Aceptar',
+						  cancelButtonText: 'Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+							  idEliminarPP = data.idProyPolitica;
+ 							 $("#formEliminarPoliticaPublica").submit();
+							
+						  }
+					})
+				})	
+}
+function eliminarLineaInversion(idLinea){
+	Swal.fire({
+		  title: '¡Advertencia!',
+		  text: "¿Está seguro que desea eliminar este registro?",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Aceptar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  idEliminaLi = idLinea;
+			 $("#formEliminarLineaInversion").submit();
+			
+		  }
+	})
+}
+</script>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Editar compromiso</title>
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<div class="modal fade" id="editarCeModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-sm-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}" alt="Icono seg">
+					</div>
+					<div class="col-sm-5">
+						<span class="tituloCe">Editar compromiso estratégico</span>
+					</div>
+				</div>
+
+
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" name="form" th:object="${compromisoEstrategico}"
+						method="post" th:action="@{editar_compromiso_estrategico}">
+						<input id="idCompromiso" name="idCompromiso" type="hidden">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="tematica">Temática</label>
+								</div>
+								<select style="width: 100% !important" class="form-control js-example-basic-single" id="txtETematica" name="idTematica">
+
+									<option th:each="tematica: ${tematicas}"
+										th:value="${tematica.idArgumento}"
+										th:text="${tematica.resultado}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="nombre_componente">Compromiso Estratégico:</label>
+								</div>
+								<select style="width: 100% !important" class="form-control js-example-basic-single" id="txtECompromiso"
+									name="idCompromisoEstrategico">
+
+									<option th:each="compromiso : ${compromisos}"
+										th:value="${compromiso.idArgumento}"
+										th:text="${compromiso.resultado}"></option>
+								</select>
+
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<label for="resultado">Estado:</label><br> <input
+									type="checkbox" id="estadoE"> <label for="resultado">Activo</label>
+								<input type="hidden" id="state" name="estado">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" aria-label="Close" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+							<button type="submit" class="myFormButton" name="save"
+								id="boton-modal">
+								<img src="css/img/icono-guardar.png" class="guardar" alt="icono guardar"> Guardar
+							</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2({
+			  minimumResultsForSearch: Infinity
+		});
+		$('#estadoE').click(function() {
+
+			var isChecked = document.getElementById('estadoE').checked;
+			console.log(isChecked);
+			if (isChecked) {
+				$('#state').text($('#state').val(1));
+			} else if (!isChecked) {
+				$('#state').text($('#state').val(0));
+			}
+
+		});
+	});
+</script>
+</html>

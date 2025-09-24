@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Restablecer contraseña</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/restablecer.css}">
+
+
+</head>
+<body>
+	<section class="row justify-content-center">
+		<section class="col-12 col-sm-10 col-md-5 col-md-offset-3">
+
+			<div class="form-container">
+				<div class="form-container-2">
+
+					<div class="row">
+						<div class="col-11 col-sm-11 col-md-5 col-lg-5">
+							<img id="logo-index" src="static/img/SegPlan.png"
+								th:src="@{/img/SegPlan.png}">
+						</div>
+						<div class="col-11 col-sm-11 col-md-7 col-lg-7">
+							<span class="restablecer">Restablecer contraseña</span>
+						</div>
+					</div>
+
+				</div>
+				<div class="form-container-3">
+				<form  method="post" th:object="${restablecer}" th:action="@{restablecer_contrasenia}">
+					<div class="col-lg-12 col-md-1">
+						<div class="form-group">
+							<div class="texto">
+								<label for="periodo">Usuario</label>
+							</div>
+							<input class="form-control" id="usuario" name="usuario" type="text" 
+								required maxlength="20"  placeholder="Usuario">
+
+						</div>
+					</div>
+					<div class="col-lg-12 col-md-12">
+						<div class="form-group">
+							<div class="texto">
+								<label for="periodo">Identificación</label>
+							</div>
+							<input class="form-control" id="identificacion" name="identificacion" type="text"
+								required maxlength="15" placeholder="Identificación">
+
+						</div>
+					</div>
+
+					<div class="col-lg-12 col-md-12">
+						<div class="form-group">
+							<div class="texto">
+								<label for="periodo">Correo Electrónico</label>
+							</div>
+							<input class="form-control" id="correo_electronico" name="correo_electronico" type="email"
+								required maxlength="50" placeholder="Correo electrónico">
+
+						</div>
+					</div>
+
+					<div class="col-md-6 col-md-offset-3">
+						<div class="form-group">
+							<div class="g-recaptcha"
+								data-sitekey="6Ldscb4UAAAAABB2L6QpbR-L3UmfC6hafzLOXlM-"
+								id="Captcha_t"></div>
+						</div>
+					</div>
+					<div align="center">
+						<input type="submit" class="boton-restablecer"
+							value="Restablecer contraseña">
+					</div>
+</form>
+				</div>
+			</div>
+		</section>
+	</section>
+	<br>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<div th:include="autenticacion/modal-restablecer.html"></div>
+
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span>Entidades</span><br>
+
+	</div>
+	<div class="float-left mb-3">
+		<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+			onclick="agregarEntidades()">
+			<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar"> Agregar
+		</button>
+
+	</div>
+	<input type="hidden" id="auxIdEntidad">
+	<form id="formEliminarEntidad" method="get"></form>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablaEntidades" style="width: 175%">
+		<caption><div class="hr-2"></div></caption>
+			<thead>
+				<tr>
+					<th style="width: 10%" class="color-head">Código Entidad / AL<br></th>
+					<th class="color-head">Denominación Entidad / AL <br></th>
+					<th class="color-head">Magnitud<br></th>
+					<th style="width: 10%" class="color-head">Tipo de Anualización<br></th>
+					<th class="color-head">Ponderación<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+			 <tbody>
+			</tbody>
+			<tfoot>
+							<tr class="total">
+								<td colspan="4"><div class="total_2">Total ponderación</div></td>
+     							<td id="contaAsigna">0</td>
+								<td colspan="1"></td>
+							</tr>
+						</tfoot>
+		</table>
+	</div>
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-agregar-entidad.html"></div>
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-editar-entidad.html"></div>
+</body>
+<script type="text/javascript">
+function agregarEntidades(){
+	$('#modalAgregarEntidad').modal('show');
+}
+</script>
+</html>

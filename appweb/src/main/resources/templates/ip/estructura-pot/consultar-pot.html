@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Consultar POT</title>
+
+</head>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/afs/listas.css}">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-listas-ce.css}">
+<body>
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>Instrumentos de planeación</li>
+			<li class="breadcrumb-item " aria-current="page">Plan de ordenamiento territorial</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Creación de la estructura POT</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+	<div class="abs-center">
+			<span>Creación de la estructura POT</span><br>
+		</div>
+		<div class="hr-1"></div>
+	
+		<div class="float-left mt-3">
+			<a th:href="@{/agregar-pot}">
+				<button type="button" class="boton-agregar">
+					<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar">Agregar
+				</button>
+			</a>
+		</div><br><br><br>
+		<form id="peticionEditarPot" method="post" th:action="@{/modificar-pot}"
+				th:object="${potDTO}">
+				<input type="hidden" id="idPot" name="idPot">
+				<input type="hidden" id="codigoPot" name="codigoPot">
+				<input type="hidden" id="actoAdministrativo" name="actoAdministrativo">
+				<input type="hidden" id="yearInicio" name="yearInicio">
+				<input type="hidden" id="yearFin" name="yearFin">
+				<input type="hidden" id="estado" name="estado">
+				<input type="hidden" id="idLsAdoptado" name="idLsAdoptado">
+				<input type="hidden" id="fecha" name="fecha">
+				<input type="hidden" id="url" name="url">
+				<input type="hidden" id="nombreAdoptado" name="nombreAdoptado">
+		</form>
+		<form id="peticionNivelesPot" method="post" th:action="@{/obtener-niveles-pot}" th:object="${potDTO}">
+				<input type="hidden" id="idPot2" name="idPot">
+				<input type="hidden" id="codigoPot2" name="codigoPot">
+				<input type="hidden" id="actoAdministrativo2" name="actoAdministrativo">
+				<input type="hidden" id="nombreAdoptado2" name="nombreAdoptado">
+				<input type="hidden" id="fecha2" name="fecha">
+		</form>
+		<form id="peticionInstrumentos" method="post" th:action="@{/ver-instrumentos}" th:object="${potDTO}">
+		        <input type="hidden" id="idPot3" name="idPot">
+		        <input type="hidden" id="codigoPot3" name="codigoPot">
+		        <input type="hidden" id="actoAdministrativo3" name="actoAdministrativo">
+		        <input type="hidden" id="fecha3" name="fecha">
+		        <input type="hidden" id="nombreAdoptado3" name="nombreAdoptado">
+		</form>
+		<div class="table-responsive mt-3">
+			<table id="dtabla" class="table-striped" style="width: 300%">
+			<caption><div class="hr-2"></div></caption>
+				<thead>
+					<tr class="color">
+						
+						<th style="width: 10%" class="color-head">Código Plan <br></th>
+						<th style="width: 10%" class="color-head">Tipo Acto
+							Administrativo <br>
+						</th>
+						<th style="width: 5%" class="color-head">N° Acto
+							Administrativo <br>
+						</th>
+						<th style="width: 10%" class="color-head">Fecha Acto
+							Administrativo <br>
+						</th>
+						<th style="width: 5%" class="color-head">Año Inicio <br></th>
+						<th style="width: 10%" class="color-head">Año Fin <br></th>
+						<th style="width: 10%" class="color-head">Estado <br></th>
+						<th style="width: 7%" class="color-head">Acción</th>
+						<th style="width: 10%" class="color-head">Estructura/Niveles
+							<br>
+						</th>
+						<th style="width: 10%" class="color-head">Instrumentos POT <br></th>
+
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+
+		</div>
+	</div><br><br>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script th:inline="javascript">
+$(document).ready(function(){
+	$.datepicker.regional['es'] = {
+			 closeText: 'Cerrar',
+			 prevText: '< Ant',
+			 nextText: 'Sig >',
+			 currentText: 'Hoy',
+			 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+			 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+			 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+			 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+			 weekHeader: 'Sm',
+			 dateFormat: 'dd/mm/yyyy',
+			 firstDay: 1,
+			 isRTL: false,
+			 showMonthAfterYear: false,
+			 yearSuffix: ''
+			 };
+			 $.datepicker.setDefaults($.datepicker.regional['es']);
+	cargarDatos();
+	$('#dtabla tbody').on('mouseover','tr',function(){
+	    $(this).find('.icon').find('.edit').find('.editar').attr("src","css/img/editar-rollover.png");
+		});
+	    $('#dtabla tbody').on('mouseleave','tr',function(){
+	    $(this).find('.icon').find('.edit').find('.editar').attr("src","css/img/icono-1-azul.png") ;		 	 
+		 });	
+		
+		
+	
+});
+function cargarDatos() {
+	'use strict';
+	var datepickerDefaults = {
+			showTodayButton : true,
+			showClear : true
+		};
+	var opts = [ {
+        value : "Vigente",
+        label : "Vigente"
+    }, {
+        value : "Finalizado",
+        label : "Finalizado"
+    } ];
+	$.fn.DataTable.ext.pager.numbers_length = 5;
+	var table = $('#dtabla')
+			.DataTable(
+					{
+						"initComplete": function(settings, json) {
+							 var info = table.page.info();
+							   
+							  var count = info.recordsTotal;
+							  console.log(count);
+						  },
+						"responsive" : true,
+						"colReorder" : true,
+						"processing" : true,
+						"serverSide" : true,
+						"lengthChange" : true,
+						"searching" : true,
+						"ordering" : true,
+						"info" : true,
+						"autoWidth" : true,
+						"pagingType": "first_last_numbers",									    
+						"lengthMenu" : [
+								[ 5, 10, 25, 50, -1 ],
+								[ 5, 10, 25, 50,"Mostrar Todo" ] ],
+						"pageLength" : 5,
+						"language" : {
+							"processing" : 'Cargando...',
+							"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+							"infoEmpty" : '<div class="formato">0 de 0.</div>',
+							"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+							"zeroRecords" : "No se han encontrado coincidencias.",
+							"paginate" : {
+								"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+								"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+								"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+								"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+							},
+							"lengthMenu" : "_MENU_",
+						},
+						"pagingType" : "full_numbers",
+						"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+								+ "<'row'<'col-sm-8 col-md-7'tr>>"
+								+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+						"order" : [ 0, 'desc' ],
+						"ajax" : {
+							"url" : "/Segplan/listaPotByPage",
+							"type" : "POST"
+						},
+
+						"columns" : [
+								{
+									data : "codigoPot"
+								},
+								{
+									data : "nombreAdoptado"
+								},
+								{
+									data : "actoAdministrativo"
+								},
+								{
+									data : "fecha"
+								},
+								{
+									data: "yearInicio"
+								},
+								{
+									data:"yearFin"
+								},
+								{
+									data:"estado"
+								},
+								{
+									"render" : function() {
+										return '<button href="" type="button" id="ButtonEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button>';
+									},
+									"orderable" : false, className:"icon"
+								},
+								{
+									"render": function () {
+										return '<button type="button" id="btnNiveles" class="ver"><span class="hidden-xs">Ver</span></button>';
+									},"orderable": false
+								},
+								{
+									"render": function () {
+										return '<button type="button" id="btnInstrumentos" class="ver"><span class="hidden-xs">Ver</span></button>';
+									},"orderable": false
+								},
+								],
+
+					})
+	yadcf.init(table, [ {
+		column_number : 0,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+
+	}, {
+		column_number : 1,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	}, {
+		column_number : 2,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	}, 
+	 {
+		column_number : 3,
+		filter_type : "date",
+		filter_reset_button_date : true,
+		filter_delay : 500
+	},
+	 {
+		column_number : 4,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	}, 
+	 {
+		column_number : 5,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	}, 
+	 {
+		data : opts,
+        column_number : 6,
+        select_type : 'select',
+        filter_reset_button_text : false,
+        select_type_options : {
+            width : '150px',
+            minimumResultsForSearch : -1
+        // remove search box
+        }
+	}, 
+	]);
+
+	$('div.dataTables_length select').addClass("formato-2");
+	editar('#dtabla tbody', table); 
+	niveles('#dtabla tbody', table); 
+	instrumentos('#dtabla tbody', table);
+}
+function editar(tbody, table) {
+	$(tbody)
+			.on("click",
+					"button#ButtonEditar",
+					function() {
+						if (table.row(this).child.isShown()) {
+							var data = table.row(this).data();
+						} else {
+							var data = table.row($(this).parents("tr"))
+									.data();
+						}
+						var data = table.row($(this).parents("tr")).data();
+						console.log(data);
+						if(data.estado==='Finalizado'){
+							
+						}else{
+							document.getElementById("idPot").value=data.idPot;
+							document.getElementById("codigoPot").value=data.codigoPot;
+							document.getElementById("actoAdministrativo").value=data.actoAdministrativo;
+							document.getElementById("yearInicio").value=data.yearInicio;
+							document.getElementById("yearFin").value=data.yearFin;
+							document.getElementById("estado").value=data.estado;
+							document.getElementById("idLsAdoptado").value=data.idLsAdoptado;
+							document.getElementById("fecha").value=data.fecha;
+							document.getElementById("url").value=data.url;
+							document.getElementById("nombreAdoptado").value=data.nombreAdoptado;
+							$('#peticionEditarPot').submit();
+						}
+						
+						
+					})
+}
+function niveles(tbody, table) {
+	$(tbody)
+			.on("click",
+					"button#btnNiveles",
+					function() {
+						if (table.row(this).child.isShown()) {
+							var data = table.row(this).data();
+						} else {
+							var data = table.row($(this).parents("tr"))
+									.data();
+						}
+						var data = table.row($(this).parents("tr")).data();
+						console.log(data);
+						document.getElementById("idPot2").value=data.idPot;
+						document.getElementById("codigoPot2").value=data.codigoPot;
+						document.getElementById("actoAdministrativo2").value=data.actoAdministrativo;
+						document.getElementById("fecha2").value=data.fecha;
+						document.getElementById("nombreAdoptado2").value=data.nombreAdoptado;
+						$('#peticionNivelesPot').submit();
+						
+					})
+}
+function instrumentos(tbody, table) {
+	$(tbody)
+			.on("click",
+					"button#btnInstrumentos",
+					function() {
+						if (table.row(this).child.isShown()) {
+							var data = table.row(this).data();
+						} else {
+							var data = table.row($(this).parents("tr"))
+									.data();
+						}
+						var data = table.row($(this).parents("tr")).data();
+						console.log(data);
+						document.getElementById("idPot3").value=data.idPot;
+						document.getElementById("codigoPot3").value=data.codigoPot;
+						document.getElementById("actoAdministrativo3").value=data.actoAdministrativo;
+						document.getElementById("fecha3").value=data.fecha;
+						document.getElementById("nombreAdoptado3").value=data.nombreAdoptado;
+						$('#peticionInstrumentos').submit();
+						
+					})
+}
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

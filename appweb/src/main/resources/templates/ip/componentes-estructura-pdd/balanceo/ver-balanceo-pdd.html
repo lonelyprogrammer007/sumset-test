@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+
+<title id="pageTitle">Balanceo</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/componentes.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/bp/tab-cadena.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/bp/taps-proyectos.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/arbol-ce.css}">
+
+<body>
+	<header th:replace="/home:: header"></header>
+	<ul class="breadcrumb" id="migas">
+		<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>Instrumentos de planeación</li>
+		<li class="breadcrumb-item " aria-current="page">Estructura plan de Desarrollo</li>
+		<li class="breadcrumb-item " aria-current="page"><a th:href="@{/estructura-pdd/2}">Componentes de la estructura PDD</a></li>
+		<li class="breadcrumb-item active" aria-current="page" id="act">Consultar ponderación</li>
+	</ul>
+	<div class="form-container3">
+		<div class="row mt-3">
+			<div class="col-sm-3 mt-2">
+				<div class="texto">
+					<label>Código del PDD:</label>
+				</div>
+
+			</div>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" readonly="readonly" id="idPddBalanceo"
+					th:value="${pddDTO.idPlanDesarrollo}">
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-3 mt-2">
+				<div class="texto">
+					<label>Plan de desarrollo distrital:</label>
+				</div>
+
+			</div>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" readonly="readonly" id="idPlanBalanceo"
+					th:value="${pddDTO.nombrePlan}">
+			</div>
+		</div><br>
+		<div class="abs-center">
+			<span>Balanceo de estructura para cada nivel</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		
+
+		<div style="background: none !important;" class="arbol">
+			<div class="row mt-2">
+				<div class="col-sm-6">
+					<span class="texto ml-3">Nivel</span>
+				</div>
+				<div class="col-sm-3">
+					<span class="texto">Balanceo de Estructura</span>
+				</div>
+				<div class="col-sm-3">
+					<span class="texto">Balanceo-Ponderación</span>
+				</div>
+			</div>
+			<div id="menuBase">
+			
+			</div>
+			
+		</div>
+
+
+	</div><br><br>
+	<footer th:replace="/home:: footer"></footer>
+	<script th:inline="javascript">
+	var nivelAtributo=new Set();
+	var proyecto=new Set();
+	var metaResultado=new Set();
+	var metaProducto=new Set();
+	var PddNivelSet=new Set();
+	var MpIndicador=new Set();
+		$(document).ready(function() {
+			/*<![CDATA[*/
+			var arbol =/*[[${arbol}]]*/;
+			console.log(arbol);
+			/*]]>*/
+			if(arbol.PddNivelAtributo.length>0){
+				for (var i = 0; i < arbol.PddNivelAtributo.length; i++) {
+					var contenido = '<div class="row mt-2 ">';
+					contenido+='<div class="col-sm-6"><ul>'		
+					if(arbol.PddNivelAtributo[i].proyectoEstrategico==0){
+						contenido+='<span class="titulo nivelAtributo" id="'+arbol.PddNivelAtributo[i].idAtributo+'"><img src="css/img/arbol-azul.png"  >'+arbol.PddNivelAtributo[i].stringIdPddNivel+'</i><br></span>';
+					}else{
+						contenido+='<span class="titulo proyecto" id="'+arbol.PddNivelAtributo[i].idAtributo+'"><img src="css/img/arbol-azul.png"  >'+arbol.PddNivelAtributo[i].stringIdPddNivel+'</i><br></span>';
+					}
+					
+					contenido+='<span class="texto-plano">'+arbol.PddNivelAtributo[i].denominacion+'</span>'
+					contenido+='<li class='+arbol.PddNivelAtributo[i].idAtributo+'></li></ul></div>';
+					contenido+='<div class="col-sm-3"><span class="texto">'+arbol.PddNivelAtributo[i].sinNiveles+'</span></div>';
+					contenido+='<div class="col-sm-3" ><span class="texto">'+arbol.PddNivelAtributo[i].sumPond+'</span><br><ul id="ponderacion'+arbol.PddNivelAtributo[i].idAtributo+'"><li></li><br><br></ul></div></div>'
+					
+					$('#menuBase').append(contenido);
+					
+				}
+			}
+			if(arbol.PddNivel.length>0){
+				for (var i = 0; i < arbol.PddNivel.length; i++) {
+					var contenido = '<div class="row mt-2 ">';
+					contenido+='<div class="col-sm-6"><ul>'		
+					
+					contenido+='<span class="titulo PddNivel" id="'+arbol.PddNivel[i].idPddNivel+'"><img src="css/img/arbol-azul.png"  >'+arbol.PddNivel[i].descripcion+'</i><br></span>';
+					contenido+='<span class="titulo2">'+arbol.PddNivel[i].descripcion+'</span>'
+					contenido+='<li class='+arbol.PddNivel[i].idPddNivel+'></li></ul></div>';
+					contenido+='<div class="col-sm-3"><span class="texto">'+arbol.PddNivel[i].sinNiveles+'</span></div>';
+					contenido+='<div class="col-sm-3" ><span class="texto">'+arbol.PddNivel[i].sumPond+'</span><br><ul id="ponderacion'+arbol.PddNivel[i].idPddNivel+'"><li></li><br><br></ul></div></div>'
+					
+					$('#menuBase').append(contenido);
+					
+				}
+			}
+			if(arbol.PddMetaResultado.length>0){
+				for (var i = 0; i < arbol.PddMetaResultado.length; i++) {
+					var contenido = '<div class="row mt-2 ">';
+					contenido+='<div class="col-sm-6"><ul>'		
+					
+					contenido+='<span class="titulo metaResultado" id="'+arbol.PddMetaResultado[i].idMetaResultado+'"><img src="css/img/arbol-azul.png"  >Meta Resultado</i><br></span>';
+					contenido+='<span class="titulo2">'+arbol.PddMetaResultado[i].complemento+'</span>'
+					contenido+='<li class='+arbol.PddMetaResultado[i].idMetaResultado+'></li></ul></div>';
+					contenido+='<div class="col-sm-3"><span class="texto"></span></div>';
+					contenido+='<div class="col-sm-3" ><span class="texto">'+arbol.PddMetaResultado[i].sumPond+'</span><br><ul id="ponderacion'+arbol.PddMetaResultado[i].idMetaResultado+'"><li></li><br><br></ul></div></div>'
+					
+					$('#menuBase').append(contenido);
+					
+				}
+			}
+			if(arbol.PddMetaProducto.length>0){
+				for (var i = 0; i < arbol.PddMetaProducto.length; i++) {
+					var contenido = '<div class="row mt-2 ">';
+					contenido+='<div class="col-sm-6"><ul>'		
+					
+					contenido+='<span class="titulo MetaProducto" id="'+arbol.PddMetaProducto[i].idMetaProducto+'"><img src="css/img/arbol-azul.png"  >Meta Producto</i><br></span>';
+					contenido+='<span class="titulo2">'+arbol.PddMetaProducto[i].complemento+'</span>'
+					contenido+='<li class='+arbol.PddMetaProducto[i].idMetaProducto+'></li></ul></div>';
+					contenido+='<div class="col-sm-3"><span class="texto"></span></div>';
+					contenido+='<div class="col-sm-3" ><span class="texto">'+arbol.PddMetaProducto[i].sumPond+'</span><br><ul id="ponderacion'+arbol.PddMetaProducto[i].idMetaProducto+'"><li></li><br><br></ul></div></div>'
+					
+					$('#menuBase').append(contenido);
+					
+				}
+			}
+			if(arbol.PddMpIndicador.length>0){
+				for (var i = 0; i < arbol.PddMpIndicador.length; i++) {
+					var contenido = '<div class="row mt-2 ">';
+					contenido+='<div class="col-sm-6"><ul>'		
+					
+					contenido+='<span class="titulo MpIndicador" id="'+arbol.PddMpIndicador[i].idMetaProdInd+'"><img src="css/img/arbol-azul.png"  >Indicador Meta Producto</i><br></span>';
+					contenido+='<span class="titulo2"></span>'
+					contenido+='<li class='+arbol.PddMpIndicador[i].idMetaProdInd+'></li></ul></div>';
+					contenido+='<div class="col-sm-3"><span class="texto"></span></div>';
+					contenido+='<div class="col-sm-3" ><span class="texto">'+arbol.PddMpIndicador[i].sumPond+'</span><br><ul id="ponderacion'+arbol.PddMpIndicador[i].idMetaProdInd+'"><li></li><br><br></ul></div></div>'
+					
+					$('#menuBase').append(contenido);
+					
+				}
+			}
+			$('.titulo').click(function() {
+				console.log(metaResultado);
+				if($(this).hasClass('nivelAtributo') && !nivelAtributo.has($(this).attr("id"))){
+					nivelAtributo.add($(this).attr("id"));
+					obtenerHijosNivelAtributo($(this).attr("id"));
+				}else if($(this).hasClass('proyecto') && !proyecto.has($(this).attr("id"))){
+					proyecto.add($(this).attr("id"));
+					obtenerHijosProyecto($(this).attr("id"));
+				}else if($(this).hasClass('MpIndicador') && !MpIndicador.has($(this).attr("id"))){
+					MpIndicador.add($(this).attr("id"))
+					obtenerHijosMpIndicador($(this).attr("id"));
+				}else if($(this).hasClass('metaResultado') && !metaResultado.has($(this).attr("id"))){
+					metaResultado.add($(this).attr("id"))
+					obtenerHijosMetaResultado($(this).attr("id"));
+				}else if($(this).hasClass('MetaProducto') && !metaProducto.has($(this).attr("id"))){
+					metaProducto.add($(this).attr("id"));
+					obtenerHijosMetaProducto($(this).attr("id"));
+				}else if($(this).hasClass('PddNivel') && !PddNivelSet.has($(this).attr("id"))){
+					PddNivelSet.add($(this).attr("id"));
+					obtenerHijosPddNivel($(this).attr("id"));
+				}
+				if($(this).hasClass('despliega')){
+					$(this).css("color", "#00529C")
+					
+					$(this).find('img').attr("src","css/img/arbol-azul.png")
+					$(this).removeClass('despliega');
+					var armar=$(this).parent().find('li').children();
+					for (var i = 0; i < armar.length; i++) {
+						$(armar[i]).slideUp();
+					}
+					var id = $(this).attr("id");
+					$('#ponderacion'+id).hide();
+				}else{
+					$(this).css("color", "#A079E6");
+					
+					$(this).find('img').attr("src","css/img/arbol-morado.png")
+					$(this).addClass('despliega');
+					var armar=$(this).parent().find('li').children();
+					for (var i = 0; i < armar.length; i++) {
+						$(armar[i]).slideDown();
+					}
+					var id = $(this).attr("id");
+					$('#ponderacion'+id).show();
+				}
+			});
+			
+			function obtenerHijosNivelAtributo(id) {
+				var data = $(this).serialize();
+				   // AJAX.
+		         $.ajax({
+		             type: 'GET',
+		             url: '/Segplan/' + 'consultarHijos/'+id,
+		             data: data,
+		             success: function (data) {
+		            	 console.log(data);
+		            	 
+		            	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+		            		 
+		            		$('#hijo'+data.lstObjectsDTO[i].idAtributo).remove();
+		            		$('#hijolista'+data.lstObjectsDTO[i].idAtributo).remove();
+		            		 var contenido = '';
+		 					contenido+='<ul id="hijo'+data.lstObjectsDTO[i].idAtributo+'">'		
+		 			
+		 					contenido+='<span class="titulo2-rojo nivelAtributo" id="'+data.lstObjectsDTO[i].idAtributo+'">'+data.lstObjectsDTO[i].stringIdPddNivel+'</i><br></span>';
+		 					contenido+='<span class="titulo2-rojo">'+data.lstObjectsDTO[i].denominacion+'</span>'
+		 					contenido+='<li></li></ul>';
+		 					var contenido2='<li class="titulo2-rojo" id="hijolista'+data.lstObjectsDTO[i].idAtributo+'">'+data.lstObjectsDTO[i].ponderacion+'</li><br>';
+		 					$('.'+id).append(contenido);
+		 					
+		 					$('#ponderacion'+id).append(contenido2);
+						}
+		             },
+		         complete : function (data) {
+					console.log(data);
+				}
+		         });
+			}
+			function obtenerHijosProyecto(id) {
+				var data = $(this).serialize();
+				   // AJAX.
+		         $.ajax({
+		             type: 'GET',
+		             url: '/Segplan/' + 'consultarMetaResultado/'+id,
+		             data: data,
+		             success: function (data) {
+		            	 console.log(data);
+		            	
+		            	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+		            		 
+		            		$('#hijo'+data.lstObjectsDTO[i].idAtributo).remove();
+		            		$('#hijolista'+data.lstObjectsDTO[i].idAtributo).remove();
+		            		 var contenido = '';
+		 					contenido+='<ul id="hijo'+data.lstObjectsDTO[i].idMetaResultado+'">'		
+		 			
+		 					contenido+='<span class="titulo2-rojo nivelAtributo" id="'+data.lstObjectsDTO[i].idMetaResultado+'">Meta Producto</i><br></span>';
+		 					contenido+='<span class="titulo2-rojo">'+data.lstObjectsDTO[i].nombreIndicador+'</span>'
+		 					contenido+='<li></li></ul>';
+		 					var contenido2='<li class="titulo2-rojo" id="hijolista'+data.lstObjectsDTO[i].idMetaResultado+'">'+data.lstObjectsDTO[i].ponderacion+'</li><br>';
+		 					$('.'+id).append(contenido);
+		 					
+		 					$('#ponderacion'+id).append(contenido2);
+						}
+		             }
+		         });
+			}
+		
+			function obtenerHijosMetaResultado(id) {
+				var data = $(this).serialize();
+				   // AJAX.
+		         $.ajax({
+		             type: 'GET',
+		             url: '/Segplan/' + 'consultarMetaProductos/'+id,
+		             data: data,
+		             success: function (data) {
+		            	 console.log(data);
+		            	 console.log("entro a meta");
+		            	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+		            		 
+		            		$('#hijo'+data.lstObjectsDTO[i].idMetaProducto).remove();
+		            		$('#hijolista'+data.lstObjectsDTO[i].idMetaProducto).remove();
+		            		 var contenido = '';
+		 					contenido+='<ul id="hijo'+data.lstObjectsDTO[i].idMetaProducto+'">'		
+		 					
+		 					contenido+='<span class="titulo2-rojo nivelAtributo" id="'+data.lstObjectsDTO[i].idMetaProducto+'">Meta Producto</i><br></span>';
+		 					
+		 					contenido+='<span class="titulo2-rojo">'+data.lstObjectsDTO[i].complemento+'</span>';
+		 					
+		 					contenido+='<li></li></ul>';
+		 					
+		 					var contenido2='<li class="titulo2-rojo" id="hijolista'+data.lstObjectsDTO[i].idMetaProducto+'">'+data.lstObjectsDTO[i].ponderacion+'</li><br>';
+		 					$('.'+id).append(contenido);
+		 					
+		 					$('#ponderacion'+id).append(contenido2);
+						}
+		             }
+		         });
+			}
+			function obtenerHijosMetaProducto(id) {
+				var data = $(this).serialize();
+				   // AJAX.
+		         $.ajax({
+		             type: 'GET',
+		             url: '/Segplan/' + 'consultar-indicador-mr/'+id,
+		             data: data,
+		             success: function (data) {
+		            	 console.log(data);
+		            	 
+		            	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+		            		 
+		            		$('#hijo'+data.lstObjectsDTO[i].idMetaProdInd).remove();
+		            		$('#hijolista'+data.lstObjectsDTO[i].idMetaProdInd).remove();
+		            		 var contenido = '';
+		 					contenido+='<ul id="hijo'+data.lstObjectsDTO[i].idMetaProdInd+'">'		
+		 					
+		 					contenido+='<span class="titulo2-rojo nivelAtributo" id="'+data.lstObjectsDTO[i].idMetaProdInd+'">Indicador Meta Producto</i><br></span>';
+		 					
+		 					contenido+='<span class="titulo2-rojo">'+data.lstObjectsDTO[i].nombreIndicador+'</span>';
+		 					
+		 					contenido+='<li></li></ul>';
+		 					
+		 					var contenido2='<li class="titulo2-rojo" id="hijolista'+data.lstObjectsDTO[i].idMetaProdInd+'">'+data.lstObjectsDTO[i].ponderacion+'</li><br>';
+		 					$('.'+id).append(contenido);
+		 					
+		 					$('#ponderacion'+id).append(contenido2);
+						}
+		             }
+		         });
+			}
+			function obtenerHijosMpIndicador(id) {
+				var data = $(this).serialize();
+				   // AJAX.
+		         $.ajax({
+		             type: 'GET',
+		             url: '/Segplan/' + 'consultar-entidad-mp/'+id,
+		             data: data,
+		             success: function (data) {
+		            	 console.log(data);
+		            	 
+		            	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+		            		 
+		            		$('#hijo'+data.lstObjectsDTO[i].idMetaProdInd).remove();
+		            		$('#hijolista'+data.lstObjectsDTO[i].idMetaProdInd).remove();
+		            		 var contenido = '';
+		 					contenido+='<ul id="hijo'+data.lstObjectsDTO[i].idMetaProdInd+'">'		
+		 					
+		 					contenido+='<span class="titulo2-rojo nivelAtributo" id="'+data.lstObjectsDTO[i].idMetaProdInd+'">Indicador Entidad Meta Producto</i><br></span>';
+		 					
+		 					contenido+='<span class="titulo2-rojo">'+data.lstObjectsDTO[i].nombreIndicador+'</span>';
+		 					
+		 					contenido+='<li></li></ul>';
+		 					
+		 					var contenido2='<li class="titulo2-rojo" id="hijolista'+data.lstObjectsDTO[i].idMetaProdInd+'">'+data.lstObjectsDTO[i].ponderacion+'</li><br>';
+		 					$('.'+id).append(contenido);
+		 					
+		 					$('#ponderacion'+id).append(contenido2);
+						}
+		             }
+		         });
+			}
+			function obtenerHijosPddNivel(id) {
+				var data = $(this).serialize();
+				   // AJAX.
+		         $.ajax({
+		             type: 'GET',
+		             url: '/Segplan/' + 'consultar-pdd-nivel/'+id,
+		             data: data,
+		             success: function (data) {
+		            	 console.log(data);
+		            	 
+		            	 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+		            		 
+		            		$('#hijo'+data.lstObjectsDTO[i].idMetaProdInd).remove();
+		            		$('#hijolista'+data.lstObjectsDTO[i].idMetaProdInd).remove();
+		            		 var contenido = '';
+		            		 contenido+='<ul id="hijo'+data.lstObjectsDTO[i].idAtributo+'">'		
+		 		 			
+			 					contenido+='<span class="titulo2-rojo nivelAtributo" id="'+data.lstObjectsDTO[i].idAtributo+'">'+data.lstObjectsDTO[i].stringIdPddNivel+'</i><br></span>';
+			 					contenido+='<span class="titulo2-rojo">'+data.lstObjectsDTO[i].denominacion+'</span>'
+			 					contenido+='<li></li></ul>';
+			 					var contenido2='<li class="titulo2-rojo" id="hijolista'+data.lstObjectsDTO[i].idAtributo+'">'+data.lstObjectsDTO[i].ponderacion+'</li><br>';
+			 					$('.'+id).append(contenido);
+			 					
+		 					
+		 					
+		 					$('#ponderacion'+id).append(contenido2);
+						}
+		             }
+		         });
+			}
+		});
+	</script>
+	
+	<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+	<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Cargar archivos planos</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/archivo-plano.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.css}">
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+        <script type="text/javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+    </head>
+    <body>
+
+        <header th:replace="/home:: header"></header>
+
+
+        <nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administración funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Cargar
+				archivos planos</li>
+		</ul>
+	</nav>
+
+        <div class="form-container3">
+            <div class="abs-center">
+                <span>Carga de archivo plano</span><br>
+            </div>
+            <div class="hr-1"></div>
+            <br>
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <div class="texto-archivo-plano">
+                        <label for="periodo">Modulo</label>
+                    </div>
+                    <div class="caja">
+                    <select class="form-control" id="modulo">
+                        <option value="+47"></option>
+                        <option value="+47">Item 1</option>
+                        <option value="+46">Item 2</option>
+                        <option value="+45">Item 2</option>
+                    </select>
+                    </div>
+                </div>
+            </div>
+            <form>
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <div class="texto-archivo-plano">
+                            <label for="periodo">Tema</label>
+                        </div>
+                        <div class="caja">
+                        <select class="form-control" id="cols">
+                            <option value=""></option>
+                            <option value="item1">Informacion presupuestal</option>
+                            <option value="item2">Item 2</option>
+                            <option value="item3">Item 2</option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <div class="texto-archivo-plano">
+                            <label for="periodo">Seleccionar archivo</label>
+                        </div>
+
+
+                        <div class="custom-file">
+                            <label id="casillaFileName" class="custom-file-label">Examinar...</label>
+                            <input type="file" class="custom-file-input"
+                                   id="correo_electronico" accept="image/*">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <div align="Left">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="crear()" id="enviar"
+                                >
+                            <i class="fa fa-upload"></i> CARGAR ARCHIVO
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm">
+                            <i class="fa fa-upload"></i> GENERAR ARCHIVO LOG
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <br><br>
+            <div class="table-responsive">
+                <div id="resultado" class=""></div>
+            </div>
+            <br>
+
+        </div>
+        <br>
+        <br>
+        <footer th:replace="/home:: footer"></footer>
+
+    </body>
+    <script type="text/javascript">
+        function crear() {
+            var item = document.getElementById('cols').value;
+            if (item == "item1") {
+                var col = 13;
+                var filas = 9;
+                var tabla = "<table border=\"0\" id=\"dtabla\" class=\"table table-curved\">";
+
+                tabla += "<tr class=\"color\">";
+                tabla += "<th>" + "Año" + "</th>";
+                tabla += "<th>" + "Mes" + "</th>";
+                tabla += "<th>" + "Clasificacion presupuestal" + "</th>";
+                tabla += "<th>" + "Codigo proyecto" + "</th>";
+                tabla += "<th>" + "Codigo interno" + "</th>";
+                tabla += "<th>" + "Nombre proyecto" + "</th>";
+                tabla += "<th>" + "Apropiacion definitiva" + "</th>";
+                tabla += "<th>" + "Ejecucion vigencia (compromisos)" + "</th>";
+                tabla += "<th>" + "Giros vigencia" + "</th>";
+                tabla += "<th>" + "Recursos suspendidos" + "</th>";
+                tabla += "<th>" + "Constitucion reservas(CxP)" + "</th>";
+                tabla += "<th>" + "Apropiacion reservas(CxP)" + "</th>";
+                tabla += "<th>" + "Ejecucion giros reservas(CxP)" + "</th>";
+                tabla += "</tr>";
+
+                for (i = 0; i < filas; i++) {
+                    tabla += "<tr>";
+                    for (j = 0; j < col; j++) {
+                        tabla += "<td>" + "<span/>" + "</td>";
+                    }
+                    tabla += "</tr>";
+                }
+                tabla += "</table>";
+                document.getElementById("resultado").innerHTML = tabla;
+            } else {
+                crear2();
+            }
+        }
+
+        function crear2() {
+            document.getElementById("resultado").innerHTML = "";
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $('.custom-file-input').on(
+                'change',
+                function (event) {
+                    var inputFile = event.currentTarget;
+                    $(inputFile).parent().find('.custom-file-label').html(
+                            inputFile.files[0].name);
+                });
+    </script>
+    <script type="text/javascript">
+        // http://duckranger.com/2012/06/pretty-file-input-field-in-bootstrap/ 
+        // Cuando se pulsa el falso manda el click al autentico
+        $('.btn-file').on('click', function () {
+            $(this).parent().prev().click();
+        });
+        // Cuando el autentico cambia hace cambiar al falso
+        $('input[type=file]').on('change', function (e) {
+            $(this).next().find('input').val($(this).val());
+        });
+    </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

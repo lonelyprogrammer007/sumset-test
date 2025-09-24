@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Descripción del Proyecto</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<br>
+	<form id="formAgregarEditarDescripcion" method="post">
+	<input type="hidden" id="idProyectoDescripcion" name="idProyInversion">
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto-archivo-plano ">
+					Descripción del proyecto: <strong style="color: red">*</strong>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<textarea rows="6" class="form-control"
+					id="textareaDescripcionProyecto" name="descripcion"
+					placeholder="máximo 5000 caracteres"></textarea>
+			</div>
+		</div>
+		<br>
+		<div class="float-right">
+			<a th:href="@{/consultar-proyecto-entidad/1}" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+			<button class="botonAgregarDescripcion" 
+				type="submit" id="boton-modal">
+				<img src="css/img/icono-guardar.png" class="guardar"
+					alt="Icono guardar">&nbsp;&nbsp;Guardar
+			</button>
+		</div>
+		<br>
+		<br>
+	</form>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	  $('.botonAgregarDescripcion').click(function () {
+		 var descripcion = document.getElementById("textareaDescripcionProyecto").value; 
+		 if (descripcion === ""){
+			 Swal.fire({
+			        title:"¡Advertencia!",
+				    text: "No se ha registrado información en el campo obligatorio",
+			        icon: "warning",
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+		   })
+		    return false;
+		 }
+	  });
+	
+	
+	$(document).on('submit', '#formAgregarEditarDescripcion', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'POST',
+	            url: '/Segplan/'+'agregarEditarDescripcion',
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+	            success: function (data) {
+	                Swal.close();
+	           
+	                idProyectoDeInversion = data.idProyInversion;
+	                mensajeRespuesta = data.msgRespuesta;
+	      
+	            },
+	            error: function () {
+	                Swal.close();
+                },         
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       })
+	                    }
+	             });
+	        return false;
+		});
+});
+
+
+</script>
+</html>

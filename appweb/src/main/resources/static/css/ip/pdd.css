@@ -1,0 +1,223 @@
+@font-face {
+	font-family: "Apex new bold italic";
+	src: url(../font/Apex-New-Bold-Italic.otf);
+}
+
+.abs-center {
+	font-size: 24px;
+	letter-spacing: 0;
+	color: #00529C;
+	opacity: 1;
+	font-family: Apex new bold italic;
+}
+
+.hr-1 {
+	border: 0.9px solid #513388;
+	opacity: 1;
+}
+
+.btn-guardar {
+	background-color: #513388;
+	border-radius: 5px;
+	font-family: Apex new medium;
+	border: 2px solid #513388;
+	font-size: 14px;
+	padding: 8px;
+	color: #fff;
+	font-size: 12px;
+}
+
+.guardar {
+	width: 25px;
+}
+
+#disenioInput {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+.disenioInput {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#idPddDesarrollo {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#idLsAdoptado {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#yearInicio {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#yearFinal {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#numAnio {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idLsNiveles {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#numAnio {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	font-size: 12px;
+	height: 35px;
+}
+
+#idLsEstadoPlan {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#idLsAvanceSgr {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#nivel1{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#nivel2{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+
+#codiEntidad{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#nombreEntidad{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#idPlanLocal {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#nombrePlan {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#urlPlan {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#actoAdministrativo{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#fechaActo {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#yearInicio {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#yearFinal {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#numAnios {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#correoAlcaldeLocal{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#nombreAlcaldeLocal {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}
+#idPddEditDesarrollo{
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}

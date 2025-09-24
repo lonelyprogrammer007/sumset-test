@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+</head>
+
+<body>
+	<div class="abs-center mt-2 " style="font-size: 20px">
+		<span><b>Indicador de problemática</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="float-left mt-3 mb-3">
+		
+			<button type="button" class="boton-agregar" id="agregarIndicador">
+				<img src="css/img/icono-agregar.png" class="agregar" 
+					alt="Icono agregar">Agregar
+			</button>
+		
+	</div>
+	<div class="table-responsive mt-3">
+		<table id="dtablaIndicadores" class="table-striped" style="width: 400%">
+			<thead>
+				<tr class="color">
+					<th style="width: 4%" class="color-head">Id indicador<br></th>
+					<th style="width: 5%" class="color-head">Nombre indicador<br></th>
+					<th style="width: 5%" class="color-head">Origen indicador<br></th>
+					<th style="width: 5%" class="color-head">Línea base<br></th>
+					<th style="width: 5%" class="color-head">Fuente<br></th>
+					<th style="width: 5%" class="color-head">Año línea base<br></th>
+					<th style="width: 5%" class="color-head">Información de soporte<br></th>
+					<th style="width: 10%" class="color-head">Acciones</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<input type="hidden" id="idAuxIndicadorEli">
+	<form id="formEliminiarIndicador" method="get"></form>
+	<div th:include="ip/analisis-politica/modales/modal-agregar-indicador.html"></div>
+	<div th:include="ip/analisis-politica/modales/modal-editar-indicador.html"></div>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	// agregar indicador problematica
+$(document).on('submit','#formAgregarIndicadorProblematica',function (e){
+	 e.preventDefault();
+     var data = $(this).serialize();
+     var mensajeRespuesta = "";
+$.ajax({
+    type: 'POST',
+    url: '/Segplan/'+'agregarIndicadorProblematica',
+    data: data,
+    beforeSend: function () {
+        Swal.fire({
+            title: 'Cargando...',
+            position: 'top',
+            allowOutsideClick: () => !Swal.isLoading(),
+            onBeforeOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    },
+    success: function (data) {
+        Swal.close();
+        $("#agregarIndicadorModal").modal('hide');
+        mensajeRespuesta = data.msgRespuesta;
+        $('#dtablaIndicadores').DataTable().clear();
+        $('#dtablaIndicadores').empty();
+        cargarIndicadores(idProbleAux);
+    },
+    error:
+            function () {
+                Swal.close();
+
+            },       
+    complete: function () {
+                Swal.close();
+              
+                Swal.fire({
+ 			        title:"¡Información!",
+ 				    text: mensajeRespuesta,
+ 			        icon: "warning",
+ 			        confirmButtonText: 'Aceptar',
+ 			        allowOutsideClick: () => false
+ 		       })
+
+            }
+     });
+	});
+	
+	// eliminar indicador
+	$(document).on('submit', '#formEliminiarIndicador', function (e) {
+		 var idIndicador = document.getElementById("idAuxIndicadorEli").value;
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'GET',
+             url: '/Segplan/'+'eliminarIndicadorPolitica/'+idIndicador,
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 mensajeRespuesta = data.msgRespuesta;
+                 $('#dtablaIndicadores').DataTable().clear();
+                 $('#dtablaIndicadores').empty();
+                 cargarIndicadores(idProbleAux);
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	
+	// editar indicador
+	$(document).on('submit', '#formEditarIndicadorProblematica', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'POST',
+	            url: '/Segplan/'+'editarIndicadorPolitica',
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+
+	            success: function (data) {
+	                Swal.close();
+	               
+	                $("#editarIndicadorModal").modal('hide');
+	                mensajeRespuesta = data.msgRespuesta;
+	            
+	                $('#dtablaIndicadores').DataTable().clear();
+	                $('#dtablaIndicadores').empty();
+	                cargarIndicadores(idProbleAux);
+	            },
+	            error:
+	                    function () {
+	                        Swal.close();
+
+	                    },
+	                    
+	            complete: function (data) {
+	                        Swal.close();
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       })
+
+	                    }
+	             });
+	        return false;
+		});
+	 
+	
+	$('#agregarIndicador').click(function() {
+		$('#agregarIndicadorModal').modal('show');
+	})
+})
+function cargarIndicadores(idProblematica){
+	'use strict';
+    var table = $('#dtablaIndicadores').DataTable({
+  	  "destroy":true,
+  	  "colReorder" : true,
+		"processing" : true,
+		"serverSide" : true,
+		"lengthChange" : true,
+		"searching" : true,
+		"ordering" : true,
+		"info" : true,
+		"autoWidth" : true,
+		"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+		"pageLength" : 5,
+  	
+      "language": {
+          "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+          "infoEmpty": '<div class="formato">0 de 0.</div>',
+          "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+          "zeroRecords": "No se han encontrado coincidencias.",
+          "responsive": true,
+          "paginate": {
+              "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+              "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+              "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+              "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+          },
+          "lengthMenu": "_MENU_",
+      },
+
+      "lengthMenu": [5, 10, 20, 50, 100],
+      "pageLength": 5,
+      "pagingType": "full_numbers",
+      "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+              "<'row'<'col-sm-8 col-md-7'tr>>" +
+              "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+              "ajax" : {
+					"url" : "/Segplan/listarIndicadorProblematica/"+idProblematica,
+					"type" : "POST"
+		 },
+		 "columns" : [
+				{ data : "idIndicador"},
+				{ data : "nombre"},
+				{ data : "tipo"},
+				{ data : "lineaBase"},
+				{ data : "fuente"},
+				{ data : "yearLineaBase"},
+				{ data : "informacionSoporte"},
+				{
+					"render" : function() {
+						return '<button  type="button" id="bntEditarIndicador" class="editarIndic"><img src="css/img/icono-1-azul.png" class="editar"></button><button  type="button" id="btnEliminarIndicador" class="eliminarIndic"><img src="css/img/icono-eliminar.png" class="editar">'
+												
+					}, "orderable": false,  className:"icon"}
+				],
+
+  });
+    yadcf.init(table, [ {
+  		column_number : 0,
+  		filter_type : "text",
+  		filter_reset_button_text : false,
+  		filter_delay : 500
+  	},{
+		column_number : 1,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 2,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 3,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 4,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 5,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	},{
+		column_number : 6,
+		filter_type : "text",
+		filter_reset_button_text : false,
+		filter_delay : 500
+	}
+	]);
+    $('div.dataTables_length select').addClass("formato-2");
+     editarIndicador('#dtablaIndicadores tbody', table); 
+     eliminarIndicador('#dtablaIndicadores tbody', table);  
+
+}
+function eliminarIndicador(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEliminarIndicador",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "¿Está seguro que desea eliminar este registro?",
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Aceptar',
+						  cancelButtonText: 'Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+							 document.getElementById("idAuxIndicadorEli").value = data.idProbInd;
+							 $("#formEliminiarIndicador").submit();
+						  }
+					})
+				})	
+}
+function editarIndicador(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#bntEditarIndicador",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					$('#editarIndicadorModal').modal('show');
+					document.getElementById("idAuxProbleIndEdit").value = data.idProbInd;
+					document.getElementById("idAuxProblematicaEdit").value = data.idProblematica;
+					document.getElementById("idIndicadorEdit").value = data.idIndicador;
+			
+				})	
+}
+</script>
+</html>

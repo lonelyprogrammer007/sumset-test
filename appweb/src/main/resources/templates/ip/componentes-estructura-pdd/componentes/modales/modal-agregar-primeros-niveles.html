@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="modal fade" id="agregarEjePilar" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}">
+						</div>
+						<div class="col-sm-7">
+							<span class="tituloEje" id="tituloModalAgregarNivel1">Agregar
+								Eje/Pilar</span>
+						</div>
+					</div>
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+						<input type="hidden" id="idNivelActualPdd"> <input
+							type="hidden" id="idPddAuxiliar">
+						<form id="formAgregarNivel1" th:object="${pddNivel}" method="post">
+							<input type="hidden" id="booleanProyectoEstrategico" name="proyectoEstrategico"> 
+							<input type="hidden" id="idPddNivel1" name="idPddNivel"> 
+							<input type="hidden" id="idAtributoPadre" name="idAtributoPadre">
+							<input type="hidden" id="stringIdPddNivel" name="stringIdPddNivel">
+							<input type="hidden" value="0" name="sumPond">
+							<div class="row mt-2">
+								<div class="col-sm-4 mt-2">
+									<div class="abs-center" style="font-size: 16px">
+										<label id="labelNivel1Agregar"></label>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<input type="text" readonly="readonly" class="form-control"
+										id="pilar" name="numero">
+								</div>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Denominación :*</label>
+									</div>
+								</div>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" name="denominacion"
+										id="idDenominacion" maxlength="200">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Ponderación:*</label>
+
+									</div>
+								</div>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" name="ponderacion"
+										id="idPonderacion" maxlength="10">
+
+								</div>
+
+							</div>
+							<div class="abs-center mt-2 " style="font-size: 16px">
+								<span id="idGerenteAgregar">Gerente Nivel 1</span><br>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label id="idNombreLabelAgregar">Nombre:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" name="nombreGerente"
+										id="nombreGerenteAgregar" maxlength="100">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label id="idCorreoLabelAgregar">Correo:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<input type="email" class="form-control" name="correoGerente"
+										id="correoGerenteAgregar" maxlength="100">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label id="idGeneroLabelAgregar">Genero:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<select class="form-control" name="idLsGeneroGerente"
+										id="idLsGenero">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${genero}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}"></option>
+									</select>
+								</div>
+							</div>
+							<br>
+							<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+							<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+								<button class="btnAgregarPrimerosNiveles" name="btnAgregarNivel1"
+									type="button" id="boton-modal">
+									<img src="css/img/icono-guardar.png" class="guardar"
+										alt="Icono guardar">&nbsp;&nbsp;Guardar
+								</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function() {
+    
+	 $('.btnAgregarPrimerosNiveles').click(function () {
+		 
+		 var idNivel = document.getElementById("idNivelActualPdd").value;
+	     var deno = document.getElementById("idDenominacion").value;
+	     var ponde = document.getElementById("idPonderacion").value;
+	     var nombre = document.getElementById("nombreGerenteAgregar").value;
+	     var correo = document.getElementById("correoGerenteAgregar").value;
+	     var genero = document.getElementById("idLsGenero").value;
+	     var valorNumerico = Number(ponde);
+	     var pondeTotal = totalPondePrimeros+valorNumerico;
+		 if (idNivel == "1"){
+			 if (deno == "" || ponde == "" || nombre == "" || correo == "" || genero ==""){
+				 Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "Existen campos obligatorios que no se han registrado",
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			   })
+			    return false; 
+			 }
+			 if (pondeTotal >100){
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "Existen errores de balanceo en el nivel actual. Le sugerimos revisar nuevamente la ponderación y realizar los ajustes pertinentes. ¿Desea continuar y guardar?",
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Si, Guardar',
+						  cancelButtonText: 'No, Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+						   $("#formAgregarNivel1").submit();
+							
+						  }
+					})
+			 }else {
+				 $("#formAgregarNivel1").submit();
+			 }
+		 }
+		 if (idNivel != "1"){
+			 if (deno == "" || ponde == ""){
+				 Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "Existen campos obligatorios que no se han registrado",
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			   })
+			    return false; 
+			 }
+			 if (pondeTotal >100) {
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "Existen errores de balanceo en el nivel actual. Le sugerimos revisar nuevamente la ponderación y realizar los ajustes pertinentes. ¿Desea continuar y guardar?",
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Si, Guardar',
+						  cancelButtonText: 'No, Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+						   $("#formAgregarNivel1").submit();
+							
+						  }
+					})
+			 }else {
+				 $("#formAgregarNivel1").submit();
+			 }
+
+		 }
+		 pondeTotal = "";
+	 });
+	
+});
+</script>
+</html>

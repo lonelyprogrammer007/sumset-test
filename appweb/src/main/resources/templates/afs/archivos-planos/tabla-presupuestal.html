@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Tabla archivo cargado</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<div class="table-responsive">
+
+		<table id="dtablaPresupuesto" class="table-striped" style="width:420%">
+		<caption><div class="hr-1"></div></caption>
+			<thead>
+				<tr class="color">
+					<th id="cinco" class="color-head">Año</th>
+					<th id="cinco" class="color-head">Mes</th>
+					<th id=""><div class="color-head">Codigo distrital</div> <br></th>
+					<th id=""><div class="color-head">Codigo proyecto</div> <br></th>
+					<th id=""><div class="color-head">Nombre proyecto</div> <br></th>
+					<th id=""><div class="color-head">Ejecucion vigencia (compromisos)</div> <br></th>
+					<th id=""><div class="color-head">Giros vigencia</div> <br></th>
+					<th id=""><div class="color-head">Recursos suspendidos</div> <br></th>
+					<th id=""><div class="color-head">Constitucion reservas(CxP)</div> <br></th>
+					<th id=""><div class="color-head">Apropiacion reservas(CxP)</div> <br></th>
+					<th id=""><div class="color-head">Apropiacion definitiva</div> <br></th>
+					<th id=""><div class="color-head">Ejecucion giros reservas(CxP)</div> <br></th>
+					<th id=""><div class="color-head">Clasificacion presupuestal</div><br></th>
+					<th id=""><div class="color-head">Codigo interno</div> <br></th>
+				    <th id=""><div class="color-head">Origen</div> <br></th>
+				    <th id=""><div class="color-head">Id plan de desarrollo</div> <br></th>
+					<th id=""><div class="color-head">Codigo N3</div> <br></th>
+					<th id=""><div class="color-head">Resultados de cargue</div> <br></th>
+					<th id=""><div class="color-head">Error</div> <br></th>
+
+
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr th:each="map: ${cargueTabla}">
+					<td th:text="${map.mapCampos.get('YEAR')}" />
+					<td th:text="${map.mapCampos.get('MES')}" />
+					<td th:text="${map.mapCampos.get('CODIGO_DISTRITAL')}" />
+					<td th:text="${map.mapCampos.get('CODIGO_PROYECTO')}" />
+					<td th:text="${map.mapCampos.get('NOMBRE_PROYECTO')}" />
+					<td th:text="${map.mapCampos.get('EJECUCION_VIGENCIA')}" />
+					<td th:text="${map.mapCampos.get('GIROS_VIGENCIA')}" />
+					<td th:text="${map.mapCampos.get('RECURSOS_SUSPENDIDOS')}" />
+					<td th:text="${map.mapCampos.get('CONSTITUCION_RESERVA')}" />
+					<td th:text="${map.mapCampos.get('APROPIACION_RESERVA')}" />
+					<td th:text="${map.mapCampos.get('APROPIACION_DEFINITIVA')}" />
+					<td th:text="${map.mapCampos.get('EJECUCION_GIRO_RESERVAS')}" />
+					<td th:text="${map.mapCampos.get('CODIGO_CLASIF_PRESUPUESTAL')}" />
+					<td th:text="${map.mapCampos.get('CODIGO_INTERNO')}" />
+					<td th:text="${map.mapCampos.get('ORIGEN')}" />
+					<td th:text="${map.mapCampos.get('ID_PLAN_DESARROLLO')}" />
+					<td th:text="${map.mapCampos.get('CODIGO_N3')}" />
+					<td th:text="${map.mapCampos.get('RESULTADO CARGUE')}" />
+					<td th:text="${map.mapCampos.get('ERROR')}" />
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+</body>
+
+</html>

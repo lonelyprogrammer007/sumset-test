@@ -1,0 +1,200 @@
+#usuario {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+
+#entidad {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+#correo_electronico {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+#nombre {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+#tipoIdent {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+#identif {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+#contraAnt {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+#contraNueva {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+#rContra {
+    border-color: #4170d9;
+    border-radius: 9px;
+    box-shadow: 0px 0px 2px 0px #000;
+}
+
+#usuario::placeholder {
+    font-size: 11px;
+}
+
+#usuario::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+#usuario::-moz-placeholder {
+    font-size: 11px;
+}
+
+#usuario:-ms-input-placeholder {
+    font-size: 11px;
+}
+
+#usuario:-moz-placeholder {
+    font-size: 11px;
+}
+
+#entidad::placeholder {
+    font-size: 11px;
+}
+
+#entidad::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+#entidad::-moz-placeholder {
+    font-size: 11px;
+}
+
+#entidad:-ms-input-placeholder {
+    font-size: 11px;
+}
+
+#entidad:-moz-placeholder {
+    font-size: 11px;
+}
+
+#nombre::placeholder {
+    font-size: 11px;
+}
+
+#nombre::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+#nombre::-moz-placeholder {
+    font-size: 11px;
+}
+
+#nombre:-ms-input-placeholder {
+    font-size: 11px;
+}
+
+#nombre:-moz-placeholder {
+    font-size: 11px;
+}
+#tipoIdent::placeholder {
+    font-size: 11px;
+}
+
+#tipoIdent::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+#tipoIdent::-moz-placeholder {
+    font-size: 11px;
+}
+
+#tipoIdent:-ms-input-placeholder {
+    font-size: 11px;
+}
+
+#tipoIdent:-moz-placeholder {
+    font-size: 11px;
+}
+#identif::placeholder {
+    font-size: 11px;
+}
+
+#identif::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+#identif::-moz-placeholder {
+    font-size: 11px;
+}
+
+#identif:-ms-input-placeholder {
+    font-size: 11px;
+}
+
+#identif:-moz-placeholder {
+    font-size: 11px;
+}
+#contraAnt::placeholder {
+    font-size: 11px;
+}
+#contraAnt::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+#contraAnt::-moz-placeholder {
+    font-size: 11px;
+}
+
+#contraAnt:-ms-input-placeholder {
+    font-size: 11px;
+}
+
+#contraAnt:-moz-placeholder {
+    font-size: 11px;
+}
+#contraNueva::placeholder {
+    font-size: 11px;
+}
+
+#contraNueva::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+#contraNueva::-moz-placeholder {
+    font-size: 11px;
+}
+
+#contraNueva:-ms-input-placeholder {
+    font-size: 11px;
+}
+
+#contraNueva:-moz-placeholder {
+    font-size: 11px;
+}
+#rContra::placeholder {
+    font-size: 11px;
+}
+
+#rContra::-webkit-input-placeholder {
+    font-size: 11px;
+}
+
+#rContra::-moz-placeholder {
+    font-size: 11px;
+}
+
+#rContra:-ms-input-placeholder {
+    font-size: 11px;
+}
+
+#rContra:-moz-placeholder {
+    font-size: 11px;
+}

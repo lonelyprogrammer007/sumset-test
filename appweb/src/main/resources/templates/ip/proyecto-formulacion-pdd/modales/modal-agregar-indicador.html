@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<link th:href="@{/css/ip/select.css}" rel="stylesheet" />
+
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script
+	src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+
+
+<div class="modal fade" id="agregarIndicadorModal" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="tituloMeta">Agregar Indicador Problemática</span>
+					</div>
+				</div>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+
+					<div class="row mt-2">
+						<div class="col-sm-12">
+							<div class="texto">
+								<label for="codigo_comp"> Indicador:*</label>
+							</div>
+						
+						</div>
+						<div class="col-sm-12">
+						<input type="text" class="form-control disenioInput" maxlength="250" placeholder="longitud 250">
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-sm-12">
+							<div class="texto">
+								<label for="codigo_comp"> Línea Base:*</label>
+							</div>
+						
+						</div>
+						<div class="col-sm-12">
+						<input type="text" class="form-control disenioInput" maxlength="200" placeholder="longitud 200">
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-sm-12">
+							<div class="texto">
+								<label for="codigo_comp"> Fuente:*</label>
+							</div>
+						
+						</div>
+						<div class="col-sm-12">
+						<input type="text" class="form-control disenioInput" maxlength="500" placeholder="longitud 500">
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-sm-12">
+							<div class="texto">
+								<label for="codigo_comp"> Año Línea Base:*</label>
+							</div>
+						
+						</div>
+						<div class="col-sm-12">
+						<input type="text" class="form-control disenioInput" maxlength="4" placeholder="longitud 4">
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col-sm-12">
+							<div class="texto">
+								<label for="codigo_comp"> Origen del Indicador:*</label>
+							</div>
+						
+						</div>
+						<div class="col-sm-12">
+						<input type="text" class="form-control disenioInput" disabled="disabled" value="otro Origen">
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="hr"></div>
+					</div>
+					<br>
+					<div align="right">
+						<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a> <span>&nbsp;&nbsp;</span>
+						<button type="submit" class="btnAgregarMeta" name="save"
+							id="btn-modal">Guardar</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+	$('.js-example-basic-single').select2({
+		minimumResultsForSearch : Infinity
+	})
+	 
+		 
+	
+});
+</script>

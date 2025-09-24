@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title id="pageTitle">Formulación</title>
+
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/modal.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/tabs-pb.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/arbol-pg.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/componentes.css}">
+<body >
+
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Instrumentos de planeación</a></li>
+			<li class="breadcrumb-item " aria-current="page" id="act">Formulación
+				plan de desarrollo</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Proyecto de Formulación Plan de Desarrollo</li>
+		</ul>
+	</nav>
+	<div class="form-containerIp">
+		<div class="abs-center">
+			<span>Análisis de política</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+
+		<div class="col-12 col-md-12">
+			<div class="row">
+				<div class="col-md-2">
+				
+					<div class="arbol ">
+					<form id ="peticionArbol" name="peticionArbol" 
+					method="post" th:object="${compromiso}" th:action="@{consultar-especifico}">
+						<div id="menuBase">
+							<ul class="nav">
+							</ul>
+						</div>
+ 						<input type="hidden" id="idCompromiso" name="idCompromiso"> 
+						
+					</form>
+
+					</div>
+				</div>
+				<div class="col-md-2">
+
+					<label class="texto-ip">Programa de gobierno |</label>
+
+				</div>
+				<div class="col-md-8">
+					<input type="text" class="form-control" disabled
+						id="programaGobierno" th:value="${pddDTO.nombrePlan}">
+
+					<div class="row">
+						
+						<button type="button" class="boton-filtro"
+							th:attr="onclick=|filtrarCompromiso()|">
+							<i class="fa fa-filter"></i>&nbsp;&nbsp;Filtrar
+						</button>
+					</div>
+
+					<br>
+					<div class="tabs">
+						<div class="tab-button-outer">
+							<ul id="tab-button">
+							    
+								<li><a  href="#tab01">Sintesis</a></li>
+							 	<li><a href="#tab02" >¿Qué se quiere obtener?</a></li>
+								<li><a href="#tab03">¿Cómo lo vamos a solucionar?</a></li>
+								
+
+							</ul>
+						</div>
+						<div class="tab-select-outer">
+							<select id="tab-select">
+								<option  value="#tab01">Sintesis</</option>
+								<option value="#tab02">¿Qué se quiere obtener?</option>
+								<option value="#tab03">¿Cómo lo vamos a solucionar?</option>
+								
+							</select>
+						</div>
+
+						<div id="tab01" class="tab-contents">
+							<div th:include="ip/proyecto-formulacion-pdd/sintesis.html"></div>
+						</div>
+						<div id="tab02" class="tab-contents">
+							<div th:include="ip/proyecto-formulacion-pdd/que-obtener.html"></div>
+						</div>
+						<div id="tab03" class="tab-contents">
+							<div th:include="ip/analisis-politica/indicadores.html"></div>
+						</div>
+						
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	<br>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+	<div th:include="ip/analisis-politica/modales/modal-problematica-agregar.html"></div>
+	<div th:include="ip/analisis-politica/modales/modal-filtro.html"></div>
+</body>
+<script th:inline="javascript">
+	$(function() {
+		var $tabButtonItem = $('#tab-button li'), $tabSelect = $('#tab-select'), $tabContents = $('.tab-contents'), activeClass = 'is-active';
+		$tabButtonItem.first().addClass(activeClass);
+		$tabContents.not(':first').hide();
+		$tabButtonItem.find('a').on('click', function(e) {
+			var target = $(this).attr('href');
+
+			$tabButtonItem.removeClass(activeClass);
+			$(this).parent().addClass(activeClass);
+			$tabSelect.val(target);
+			$tabContents.hide();
+			$(target).show();
+			e.preventDefault();
+		});
+
+		$tabSelect.on('change', function() {
+			var target = $(this).val(), targetSelectNum = $(this).prop(
+					'selectedIndex');
+
+			$tabButtonItem.removeClass(activeClass);
+			$tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+			$tabContents.hide();
+			$(target).show();
+		});
+	});
+	$(document).ready(
+			function() {
+// 				var totalMenus = 10;
+                
+// 				   /*<![CDATA[*/
+// 		  		 var compromisos = /*[[${compromisoDTO}]]*/;	
+// 				 var tematicas = /*[[${tematicaCompromiso}]]*/;	
+// 				 var radio = /*[[${radioSeleccionado}]]*/;
+// 				 var mensajeCompromiso =  /*[[${messageCompromiso}]]*/; 
+				   
+		  		
+// 		  		 var idCompro = "";
+// 		  		 for (var i = 0; i < tematicas.length; i++) {
+// 				 var contenido = '';
+				 
+// 				 contenido += '<ul id="menuBase1"><li>';
+// 				 contenido += '<span class="titulo"><img src="img/arbol-azul.png" id="icon">'+tematicas[i].resultado+'</span>';
+// 				 contenido += '<ul>';
+				
+				 
+// 				 for (var j = 0; j < compromisos.length; j++ ){
+				
+// 				 if (compromisos[j].idTematica == tematicas[i].idArgumento){
+// 				 idCompro = compromisos[j].idCompromiso; 	 
+				 
+// 				 contenido += '<li class="compromiso"><input type="radio" class="compro" id="'+idCompro+'" name="compromiso" value="'+idCompro+'">';	 
+// 				 contenido += '<span class="texto-plano">'+compromisos[j].nombreCompromisoEstrategico+'</span>';
+// 				 contenido += '</li>';
+				
+// 				 }
+// 			   }
+//                  contenido += '</ul></li></ul>';
+// 				 $('#menuBase').append(contenido);
+				 
+// 		  		}
+		  		 
+		  		 
+// 		  		$("input[name=compromiso]").click(function () {    
+//                     var idCompromiso = $(this).val();
+// 			        document.getElementById("idCompromiso").value = idCompromiso;
+			        
+// 			           Swal.fire({
+// 	 	                    title: 'Cargando...',
+// 	 	                    position: 'top',
+// 	 	                    allowOutsideClick: () => !Swal.isLoading(),
+// 	 	                    onBeforeOpen: () => {
+// 	 	                        Swal.showLoading();
+// 	 	                    }
+// 	 	                });   
+			        
+			        
+// 			        $("#peticionArbol").submit();
+// 			    });
+//                 if (mensajeCompromiso != null){
+//                 	Swal.fire({
+// 				        title:"¡Información!",
+// 					    text: mensajeCompromiso,
+// 				        icon: "warning",
+// 				        confirmButtonText: 'Aceptar',
+// 				        allowOutsideClick: () => false
+// 			   })
+//                 }
+// 				if (radio != null){	
+// 					console.log(radio);
+// 					$("#"+radio).prop("checked", true);
+// 					var father = $("#"+radio).parent();
+// 					var titulo = $(father).parent().parent().find('.titulo');
+// 					$(titulo).css('color', '#A079E6');
+// 					//$(titulo).find('img').removeClass('fa-plus-square');
+// 					$(titulo).find('i').addClass('fa-minus-square');
+					
+// 					$(father).parent().find('.compromiso').css('display', 'block');
+// 				}
+		  		
+// 				/*]]>*/
+				
+				
+				
+				//Funcionalidad de desplegar el arbol
+				$('.titulo').click(function(e) {
+					
+					var padre = $(this).parent();
+					var consola = $(padre).find('.compromiso');
+					
+					if ($(consola).is(':visible')) {
+						$(consola).slideUp();
+						$(this).css('color', '#00529C');
+						$(padre).find('#radio').prop('checked', false);
+						$(this).find('img').removeClass('fa-minus-square');
+						$(this).find('i').addClass('fa-plus-square');
+
+					} else {
+
+						$(this).css('color', '#A079E6');
+						$(this).find('i').removeClass('fa-plus-square');
+						$(this).find('i').addClass('fa-minus-square');
+						$(padre).find('#radio').prop('checked', true);
+						$(consola).slideDown();
+					}
+					
+				});
+				// Funcionalidad del arbol
+
+	          $('#crearProblematica').click(function() {
+	        	  console.log('entro');
+				$('#modalAgregarProblematica').modal('show');
+			}) 
+			});
+	
+	
+	function filtrarCompromiso() {
+		$('#modalFiltroProblematica').modal('show');
+	}
+	
+</script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

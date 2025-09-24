@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Home</title>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home2.css}">
+<script src="js/src/stomp.js"></script>
+<script src="js/src/sockjs.min.js"></script>
+<script type="text/javascript" th:src="@{/js/src/myjs.js}"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+
+</head>
+
+<body onload="setConnected(true)" onUnload="disconnect()">
+
+
+	<header th:fragment="header" onload="sendPlace()">
+
+		<section class="container-fluid color-fondo-2">
+			<section>
+				<div class="row">
+					<div class="col-9 col-sm-9 col-md-4 col-lg-4">
+						<div class="row">
+							<div class="col-3 col-sm-3 col-md-3 col-lg-3">
+								<a th:href="@{/home}"><img id="logo-alcaldia"
+									th:src="@{/img/logo-alcaldia-bogota.png}"
+									class="img-responsive"></a>
+								<h4>&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+							</div>
+							<div class="col-1 col-sm-1 col-md-1 col-lg-1">
+								<div class="barra"></div>
+							</div>
+
+							<div class="col-5 col-sm-5 col-md-6 col-lg-6">
+								<img id="logo-segplan" th:src="@{/img/SegPlan.png}"
+									class="img-responsive">
+							</div>
+						</div>
+					</div>
+					<div class="col-0 col-sm-0 col-md-5 col-lg-5">
+						<span></span>
+					</div>
+					<div class="col-1 col-sm-1 col-md-1 col-lg-1">
+						<a th:href="@{consultar_buzon_todos}"><img id="campana"
+							th:src="@{/img/icono-campana.png}" class="img-responsive"></a>
+						<hr class="barra-notificaciones"></hr>
+						<div class="mensajeria">Mensajería</div>
+						<div class="notificaciones-texto">y notificaciones</div>
+					</div>
+					<div class="col-1 col-sm-1 col-md-1 col-lg-1">
+						<div class="row">
+							<div class="form-group">
+								<div id="notificaciones" class="color-azul"></div>
+								<hr class="barra-mensajes"></hr>
+								<div class="notifica">Notificaciones</div>
+								<div class="no-leida">no leídas</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="col-1 col-sm-1 col-md-1 col-lg-1">
+						<div class="row">
+							<div class="form-group">
+								<div class="barra-2"></div>
+							</div>
+						</div>
+					</div>
+					<span class="menu-title" th:text="${nombre}"></span>
+
+				</div>
+			</section>
+		</section>
+
+		<!-- 		<nav class="navbar navbar-expand-md navbar-dark bg-home"> -->
+		<!-- 			<div class="d-flex w-50 order-0"> -->
+
+		<!-- 				<button class="navbar-toggler" type="button" data-toggle="collapse" -->
+		<!-- 					data-target="#collapsingNavbar"> -->
+		<!-- 					<span class="navbar-toggler-icon"></span> -->
+		<!-- 				</button> -->
+
+		<!-- 			</div> -->
+		<!-- 			<div class="navbar-collapse collapse justify-content-center order-2" -->
+		<!-- 				id="collapsingNavbar"> -->
+		<!-- 				<ul class="navbar-nav" id="respMenu" data-menu-style="horizontal"> -->
+		<!-- 					<li class="dropdown"> -->
+		<!-- 						<div data-toggle="dropdown"> -->
+		<!-- 							<a href="javascript:;"><img id="afs" th:src="@{/img/afs.png}" -->
+		<!-- 								class="img-responsive" hspace="20"></a> -->
+		<!-- 						</div> -->
+
+		<!-- 						<ul class="dropdown-menu"> -->
+		<!-- 							<li class="dropdown-submenu" id="nivel1"><a class="test" -->
+		<!-- 								tabindex="-1" data-toggle="collapse" -->
+		<!-- 								href="#multiCollapseExample1">Roles, usuarios y -->
+		<!-- 									funcionalidades</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample1"> -->
+		<!-- 									<li><a tabindex="-1" href="#">Administración de roles</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">Sincronización de -->
+		<!-- 											usuarios</a></li> -->
+		<!-- 									<li><a tabindex="-1" th:href="@{/admin-usuario}">Administración -->
+		<!-- 											de usuarios</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">Administrar -->
+		<!-- 											funcionalidades</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">Administrar permisos x -->
+		<!-- 											rol</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 							<li class="dropdown-submenu" id="nivel1"><a class="test" -->
+		<!-- 								tabindex="-1" data-toggle="collapse" -->
+		<!-- 								href="#multiCollapseExample2">Entidades, tablas, parametros -->
+		<!-- 									y consecutivos</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample2"> -->
+		<!-- 									<li><a class="nivel2" tabindex="-1" -->
+		<!-- 										th:href="@{/consultar-ent}">Administrar entidades -->
+		<!-- 											alcaldias locales</a></li> -->
+		<!-- 									<li><a tabindex="-1" th:href="@{/consultar-parametro}">Parametros</a></li> -->
+		<!-- 									<li><a tabindex="-1" th:href="@{/consultar-ls}">Tablas -->
+		<!-- 											basicas</a></li> -->
+		<!-- 									<li><a tabindex="-1" -->
+		<!-- 										th:href="@{/consultar_lista_compuesta}">Tablas compuestas</a></li> -->
+		<!-- 									<li><a tabindex="-1" th:href="@{/consultar-consecutivo}">Consecutivos</a></li> -->
+
+		<!-- 								</ul></li> -->
+
+		<!-- 							<li class="dropdown-submenu" id="nivel1"><a class="test" -->
+		<!-- 								tabindex="-1" data-toggle="collapse" -->
+		<!-- 								href="#multiCollapseExample2">Presupuesto</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample2"> -->
+		<!-- 									<li><a th:href="@{/consultar-info-pre}">Administración -->
+		<!-- 											presupuestal</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 						</ul> -->
+		<!-- 					</li> -->
+		<!-- 					<li class="dropdown"> -->
+		<!-- 						<div data-toggle="dropdown"> -->
+		<!-- 							<a href="#"><img id="ips" th:src="@{/img/ips.png}" -->
+		<!-- 								class="img-responsive" hspace="20"></a> -->
+		<!-- 						</div> -->
+
+		<!-- 						<ul class="dropdown-menu"> -->
+		<!-- 							<li><a tabindex="-1" href="#">HTML</a></li> -->
+		<!-- 							<li class="dropdown-submenu" id="nivel1"><a class="test" -->
+		<!-- 								tabindex="-1" data-toggle="collapse" -->
+		<!-- 								href="#multiCollapseExample1">First Dropdown</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample1"> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 							<li class="dropdown-submenu"><a class="test" tabindex="-1" -->
+		<!-- 								data-toggle="collapse" href="#multiCollapseExample2">Second -->
+		<!-- 									Dropdown</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample2"> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 						</ul> -->
+		<!-- 					</li> -->
+		<!-- 					<li class="dropdown"> -->
+		<!-- 						<div data-toggle="dropdown"> -->
+		<!-- 							<a href="#"><img id="bdp" th:src="@{/img/bdp.png}" -->
+		<!-- 								class="img-responsive" hspace="20"></a> -->
+		<!-- 						</div> -->
+
+		<!-- 						<ul class="dropdown-menu"> -->
+		<!-- 							<li><a tabindex="-1" href="#">HTML</a></li> -->
+		<!-- 							<li class="dropdown-submenu"><a class="test" tabindex="-1" -->
+		<!-- 								data-toggle="collapse" href="#multiCollapseExample1">First -->
+		<!-- 									Dropdown</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample1"> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 							<li class="dropdown-submenu"><a class="test" tabindex="-1" -->
+		<!-- 								data-toggle="collapse" href="#multiCollapseExample2">Second -->
+		<!-- 									Dropdown</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample2"> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 						</ul> -->
+		<!-- 					</li> -->
+		<!-- 					<li class="dropdown"> -->
+
+		<!-- 						<div data-toggle="dropdown"> -->
+		<!-- 							<a href="#"><img id="pa" th:src="@{/img/pa.png}" -->
+		<!-- 								class="img-responsive" hspace="20"></a> -->
+		<!-- 						</div> -->
+		<!-- 						<ul class="dropdown-menu"> -->
+		<!-- 							<li><a tabindex="-1" href="#">HTML</a></li> -->
+		<!-- 							<li class="dropdown-submenu"><a class="test" tabindex="-1" -->
+		<!-- 								data-toggle="collapse" href="#multiCollapseExample1">First -->
+		<!-- 									Dropdown</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample1"> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 							<li class="dropdown-submenu"><a class="test" tabindex="-1" -->
+		<!-- 								data-toggle="collapse" href="#multiCollapseExample2">Second -->
+		<!-- 									Dropdown</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample2"> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 						</ul> -->
+		<!-- 					</li> -->
+		<!-- 					<li class="dropdown"> -->
+		<!-- 						<div data-toggle="dropdown"> -->
+		<!-- 							<a href="#"><img id="reportes" th:src="@{/img/reportes.png}" -->
+		<!-- 								class="img-responsive" hspace="20"></a> -->
+		<!-- 						</div> -->
+		<!-- 						<ul class="dropdown-menu"> -->
+		<!-- 							<li><a tabindex="-1" href="#">HTML</a></li> -->
+		<!-- 							<li class="dropdown-submenu"><a class="test" tabindex="-1" -->
+		<!-- 								data-toggle="collapse" href="#multiCollapseExample1">First -->
+		<!-- 									Dropdown</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample1"> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 							<li class="dropdown-submenu"><a class="test" tabindex="-1" -->
+		<!-- 								data-toggle="collapse" href="#multiCollapseExample2">Second -->
+		<!-- 									Dropdown</a> -->
+		<!-- 								<ul class="collapse multi-collapse" id="multiCollapseExample2"> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 									<li><a tabindex="-1" href="#">2nd level dropdown</a></li> -->
+		<!-- 								</ul></li> -->
+		<!-- 						</ul> -->
+		<!-- 					</li> -->
+		<!-- 				</ul> -->
+		<!-- 			</div> -->
+
+		<!-- 			<span -->
+		<!-- 				class="navbar-text small text-truncate mt-1 w-50 text-right order-1 order-md-last"> -->
+		<!-- 			</span> -->
+		<!-- 		</nav> -->
+
+
+
+
+		<nav class="navbar navbar-expand-md navbar-dark bg-home">
+
+			<div class="menu-toggle">
+				<h3>Menu</h3>
+				<button type="button" id="menu-btn">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+			</div>
+
+
+			<ul id="respMenu" class="ace-responsive-menu"
+				data-menu-style="horizontal">
+
+				<li class="dropdown"><a href="javascript:;" class="nivel1"
+					data-toggle="dropdown"> <d.iv class="row"> <img
+							th:src="@{/img/administracion-funcional.png}" aria-hidden="true"
+							class="afs">
+						<div class="form-group">
+							<div class="instrumentos">Administración</div>
+							<div class="planeacion">funcional</div>
+
+						</div>
+						</div></a>
+					<ul class="dropdown-menu">
+
+
+						<li class="dropdown-submenu"><a class="test"
+							data-toggle="collapse" href="#multiCollapseExample1"> Roles,
+								usuarios y funcionalidades</a>
+
+							<ul class="collapse multi-collapse" id="multiCollapseExample1">
+								<li class="nivel2"><a href="#">Administración de roles</a>
+									<hr class="separador2"></li>
+								<li><a href="#">Sincronización de usuarios</a>
+									<hr class="separador2"></li>
+								<li><a th:href="@{/admin-usuario}">Administración de
+										usuarios</a>
+									<hr class="separador2"></li>
+								<li><a href="#">Administrar funcionalidades</a>
+									<hr class="separador2"></li>
+								<li><a href="#">Administrar permisos x rol</a>
+									<hr class="separador2"></li>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu"><a class="test" tabindex="-1"
+							data-toggle="collapse" href="#multiCollapseExample2">Entidades,
+								tablas, parametros y consecutivos </a>
+
+							<ul class="collapse multi-collapse" id="multiCollapseExample2">
+								<li class="nivel2"><a th:href="@{/consultar-ent}">Administrar
+										entidades alcaldias locales</a>
+									<hr class="separador2"></li>
+								<li><a th:href="@{/consultar-parametro}">Parametros</a>
+									<hr class="separador2"></li>
+								<li><a th:href="@{/consultar-ls}">Tablas basicas</a>
+									<hr class="separador2"></li>
+								<li><a th:href="@{/consultar_lista_compuesta}">Tablas
+										compuestas</a>
+									<hr class="separador2"></li>
+								<li><a th:href="@{/consultar-consecutivo}">Consecutivos</a>
+									<hr class="separador2"></li>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu"><a class="test" tabindex="-1"
+							data-toggle="collapse" href="#multiCollapseExample3">Presupuesto
+						</a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample3">
+								<li><a th:href="@{/consultar-info-pre}">Administración
+										presupuestal</a></li>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu"><a class="test" tabindex="-1"
+							data-toggle="collapse" href="#multiCollapseExample4">Periodos
+								de seguimiento </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample4">
+								<li><a href="#">Administración de roles</a>
+									<hr class="separador2"></li>
+								<li><a href="#">Sincronización de usuarios</a>
+									<hr class="separador2"></li>
+								<li><a href="#">Administración de usuarios</a>
+									<hr class="separador2"></li>
+								<li><a href="#">Administrar funcionalidades</a>
+									<hr class="separador2"></li>
+								<li><a href="#">Administrar permisos x rol</a>
+									<hr class="separador2"></li>
+							</ul>
+							<hr class="separador"></li>
+						<li class="dropdown-submenu"><a class="test" tabindex="-1"
+							data-toggle="collapse" href="#multiCollapseExample5">Cargue y
+								gestión de información </a>
+							<ul class="collapse multi-collapse" id="multiCollapseExample4">
+								<li><a th:href="@{/consultar-archivos}">Carga de
+										archivos planos</a>
+									<hr class="separador2"></li>
+								<li><a th:href="@{/consultar_estado_servicio}">Gestión
+										de servicios web</a>
+									<hr class="separador2"></li>
+							</ul></li>
+
+
+					</ul></li>
+				<li class="dropdown"><a href="javascript:;" class="nivel1"
+					data-toggle="dropdown">
+						<div class="row">
+							<img th:src="@{/img/instrumentos-de-planeacion.png}"
+								aria-hidden="true" class="ip">
+							<div class="form-group">
+								<div class="instrumentos">Instrumentos de</div>
+								<div class="planeacion">planeación</div>
+
+							</div>
+						</div>
+				</a>
+
+					<ul class="dropdown-menu">
+						<li class="dropdown-submenu"><a href="#">Sub Item One </a></li>
+						<li><a href="javascript:;">Sub Item Two </a>
+							<ul>
+								<li><a href="#">Sub Item Link 1</a></li>
+								<li><a href="#">Sub Item Link 2</a></li>
+								<li><a href="#">Sub Item Link 3</a></li>
+							</ul></li>
+						<li><a href="javascript:;">Sub Item Three </a>
+							<ul>
+								<li><a href="#">Sub Item Link 1</a></li>
+								<li><a href="#">Sub Item Link 1</a></li>
+								<li><a href="#">Sub Item Link 1</a></li>
+							</ul></li>
+						<li><a href="#">Sub Item Four </a></li>
+					</ul></li>
+				<li class="dropdown banco"><a href="javascript:;"
+					class="nivel1" data-toggle="dropdown">
+						<div class="row">
+							<img th:src="@{/img/banco-distrital.png}" aria-hidden="true"
+								class="ip">
+							<div class="form-group">
+								<div class="instrumentos">Banco distrital de</div>
+								<div class="planeacion">programas y proyectos</div>
+
+							</div>
+						</div>
+
+
+				</a>
+					<ul class="dropdown-menu">
+						<li class="dropdown-submenu"><a href="#">Sub Item One </a></li>
+						<li><a href="javascript:;">Sub Item Two </a>
+							<ul>
+								<li><a href="#">Sub Item Link 1</a></li>
+								<li><a href="#">Sub Item Link 2</a></li>
+								<li><a href="#">Sub Item Link 3</a></li>
+							</ul></li>
+						<li><a href="javascript:;">Sub Item Three </a>
+							<ul>
+								<li><a href="#">Sub Item Link 1</a></li>
+								<li><a href="#">Sub Item Link 1</a></li>
+								<li><a href="#">Sub Item Link 1</a></li>
+							</ul></li>
+						<li><a href="#">Sub Item Four </a></li>
+					</ul></li>
+				<li class="dropdown plan"><a href="javascript:;" class="nivel1"
+					data-toggle="dropdown">
+
+						<div class="row">
+							<img th:src="@{/img/plan-de-accion.png}" aria-hidden="true"
+								class="ip">
+							<div class="form-group">
+								<div class="instrumentos">Plan de acción</div>
+
+
+							</div>
+						</div>
+
+				</a>
+					<ul class="dropdown-menu">
+						<li><a th:href="@{consultar_buzon_todos}">Administrar
+								Notificaciones </a></li>
+						<li><a th:href="@{consultar_buzon_admin}">Crear Mensaje </a>
+						<li><a th:href="@{consultar_plantilla_notificacion}">Plantillas
+						</a>
+					</ul></li>
+				<li class="dropdown reporte"><a href="javascript:;"
+					class="nivel1" data-toggle="dropdown">
+
+						<div class="row">
+							<img th:src="@{/img/reportes.png}" aria-hidden="true" class="ip">
+							<div class="form-group">
+								<div class="instrumentos">Reportes</div>
+
+
+							</div>
+						</div>
+				</a>
+					<ul class="dropdown-menu">
+						<li><a th:href="@{consultar_buzon_todos}">Administrar
+								Notificaciones </a></li>
+						<li><a th:href="@{consultar_buzon_admin}">Crear Mensaje </a>
+						<li><a th:href="@{consultar_plantilla_notificacion}">Plantillas
+						</a>
+					</ul></li>
+
+			</ul>
+
+		</nav>
+	</header>
+
+	<section>
+		<div class="row">
+			<div class="col-12 col-sm-12 col-md-9 col-lg-9">
+				<div class="container home">
+
+					<img id="logo-bogota" th:src="@{/img/imagen-bogota.png}"
+						class="img-responsive">
+
+					<div class="texto-encima">
+						<span>Bienvenido</span><br>
+					</div>
+
+					<div class="hr-home"></div>
+
+					<br>
+					<div class="container home-2">
+
+						<p align="justify" class="texto-home">
+
+							La plataforma de <b><em>"Seguimiento al plan de
+									desarollo distrital"</em></b> comprende varios modulos que le ayudaran a
+							obtener la informacion que usted necesita de manera ágil Lorem
+							Ipsum es simplemente el texto de relleno de las imprentas y
+							archivos de texto. Lorem Ipsum ha sido el texto de relleno
+							estándar de las industrias desde el año 1500, cuando un impresor
+							(N. del T.persona que se dedica a la imprenta) desconocido usó
+							una galería de textos y los mezcló de tal manera que logró hacer
+							un libro de textos especimen. No sólo sobrevivió 500 años, sino
+							que tambien ingresó como texto de relleno en documentos
+							electrónicos, quedando esencialmente igual al original.Fue
+							popularizado en los 60s.
+
+						</p>
+
+					</div>
+
+				</div>
+			</div>
+			<div class="col-12-col-sm-12 col-md-3 col-lg-3">
+				<div class="twiter">
+					<a class="twitter-timeline" data-width="300" data-height="515"
+						data-theme="dark"
+						href="https://twitter.com/planeacionbog?ref_src=twsrc%5Etfw">Tweets
+						by planeacionbog</a>
+					<script async src="https://platform.twitter.com/widgets.js"
+						charset="utf-8"></script>
+				</div>
+			</div>
+		</div>
+	</section>
+	<br>
+
+	<footer th:fragment="footer">
+		<div class="container-fluid color-fondo-3">
+			<div class="text-footer">
+				<span>Secretaría Distrital de Planeación | Seguimiento al
+					plan de desarrollo distrital SEGPLAN | 2019 todos los derechos
+					reservados</span>
+			</div>
+		</div>
+	</footer>
+	<div th:include="autenticacion/modal-cambiar-contrasena.html"></div>
+</body>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-submenu a.test').on("click", function(e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+	});
+</script>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+
+
+
+</html>

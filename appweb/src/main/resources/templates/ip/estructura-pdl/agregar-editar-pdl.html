@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title id="pageTitle">Registrar Editar PDL</title>
+</head>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/pdd.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/filtros/yadcf-consultar-pg.css}">
+
+<body>
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>Instrumentos de planeación</li>
+		    <li class="breadcrumb-item"  aria-current="page">Estructura plan de desarrollo</li>
+		    <li class="breadcrumb-item " aria-current="page"><a th:href="@{/estructura-pdl}">Estructura plan de desarrollo local</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Edición del plan de desarrollo local</li></ul>
+	</nav>
+
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Creación / Edición del plan de desarrollo local</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br> <input type="hidden" id="agregarPdl" th:value="${agregar}">
+		<form th:action="@{/crear-editar-pdl}" th:objet="${pdl}" method="post">
+			<div class="row mt-3">
+			<input type="hidden" th:if="${pdlDTO != null}" th:value="${pdlDTO.idPlanDesarrollo}" name="idPlanDesarrollo">
+				<div class="col-sm-3 mt-2">
+					<div class="texto " align="right">
+						<label> Código alcaldía local:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="hidden" th:if="${pdlDTO != null}"
+						th:value="${pdlDTO.codigoEntidad}" id="codigoEnti"> <select
+						class="form-control" id="codiEntidad" name="codigoEntidad"
+						required="required">
+						<option></option>
+						<option th:each="lista: ${entidades}"
+							th:value="${lista.codigoDistrital}"
+							th:text="${lista.codigoDistrital}">
+					</select>
+				</div>
+				<div class="col-sm-2 mt-2" align="right">
+					<div class="texto float-right">
+						<label>Alcaldía local:</label>
+					</div>
+				</div>
+				<div class="col-md-2">
+					<input type="text" class="form-control" readonly="readonly"
+						id="nombreEntidad">
+				</div>
+				<div class="col-sm-2 mt-2">
+					<div class="texto float-right">
+						<label>Código PDL:</label>
+					</div>
+				</div>
+				<div class="col-sm-1">
+					<input type="text" class="form-control" readonly="readonly"
+						id="idPlanLocal" name="idPlanLocal"> <input type="hidden"
+						id="idLocal" th:if="${pdlDTO != null}"
+						th:value="${pdlDTO.idPlanLocal}">
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-3 mt-2" align="right">
+					<div class="texto ">
+						<label>Nombre del Plan:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-9">
+					<input type="text" class="form-control" placeholder="Longitud 200"
+						maxlength="200" id="nombrePlan" name="nombrePlan"
+						required="required">
+					<input type="hidden" id="namePlan" th:if="${pdlDTO != null}" th:value="${pdlDTO.nombrePlan}">
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3 mt-2 float-right" align="right">
+					<div class="texto ">
+						<label>URL PDL:</label>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" placeholder="Longitud 200"
+						maxlength="200" id="urlPlan" name="urlPlan">
+					<input type="hidden" id="nameUrl" th:if="${pdlDTO != null}" th:value="${pdlDTO.urlPlan}">	
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-3 mt-2">
+					<div class="texto" align="right">
+						<label>Tipo acto administrativo:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<select class="form-control" name="idLsAdoptado" id="idLsAdoptado"
+						required="required">
+						<option value="" selected="selected">Seleccione una opcion</option>
+						<option th:each="adoptado: ${adoptados}"
+							th:value="${adoptado.idArgumento}"
+							th:text="${adoptado.resultado}">
+					</select>
+					<input type="hidden" id="tipoActo" th:if="${pdlDTO != null}" th:value="${pdlDTO.idLsAdoptado}">
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-3 mt-2" align="right">
+					<div class="texto">
+						<label>N° Acto Administrativo:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<input type="text" class="form-control" id="actoAdministrativo"
+						name="actoAdministrativo" required="required"
+						onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+						maxlength="10">
+					<input type="hidden" id="actoAdmi" th:if="${pdlDTO != null}" th:value="${pdlDTO.actoAdministrativo}">	
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-3 mt-2" align="right">
+					<div class="texto ">
+						<label>Fecha Acto Administrativo:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<input type="date" class="form-control" id="fechaActo"
+						name="fechaActo" required="required">
+					<input type="hidden" id="fechaAdmi" th:if="${pdlDTO != null}" th:value="${pdlDTO.fechaActo}">
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-sm-3 mt-2" align="right">
+					<div class="texto ">
+						<label>Año Inicio:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" name="yearInicio"
+						class="form-control number inicial requerido" id="yearInicio"
+						placeholder="longitud 4" maxlength="4" required="required">
+					<input type="hidden" id="anioInicio" th:if="${pdlDTO != null}" th:value="${pdlDTO.yearInicio}">	
+				</div>
+				<div class="col-sm-2" align="right">
+					<div class="texto ">
+						<label>Año Final:<b style="color: red;">*</b></label>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" name="yearFinal"
+						class="form-control number final requerido" id="yearFinal"
+						placeholder="longitud 4" maxlength="4" required="required">
+					<input type="hidden" id="anioFinal" th:if="${pdlDTO != null}" th:value="${pdlDTO.yearFinal}">
+				</div>
+				<div class="col-sm-2" align="right">
+					<div class="texto">
+						<label>No Años:</label>
+					</div>
+				</div>
+				<div class="col-sm-1">
+					<input type="text" class="form-control total" disabled="disabled"
+						id="numAnios">
+				</div>
+			</div>
+			<div class="row mt-4">
+				<div class="col-sm-3" align="right">
+					<div class="texto">
+						<label>Estado del Plan</label>
+					</div>
+				</div>
+				<div class="col-sm-4">
+					<select class="form-control" required="required"
+						id="idLsEstadoPlan">
+						<option th:each="nivel: ${estado}" th:value="${nivel.idArgumento}"
+							th:text="${nivel.resultado}">
+					</select> 
+					<input type="hidden" id="idEstadoPdl" name="idLsEstadoPlan">
+					<input type="hidden" id="idLsEstado" th:if="${pdlDTO != null}" th:value="${pdlDTO.idLsEstadoPlan}">
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Nombre de Alcalde Local:</label>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" placeholder="Longitud 100"
+						maxlength="100" name="nombreAlcaldeLocal" id="nombreAlcaldeLocal">
+					<input type="hidden" id="alcalde" th:if="${pdlDTO != null}" th:value="${pdlDTO.nombreAlcaldeLocal}">	
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-3" align="right">
+					<div class="texto ">
+						<label>Correo de Alcalde Local:</label>
+					</div>
+				</div>
+				<div class="col-sm-8">
+					<input type="email" class="form-control" placeholder="Longitud 100"
+						maxlength="100" name="correoAlcaldeLocal" id="correoAlcaldeLocal">
+					<input type="hidden" id="correo" th:if="${pdlDTO != null}" th:value="${pdlDTO.correoAlcaldeLocal}">	
+				</div>
+			</div>
+			<br>
+			<div class="float-right mt-1">
+				<a th:href="@{/estructura-pdl}" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<button class="btn-guardar" type="submit">
+					<img src="css/img/icono-guardar.png" class="guardar"
+						alt="Icono guardar">&nbsp;&nbsp;Guardar
+				</button>
+			</div>
+		</form>
+		<br><br>
+	</div>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+	<br>
+	<br>
+
+	<footer th:replace="/home:: footer"></footer>
+	<script th:inline="javascript">
+	$(document).ready(function(){
+	/*<![CDATA[*/
+	var mensajeRes = /*[[${messageRespuesta}]]*/;
+	var entidades = /*[[${entidades}]]*/
+	var estado = /*[[${estado}]]*/;
+    console.log(estado);
+	// seleccionar entidad
+	$("#codiEntidad").change(function() {
+        var codigo = $(this).val();
+        var nameEntidad = "";
+        for (var i = 0; i <entidades.length; i++ ){
+        	if (codigo == entidades[i].codigoDistrital){
+        	nameEntidad = entidades[i].nombre;
+        	}
+        }
+        document.getElementById("nombreEntidad").value= nameEntidad;
+    });
+	//fin seleccionar entidad
+	
+	// seleccionar estado
+	var agregar = document.getElementById("agregarPdl").value;
+	var nameEstado = "";
+	if (agregar === "agregar"){
+		document.getElementById("act").innerHTML = "Creación del plan de desarrollo local"
+		  for (var i = 0; i <estado.length; i++ ){
+			 nameEstado = estado[i].resultado.toLowerCase();   
+			 if (nameEstado == "vigente"){
+				 $("#idLsEstadoPlan option[value='"+ estado[i].idArgumento +"']").attr("selected",true);
+				 document.getElementById("idEstadoPdl").value = estado[i].idArgumento;	
+			 }
+			  
+		  }
+		  document.getElementById("idLsEstadoPlan").disabled=true;
+		  
+	}
+	
+	// mensajes de respuesta
+	if (mensajeRes != null){
+	   Swal.fire({
+		title: 'Información',
+		text: mensajeRes,
+		icon: 'info',
+		confirmButtonText: 'Aceptar',
+        allowOutsideClick: () => false
+     }).then((result) => {
+		  if (result.value) {
+			  window.location = "estructura-pdl"  
+		}
+     })
+	}
+	
+	// editar pdl
+	
+	 var codigoEntidad = document.getElementById("codigoEnti").value;
+	 var nombreEntidad = "";
+	 $("#codiEntidad option[value='"+ codigoEntidad +"']").attr("selected",true);
+     for (var i = 0; i <entidades.length; i++ ){
+     	if (codigoEntidad == entidades[i].codigoDistrital){
+     	nombreEntidad = entidades[i].nombre;
+     	document.getElementById("nombreEntidad").value = nombreEntidad;
+     	}
+     }
+     var idLocal = document.getElementById("idLocal").value;
+	 document.getElementById("idPlanLocal").value= idLocal;
+	 var nombrePlan = document.getElementById("namePlan").value;
+	 document.getElementById("nombrePlan").value= nombrePlan;
+	 var url =  document.getElementById("nameUrl").value;
+	 document.getElementById("urlPlan").value= url;
+	 var tipoActo = document.getElementById("tipoActo").value;
+	 document.getElementById("idLsAdoptado").value = tipoActo;
+	 var acto = document.getElementById("actoAdmi").value;
+	 document.getElementById("actoAdministrativo").value = acto;
+	 var fecha = document.getElementById("fechaAdmi").value;
+	 document.getElementById("fechaActo").value = fecha;
+	 var anioInicio = document.getElementById("anioInicio").value;
+	 var anioFinal = document.getElementById("anioFinal").value;	 
+	 document.getElementById("yearInicio").value = anioInicio;
+	 document.getElementById("yearFinal").value = anioFinal;
+	 var suma = anioFinal - anioInicio;
+	 document.getElementById("numAnios").value = suma;
+	 var estado = document.getElementById("idLsEstado").value;
+	 $("#idLsEstadoPlan option[value='"+ estado +"']").attr("selected",true);
+	 document.getElementById("idEstadoPdl").value = estado;
+		$("#idLsEstadoPlan").change(function() {
+	        var estado = $(this).val();
+	        document.getElementById("idEstadoPdl").value= estado;
+	    });
+	var alcalde = document.getElementById("alcalde").value;
+	var correo =document.getElementById("correo").value;
+	document.getElementById("nombreAlcaldeLocal").value = alcalde;
+	document.getElementById("correoAlcaldeLocal").value = correo;
+	/*]]>*/
+						
+	});
+</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.number').on('input', function() {
+				this.value = this.value.replace(/[^0-9]/g, '');
+			});
+			var inicial = 0;
+			var fin = 0;
+			$('.inicial').change(function() {
+				inicial = $(this).val();
+				if (fin != 0) {
+					$('.total').val(fin - inicial);
+				}
+
+			});
+			$('.final').change(function() {
+				fin = $(this).val();
+				if (inicial != 0) {
+					$('.total').val(fin - inicial);
+				}
+
+			});
+			
+		});
+	</script>
+</body>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

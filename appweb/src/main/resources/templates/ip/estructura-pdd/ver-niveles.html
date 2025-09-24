@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Niveles PDD</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/pdd.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/filtros/yadcf-consultar-pg.css}">
+<body>
+	<header th:replace="/home:: header"></header>
+	<ul class="breadcrumb" id="migas">
+		<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>
+		Instrumentos de planeación</li>
+		<li class="breadcrumb-item"  aria-current="page">Estructura plan de desarrollo</li>
+		<li class="breadcrumb-item"  aria-current="page"><a th:href="@{/estructura-pdd/1}">Estructura plan de desarrollo</a></li>
+		<li class="breadcrumb-item active" aria-current="page" id="act">Consultar/editar niveles del plan de desarrollo</li>
+	</ul>
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Estructura plan de desarrollo</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br> <br>
+		
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="texto">
+					<label> Código Plan:</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<input type="text" class="form-control" readonly="readonly"
+					th:value="${pddDTO.idPlanDesarrollo}" id="idPddDesarrollo">
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-3">
+				<div class="texto">
+					<label>Plan de Desarrollo:</label>
+				</div>
+			</div>
+
+			<div class="col-sm-7">
+				<input type="text" readonly="readonly" class="form-control"
+					th:value="${pddDTO.nombrePlan}" id="disenioInput">
+			</div>
+		</div>
+		<input type="hidden" th:value="${pddDTO.stringNiveles}" id="numNivel">
+		<input type="hidden" th:value="${tipoPdd}" id="idTipoPdd">
+		<form th:object="${pdl}" th:action="@{/copiar-estructura}" method="post">
+		<input type="hidden" id="idPdlDesarrollo" name="idPlanDesarrollo">
+		<input type="hidden" id="codigEnti" name="codigoEntidad">
+		<div class="float-left mt-3">
+			<button style="width: auto !important;" type="submit" id="btnCopiarEstructura"
+				class="boton-agregar">Copiar Estructura PDD al PDL</button>
+		</div><br><br><br>
+		</form>
+		
+
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto">
+					Nivel 1<b style="color: red;">*</b>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<input type="text" class="form-control" id="nivel1" required="required" maxlength="200">
+			</div>
+		</div>
+
+
+		<div class="row mt-2">
+			<div class="col-sm-12">
+				<div class="texto">
+					Nivel 2<b style="color: red;">*</b>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<input type="text" class="form-control" id="nivel2" required="required" maxlength="200">
+			</div>
+		</div>
+		<br> 
+		<span id="inputDinamico"></span> <br>
+		<br>
+		<form th:action="@{/agregar-editar-PddNiveles}" th:object="${pddNivel}" method="post">
+		
+		<input type="hidden" id="planDesarrollo" name="idPlanDesarrollo">
+		<input type="text" id="nivelConcatenado" name="descripcionConcatenados">
+		<input type="text" id="codConcatenado" name="codNivelConcatenados">
+		<input type="text" id="obligatorioConcatenado" name="obligatorioPdlConcatenados">
+		<input type="text" id="idNivelConcatena" name="idPddNivelConcatenados">
+		
+		<div class="float-right">
+			<a th:href="@{/estructura-pdd/1}" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<button class="btn-guardar" type="button" id="btn-guardar-nivel">
+				<img src="css/img/icono-guardar.png" class="guardar"
+					alt="Icono guardar">&nbsp;&nbsp;Guardar
+			</button>
+		</div>
+		<br>
+		</form>
+	</div>
+	<br>
+	<br>
+
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script th:inline="javascript">
+$(document).ready(function() {
+	/*<![CDATA[*/
+    var niveles = /*[[${nivelConsulta}]]*/;	
+	var pddDTO = /*[[${pddDTOGet}]]*/;	
+    var mensaje = /*[[${messageRespuesta}]]*/;	
+    var entidades = /*[[${entidad}]]*/;	
+    var entidadLog = /*[[${entidadLog}]]*/;	
+	console.log(niveles);
+	console.log(pddDTO);
+	console.log(entidades);
+	var numeroNiveles = document.getElementById("numNivel").value;
+	alert(numeroNiveles);
+	for (var j = 2; j <numeroNiveles; j++ ){
+        var jota = j+1;
+		var inputs = '';
+	
+		inputs += '<div class="texto"><label>Nivel '+jota+'<b style="color: red;">*</b></label></div>';
+		inputs += '<input class="form-control disenioInput" id="level'+jota+'" required maxlength="200"/>';
+        inputs += '<div class="row"><div class="col-sm-3"><div class="texto"><small>¿Obligatorio para alcadías locales?</small></div></div><div class="col-sm-1"><input type="radio" name="radio'+jota+'" id="radSi'+jota+'" value="1" required><label>&nbsp;&nbsp;Sí</label></div><div><input type="radio" name="radio'+jota+'" id="radNo'+jota+'" value="0" required><label>&nbsp;&nbsp;No</label></div></div>';
+	    $('#inputDinamico').append(inputs);	
+	}
+	
+	   $('#btn-guardar-nivel').click(function () {
+		   var idPlan = document.getElementById("idPddDesarrollo").value;
+		   var desNivel1 = document.getElementById("nivel1").value;
+		   var desNivel2 = document.getElementById("nivel2").value;
+		   alert(desNivel1);
+		   var auxiliarDes = "";
+		   var codigoConcatenado = "";
+		   var obligaConcatenado = "";
+		   var idPddNivelConcatenado = "";
+		   
+		  if (desNivel1 === "" || desNivel2 === ""){
+			 Swal.fire({
+		        title:"¡Advertencia!",
+			    text: "Existen campos obligatorios que no se han registrado",
+		        icon: "warning",
+		        confirmButtonText: 'Aceptar',
+		        allowOutsideClick: () => false
+	         })
+	       return false;
+		  }
+		  
+		  for (var j = 2; j <numeroNiveles; j++ ){
+			 var jota = j+1; 
+			 var inputValida = $('#level'+jota).val();
+			 var radioValida = $('input:radio[name=radio'+jota+']:checked').val();
+			 
+			 if (inputValida === ""){
+				 Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "Existen campos obligatorios que no se han registrado",
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			         })
+			         return false;
+			 }
+			 if (radioValida === undefined){
+				 Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "Existen campos obligatorios que no se han registrado",
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			         })
+			         return false;
+			 }
+		
+		  }
+		  
+		   auxiliarDes = desNivel1+";"+desNivel2+";";
+		   codigoConcatenado = 1+";"+2+";";
+		   obligaConcatenado = 1+";"+1+";";
+		   if (niveles.length == 0){
+			   idPddNivelConcatenado = "";
+		   }else {
+			   idPddNivelConcatenado = niveles[0].idPddNivel+";"+niveles[1].idPddNivel+";";
+		   }
+		   
+		   for (var j = 2; j <numeroNiveles; j++ ){
+			   alert("entra");
+			   var jota = j+1;
+			   var descNivel = $('#level'+jota).val();
+			   auxiliarDes += descNivel+";";
+			   codigoConcatenado += jota+";"; 
+			   obligaConcatenado += $('input:radio[name=radio'+jota+']:checked').val() +";";
+			   if (niveles.length != 0){
+				   alert("dcavbnm");
+			   idPddNivelConcatenado += niveles[j].idPddNivel+";";
+			   }
+			  
+		   }
+		   alert(idPlan);
+		   alert(auxiliarDesc);
+		   alert(codigoConcatenado);
+		   alert(obligaConcatenado);
+		   alert(idPddNivelConcatenado);
+		   document.getElementById("planDesarrollo").value = idPlan;
+		   document.getElementById("nivelConcatenado").value = auxiliarDes;
+		   document.getElementById("codConcatenado").value = codigoConcatenado;
+		   document.getElementById("obligatorioConcatenado").value = obligaConcatenado;
+		   document.getElementById("idNivelConcatena").value = idPddNivelConcatenado;
+	   });
+	   
+	   if (mensaje != null){
+		   var idPdd = document.getElementById("idTipoPdd").value;
+	       Swal.fire({
+			        title: 'Información',
+			        text: mensaje,
+			        icon: 'info',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			  }).then((result) => {
+				  if (result.value) {
+				  window.location = "estructura-pdd/" + idPdd;  
+			  }
+			  })
+     }
+	   
+	   if (niveles.length != 0){
+			var nivel1 = niveles[0].descripcion;
+			var nivel2 = niveles[1].descripcion;
+			document.getElementById("nivel1").value = nivel1;
+			document.getElementById("nivel2").value = nivel2;
+			
+			 for (var i = 2; i <niveles.length; i++ ){
+				var jota = i+1;
+    			$('#level'+jota).val(niveles[i].descripcion);
+    			
+    			if (niveles[i].obligatorioPdl === 1 ){
+    			$('#radSi'+jota).prop("checked", true);
+    			}else if (niveles[i].obligatorioPdl === 0){
+    			$('#radNo'+jota).prop("checked", true);
+    			}
+    	
+			 }
+			 
+		}
+	   
+	   // deshabilitar campos en vigente
+	  
+	   var nameEstado = pddDTO.estadoPlan.toLowerCase();   
+	   if (nameEstado === "vigente"){
+		   document.getElementById("nivel1").readOnly = true;
+		   document.getElementById("nivel2").readOnly = true;
+	   }
+	   for (var i = 2; i <niveles.length; i++ ){
+			var jota = i+1;
+			if (nameEstado === "vigente"){
+				$('#radSi'+jota).attr("disabled", "disabled"); 
+				$('#radNo'+jota).attr("disabled", "disabled"); 
+			}
+	   }
+	
+	/*]]>*/
+	 console.log(entidadLog);
+	 var codigoDistri = "";
+	 for (var i = 0; i <entidades.length; i++ ){
+	    if (entidades[i].codigoEntidad === entidadLog){
+	    	codigoDistri = entidades[i].codigoDistrital;
+	    	document.getElementById("codigEnti").value = codigoDistri;
+	    }else if (entidadLog === "Interno"){
+	    	document.getElementById("codigEnti").value = "0143";
+	    }
+	 }
+	 document.getElementById("idPdlDesarrollo").value = pddDTO.idPlanDesarrollo;
+	
+});
+
+</script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

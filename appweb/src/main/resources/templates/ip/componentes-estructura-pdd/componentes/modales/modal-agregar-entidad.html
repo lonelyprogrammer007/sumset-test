@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="modal fade" id="modalAgregarEntidad" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="tituloEje">Agregar entidad</span>
+						</div>
+					</div>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+						<form id="formAgregarEntidad" method="post"
+							th:object="${entidad}">
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<label class="texto">Indicador</label>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" readonly="readonly"
+										id="idIndicadorEntidad" name="idMetaProdInd">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<label class="texto">Código entidad/AL</label>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<select class="form-control" id="idEntidadesCodigo"
+										name="codigoEntidad">
+										<option value="">Seleccione una opción</option>
+										<option th:each="entidad : ${entidades}"
+											th:value="${entidad.codigoDistrital}"
+											th:text="${entidad.codigoDistrital}" />
+									</select>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<label class="texto">Denominación entidad/AL</label>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<select class="form-control" id="idNombreEntidad"
+										name="auxEnti">
+										<option value="">Seleccione una opción</option>
+										<option th:each="entidad : ${entidades}"
+											th:value="${entidad.codigoDistrital}"
+											th:text="${entidad.nombre}" />
+									</select> <input type="hidden" id="auxIdNombreEntidad"
+										name="nombreEntidad">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<label class="texto">Magnitud</label>
+								</div>
+								<div class="col-sm-6">
+									<label class="texto">Tipo de anualización:</label>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<input type="text" class="form-control" id="idMagnitudEntidad"
+										name="magnitud">
+								</div>
+								<div class="col-sm-6">
+									<select class="form-control" id="idAnualizacionEntidad"
+										name="idLsTipoAnualizacion">
+										<option value="">Selecciona una opción</option>
+										<option th:each="lista : ${anualizacion}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}" />
+									</select>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<label class="texto">Ponderación:</label>
+								</div>
+							</div>
+							<div class="row mt-1">
+								<div class="col-sm-12">
+									<input type="text" class="form-control"
+										id="idPonderacionEntidad" name="ponderacion">
+								</div>
+							</div>
+							<br>
+							<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+							<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+								<button class="" name="btnAgregarNivel1" type="submit"
+									id="boton-modal">
+									<img src="css/img/icono-guardar.png" class="guardar"
+										alt="Icono guardar">&nbsp;&nbsp;Guardar
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script th:inline="javascript">
+$(document).ready(function() {
+	
+	/*<![CDATA[*/
+	 entidades = /*[[${entidades}]]*/;
+	 $("#idEntidadesCodigo").change(function() {
+		 var codigo = $(this).val();
+		 for (var i = 0; i< entidades.length; i++){
+			 if (entidades[i].codigoDistrital == codigo){
+				 document.getElementById("idNombreEntidad").value = codigo;
+				 document.getElementById("auxIdNombreEntidad").value = entidades[i].nombre;
+			 }
+		 } 
+	 });
+	 $("#idNombreEntidad").change(function() {
+		 var codigo = $(this).val();
+		 var name = $('select[name="auxEnti"] option:selected').text();
+		 document.getElementById("auxIdNombreEntidad").value = name;
+		 for (var i = 0; i< entidades.length; i++){
+			 if (entidades[i].codigoDistrital == codigo){
+				 document.getElementById("idEntidadesCodigo").value = codigo;
+			 }
+		 } 
+	 });
+	 /*]]>*/
+});
+
+</script>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Instrumentos POT</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/componentes.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/modal.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-listas-eq.css}">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment-with-locales.min.js"></script>
+<body>
+	<header th:replace="/home:: header"></header>
+	
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>Instrumentos de planeación</li>
+			<li class="breadcrumb-item " aria-current="page">Plan de ordenamiento territorial</li>
+			<li class="breadcrumb-item active" aria-current="page"><a th:href="@{/consultar-pot-ip}">Creación de la estructura POT</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consultar instrumentos POT</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+
+		<div class="row mt-4">
+			<div class="col-sm-2 mt-2">
+				<div class="textoInstrumento">
+					<label>Código POT:</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<input type="text" readonly="readonly" class="form-control"
+					id="disenioInput" th:value="${potDTOGet.codigoPot}">
+			</div>
+		</div>
+		<div class="row mt-2">
+			<div class="col-sm-4 mt-4">
+				<div class="textoInstrumento">
+					<label>Nombre, número y Fecha de Acto Administrativo:</label>
+				</div>
+			</div>
+			<div class="col-sm-4 mt-3">
+				<input type="text" readonly="readonly" class="form-control"
+					id="fechaPot">
+			</div>
+		</div>
+		<br>
+		<div class="abs-center">
+			<span>Instrumentos POT</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+
+
+		<div align="left" class="mb-3">
+
+			<button class="boton-agregar mt-3" type="button" onclick="agregarInstrumento()">
+				<img src="css/img/icono-agregar.png" class="agregar"
+					alt="Icono agregar"> Agregar
+			</button>
+
+		</div>
+		<div class="table-responsive">
+			<table class="table-striped" id="dtabla" style="width: 175%">
+			<caption><div class="hr-2"></div></caption>
+				<thead>
+					<tr>
+						<th style="width:20%;" class="color-head">Código de Instrumento<br></th>
+						<th style="width: 20%;" class="color-head">Nivel del Instrumento<br></th>
+						<th style="width: 50%;" class="color-head">Denominación del Instrumento<br></th>
+						<th class="color-head">Acción<br></th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+	<br>
+	<br>
+	<div th:include="ip/estructura-pot/modales/modal-agregar-editar-instrumento.html"></div>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+
+<script th:inline="javascript">
+var firstNivel;
+var secondNivel;
+var thirdNivel;
+$(document).ready(function() {
+	/*<![CDATA[*/
+	var potDTO = /*[[${potDTOGet}]]*/
+	
+	var primerNivel = /*[[${primerNivel}]]*/
+	var segundoNivel = /*[[${segundoNivel}]]*/
+	var tercerNivel = /*[[${tercerNivel}]]*/
+	var mensaje = /*[[${messageInstrumento}]]*/
+	firstNivel = primerNivel;
+	secondNivel = segundoNivel;
+	thirdNivel = tercerNivel;
+	console.log(firstNivel);
+	
+		if (mensaje != null){
+  		  Swal.fire({
+  		  title: 'Información',
+  		  text: mensaje,
+  		  icon: 'warning',
+  		  confirmButtonText: 'Aceptar',
+  		  allowOutsideClick: () => false
+  		});
+  	 }
+	
+	$("#idNiveles").change(function() {
+		var nivel =$('select[name="idLsNivelInst"] option:selected').text();
+		var select = document.getElementById("denominacion");
+	 	select.innerHTML = '<option value="">Seleccione una opcion</option>'
+	    if (nivel == "Primer nivel"){
+	    	for (var j = 0; j < primerNivel.length; j++){
+	    		let opcion = document.createElement('option');
+	    		opcion.value = primerNivel[j].idArgumento;
+	    		opcion.text = primerNivel[j].resultado;
+	     	    select.add(opcion);
+	    	}
+	    }else if (nivel == "Segundo nivel"){
+	    
+	    	for (var j = 0; j <segundoNivel.length; j++){
+	    		let opcion = document.createElement('option');
+	    		opcion.value = segundoNivel[j].idArgumento;
+	    		opcion.text = segundoNivel[j].resultado;
+	     	    select.add(opcion);
+	    	}
+	    } else if (nivel === "Tercer nivel"){
+	    	for (var j = 0; j < tercerNivel.length; j++){
+	    		let opcion = document.createElement('option');
+	    		opcion.value = tercerNivel[j].idArgumento;
+	    		opcion.text = tercerNivel[j].resultado;
+	     	    select.add(opcion);
+	    	}
+	    }
+		
+			});
+	
+	
+	moment.locale('es');
+	fecha_convertida = moment(potDTO.fecha).format('LL');
+	document.getElementById("fechaPot").value=potDTO.nombreAdoptado +". "+potDTO.actoAdministrativo+", "+fecha_convertida;
+	cargarDatos(potDTO.idPot);
+	
+	 $('#dtabla tbody').on('mouseover','tr',function(){
+ 	    $(this).find('.icon').find('.edit').find('.editarPot').attr("src","css/img/editar-rollover.png");
+ 	    $(this).find('.icon').find('.eliminar').find('.eliminarPot').attr("src","css/img/eliminar-rollover.png");
+ 		});
+ 	    $('#dtabla tbody').on('mouseleave','tr',function(){
+ 	    $(this).find('.icon').find('.edit').find('.editarPot').attr("src","css/img/icono-1-azul.png") ;	
+ 	    $(this).find('.icon').find('.eliminar').find('.eliminarPot').attr("src","css/img/icono-eliminar.png");
+ 		 });
+	
+	/*]]>*/
+		
+});
+function cargarDatos(idPot){
+	'use strict';
+	$.fn.DataTable.ext.pager.numbers_length = 5;
+	var table = $('#dtabla').DataTable({
+		"colReorder" : true,
+		"processing" : true,
+		"serverSide" : true,
+        "lengthChange": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "lengthMenu": [ [5, 10, 25, 50, -1], [5, 10,25, 50, "Mostrar Todo"] ],
+        "pageLength": 5,
+	    "language": {
+	    	"processing": 'Cargando...',
+            "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+            "infoEmpty": '<div class="formato">0 de 0.</div>',
+            "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+            "zeroRecords": "No se han encontrado coincidencias.",
+            "responsive": true,
+            "paginate": {
+                "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+                "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+                "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+                "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+            },
+            "lengthMenu": "_MENU_",
+        },
+        "pagingType": "full_numbers",
+        "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+        "<'row'<'col-sm-8 col-md-7'tr>>" +
+        "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-2'i><'col-sm-1 col-md-2'p>>",
+        "order": [0,'desc'],
+		"ajax" : {
+			"url" : "/Segplan/listaPotInstrumentoByPage/"+idPot,
+			"type" : "POST"
+		},
+	
+		"columns" : [ 
+			{ data : "codigoPotInstrumento"},
+			{ data : "stringLsNivelInst"},
+			{ data : "stringLsDenominacion"},
+		    {"render": function () {
+		        return '<button href="" type="button" id="btnEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editarPot"></button><button href="" type="button" id="btnEliminar" class="eliminar"><img src="css/img/icono-eliminar.png" class="eliminarPot"></button>';
+		    }, "orderable": false, className:"icon"},
+           ],
+		
+	})
+	yadcf.init(table, [ {
+		column_number : 0,
+		filter_type : "text",
+		filter_reset_button_text: false,
+		filter_delay : 500
+		
+	}, {
+		column_number : 1,
+		filter_type : "text",
+		filter_reset_button_text: false,
+		filter_delay : 500
+	},
+	{
+		column_number : 2,
+		filter_type : "text",
+		filter_reset_button_text: false,
+		filter_delay : 500
+	},
+	]);
+	$('div.dataTables_length select').addClass("formato-2");
+	editar("#dtabla tbody", table);
+ 	eliminar("#dtabla tbody", table);
+}
+function editar(tbody, table) {
+	$(tbody).on(
+			"click",
+			"button#btnEditar",
+			function() {
+				if (table.row(this).child.isShown()) {
+					var data = table.row(this).data();
+				} else {
+					var data = table.row($(this).parents("tr")).data();
+				}
+				var data = table.row($(this).parents("tr")).data();
+				$('#agregarEditarInstrumento').modal('show');
+				document.getElementById("idInstrumento").value = data.idInstrumentoPot;
+				document.getElementById("codigoInst").value = data.codigoPotInstrumento;
+				document.getElementById("idNiveles").value = data.idLsNivelInst;
+				
+				var select = document.getElementById("denominacion");
+			 	select.innerHTML = '<option value="">Seleccione una opcion</option>';
+				if (data.stringLsNivelInst === "Primer nivel"){
+					for (var j = 0; j < firstNivel.length; j++){
+						if (firstNivel[j].idArgumento == data.idLsDenominacion){
+			    		let opcion = document.createElement('option');
+			    		opcion.value = firstNivel[j].idArgumento;
+			    		opcion.text = firstNivel[j].resultado;
+			     	    select.add(opcion);
+			     	   $("#denominacion option[value="+ data.idLsDenominacion +"]").attr("selected",true);
+						}
+			    	}
+				}else if (data.stringLsNivelInst === "Segundo nivel"){
+					for (var j = 0; j < secondNivel.length; j++){
+						if (secondNivel[j].idArgumento == data.idLsDenominacion){
+			    		let opcion = document.createElement('option');
+			    		opcion.value = secondNivel[j].idArgumento;
+			    		opcion.text = secondNivel[j].resultado;
+			     	    select.add(opcion);
+			     	   $("#denominacion option[value="+ data.idLsDenominacion +"]").attr("selected",true);
+						}
+			    	}
+				} else if (data.stringLsNivelInst === "Tercer nivel"){
+					for (var j = 0; j < thirdNivel.length; j++){
+						if (thirdNivel[j].idArgumento == data.idLsDenominacion){
+			    		let opcion = document.createElement('option');
+			    		opcion.value = thirdNivel[j].idArgumento;
+			    		opcion.text = thirdNivel[j].resultado;
+			     	    select.add(opcion);
+			     	   $("#denominacion option[value="+ data.idLsDenominacion +"]").attr("selected",true);
+						}
+			    	}
+				}
+				
+			})
+}
+function agregarInstrumento(){
+	
+	
+	document.getElementById("idInstrumento").value = "";
+	document.getElementById("codigoInst").value = "";
+	document.getElementById("idNiveles").value = "";
+	document.getElementById("denominacion").value = "";
+	$('#agregarEditarInstrumento').modal('show');
+	
+}
+function eliminar(tbody, table) {
+	$(tbody).on(
+			"click",
+			"button#btnEliminar",
+			function() {
+				if (table.row(this).child.isShown()) {
+					var data = table.row(this).data();
+				} else {
+					var data = table.row($(this).parents("tr")).data();
+				}
+				var data = table.row($(this).parents("tr")).data();
+				Swal.fire({
+					  title: '¡Advertencia!',
+					  text: "¿Está seguro de eliminar este POT Instrumento?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#3085d6',
+					  cancelButtonColor: '#d33',
+					  confirmButtonText: 'Aceptar',
+					  cancelButtonText: 'Cancelar'
+					}).then((result) => {
+					  if (result.value) {
+						window.location = "eliminarPot/" + data.idInstrumentoPot;  
+					  
+					  }
+					})
+			})
+}
+</script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+
+</html>

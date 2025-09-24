@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="modal fade" id="editarEjePilar" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}">
+						</div>
+						<div class="col-sm-7">
+							<span class="tituloEje" id="tituloModalEditarNivel1">Editar
+								Eje/Pilar</span>
+						</div>
+					</div>
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+					  <input type="hidden" id="idNivelActualPddEditar">
+						<form id="formEditarNivel1" th:object="${pddNivel}" method="post">
+							<input type="hidden" name="idAtributo" id="idAtributo">
+							<input type="hidden" id="booleanProyectoEstrategicoEditar" name="proyectoEstrategico">
+							<input type="hidden" id="idPddNivel1Edit" name="idPddNivel">
+							<input type="hidden" id="idAtributoPadreEdit" name="idAtributoPadre">
+							<input type="hidden" id="idSumPondEdit" name="sumPond">
+							<div class="row mt-2">
+								<div class="col-sm-4 mt-2">
+									<div class="abs-center" style="font-size: 16px">
+										<label id="labelNivel1Editar"></label>
+									</div>
+								</div>
+								<div class="col-sm-3">
+									<input type="text" readonly="readonly" class="form-control"
+										id="editPilar" name="numero" >
+								</div>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Denominación :*</label>
+									</div>
+								</div>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" name="denominacion" id="denominacion">
+
+								</div>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Ponderación:*</label>
+
+									</div>
+								</div>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" name="ponderacion" id="ponderacion">
+
+								</div>
+
+							</div>
+							<div class="abs-center mt-2 " style="font-size: 16px">
+								<span id="idGerenteEditar">Gerente Nivel 1</span><br>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label id="idNombreLabel">Nombre:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" name="nombreGerente" id="nombreGerente">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label id="idCorreoLabel">Correo:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<input type="text" class="form-control" name="correoGerente" id="correoGerente">
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label id="idGeneroLabel">Genero:*</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-12">
+									<select class="form-control" name="idLsGeneroGerente"
+										id="idLsGeneroGerente">
+										<option value="">Seleccione una opción</option>
+										<option th:each="lista : ${genero}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}"></option>
+									</select>
+								</div>
+							</div>
+							<br>
+							<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+							<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+								<button class="btnEditarPrimerosNiveles" name="btnAgregarNivel1" type="button"
+									id="boton-modal">
+									<img src="css/img/icono-guardar.png" class="guardar"
+										alt="Icono guardar">&nbsp;&nbsp;Guardar
+								</button>
+							</div>
+						</form>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+$(document).ready(function () {
+	 $('.btnEditarPrimerosNiveles').click(function () {
+		 var ponde = document.getElementById("ponderacion").value;
+		 var valorNumerico = Number(ponde);
+		 var pondeTotal = totalPondePrimeros+valorNumerico;
+		 if (pondeTotal >100){
+				Swal.fire({
+					  title: '¡Advertencia!',
+					  text: "Existen errores de balanceo en el nivel actual. Le sugerimos revisar nuevamente la ponderación y realizar los ajustes pertinentes. ¿Desea continuar y guardar?",
+					  icon: 'warning',
+					  showCancelButton: true,
+					  confirmButtonColor: '#3085d6',
+					  cancelButtonColor: '#d33',
+					  confirmButtonText: 'Si, Guardar',
+					  cancelButtonText: 'No, Cancelar'
+					}).then((result) => {
+					  if (result.value) {
+					   $("#formEditarNivel1").submit();
+						
+					  }
+				})
+		 }
+		 pondeTotal = "";
+	 });
+    
+});
+</script>
+</html>

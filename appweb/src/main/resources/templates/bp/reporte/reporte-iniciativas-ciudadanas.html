@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/archivo-plano.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery.dataTables.yadcf.css}">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bp/tabs-versiones.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/modal/modal.css}">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+<script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+
+<script src="js/src/stomp.js"></script>
+<script src="js/src/menu.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script src="js/src/sockjs.min.js"></script>
+<title>Reporte Iniciativa Ciudadanas</title>
+</head>
+<body>
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">BANCO DISTRITAL DE PROGRAMAS Y PROYECTOS</a></li>
+			<li class="breadcrumb-item " aria-current="page" id="act">Reportes</li>
+			<li class="breadcrumb-item " aria-current="page" id="act">Proyecto
+				Específico</li>
+			<li class="breadcrumb-item " aria-current="page" id="act">Proyectos
+				Ficha EBI</li>
+			<li class="breadcrumb-item " aria-current="page" id="act">Proyectos
+				Inscritos o Registrados</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Iniciativas Ciudadanas</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+		<div class="row">
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano mt-2">
+					<label>Localidad</label>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano mt-2">
+					<label>Origen Iniciativa</label>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano mt-2">
+					<label>Plan de Desarrollo </label>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+				<select class="form-control">
+					<option>Seleccione una opción</option>
+				</select>
+			</div>
+			<div class="col-sm-4">
+				<select class="form-control">
+					<option>Seleccione una opción</option>
+				</select>
+			</div>
+			<div class="col-sm-4">
+				<select class="form-control">
+					<option>Seleccione una opción</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="row mt-3">
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano mt-2">
+					<label>Sector</label>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano mt-2">
+					<label>Linea Inversión/Concepto</label>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="texto-archivo-plano mt-2">
+					<label>Viabilidad</label>
+				</div>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-4">
+				<select class="form-control">
+					<option>Seleccione una opción</option>
+				</select>
+			</div>
+			<div class="col-sm-4">
+				<select class="form-control">
+					<option>Seleccione una opción</option>
+				</select>
+			</div>
+			<div class="col-sm-4">
+				<select class="form-control">
+					<option>Seleccione una opción</option>
+				</select>
+			</div>
+		</div>
+
+
+		<div align="right" class="align-items-right pd-3 mt-3">
+			<button type="button" class="boton-agregar" id="busqueda">
+				<img src="img/lupa-over.png" class="agregar" alt="icono buscar">Buscar
+			</button>
+		</div>
+
+
+
+		<div class="table-responsive">
+			<table class="table-striped" id="dtablaAporte" style="width: 150%">
+				<thead>
+
+					<tr>
+
+						<th scope="col" class="color-head">Nombre Iniciativa<br></th>
+						<th scope="col" class="color-head">Origen Iniciativa<br></th>
+						<th scope="col" class="color-head">Linea de Inversión<br></th>
+						<th scope="col" class="color-head">Plan de Desarrollo<br></th>
+						<th scope="col" class="color-head">Estado Iniciativa<br></th>
+						<th scope="col" class="color-head">Sector<br></th>
+						<th scope="col" class="color-head">Concepto<br></th>
+						<th scope="col" class="color-head">Viabilidad<br></th>
+						<th style="width: 10%;" scope="col" class="color-head">Informe Iniciativa Ciudadana<br></th>
+					</tr>
+				</thead>
+			</table>
+			
+		</div>
+	</div>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

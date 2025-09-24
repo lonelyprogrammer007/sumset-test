@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    </head>
+    <!-- Modal -->
+    <div class="modal fade" id="editarArgumentoModal" tabindex="-1"
+         role="dialog" aria-labelledby="editarModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg2">
+                    <h6 class="modal-title" id="exampleModalCenterTitle">
+                        Localidades<br> Argumentos y resultados
+                    </h6>
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-container2">
+                        <form id="form" name="form" th:object="${argumento}" method="post">
+                            <input class="form-control" id="idListaSimple"
+                                   name="idListaSimple" type="hidden">
+
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="codigo">Código:</label>
+                                    </div>
+                                    <input class="form-control" id="idArgumento" name="idArgumento"
+                                           type="text">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="argumento">Argumento:</label>
+                                    </div>
+                                    <input class="form-control" id="argumento" name="argumento"
+                                           type="text">
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <div class="texto">
+                                        <label for="resultado">Resultado:</label>
+                                    </div>
+                                    <input class="form-control" id="resultado" name="resultado"
+                                           type="text">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-15">
+                                <div class="form-group">
+                                    <label for="resultado">Estado:</label><br> <input
+                                        type="checkbox" id="estado" checked="checked" disabled="disabled"> <label
+                                        for="resultado">Activo</label>
+                                </div>
+                            </div>
+                            <input type="hidden" id="edit" value="editar-argumento">
+                            <div class="hr"></div>
+                            <br>
+                            <div class="form-row">
+                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                                <div class="texto3">
+                                    <a data-dismiss="modal">Cancelar</a>
+                                </div>
+                                <h4>&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                                <button type="submit" class="myFormButton" name="edit"
+                                        id="boton-modal">Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Plantilla de notificación</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/listas.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+        <link rel="stylesheet" type="text/css"
+              th:href="@{/css/bootstrap.min.css}">
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    </head>
+    <body>
+        <header th:replace="/home:: header"></header>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Administracion
+                        funcional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Administración Notificación</li>
+                <li class="breadcrumb-item active" aria-current="page">Plantillas de Notificación</li>
+            </ol>
+        </nav>
+
+
+        <div class="form-container3">
+
+            <div class="abs-center">
+                <span>Plantilla de notificación</span>
+                <br>
+            </div>
+            <div class="hr-1"></div>
+            <br>
+
+            <div class="table-responsive">
+                <table class="table table-curved">
+                    <thead>
+                        <tr class="color">
+                            <th><div align="center">Código<br><input type="text"></div></th>
+                            <th><div align="center">Asunto<br><input type="text"></div></th>
+                            <th><div align="center">Modulo que lo origina<br><input type="text"></div></th>
+                            <th><div align="center">Operación que lo origina<br><input type="text"></div></th>
+                            <th><div align="center">Tipo de notificacion<br><input type="text"></div></th>
+                            <th><div align="center">Acciones</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="lista: ${listaNotificaciones}">
+                            <td class="azul" th:text="${lista.idConfigNotificacion}" />
+                            <td class="azul" th:text="${lista.asunto}" />
+                            <td class="azul"  />
+                            <td class="azul" th:text="${lista.operacionOrigen}" />
+                            <td class="azul"  /></td>
+                            <td class="azul"><a><i
+                                        class="fas fa-edit"></i></a></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+            <br>
+            <div class="hr1"></div>
+            <div align="right">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#"
+                                                 aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+                            </a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#"
+                                                 aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+                            </a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <br>
+
+
+        <footer th:replace="/home:: footer"></footer>
+    </body>
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
+    <div th:include="buzon-notificaciones/modal-editar-notificacion.html"></div>
+    <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

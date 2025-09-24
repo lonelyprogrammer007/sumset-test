@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head  th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Consulta</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<script type="text/javascript" th:src="@{/js/nhspdd/datatable-consultas.js}"></script>
+<body>
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Banco distrital de programas y proyectos</a></li>
+			<li class="breadcrumb-item" aria-current="page">Ficha EBI</li>	
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consultar inscripción
+				de proyectos</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+	<div class="abs-center">
+			<span>Inscripción de proyectos</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div class="float-left">
+			<a th:href="@{/registrar-proyecto}">
+				<button class="boton-agregar mt-3">
+					<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar">Agregar
+				</button>
+			</a>
+		</div>
+		<br><br><br>
+		<form id="peticionVersionamiento" th:action="@{/modificar-proyecto-inscripcion}" method="post">
+		 <input type="hidden" id="inputIdProy" name="idProyInversion">
+		 <input type="hidden" id="inputIdLsSectorAl" name="idLsSectorAl">
+         <input type="hidden" id="inputCodigoProyecto" name="codigoProyecto">
+         <input type="hidden" id="inputNombreProyecto" name="nombreProyecto">
+         <input type="hidden" id="inputCodigoBPIN" name="codigoBpin">
+         <input type="hidden" id="inputIdLsEtapa" name="idLsEtapa">
+         <input type="hidden" id="inputIdNombrePoai" name="nombrePoai">
+         <input type="hidden" id="inputTipo" name="idsTipoProy">
+         <input type="hidden" id="inputCodigoEntidad" name="codigoEntidad">
+         <input type="hidden" id="inputSector" name="stringSector">
+         <input type="hidden" id="inputClasificacion" name="stringEntidad">
+         <input type="hidden" id="inputBanco" name="stringBancoProyecto">
+         <input type="hidden" id="inputSectorEntidad" name="stringSectorEntidad">
+         <input type="hidden" id="inputDescripcion" name="descripcion">
+         <input type="hidden" id="inputIdPdd" name="idPlanDesarrolloDistrital">
+		</form>
+		<form id="formConsultarProyecto" method="post" th:action="@{/consultar-proyecto}">
+		 <input type="hidden" id="inputIdProyConsulta" name="idProyInversion">
+		 <input type="hidden" id="inputIdLsSectorAlConsulta" name="idLsSectorAl">
+         <input type="hidden" id="inputCodigoProyectoConsulta" name="codigoProyecto">
+         <input type="hidden" id="inputNombreProyectoConsulta" name="nombreProyecto">
+         <input type="hidden" id="inputCodigoBPINConsulta" name="codigoBpin">
+         <input type="hidden" id="inputNombreBPINConsulta" name="nombreBpin">
+         <input type="hidden" id="inputIdLsEtapaConsulta" name="idLsEtapa">
+         <input type="hidden" id="inputIdNombrePoaiConsulta" name="nombrePoai">
+         <input type="hidden" id="inputCodigoEntidadConsulta" name="codigoEntidad">
+         <input type="hidden" id="inputClasificacionConsulta" name="stringEntidad">
+          <input type="hidden" id="inputSectorConsulta" name="stringSector">
+          <input type="hidden" id="inputTipoConsulta" name="idsTipoProy">
+		</form>
+		<div class="table-responsive">
+			<table class="table-striped" id="dtableBp" style="width: 400%">
+				<thead>
+					<tr>
+						<th style="width: 10%;" class="color-head">Plan de Desarrollo<br></th>
+						<th style="width: 10%;" class="color-head">Sector<br></th>
+						<th style="width: 13%;" class="color-head">Alcaldía Local/Entidad<br></th>
+						<th style="width: 7%;" class="color-head">Código Proyecto<br></th>
+						<th style="width: 10%;" class="color-head">Nombre Proyecto<br></th>
+						<th style="width: 5%;" class="color-head">Versión<br></th>
+						<th style="width: 10%;" class="color-head">Fecha Versión<br></th>
+						<th style="width:8%;" class="color-head">Estado<br></th>
+						<th style="width: 8%;" class="color-head">Fecha de Estado<br></th>
+						<th style="width: 8%;" class="color-head">Tipo de Proyecto<br></th>
+						<th style="width: 6%;" class="color-head">Etapa Actual<br></th>
+						<th style="width: 12%;" class="color-head">Acción<br></th>
+					</tr>
+					</thead>
+					<tbody>
+						<tr th:each="lista: ${listBp}">
+						<td class="azul" th:text="${lista.stringPlanDesarrolloDistrital}" />
+						<td class="azul" th:text="${lista.stringSector}" />
+						<td class="azul" th:text="${lista.nombreEntidad}" />
+						<td class="azul" th:text="${lista.codigoProyecto}" />
+						<td class="azul" th:text="${lista.nombreProyecto}" />
+						<td class="azul" th:text="${lista.version}" />
+						<td class="azul" th:text="${lista.fechaVersion}" />
+						<td class="azul" th:text="${lista.stringLsEstado}" />
+						<td class="azul" th:text="${lista.fechaEstado}" />
+						<td class="azul" th:text="${lista.stringstipoProy}" />
+						<td class="azul" th:text="${lista.stringLsEtapa}" />
+						<td class="azul"><button type="button" class="lupa-ver"
+						th:attr="onclick=|consultarProyecto('${lista.idProyInversion}','${lista.stringPlanDesarrolloDistrital}',
+						'${lista.stringSector}', '${lista.codigoProyecto}','${lista.nombreProyecto}',
+						'${lista.fechaVersion}','${lista.stringLsEtapa}', '${lista.idLsSectorAl}','${lista.codigoBpin}', '${lista.nombreBpin}' ,
+						'${lista.idLsEtapa}' , '${lista.nombrePoai}', '${lista.idsTipoProy}','${lista.codigoEntidad}', '${lista.stringEntidad}')|">
+						<img src="css/img/icono-lupa.png" class="editar" alt="Icono para la edicion de formularios"></button>
+						<button type="button" class="edit-bp" th:attr="onclick=|editarBp('${lista.idProyInversion}','${lista.stringPlanDesarrolloDistrital}',
+						'${lista.stringSector}', '${lista.codigoProyecto}','${lista.nombreProyecto}',
+						'${lista.fechaVersion}','${lista.stringLsEtapa}', '${lista.idLsSectorAl}','${lista.codigoBpin}' ,
+						'${lista.idLsEtapa}' , '${lista.nombrePoai}', '${lista.idsTipoProy}','${lista.codigoEntidad}', '${lista.stringEntidad}',
+						'${lista.stringBancoProyecto}', '${lista.stringSectorEntidad}','${lista.descripcion}', '${lista.idPlanDesarrolloDistrital}',
+						'${lista.idPlanDesarrolloLocal}' )|" >
+						<img src="css/img/icono-1-azul.png" class="editar" alt="Icono para la edicion de formularios"></button>
+						<button class="elimina-bp" th:attr="onclick=|eliminarProyecto('${lista.idProyInversion}')|">
+					    <img src="css/img/icono-eliminar.png" class="eliminar-bp" alt="Icono para la edicion de formularios"></button></td>
+						</tr>
+						</tbody>
+				
+			</table>
+		</div>
+	</div><br><br>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script th:inline="javascript">
+	$(document).ready(function() {
+		
+		$('.filter').on('click', function(e) {
+			e.stopPropagation();
+		});
+		/*<![CDATA[*/
+	    var tipoConsulta = /*[[${tipoConsulta}]]*/;
+	
+		if (tipoConsulta != null) {
+			console.log(tipoConsulta);
+		}
+				
+	    /*]]>*/
+		
+	});
+function editarBp(idProyecto, plan, sector, codProyecto, nombreProyecto,
+         fecha, etapa, idLsSectorAl, codBPIN, idLsEtapa, poai, tipo,
+         codigoEntidad, stringEntidad, banco, sectorEnt, descripcion, idPlan, idPlanLocal){
+	document.getElementById("inputIdProy").value = idProyecto;
+	document.getElementById("inputCodigoProyecto").value = codProyecto;
+	document.getElementById("inputNombreProyecto").value = nombreProyecto;
+	document.getElementById("inputCodigoBPIN").value = codBPIN;
+	document.getElementById("inputIdLsEtapa").value = idLsEtapa;
+	document.getElementById("inputTipo").value = tipo;
+	document.getElementById("inputIdNombrePoai").value = poai;
+	document.getElementById("inputSector").value = sector;
+	document.getElementById("inputClasificacion").value = stringEntidad;
+	document.getElementById("inputBanco").value = banco;
+	document.getElementById("inputSectorEntidad").value = sectorEnt;
+	document.getElementById("inputIdPdd").value = idPlan;
+	if (idLsSectorAl != "null"){
+		document.getElementById("inputIdLsSectorAl").value = idLsSectorAl;
+	}else {
+		document.getElementById("inputIdLsSectorAl").value = "";
+	}
+	document.getElementById("inputCodigoEntidad").value = codigoEntidad;
+	
+	if (descripcion != "null"){
+	document.getElementById("inputDescripcion").value = descripcion;   	
+	}
+
+	$('#peticionVersionamiento').submit();
+}	
+function eliminarProyecto(idProyecto){
+	Swal.fire({
+		  title: '¡Advertencia!',
+		  text: "¿Está seguro que desea eliminar este registro?",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Aceptar',
+		  cancelButtonText: 'Cancelar'
+		}).then((result) => {
+		  if (result.value) {
+			  window.location = "eliminarProyecto/" + idProyecto;  
+		  }
+	})
+	
+}
+function consultarProyecto(idProyecto, plan, sector, codProyecto, nombreProyecto,
+         fecha, etapa, idLsSectorAl, codBPIN, nombreBPIN,
+		idLsEtapa, poai, tipo, codigoEntidad, stringEntidad){
+	document.getElementById("inputIdProyConsulta").value = idProyecto;
+	document.getElementById("inputCodigoProyectoConsulta").value = codProyecto;
+	document.getElementById("inputNombreProyectoConsulta").value = nombreProyecto;
+	document.getElementById("inputCodigoBPINConsulta").value = codBPIN;
+	document.getElementById("inputNombreBPINConsulta").value = nombreBPIN;
+	document.getElementById("inputIdLsEtapaConsulta").value = idLsEtapa;
+	document.getElementById("inputCodigoEntidadConsulta").value = codigoEntidad;
+	document.getElementById("inputClasificacionConsulta").value = stringEntidad;
+	document.getElementById("inputSectorConsulta").value = sector;
+	document.getElementById("inputIdNombrePoaiConsulta").value = poai;
+	document.getElementById("inputTipoConsulta").value = tipo;
+	if (idLsSectorAl != "null"){
+		document.getElementById("inputIdLsSectorAlConsulta").value = idLsSectorAl;
+	}else {
+		document.getElementById("inputIdLsSectorAlConsulta").value = "";
+	}
+
+	$('#formConsultarProyecto').submit();
+}
+</script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

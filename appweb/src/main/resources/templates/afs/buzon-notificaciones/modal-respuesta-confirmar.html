@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Respuesta</title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<div class="modal fade" id="modalResConfirmaBuzon" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalCenterTitle">
+					Procesamiento de alertas</h5>
+
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form role="form" th:object="${buzonNotificaciones}" action="#"
+						th:action="@{/responder_mensaje}" method="post">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<label for="resultado">Asunto:</label> <input
+									class="form-control" name="asunto" id="asunto" disabled
+									type="text"> <input class="form-control"
+									name="idNotificacion" id="idNotificacion" type="hidden">
+
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<label for="resultado">Acción requerida:</label> <input
+									class="form-control" name="accionRequerida"
+									id="accionRequerida" disabled type="text">
+
+							</div>
+						</div>
+						<input type="hidden" id="mensaje" name="mensaje">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<label for="exampleFormControlTextarea1">Acción
+									requerida</label>
+								<textarea class="form-control" required="required" id="repuesta"
+									name="respuesta" rows="3"></textarea>
+							</div>
+						</div>
+
+						<br>
+						<div class="hr"></div>
+						<br>
+						<div class="form-row">
+							<div class="col-md-6"></div>
+							<div class="col-md-2">
+								<div class="texto3">
+									<a th:href="@{/restablecer}" data-dismiss="modal"
+										aria-label="Close">Cancelar</a>
+								</div>
+							</div>
+							<div class="col-md-1">
+								<a href=""><button type="submit"
+										class="btn btn-primary btn-sm">&nbsp;&nbsp;Resolver&nbsp;&nbsp;</button></a>
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Agregar equipamiento</title>
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<div class="modal fade" id="crearEquipamientoModal" tabindex="-1"
+	role="dialog" aria-labelledby="crearEquipamientoModal"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}" alt="Icono segplan">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="tituloEq">Crear equipamiento</span>
+					</div>
+				</div>
+
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" class="formEquipamiento" th:object="${equipamiento}"
+						th:action="@{crear_equipamientos}" method="post">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="codigo_comp">Nombre equipamiento:*</label>
+								</div>
+								<input class="form-control required" name="nombre"
+									id="nombreEq" type="text" maxlength="100">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="codigo_comp">Descripción:*</label>
+								</div>
+								<input class="form-control required"
+									name="descripcion" id="descripcionEq" type="text"
+									maxlength="200">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Sector:*</label>
+								</div>
+								<select style="width: 100% !important" name="idLsSector" id="idLsSectorEq"
+									class="form-control required js-example-basic-single">
+									<option value=""></option>
+									<option th:each="sector : ${sectores}"
+										th:value="${sector.idArgumento}" th:text="${sector.resultado}"></option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Categoría:*</label>
+								</div>
+								<select style="width: 100% !important" name="idLsCategoria"
+									id="idLsCategoriaEq" class="form-control required js-example-basic-single">
+									<option value=""></option>
+									<option th:each="categoria : ${categorias}"
+										th:value="${categoria.idArgumento}"
+										th:text="${categoria.resultado}"></option>
+								</select>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="resultado">Estado:</label>
+								</div>
+								 <input type="checkbox" checked="checked" disabled="disabled">
+								<label for="resultado">Activo</label>
+							</div>
+							<input type="hidden" id="estado">
+						</div>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+							<button type="submit" class="myFormButton" name="save"
+								id="boton-modal"> <img src="css/img/icono-guardar.png" class="guardar"
+								alt="Icono guadar">Guardar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.js-example-basic-single')select2({
+		  minimumResultsForSearch: Infinity
+	});
+$('.formEquipamiento').submit(function(e){
+	
+	var variables = $('.required');
+	
+	var contador = variables.length;
+	for (var i = 0; i < variables.length; i++) {
+		if($(variables[i]).val()=='' || $(variables[i]).val()==undefined){
+			$(variables[i]).addClass('requerido');
+			contador = contador-1;
+		}else{
+			$(variables[i]).removeClass('requerido');
+		}
+	}
+	if(contador!=variables.length){
+		e.preventDefault();
+		  Swal.fire({
+		        title: 'Información',
+		        text: "Existen campos obligatorios que no se han registrado",
+		        icon: 'warning',
+		        confirmButtonText: 'Aceptar',
+		        allowOutsideClick: () => false
+		    })
+	}
+	
+});
+});
+</script>
+</html>

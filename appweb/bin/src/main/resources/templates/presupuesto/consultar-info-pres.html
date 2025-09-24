@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Consultar informacion presupuestal</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" th:href="@{/css/sweetalert2.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery.dataTables.css}">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+</head>
+<body>
+
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administración funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Presupuesto</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administración
+				establecimientos públicos</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Administración establecimientos públicos alcaldias
+				locales</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div align="Left">
+			<button type="button" class="boton-agregar" data-toggle="modal"
+				data-target="#exampleModalCenter">
+				<i class="fa fa-plus-circle"></i> Agregar
+			</button>
+		</div>
+		<br>
+		<div class="table-responsive">
+			<table id="dtabla" class="table-striped">
+				<thead>
+					<tr class="color">
+						<th>Año</th>
+						<th>Mes</th>
+						<th>Clasificacion presupuestal</th>
+						<th>Código proyecto</th>
+						<th>Código interno</th>
+						<th>Nombre proyecto</th>
+						<th>Apropiacion definitiva</th>
+						<th>Ejecucion vigencia (compromisos)</th>
+						<th>Giros vigencia</th>
+						<th>Recursos suspendidos</th>
+						<th>Constitución reservas(CxP)</th>
+						<th>Apropiación reservas(CxP)</th>
+						<th>Ejecución giros reservas(CxP)</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+
+					</tr>
+					<tr>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+						<td class="amarillo"></td>
+
+					</tr>
+					<tr>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+						<td class="azul"></td>
+				</tbody>
+			</table>
+
+		</div>
+		<br>
+		<div class="hr1"></div>
+	</div>
+	<br>
+
+
+	<footer th:replace="/home:: footer"></footer>
+	<div th:include="presupuesto/modal-agregar-info-pre.html"></div>
+
+</body>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-submenu a.test').on("click", function(e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+	});
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+
+</body>
+</html>

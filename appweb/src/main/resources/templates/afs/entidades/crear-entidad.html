@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset=utf-8 />
+<title id="pageTitle">Crear entidad</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/jquery.dataTables.yadcf.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/entidades.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/modal/modal.css}">
+<script type="text/javascript" th:src="@{/js/nhspdd/datatable-consultas.js}"></script>
+<body >
+	<header th:replace="/home:: header"></header>
+
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administración funcional</a></li>
+			<li class="breadcrumb-item">Entidades, tablas, parámetros y consecutivos</li>
+			<li class="breadcrumb-item" aria-current="page"><a th:href="@{/consultar-ent}">Administrar
+				 entidades alcaldías locales</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consultar entidad / funcionarios claves
+				 </li>	 
+		</ul>
+	</nav>
+
+
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Actualizar entidad o alcaldía local</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+
+
+		<form id="formEntidad" th:object="${entidadDTO}" method="post"
+			th:action="@{/editar-ent}">
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<div class="texto-archivo-plano">
+						<label for="tipoIdent">Código distrital *</label>
+					</div>
+					<input type="text" class="form-control"
+						th:value="${entidad.codigoDistrital}" id="codigoDistrita"
+						disabled="disabled">
+				</div>
+				<div class="form-group col-md-6">
+					<div class="texto-archivo-plano">
+						<label for="identif">Nombre entidad o alcaldía local *</label>
+					</div>
+					<input type="text" class="form-control"
+						th:value="${entidad.codigoEntidad}" id="codigousuario"
+						disabled="disabled">
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<div class="texto-archivo-plano">
+						<label for="tipoIdent">Sigla asignada *</label>
+					</div>
+					<input type="text" class="form-control" th:value="${entidad.sigla}"
+						id="codigousuario" disabled="disabled">
+				</div>
+				<div class="form-group col-md-6">
+					<div class="texto-archivo-plano">
+						<label for="identif">Dominio correo electrónico *</label>
+					</div>
+					<input type="text" class="form-control"
+						 th:value="${entidad.dominioCorreo}" id="dominioCorreo"
+						disabled="disabled">
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<div class="texto-archivo-plano">
+						<label for="identif">Acto administrativo *</label>
+					</div>
+					<input type="text" th:value="${acto.actoAdministrativo}"
+						class="form-control" id="codigousuario" disabled="disabled">
+				</div>
+				<div class="form-group col-md-6">
+					<div class="texto-archivo-plano">
+						<label for="identif">Sector</label>
+					</div>
+					<input type="text" class="form-control" id="idSector"
+						disabled="disabled" th:value="${entidad.sector.codigoSector}">
+				</div>
+			</div>
+
+
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<div class="form-group">
+						<div class="texto-archivo-plano">
+							<label for="periodo">Banco de proyecto *</label>
+						</div>
+						<div class="caja">
+							<select class="form-control" id="idBancoProyecto"
+								 name="idBancoProyecto">
+								<option value="">Seleccione una opción</option>
+								<option th:each="lista : ${banco}"
+									th:value="${lista.idBancoProyecto}" th:text="${lista.nombre}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group col-md-6">
+					<div class="form-group">
+						<div class="texto-archivo-plano">
+							<label for="periodo">Clasificación *</label>
+						</div>
+						<div class="caja">
+							<select class="form-control" id="idLsClasificacion"
+								 name="idLsClasificacion">
+								<option value="">Seleccione una opción</option>
+								<option th:each="lista : ${clasificacion}"
+									th:id="${entAct.idLsClasificacion}"
+									th:value="${lista.idArgumento}" th:text="${lista.resultado}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<div class="form-group">
+						<div class="texto-archivo-plano">
+							<label for="periodo">Asociación *</label>
+						</div>
+						<div class="caja">
+							<select class="form-control" id="idLsAsociacion"
+								 name="idLsAsociacion">
+								<option value="">Seleccione una opción</option>
+								<option th:each="lista : ${asociacion}"
+									th:value="${lista.idArgumento}" th:text="${lista.resultado}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<div class="texto-archivo-plano">
+						<label for="identif">Delegar gestión de proyecto *</label>
+					</div>
+					<input type="checkbox" id="delegarGestionProyecto"> <label
+						class="gestProyecto" for="inlineCheckbox1">Activo</label> <input
+						type="hidden" id="checkbox2" name="gestionProyectos">
+				</div>
+				<div class="form-group col-md-6">
+					<div class="row">
+						<div class="col-md-2">
+							<div class="texto-archivo-plano">
+								<label for="tipoIdent">Estado:</label>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<span>Activo</span>
+						</div>
+					</div>
+
+				</div>
+			</div>
+	
+	<div class="float-right">
+		<a th:href="@{/consultar-ent}" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+		<button type="submit" class="myFormButton" name="editEntidad"
+			id="actEntidad">
+			<img src="css/img/editar-morado.png" class="actualiza" alt="Icono actualizar"> Actualizar
+		</button>
+	</div>
+	<br>
+	</form>
+
+	<br>
+	<div class="hr-1"></div>
+	<br>
+
+	<div class="tabs">
+		<div class="tab-button-outer">
+			<ul id="tab-button">
+				<li><a href="#tab01">Funcionarios claves</a></li>
+
+			</ul>
+		</div>
+		<div class="tab-select-outer">
+			<select id="tab-select">
+				<option value="#tab01">Funcionarios claves</option>
+
+			</select>
+		</div>
+
+		<div id="tab01" class="tab-contents">
+			<div class="float-left">
+				<button type="button" class="boton-agregar"
+					onclick="crearFuncionario();">
+					<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar"> Agregar
+				</button>
+
+			</div>
+			<br>
+			<br>
+			<div class="table-responsive">
+				<table id="dtablaFuncionario" class="table-striped" style="width: 220%">
+				<caption><div class="hr-2"></div></caption>
+					<thead>
+						<tr class="color">
+						<th id="diez" class="color-head">Función</th>
+						<th id="treinta" class="color-head">Nombre<br></th>
+						<th id="treinta" class="color-head">Cargo<br></th>
+						<th id="veinte"  class="color-head">Correo electrónico<br></th>
+						<th id="tres" class="color-head">Género<br></th>
+					    <th id="cuatro" class="subir">Acción<br></th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+
+	</div>
+	<br>
+	<div class="float-right">
+		<a th:href="@{/consultar-ent}"><button type="button"
+				class="boton-regresar">
+				<img src="css/img/volver-over.png" class="volver" alt="icono volver">&nbsp;&nbsp;Volver
+			</button></a>
+	</div>
+	<br>
+
+	</div>
+
+	<br>
+	<br>
+
+	<footer th:replace="/home:: footer"></footer>
+
+	<div th:include="afs/entidades/modal-crear-funcionarios.html"></div>
+	<div th:include="afs/entidades/modal-editar-funcionarios.html"></div>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+
+</body>
+
+
+<script type="text/javascript">
+	$(function() {
+		var $tabButtonItem = $('#tab-button li'), $tabSelect = $('#tab-select'), $tabContents = $('.tab-contents'), activeClass = 'is-active';
+
+		$tabButtonItem.first().addClass(activeClass);
+		$tabContents.not(':first').hide();
+
+		$tabButtonItem.find('a').on('click', function(e) {
+			var target = $(this).attr('href');
+
+			$tabButtonItem.removeClass(activeClass);
+			$(this).parent().addClass(activeClass);
+			$tabSelect.val(target);
+			$tabContents.hide();
+			$(target).show();
+			e.preventDefault();
+		});
+
+		$tabSelect.on('change', function() {
+			var target = $(this).val(), targetSelectNum = $(this).prop(
+					'selectedIndex');
+
+			$tabButtonItem.removeClass(activeClass);
+			$tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+			$tabContents.hide();
+			$(target).show();
+		});
+	});
+
+</script>
+<script th:inline="javascript">
+	$(document).ready(function() {
+		
+		/*<![CDATA[*/
+	    var mensaje = /*[[${messageConfirma}]]*/;
+		
+		 if (mensaje != null){
+		  Swal.fire({
+		        title: 'Información',
+		        text: mensaje,
+		        type: 'success',
+		        confirmButtonText: 'Aceptar',
+		        allowOutsideClick: () => false
+		    }).then((result) => {
+				  if (result.value) {
+					  window.location = "/Segplan/consultar-ent";  
+				  }
+				})
+		 }
+
+/*]]>*/
+		
+		var dominio = document.getElementById("dominioCorreo").value;
+		var sector = document.getElementById("idSector").value;
+		if (dominio == "null" && sector == "null"){
+			document.getElementById("dominioCorreo").value = "No tiene un dominio asignado";
+			document.getElementById("idSector").value = "No tiene un sector asociado";
+		}
+		if (dominio == "null" && sector != "null"){
+			 document.getElementById("dominioCorreo").value = "No tiene un dominio asignado";
+			 
+		}
+		if (dominio != "null" && sector == "null"){
+			document.getElementById("idSector").value = "No tiene un sector asociado";
+		}
+		
+		
+		$('.filter').on('click', function(e){
+		       e.stopPropagation();    
+		    });
+	
+		$('#delegarGestionProyecto').click(function() {
+			var isChecked_2 = document.getElementById('delegarGestionProyecto').checked;
+			if (isChecked_2) {
+				$('#checkbox2').text($('#checkbox2').val(1));
+			} else if (!isChecked_2) {
+				$('#checkbox2').text($('#checkbox2').val(0));
+			}
+
+		});
+		
+		
+		$('#actEntidad').click(function() {
+			var banco = document.getElementById("idBancoProyecto").value;
+			var clasificacion = document.getElementById("idLsClasificacion").value;
+			var asociacion = document.getElementById("idLsAsociacion").value;
+			
+			if (banco == "" || asociacion == "" || clasificacion == ""){
+				Swal.fire({
+			        title: 'Información',
+			        text:  'Por favor diligenciar todos los campos obligatorios',
+			        type: 'warning',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			    })
+			    return false;
+			}
+		});
+		
+		
+		var ent = document.getElementById("codigoDistrita").value;
+		cargarDatos(ent);
+	});
+	function crearFuncionario(){
+		 document.getElementById("funcionFun").value ="";
+		 document.getElementById("nombreFun").value = "";
+		 document.getElementById("cargoFun").value = "";
+		 document.getElementById("correoFun").value = "";
+		 document.getElementById("generoFun").value = "";
+		 
+		 var clasificacion = $('select[name="idLsClasificacion"] option:selected').text();
+		 var alcaldia = clasificacion.toLowerCase();
+		 if (alcaldia == "alcaldía"){
+			 var select = document.getElementById("funcionFun");
+			  for (var j = 0; j < listFuncion.length; j++ ){
+		        	var auxi = listFuncion[j].resultado.toLowerCase();
+		        	if (auxi != "control interno"){
+		        		let opcion = document.createElement('option')
+		        		 opcion.value = listFuncion[j].idArgumento;
+		        		 opcion.text = listFuncion[j].resultado;
+		        	     select.add(opcion);
+		        	     
+		        	}
+		    }
+		 }else {
+			 var select = document.getElementById("funcionFun");
+			  for (var j = 0; j < listFuncion.length; j++ ){
+		        	var auxi = listFuncion[j].resultado.toLowerCase();
+		        		let opcion = document.createElement('option')
+		        		 opcion.value = listFuncion[j].idArgumento;
+		        		 opcion.text = listFuncion[j].resultado;
+		        	     select.add(opcion);
+		        	
+		    }
+		 }
+		$('#modalCrearFuncionario').modal('show');
+	}
+	function cargarDatos(ent) {
+		'use strict';
+
+		var opts = [ {
+			value : 1,
+			label : "Activo"
+		}, {
+			value : 0,
+			label : "Inactivo"
+		} ];
+		$.fn.DataTable.ext.pager.numbers_length = 5;
+		var table = $('#dtablaFuncionario')
+				.DataTable(
+						{
+							"colReorder" : true,
+							"processing" : true,
+							"serverSide" : true,
+							"lengthChange" : true,
+							"searching" : true,
+							"ordering" : true,
+							"info" : true,
+							"autoWidth" : true,
+							"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+									[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+							"pageLength" : 5,
+							"language" : {
+								"processing" : 'Cargando...',
+								"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+								"infoEmpty" : '<div class="formato">0 de 0.</div>',
+								"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+								"zeroRecords" : "No se han encontrado coincidencias.",
+								"responsive" : true,
+								"paginate" : {
+									"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+									"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+									"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+									"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+								},
+								"lengthMenu" : "_MENU_",
+							},
+							"pagingType" : "full_numbers",
+							"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+									+ "<'row'<'col-sm-8 col-md-7'tr>>"
+									+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+							"order": [0, 'desc'],
+								"ajax" : {
+								"url" : "/Segplan/consultarfuncionarios/" + ent,
+								"type" : "POST"
+							},
+
+							"columns" : [
+									{
+										data : "nombreIdLsFuncion"
+									},
+									{
+										data : "nombre"
+									},
+									{
+										data : "cargo"
+									},
+									{
+										data : "correo"
+									},
+									{
+										data : "nombreIdLsGenero"
+									},
+
+									{
+										"render" : function() {
+											return '<button href="" type="button" id="ButtonEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button>';
+										},  "orderable": false
+									},],
+							
+						})
+			yadcf.init(table, [ {
+			column_number : 0,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+
+		}, {
+			column_number : 1,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		
+		}, {
+			column_number : 2,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 3,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 4,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		} ]);
+		$('div.dataTables_length select').addClass("formato-2");
+		
+		editar("#dtablaFuncionario tbody", table);
+	}
+
+	function editar(tbody, table) {
+		$(tbody).on(
+				"click",
+				"button.edit",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data();
+					editarFuncionarioClave(data.idFuncionarioEntidad, data.idLsFuncion,
+							data.nombre, data.cargo, data.correo,
+							data.idLsGenero);
+				})
+	}
+	function editarFuncionarioClave(idFun, id, nombre, cargo, correo, nombreGenero){
+		$('#editarFuncionarioModal').modal('show');
+		$('#idFuncionarioEntidad').text($('#idFuncionarioEntidad').val(idFun));
+		$('#nombreFuncionario').text($('#nombreFuncionario').val(nombre));
+		$('#cargo').text($('#cargo').val(cargo));
+		$('#correo').text($('#correo').val(correo));
+		$("#idLsFuncion").val(id).trigger('change');
+		$("#idLsGenero").val(nombreGenero).trigger('change');
+		document.getElementById("idLsFuncion").value = id;
+	    document.getElementById("idLsGenero").value = nombreGenero;
+	}
+	function editarAdministrativo(codigo, nombre, sigla, acto, fechaInicio, fechaFin){
+		$('#editarHistAdmModal').modal('show');
+		$('#codigoHisAdmin').text($('#codigoHisAdmin').val(codigo));
+		$('#nombreEntidad').text($('#nombreEntidad').val(nombre));
+		$('#sigla').text($('#sigla').val(sigla));
+		$('#actoAdministrativo').text($('#actoAdministrativo').val(acto));
+		$('#fechaInicio').text($('#fechaInicio').val(fechaInicio));
+		$('#fechaFinalAdm').text($('#fechaFinalAdm').val(fechaFin));
+	}
+	function editarSectorial(codigo, nombre, acto, estado, fechaInicio, fechaFin){
+		$('#editarSectorialModal').modal('show');
+		$('#codigoHisSectorial').text($('#codigoHisSectorial').val(codigo));
+		$('#actoAdministrativoS').text($('#actoAdministrativoS').val(acto));
+		$('#nombreEnt').text($('#nombreEnt').val(nombre));
+		$('#fechaIni').text($('#fechaIni').val(fechaInicio));
+		$('#fechaFin').text($('#fechaFin').val(fechaFin));
+	}
+</script>
+<script th:inline="javascript">
+var listFuncion;
+$(document).ready(function () {
+	
+	/*<![CDATA[*/
+	 var clasificacion = /*[[${entAct.idLsClasificacion}]]*/;
+	 var banco = /*[[${entAct.idBancoProyecto}]]*/;	
+	 var asociacion = /*[[${entAct.idLsAsociacion}]]*/;	
+	 var gestionProy = /*[[${entAct.gestionProyectos}]]*/;  
+	 var messageFuncionario = /*[[${messageFuncionario}]]*/;   
+	 listFuncion = /*[[${funcion}]]*/;   
+	 
+	 document.getElementById("idLsClasificacion").value = clasificacion;
+	 document.getElementById("idLsAsociacion").value = asociacion;
+	 document.getElementById("idBancoProyecto").value = banco;
+	 document.getElementById("checkbox2").value = gestionProy;
+	
+ 	 if (gestionProy == 1) {
+ 		 $("input[type=checkbox]").eq(0).prop("checked",true);
+ 	} else if (gestionProy == 0) {
+ 		 $("input[type=checkbox]").eq(0).prop("checked",false);
+ 		}
+ 	
+ 	 
+ 	 if (messageFuncionario != null){
+ 		 Swal.fire({
+		        title: 'Información',
+		        text:  messageFuncionario,
+		        icon: 'warning',
+		        confirmButtonText: 'Aceptar',
+		        allowOutsideClick: () => false
+		    })
+ 	 }
+ 	 
+ 	
+	/*]]>*/
+});
+
+</script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

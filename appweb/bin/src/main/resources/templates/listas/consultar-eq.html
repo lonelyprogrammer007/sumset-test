@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Equipamientos</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/sweetalert2.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.css}">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+</head>
+<body>
+
+	<header th:replace="/home:: header"></header>
+
+
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administracion funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administrar
+				listas compuestas</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+
+		<div class="abs-center">
+			<span>Equipamientos</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div align="Left">
+			<button type="button" class="boton-agregar"
+				th:onClick="crearEquipamiento()">
+				<i class="fa fa-plus-circle"></i> Agregar
+			</button>
+		</div>
+		<br>
+		<div class="table-responsive">
+			<table id="dtabla" class="table-striped">
+				<thead>
+					<tr class="color">
+						<th>Código</th>
+						<th>Nombre equipamiento</th>
+						<th>Descripción</th>
+						<th>Sector</th>
+						<th>Categoria</th>
+						<th>Estado</th>
+						<th><div class="subir">Acciones</div></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="lista: ${equipamientos}">
+						<td class="azul" th:text="${lista.idEquipamiento}" />
+						<td class="azul" th:text="${lista.nombre}" />
+						<td class="azul" th:text="${lista.descripcion}" />
+						<td class="azul" th:text="${lista.nombreSector}" />
+						<td class="azul" th:text="${lista.nombreCategoria}" />
+						<td class="azul"><span th:if="${lista.estado == 1}">Activo</span>
+							<span th:if="${lista.estado == 0 }">Inactivo</span></td>
+						<td class="azul"><a
+							th:attr="onclick=|editarEquipamiento('${lista.idEquipamiento}','${lista.nombre}',
+                                    '${lista.descripcion}','${lista.idLsSector}','${lista.idLsCategoria}')|"><img
+							   class="editar" th:src="@{/img/icono-1-azul.png}"></a> <a
+							th:attr="onclick=|editarEstado('${lista.idEquipamiento}','cambiar_estado_equipamiento')|">
+								<i th:if="${lista.estado == 1}" class="fa fa-eye"></i> <i
+								th:if="${lista.estado == 0}" class="fa fa-eye-slash"></i>
+						</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div align="right">
+			<a th:href="@{/consultar_lista_compuesta}"><button type="button"
+					class="boton-regresar">
+					<i class="fa fa-arrow-left" id="volver"></i>Volver
+				</button></a>
+		</div>
+	</div>
+
+
+
+	<br>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+	<div th:include="listas/modal-editar-eq.html"></div>
+	<div th:include="listas/modal-agregar-eq.html"></div>
+
+</body>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-submenu a.test').on("click", function(e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+	});
+</script>
+<script type="text/javascript">
+	function crearEquipamiento() {
+		$('#crearEquipamientoModal').modal('show');
+	}
+	function editarEquipamiento(id, nombre, descripcion, sector, categoria) {
+		$('#editarEquipamientoModal').modal('show');
+		$('#idEquipamiento').text($('#idEquipamiento').val(id));
+		$('#nombre').text($('#nombre').val(nombre));
+		$('#descripcion').text($('#descripcion').val(descripcion));
+		document.getElementById("idLsSector").value = sector;
+		document.getElementById("idLsCategoria").value = categoria;
+
+	}
+</script>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

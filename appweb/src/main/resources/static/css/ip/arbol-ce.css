@@ -1,0 +1,117 @@
+@font-face {
+	font-family: "Apex new bold";
+	src: url(../font/ufonts.com_apexnew-bold-opentype.otf);
+}
+
+@font-face {
+	font-family: "Apex new book";
+	src: url(../font/ufonts.com_apexnew-book-opentype.otf);
+}
+
+@font-face {
+	font-family: "Apex new bold italic";
+	src: url(../font/Apex-New-Bold-Italic.otf);
+}
+
+
+.form-containerIp {
+	margin-top: -10px;
+	margin-left: 30px;
+	margin-right: 30px;
+	padding-top: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+	box-shadow: 0px 3px 6px #0000005C;
+	border-radius: 15px;
+	opacity: 1;
+}
+.form-container2 {
+	margin-top:-2px;
+	padding-top: 5px;
+	padding-bottom:20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+	border-radius: 15px;
+	opacity: 1;
+}
+.arbol {
+	height: 900px;
+	border-radius: 0px 0px 0px 14px;
+	background: #F2F2F2;
+	overflow-y: scroll;
+	margin-left: -24px;
+}
+.texto-ip {
+	padding-top: 10px;
+	font-family: Apex new medium;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+}
+.edit-com {
+	width: 18px;
+	margin-left: 10px;
+}
+.eliminar-com {
+	width: 18px;
+	
+}
+
+.titulo {
+	font-family: Apex new bold;
+	font-size: 12px;
+	letter-spacing: 0;
+	margin-left:-20px;
+	color: #00529C;
+}
+.titulo2{
+	font-family: Apex new book;
+	font-size: 12px;
+	letter-spacing: 0;
+
+}
+.titulo2-rojo{
+	font-family: Apex new bold;
+	font-size: 12px;
+	letter-spacing: 0;
+	color:red;
+}
+#disenioPdd {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	margin-left:-50px;
+	height: 35px;
+	font-size: 12px;
+}
+#idLsGenero {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	box-shadow: 0px 3px 6px #00000040;
+	height: 35px;
+	font-size: 12px;
+}
+#disenioInput {
+	border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	margin-left:-50px;
+	font-size: 12px;
+}
+#pilar{
+    box-shadow: 0px 3px 6px #00000040;
+    border: 1px solid #00529C;
+    border-radius: 10px;
+    height: 35px;
+}
+#editPilar {	
+    border: 1px solid #00529C;
+	border-radius: 9px;
+	opacity: 1;
+	height: 35px;
+	font-size: 12px;
+}

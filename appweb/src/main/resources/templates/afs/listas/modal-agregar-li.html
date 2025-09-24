@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Agregar Linea de inversion</title>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<style>
+body {
+	font-family: "Roboto", sans-serif;
+}
+
+.select-wrapper {
+	margin: auto;
+	max-width: 600px;
+	width: calc(100% - 40px);
+}
+
+.select-pure__select {
+	align-items: center;
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+	box-shadow: 0px 3px 6px #00000040;
+	border-radius: 10px;
+	border: 1px solid #00529C;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	color: #363B3E;
+	cursor: pointer;
+	display: flex;
+	font-size: 16px;
+	font-weight: 500;
+	justify-content: left;
+	min-height: 44px;
+	padding: 5px 10px;
+	position: relative;
+	transition: 0.2s;
+	width: 100%;
+}
+
+.select-pure__options {
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	color: #363B3E;
+	display: none;
+	left: 0;
+	max-height: 221px;
+	overflow-y: scroll;
+	position: absolute;
+	top: 50px;
+	width: 100%;
+	z-index: 5;
+}
+
+.select-pure__select--opened .select-pure__options {
+	display: block;
+}
+
+.select-pure__option {
+	background: #fff;
+	border-bottom: 1px solid #E4E4E4;
+	box-sizing: border-box;
+	height: 44px;
+	line-height: 25px;
+	padding: 10px;
+}
+
+.select-pure__option--selected {
+	color: #E4E4E4;
+	cursor: initial;
+	pointer-events: none;
+}
+
+.select-pure__option--hidden {
+	display: none;
+}
+
+.select-pure__selected-label {
+	align-items: 'center';
+	background: #5E6264;
+	border-radius: 4px;
+	color: #fff;
+	cursor: initial;
+	display: inline-flex;
+	justify-content: 'center';
+	margin: 5px 10px 5px 0;
+	padding: 3px 7px;
+}
+
+.select-pure__selected-label:last-of-type {
+	margin-right: 0;
+}
+
+.select-pure__selected-label i {
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 7px;
+}
+
+.select-pure__selected-label img {
+	cursor: pointer;
+	display: inline-block;
+	height: 18px;
+	margin-left: 7px;
+	width: 14px;
+}
+
+.select-pure__selected-label i:hover {
+	color: #E4E4E4;
+}
+
+.select-pure__autocomplete {
+	background: #F9F9F8;
+	border-bottom: 1px solid #E4E4E4;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	box-sizing: border-box;
+	font-size: 16px;
+	outline: none;
+	padding: 10px;
+	width: 100%;
+}
+
+.select-pure__placeholder--hidden {
+	display: none;
+}
+</style>
+<div class="modal fade" id="agregarLineaInversionModal" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}"
+							alt="icono segplan">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="titulo">Crear línea de inversión</span>
+					</div>
+				</div>
+
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" class="formLinea" th:object="${lineaInversion}"
+						th:action="@{crear_linea_inversion}" method="post">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Descripción linea de inversión:*</label>
+								</div>
+								<input class="form-control required" name="descripcion"
+									id="descripcionLinea" type="text" maxlength="100">
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="codigo_comp">Concepto:*</label>
+								</div>
+								<input class="form-control required" name="concepto"
+									id="conceptoLinea" type="text" maxlength="100">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="codigo_comp">Establecido mediante:*</label>
+								</div>
+								<input class="form-control required" name="establecido"
+									id="establecidoLinea" type="text" maxlength="50">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="codigo_comp">Fecha Incorporación:*</label>
+								</div>
+								<input class="form-control required" name="fecha"
+									id="fechaLinea" type="date">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="exampleFormControlSelect1">Sector:*</label>
+								</div>
+								<span class="multi-select" id="sect"></span> <input
+									type="hidden" id="concatena" name="sectorMultiple"
+									class="required">
+							</div>
+						</div>
+
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="resultado">Estado:</label>
+								</div>
+								<input type="checkbox" id="estado" checked="checked" disabled>
+								<label for="resultado">Activo</label>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+							<button type="submit" class="myFormButton" name="save"
+								id="boton-modal">
+								<img src="css/img/icono-guardar.png" class="guardar" alt="Icono guardar">Guardar
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script th:inline="javascript">
+var sectores ="";
+var resultado = "";
+var concatenar = "";
+$(document).ready(function() {
+	/*<![CDATA[*/
+	var sectores = /*[[${sectores}]]*/;		
+	var ddSectores = [];
+	var option;
+	var argumento;
+	 for (var i = 0; i < sectores.length; i++){
+		    option = sectores[i].resultado;
+		    argumento = sectores[i].idArgumento;
+		    arg = argumento.toString();
+		    
+		  var myOptions =
+		        {
+			 label: option,
+			 value: arg
+				}		
+		  ddSectores.push(myOptions);
+	 }
+var multi = new SelectPure(".multi-select", {
+    options: ddSectores,
+    multiple: true,
+    icon: "fa fa-times",
+    placeholder: "-Seleccione un sector-",
+    onChange: value => { console.log(value);
+    verSectores(value);
+    },
+    classNames: {
+      select: "select-pure__select",
+      dropdownShown: "select-pure__select--opened",
+      multiselect: "select-pure__select--multiple",
+      label: "select-pure__label",
+      placeholder: "select-pure__placeholder",
+      dropdown: "select-pure__options",
+      option: "select-pure__option",
+      autocompleteInput: "select-pure__autocomplete",
+      selectedLabel: "select-pure__selected-label",
+      selectedOption: "select-pure__option--selected",
+      placeholderHidden: "select-pure__placeholder--hidden",
+      optionHidden: "select-pure__option--hidden",
+    }
+  });
+  
+$('.formLinea').submit(function(e){
+	
+	var variables = $('.required');
+	
+	var contador = variables.length;
+	for (var i = 0; i < variables.length; i++) {
+		if($(variables[i]).val()=='' || $(variables[i]).val()==undefined){
+			$(variables[i]).addClass('requerido');
+			contador = contador-1;
+		}else{
+			$(variables[i]).removeClass('requerido');
+		}
+	}
+	if(contador!=variables.length){
+		e.preventDefault();
+		  Swal.fire({
+		        title: 'Información',
+		        text: "Existen campos obligatorios que no se han registrado",
+		        icon: 'warning',
+		        confirmButtonText: 'Aceptar',
+		        allowOutsideClick: () => false
+		    })
+	}
+	
+});
+  
+});
+/*]]>*/	
+   function verSectores(sector){
+	   if (sector.length == 0){
+		   concatenar = "";
+		   document.getElementById("concatena").value = concatenar;
+	   }
+	   console.log(sector);
+	   concatenar = "";
+	   for (var i = 0; i < sector.length; i++){
+		   auxi = sector[i];
+		   
+		   concatenar += auxi +";";
+		   document.getElementById("concatena").value = concatenar;
+	   }
+	 
+      
+   }
+</script>
+<script type="text/javascript" th:src="@{/js/dist/bundle.min.js}"></script>

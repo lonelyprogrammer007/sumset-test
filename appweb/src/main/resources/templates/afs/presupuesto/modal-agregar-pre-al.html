@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<div class="modal fade" id="agregarPresupuestoAL" tabindex="-1"
+	role="dialog" aria-labelledby="exampleModalCenterTitle"
+	aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-5 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}"
+							alt="icono seg">
+					</div>
+					<div class="col-7 col-sm-7 col-md-7 col-lg-7">
+						<span class="tituloPresupuesto">Agregar información
+							presupuestal entidades y AL</span>
+					</div>
+				</div>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+
+					<form th:object="${presupuesto}" name="crearAl"
+						th:action="@{/crear_info_presupuestal}" method="post">
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Plan de desarrollo:</label>
+								</div>
+								<input type="text" class="form-control" id="idTxtPlan"
+									readonly="readonly">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código distrital</label>
+								</div>
+								<input type="text" class="form-control" id="codigoDistr"
+									readonly="readonly" name="codigoDistrital" maxlength="4">
+							</div>
+						</div>
+
+						<div class="form-row">
+							<input type="hidden" id="idPlanDesa" name="idPlanDesarrollo">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Año:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									required="required" name="year" maxlength="4" min="1" step="12"
+									onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Mes:</label>
+								</div>
+
+								<input type="text" class="form-control" id="txtETematica"
+									required="required" name="mes" maxlength="2"
+									onkeypress='return validacionMesCrearAl(event)'>
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código clasificación
+										presupuestal:</label>
+								</div>
+								<input type="text" class="form-control" id="idEALClasificacionPresupuestal"
+									maxlength="21" required="required"
+									name="codigoClasificacionPresupuestal">
+							</div>
+
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código del plan de nivel 1</label>
+								</div>
+								<input type="text" class="form-control" id="nivel1AL"
+									readonly="readonly" name="codigoN1Aux">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código del plan de nivel 2 </label>
+								</div>
+								<input type="text" class="form-control" id="nivel2AL"
+									readonly="readonly" name="codigoN2Aux">
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código del plan de nivel 3</label>
+								</div>
+								<input type="text" class="form-control" id="nivel3AL"
+									readonly="readonly" name="codigoN3Aux">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Giros vigencia</label>
+								</div>
+								<input type="text" class="form-control" readonly="readonly"
+									id="txtETematica" value="0" name="girosVigencia" maxlength="15">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código proyecto:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									required="required" name="codigoProyecto" maxlength="6"
+									onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Recursos suspendidos:</label>
+								</div>
+								<input type="text" class="form-control" readonly="readonly"
+									id="txtETematica" value="0" name="recursosSuspendidos"
+									maxlength="15">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Código interno:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									required="required" name="codigoInterno" maxlength="6"
+									onkeypress='return event.charCode >= 48 && event.charCode <= 57'>
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Constitución reservas(CxP):</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									maxlength="15" readonly="readonly" value="0"
+									name="constitucionReserva">
+							</div>
+						</div>
+
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Nombre proyecto:</label>
+								</div>
+								<input type="text" class="form-control" maxlength="500"
+									id="txtETematica" required="required" name="nombreProyecto">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Apropiación reservas(CxP):</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									maxlength="15" readonly="readonly" value="0"
+									name="apropiacionReserva">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="tipoIdent">Apropiación definitiva:</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									maxlength="15" readonly="readonly" value="0"
+									name="apropiacionDefinitiva">
+							</div>
+							<div class="form-group col-md-6">
+								<div class="texto">
+									<label for="identif">Ejecución giro reservas(CxP):</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									maxlength="15" readonly="readonly" value="0"
+									name="ejecucionGiroReservas">
+							</div>
+						</div>
+						<div class="form-row">
+							<div class="form-group col-md-6">
+
+								<div class="texto">
+									<label for="identif">Ejecución vigencia (Compromisos):</label>
+								</div>
+								<input type="text" class="form-control" id="txtETematica"
+									maxlength="15" readonly="readonly" value="0"
+									name="ejecucionVigencia">
+
+							</div>
+						</div>
+						<br>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a> <span>&nbsp;&nbsp;</span>
+
+							<button type="submit" class="myFormButton" name="save"
+								id="boton-modal">
+								<img src="css/img/icono-guardar.png" class="guardar"
+									alt="icono guardar">Guardar
+							</button>
+						</div>
+					</form>
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	
+	$('#idEALClasificacionPresupuestal').change(function() {
+		codigo = $(this).val();
+		var nivel1 = "";
+		var nivel2 = "";
+		var nivel3 = "";
+	
+		for (var i =0; i< codigo.length; i++){
+			if (i == 7 || i == 8){
+				nivel1  += codigo.charAt(i);
+			}
+			if (i == 9 || i == 10){
+				nivel2 += codigo.charAt(i);
+			}
+			if (i == 11 || i == 12 || i== 13 || i == 14){
+				nivel3 += codigo.charAt(i);
+			}
+		
+		}
+		document.getElementById("nivel1AL").value = nivel1;
+		document.getElementById("nivel2AL").value = nivel2;
+		document.getElementById("nivel3AL").value = nivel3;
+		
+
+
+	});
+});
+function validacionMesCrearAl(event){
+	var key = event.which || event.keyCode;
+	var mes = parseInt(crearAl.mes.value + String.fromCharCode(key));
+
+	if (isNaN(mes) === true || mes < 1 ||  mes > 12) {
+		    return false;
+		  }
+		  return true;
+}
+</script>

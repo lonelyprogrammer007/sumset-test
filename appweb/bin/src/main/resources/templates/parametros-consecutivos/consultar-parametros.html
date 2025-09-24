@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Administrar parametros</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/css/sweetalert2.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.css}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+
+</head>
+<body>
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administracion funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administrar
+				parámetros</li>
+		</ul>
+	</nav>
+
+
+	<div class="form-container3">
+
+		<div class="abs-center">
+			<span>Administrar parámetros</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+
+		<div class="table-responsive">
+			<table class="table-striped" id="dtabla">
+				<thead>
+					<tr class="color">
+						<th>Código</th>
+						<th>Nombres</th>
+						<th>Descripcion</th>
+						<th>Argumento</th>
+						<th><div class="subir">Acciones</div></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="parametro: ${parametroList}">
+						<td class="azul" th:text="${parametro.codigoParametro}" />
+						<td class="azul" th:text="${parametro.nombre}" />
+						<td class="azul" th:text="${parametro.descripcion}" />
+						<td class="azul" th:text="${parametro.argumento}" />
+						<td class="azul"><div align="center">
+								<a
+									th:attr="onclick=|editarParametro('${parametro.codigoParametro}','${parametro.fechaCreacion}',
+                                        '${parametro.fechaModificacion}','${parametro.usuarioCreacion}','${parametro.usuarioModificacion}',
+                                        '${parametro.nombre}','${parametro.descripcion}','${parametro.argumento}')|"><img
+									th:src="@{/img/icono-1-azul.png}" class="editar"></a>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="hr1"></div>
+	</div>
+	<br>
+
+
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<div th:include="parametros-consecutivos/modal-editar-parametro.html"></div>
+<script type="text/javascript">
+	function editarParametro(id, fechaCr, fechaFin, usuarioC, usuarioM, nombre,
+			descripcion, argumento) {
+		$('#editarParametroModal').modal('show');
+		$('#codigoParametro').text($('#codigoParametro').val(id));
+		$('#fechaCreacion').text($('#fechaCreacion').val(fechaCr));
+		$('#fechaModificacion').text($('#fechaModificacion').val(fechaFin));
+		$('#usuarioCreacion').text($('#usuarioCreacion').val(usuarioC));
+		$('#usuarioModificacion').text($('#usuarioModificacion').val(usuarioM));
+		$('#nombre').text($('#nombre').val(nombre));
+		$('#descripcion').text($('#descripcion').val(descripcion));
+		$('#argumento').text($('#argumento').val(argumento));
+	}
+</script>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-submenu a.test').on("click", function(e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+	});
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

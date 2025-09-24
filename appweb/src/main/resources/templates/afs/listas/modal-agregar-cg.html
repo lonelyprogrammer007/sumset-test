@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Agregar componente gasto</title>
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<div class="modal fade" id="crearCGModal" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}" alt="Icono segplan">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="titulo">Crear componente gasto</span>
+					</div>
+				</div>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					<form id="form" class="formGasto " th:object="${componenteGasto}"
+						method="post" th:action="@{crear_componente_gasto}">
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="codigo_comp">Código componente:*</label>
+								</div>
+								<input class="form-control required" id="codigoComponenteCg"
+									name="codigoComponente" type="text" maxlength="5"
+									
+									onkeypress='return event.charCode >= 48 && event.charCode <= 57' />
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="nombre_componente">Nombre componente:*</label>
+								</div>
+								<input class="form-control required" 
+									 id="nombreComponenteCg"
+									name="nombreComponente" type="text" maxlength="100">
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="periodo">Tipo proyecto:*</label>
+								</div>
+								<select style="width: 100% !important" name="idLsTipoProyecto"
+									id="idLsTipoProyectoCg" class="form-control required js-example-basic-single">
+									<option value=""></option>
+									<option th:each="lista : ${tipoProyecto}"
+										th:value="${lista.idArgumento}" th:text="${lista.resultado}"></option>
+								</select>
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="resultado">Estado:</label>
+								</div>
+								<input type="checkbox" id="estado" checked="checked"
+									disabled="disabled"> <label for="resultado">Activo</label>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+							<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a> <span>&nbsp;&nbsp;</span>
+							<button type="submit" class="myFormButton" name="save"
+								id="boton-modal"><img src="css/img/icono-guardar.png" class="guardar" alt="Icono guardar">Guardar</button>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.js-example-basic-single').select2({
+			  minimumResultsForSearch: Infinity
+		});
+		 $('.formGasto').submit(function(e){
+	        	
+				var variables = $('.required');
+				
+				var contador = variables.length;
+				for (var i = 0; i < variables.length; i++) {
+					if($(variables[i]).val()=='' || $(variables[i]).val()==undefined){
+						$(variables[i]).addClass('requerido');
+						contador = contador-1;
+					}else{
+						$(variables[i]).removeClass('requerido');
+					}
+				}
+				if(contador!=variables.length){
+					e.preventDefault();
+					  Swal.fire({
+					        title: 'Información',
+					        text: "Existen campos obligatorios que no se han registrado",
+					        icon: 'warning',
+					        confirmButtonText: 'Aceptar',
+					        allowOutsideClick: () => false
+					    })
+				}
+				
+			});
+	})
+</script> 

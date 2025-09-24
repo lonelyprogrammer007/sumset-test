@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<form id="agregarValoracionAntes" th:object="${pddPrbValoracion}">
+<div class="row" >
+
+		<div class="col-sm-3">
+			<div class="texto">
+				<label for="periodo">G.Gravedad</label>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="texto">
+				<label for="periodo">D.Duración</label>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="texto">
+				<label for="periodo">Ip.impacto</label>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<div class="texto">
+				<label for="periodo">Di.Debilidad Institucional</label>
+			</div>
+		</div>
+	</div>
+	<input type="hidden" name="momento" value="1">
+	<input type="hidden" name="idProblematica" id="idProblematicaAntes">
+	<input type="hidden" name="idCompetenciaAsociada1" id="idLsCompetencia1">
+	<input type="hidden" name="idCompetenciaAsociada2" id="idLsCompetencia2">
+	<input type="hidden" name="balanceInicial" id="balanceInicial">
+	<input type="hidden" name="idValoracion" id="idValoracionAntes">
+	<div class="row antes">
+		<div class="col-sm-3">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single contador requeridoAntes" name="gravedad" id="gravedadAntes">
+				<option value="0">Seleccione Una opcion</option>
+				<option value="3">Alto</option>
+				<option value="2">Medio</option>
+				<option value="1">Bajo</option>
+			</select>
+		</div>
+		<div class="col-sm-3">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single contador requeridoAntes" name="duracion" id="duracionAntes">
+				<option value="0">Seleccione Una opcion</option>
+				<option value="3">Alto</option>
+				<option value="2">Medio</option>
+				<option value="1">Bajo</option>
+			</select>
+		</div>
+		<div class="col-sm-3">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single contador requeridoAntes" name="impacto" id="impactoActes">
+				<option value="0">Seleccione Una opcion</option>
+				<option value="3">Alto</option>
+				<option value="2">Medio</option>
+				<option value="1">Bajo</option>
+			</select>
+		</div>
+		<div class="col-sm-3">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single contador requeridoAntes" name="debilidad" id="debilidadAntes">
+				<option value="0">Seleccione Una opcion</option>
+				<option value="3">Alto</option>
+				<option value="2">Medio</option>
+				<option value="1">Bajo</option>
+			</select>
+		</div>
+	</div>
+<div class="row mt-2">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Balance Inicial</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<input type="text" class="form-control disenioInput" name="balanceInicialTxt" id="balanceInicialTxt"
+				readonly="readonly">
+		</div>
+	</div>
+	<div class="row mt-2">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Observaciones</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<textarea rows="" cols="" class="form-control caja requeridoAntes" maxlength="1500"
+				placeholder="Longitud 1500" name="observaciones" id="observacionesAntes"></textarea>
+		</div>
+	</div>
+	<div class="abs-center mt-2 " style="font-size: 20px">
+		<span><b>Componentes asociados a las competencias
+				sectoriales </b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Sector</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single requeridoAntes" name="idLsSector" id="sectorAntes">
+				<option value="">Seleccione Una opcion</option>
+				<option th:each="sector :${sectores}" th:value="${sector.idArgumento}"
+				th:text="${sector.resultado}"> 
+			</select>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Competencias Asociadas</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-multiple-limit requeridoAntes" multiple="multiple" name="idCompentenciasAntes" id="idCompetenciaAntes">
+				<option value = "">Seleccione Una opcion</option>
+			</select>
+		</div>
+	</div>
+	<div class="row mt-3">
+		<div class="col-sm-12">
+			<div class="texto">
+				<label for="periodo">Dimensión del desarrollo asociada</label>
+			</div>
+		</div>
+		<div class="col-sm-12">
+			<select style="width: 100% !important"
+				class="form-control js-example-basic-single requeridoAntes" name="idLsDimension" id="idLsDimensionAntes">
+				<option value="">Seleccione Una opcion</option>
+				<option th:each="dimension: ${dimensiones}" th:value="${dimension.idArgumento}" 
+				th:text="${dimension.resultado}">
+			</select>
+		</div>
+	</div>
+	<div align="right" class="mt-3">
+			<button type="submit"
+					class="boton-regresar">
+					<i class="fa fa-save" id="volver"></i>Guardar
+				</button>
+		</div>
+	</form>
+</body>
+<script th:inline="javascript">
+
+$(document).ready(function () {
+	/*<![CDATA[*/
+	
+	var sectores = /*[[${competencias}]]*/;
+	$('#sectorAntes').change(function() {
+		var valor = $(this).val()
+		var listaCompetencias = /*[[${competencias}]]*/;
+		var select = document.getElementById("idCompetenciaAntes");
+		 select.innerHTML = '<option value="">Seleccione una opcion</option>'
+			 $('#idCompetenciaAntes').val(null).trigger("change");
+		    $('#idCompetenciaAntes').empty();
+		for (var i = 0; i < listaCompetencias.length; i++) {
+			if(listaCompetencias[i].idLsSector==valor){
+				let opcion = document.createElement('option')
+        		
+       		 opcion.value = listaCompetencias[i].idCompetencia;
+       		 opcion.text = listaCompetencias[i].nombreCompetencia;
+       	     select.add(opcion);
+			}
+		}
+	})
+		/*]]>*/
+	$(".js-example-basic-multiple-limit").select2({
+  maximumSelectionLength: 2
+  
+});
+		$('.contador').change(function() {
+			var contador = $('.contador');
+			
+			var total = 0;
+			for (var i = 0; i < contador.length; i++) {
+				total+=parseInt($(contador[i]).val());
+			}
+			var texto = ''
+			var promedio = parseInt(total/4);
+			
+			if(promedio==1){
+				$('#balanceInicialTxt').val('Problema bajo control');
+			}else if(promedio==2){
+				$('#balanceInicialTxt').val('Problema grave');
+			}else if (promedio==3){
+				$('#balanceInicialTxt').val('Problema muy grave');
+			}
+			$('#balanceInicial').val(promedio);
+		})
+		$(document).on('submit','#agregarValoracionAntes',function(e) {
+			var competencias = $('#idCompetenciaAntes').val();
+			console.log(competencias.length);
+			if(competencias.length<=1){
+				
+				$('#idLsCompetencia1').val(competencias[0]);
+				$('#idLsCompetencia2').val('');
+			}else{
+				
+				$('#idLsCompetencia1').val(competencias[0]);
+				$('#idLsCompetencia2').val(competencias[1]);
+			}
+			e.preventDefault();
+			 var data = $(this).serialize();
+		     var mensajeRespuesta = "";
+		     var data = $(this).serialize();
+		     var mensajeRespuesta = "";
+		     var array = $('.requeridoAntes');
+				var bandera = false;
+				for (var i = 0; i < array.length; i++) {
+					if($(array[i]).val()==="" || $(array[i]).val===undefined || $(array[i]).val()==="0"){
+						$(array[i]).addClass('vacio');
+						
+						bandera = true;
+					}else{
+						$(array[i]).removeClass('vacio');
+					}
+				}
+				if(bandera){
+					Swal.fire({
+				        title: 'Información',
+				        text: "Existen campos obligatorios que no se han registrado",
+				        icon: 'info',
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+				  })
+				  
+				}else{
+					
+				
+			$.ajax({
+		         type: 'POST',
+		         url: '/Segplan/'+'crear-prb-valoracion',
+		         data: data,
+		         beforeSend: function () {
+		             Swal.fire({
+		                 title: 'Cargando...',
+		                 position: 'top',
+		                 allowOutsideClick: () => !Swal.isLoading(),
+		                 onBeforeOpen: () => {
+		                     Swal.showLoading();
+		                 }
+		             });
+		         },
+
+		         success: function (data) {
+		             Swal.close();
+		             
+		             mensajeRespuesta = data.msgRespuesta;
+		           console.log(data);
+		           
+		         },
+		         error:
+		                 function () {
+		                     Swal.close();
+
+		                 },
+		                 
+		         complete: function () {
+		                     Swal.close();
+		                   
+		                     Swal.fire({
+		 	 			        title:"¡Información!",
+		 	 				    text: mensajeRespuesta,
+		 	 			        icon: "warning",
+		 	 			        confirmButtonText: 'Aceptar',
+		 	 			        allowOutsideClick: () => false
+		 	 		       })
+
+		                 }
+		          });
+				}
+			
+		})
+})
+</script>
+</html>

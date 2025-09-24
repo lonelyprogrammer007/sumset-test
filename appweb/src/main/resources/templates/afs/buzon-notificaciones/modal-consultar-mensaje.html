@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<div class="modal fade" id="modalResBuzonConsultar" tabindex="-1" role="dialog"
+	aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg2">
+				<div class="row">
+					<div class="col-5 col-sm-3 col-md-5 col-lg-5">
+						<img id="logo-segPlan" th:src="@{/css/img/icono-seg.png}" alt="icono segplan">
+					</div>
+					<div class="col-7 col-sm-3 col-md-7 col-lg-7">
+						<span class="tituloPot">Procesamiento de alertas</span>
+					</div>
+				</div>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-container2">
+					
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="resultado">Asunto:</label>
+								</div>
+								<input class="form-control" name="asunto" id="asuntoConsultar" disabled
+									required="required" type="text"> <input
+									class="form-control" name="idNotificacion" id="idNotificacion"
+									type="hidden">
+
+
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-15">
+							<div class="form-group">
+								<div class="texto">
+									<label for="resultado">Acción requerida:</label>
+								</div>
+								<textarea class="form-control caja" rows="" cols="" id="mensajeConsultar" disabled="disabled"></textarea>
+								
+
+							</div>
+						</div>
+						<input type="hidden" id="mensaje" name="mensaje">
+						
+						<div class="col-md-12">
+							<div class="hr"></div>
+						</div>
+						<br>
+						<div class="float-right">
+							
+
+							<button type="button" class="btn-modal-cerrar" id="btn-modal">&nbsp;&nbsp;Aceptar&nbsp;&nbsp;</button>
+
+
+						</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

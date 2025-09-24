@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Consultar archivos planos</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/archivo-plano.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/jquery.dataTables.css}">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+</head>
+<body>
+
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administración funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Cargar
+				archivos planos</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Consulta de archivos planos</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div align="Left">
+			<a th:href="@{/cargar-archivos}">
+				<button type="button" class="boton-agregar">
+					<i class="fa fa-plus-circle"></i> Agregar
+				</button>
+			</a>
+		</div>
+		<br>
+				<div class="table-responsive">
+					<table id="dtabla" class="table-striped">
+						<thead>
+							<tr class="color">
+								<th>Código</th>
+								<th>Modulo</th>
+								<th>Tema</th>
+								<th>Nombre archivo</th>
+								<th><div class="subir">Acciones</div></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="azul"></td>
+								<td class="azul"></td>
+								<td class="azul"></td>
+								<td class="azul"></td>
+								<td class="azul"><div align="center">
+										<a th:href="@{cargar-archivos-1}"><i class="fa fa-search"></i></a>
+									</div></td>
+
+
+							</tr>
+							<tr>
+								<td class="amarillo"></td>
+								<td class="amarillo"></td>
+								<td class="amarillo"></td>
+								<td class="amarillo"></td>
+								<td class="amarillo"><div align="center">
+										<a href=""><i class="fa fa-search"></i></a>
+									</div></td>
+
+							</tr>
+							<tr>
+								<td class="azul"></td>
+								<td class="azul"></td>
+								<td class="azul"></td>
+								<td class="azul"></td>
+								<td class="azul"><div align="center">
+										<a href=""><i class="fa fa-search"></i></a>
+									</div></td>
+						</tbody>
+					</table>
+
+				</div>
+				<br>
+				<div class="hr1"></div>
+			</div>
+			<br>
+		
+	<br>
+	<br>
+
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-submenu a.test').on("click", function(e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+	});
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+
+</body>
+</html>

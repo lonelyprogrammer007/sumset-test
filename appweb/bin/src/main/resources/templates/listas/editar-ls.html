@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Editar lista simple</title>
+
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bootstrap.min.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/jquery.dataTables.css}">
+<link rel="stylesheet" th:href="@{/css/sweetalert2.css}">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" th:src="@{/js/src/sweetalert2.js}"></script>
+<script type="text/javascript" th:inline="javascript" th:src="@{/js/nhspdd/gestion-listas.js}"></script>
+</head>
+<header th:replace="/home:: header"></header>
+<body>
+
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">Administracion funcional</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administrar
+				listas simples</li>
+		</ul>
+	</nav>
+
+
+	<div class="form-container3">
+
+		<div class="form-group">
+			<label for="nombre" class="nombre-ls">Nombre</label> <input type="text"
+				class="form-control" id="nombre" th:field="${listaSimple.nombre}"
+				disabled>
+		</div>
+		<div class="abs-center">
+			<span>Argumentos y resultados</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div align="Left">
+			<button type="button" class="boton-agregar-argu"
+				th:attr="onclick=|crearArgumento('${listaSimple.idListaSimple}')|">
+				<i class="fa fa-plus-circle"></i> Agregar
+			</button>
+		</div>
+		<br>
+		<div class="table-responsive">
+			<form id="form3" name="form3" method="get">
+				<table id="dtabla" class="table-striped">
+					<thead>
+						<tr class="color">
+							<th>Código</th>
+							<th>Argumento</th>
+							<th>Resultado</th>
+							<th>Estado</th>
+							<th><div class="subir">Acciones</div></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="lista: ${argumentos}">
+							<td class="azul" th:text="${lista.idArgumento}" />
+							<td class="azul" th:text="${lista.argumento}" />
+							<td class="azul" th:text="${lista.resultado}" />
+							<td class="azul"><span th:if="${lista.estado == 1}">Activo</span>
+								<span th:if="${lista.estado == 0 }">Inactivo</span></td>
+							<td class="azul"><a
+								th:attr="onclick=|editarArgumento('${lista.idArgumento}','${lista.argumento}',
+                                        '${lista.resultado}','${listaSimple.idListaSimple}', '${listaSimple.idListaSimple}')|"><img
+									class="editar" th:src="@{/img/icono-1-azul.png}"></a><a
+								th:attr="onclick=|editarEstado('${lista.idArgumento}','${lista.idListaSimple}','editar_estado_argumento','ls')|">
+									<i th:if="${lista.estado == 1}" class="fa fa-eye"></i> <i
+									th:if="${lista.estado == 0}" class="fa fa-eye-slash"></i>
+							</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+		<br>
+	</div>
+	<br>
+
+	<footer th:replace="/home:: footer"></footer>
+	<div th:include="listas/modal-argumentos-resultados.html"></div>
+	<div th:include="listas/modal-argumentos-resultados-crear.html"></div>
+
+</body>
+<script>
+	$(document).ready(function() {
+		$('.dropdown-submenu a.test').on("click", function(e) {
+			$(this).next('ul').toggle();
+			e.stopPropagation();
+			e.preventDefault();
+		});
+	});
+</script>
+<script type="text/javascript">
+	function editarArgumento(id, argumento, resultado, idLista) {
+		$('#editarArgumentoModal').modal('show');
+		$('#idArgumento').text($('#idArgumento').val(id));
+		$('#argumento').text($('#argumento').val(argumento));
+		$('#resultado').text($('#resultado').val(resultado));
+		$('#idListaSimple').text($('#idListaSimple').val(idLista));
+	}
+</script>
+<script type="text/javascript">
+	function crearArgumento(id) {
+		$('#crearArgumentoModal').modal('show');
+		$('#idLista').text($('#idLista').val(id));
+	}
+</script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

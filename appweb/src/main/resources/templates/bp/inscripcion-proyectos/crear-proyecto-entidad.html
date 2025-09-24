@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="/header :: headFragment">
+	<meta charset="UTF-8">
+
+	<title id="pageTitle">Inscripción Proyecto</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/bp/taps-proyectos.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/modal/modal.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-consultar-ls.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link th:href="@{/css/modal/select2.css}" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js%22%3E"></script>
+
+<body>
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>
+				Banco distrital de programas y proyectos</li>
+			<li class="breadcrumb-item" aria-current="page">Ficha EBI</li>
+			<li class="breadcrumb-item" aria-current="page"><a th:href="@{/consultar-proyecto-entidad/1}">Consultar
+					inscripción de proyectos</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consultar proyecto</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+		<input type="text" th:value="${codigoEntidadUsuario}">
+		<div class="row mt-2">
+			<div class="col-sm-2">
+				<div class="texto-archivo-plano mt-2 input-2">
+					<label>Banco</label>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<<<<<<< HEAD <input type="text" class="form-control" id="inputGenerico" readonly="readonly"
+					th:value="${listaEntidadProy.stringBancoProyecto}">
+					=======
+					<input type="text" class="form-control" id="bancoProyecto" readonly="readonly">
+					>>>>>>> developer
+			</div>
+			<div class="col-sm-1">
+				<div class="texto-archivo-plano mt-2">
+					<label>Entidad</label>
+				</div>
+			</div>
+			<div class="col-sm-2">
+				<<<<<<< HEAD <input type="text" class="form-control" id="inputCodigoDistrital" readonly="readonly"
+					th:value="${listaEntidadProy.codigoEntidad}">
+			</div>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="inputGenerico" readonly="readonly"
+					th:value="${listaEntidadProy.sector}">
+				=======
+				<input type="text" class="form-control" id="inputCodigoDistrital" readonly="readonly">
+			</div>
+			<div class="col-sm-4">
+				<input type="text" class="form-control" id="inputSectorEntidad" readonly="readonly">
+				>>>>>>> developer
+			</div>
+		</div>
+		<div class="row mt-3" id="idSectorProyIn">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano mt-2">
+					<label>Sector</label>
+				</div>
+			</div>
+			<div class="col-sm-10">
+				<<<<<<< HEAD <input type="text" class="form-control" id="inputGenerico" readonly="readonly"
+					th:value="${listaEntidadProy.sector}">
+					=======
+					<input type="text" class="form-control" id="sectorEic" readonly="readonly">
+					>>>>>>> developer
+			</div>
+		</div>
+		<div class="row mt-3" id="idSectorAlEntidad">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano mt-2">
+					<label>Sector</label>
+				</div>
+			</div>
+			<div class="col-sm-10">
+				<<<<<<< HEAD <select class="form-control" id="tipoProyectoInscripcion">
+					<option value="">Selecccione una opción</option>
+					<option th:each="lista : ${listLineaLocal}" th:value="${lista.idArgumento}"
+						th:text="${lista.resultado}" />
+					</select>
+					=======
+					<select class="form-control" id="tipoSectorAlLocal">
+						<option value="">Selecccione una opción</option>
+						<option th:each="lista : ${listLineaLocal}" th:value="${lista.idArgumento}"
+							th:text="${lista.resultado}" />
+					</select>
+					>>>>>>> developer
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano ">Código del Proyecto</div>
+			</div>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="codigoProyectoGenerico" readonly="readonly">
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano ">Nombre del Proyecto</div>
+			</div>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" id="nombreProyGeneral" readonly="readonly">
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-sm-2 ">
+				<div class="texto-archivo-plano mt-2">
+					<b>Codigo BPIN</b>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<input type="text" class="form-control" id="nombreBpinGeneral" readonly="readonly">
+			</div>
+		</div>
+
+		<div id="versiones">
+			<div class="row mt-3">
+				<div class="col-sm-2">
+					<div class="texto-archivo-plano">Versión del proyecto</div>
+				</div>
+				<div class="col-sm-1">
+					<input type="text" readonly="readonly" class="form-control" id="idVersion">
+				</div>
+				<div class="col-sm-1">
+					<div class="texto-archivo-plano">del</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" readonly="readonly" class="form-control" id="idDel">
+				</div>
+				<div class="col-sm-1">
+					<div class="texto-archivo-plano">Inscripción</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" readonly="readonly" class="form-control" id="idInscripcion">
+				</div>
+				<div class="col-sm-1">
+					<div class="texto-archivo-plano">Registro</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" readonly="readonly" class="form-control" id="idRegistro">
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-sm-2">
+
+					<div class="texto-archivo-plano">Etapa</div>
+
+				</div>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" readonly="readonly" id="idEtapa">
+
+				</div>
+				<div class="col-sm-2">
+
+					<div class="texto-archivo-plano">Tipo</div>
+
+				</div>
+				<div class="col-sm-3">
+					<input type="text" class="form-control" readonly="readonly" id="idTipo">
+
+				</div>
+			</div>
+		</div>
+		<br>
+		<div class="hr-1"></div>
+		<br>
+
+		<div class="tabs">
+			<div class="tab-button-outer">
+				<ul id="tab-button">
+					<<<<<<< HEAD <li style="width: 10%"><a href="#tab01">Identificación del
+							Proyecto</a></li>
+						<li style="width: 10%"><a href="#tab02">Clasificación del
+								proyecto</a></li>
+						<li style="width: 10%"><a href="#tab03">Participación
+								Ciudadana</a></li>
+						<li style="width: 10%"><a href="#tab04">Identificación del
+								Problema</a></li>
+						<li style="width: 10%"><a href="#tab05">Descripción del
+								Proyecto</a></li>
+						<li style="width: 8%"><a href="#tab06">Cadena de Valor</a></li>
+						<li style="width: 15%"><a href="#tab07">Fuentes de
+								Financiación</a></li>
+						<li><a href="#tab08">Componentes de Inversión y Flujo
+								Financiero</a></li>
+						<li style="width: 13%"><a href="#tab09" id="tab09-action">Población Objetivo</a></li>
+						<li style="width: 10%"><a href="#tab10">Ubicación de la
+								Inversión</a></li>
+						<li style="width: 10%"><a href="#tab11">Gerencia o
+								Responsable del Proyecto</a></li>
+						<li style="width: 10%"><a href="#tab12">Formulación y
+								Estudio</a></li>
+						<li style="width: 10%"><a href="#tab13">Observaciones</a></li>
+						<li style="width: 10%"><a href="#tab14">Viabilidad</a></li>
+						=======
+						<li style="width: 9%;" id="idTab001"><a href="#tab01">Identificación del proyecto</a></li>
+						<li style="width: 9%;" id="idTab002"><a href="#tab02">Clasificación del proyecto</a></li>
+						<li style="width: 8%;" id="idTab003"><a href="#tab03">Participación ciudadana</a></li>
+						<li style="width: 9%;" id="idTab004"><a href="#tab04">Identificación del problema</a></li>
+						<li style="width: 8%;" id="idTab005"><a href="#tab05">Descripción del proyecto</a></li>
+						<li style="width: 7%;" id="idTab006"><a href="#tab06">Cadena de valor &nbsp; &nbsp; &nbsp; </a>
+						</li>
+						<li style="width: 8%;" id="idTab007"><a href="#tab07">Fuentes de financiación</a></li>
+						<li style="width: 14%;" id="idTab008"><a href="#tab08">Componentes de inversión y flujo
+								financiero</a></li>
+						<li style="width: 8%;" id="idTab009"><a href="#tab09">Población objetivo &nbsp; &nbsp;
+								&nbsp;&nbsp;&nbsp;&nbsp; </a></li>
+						<li style="width: 9%;" id="idTab0010"><a href="#tab10">Ubicación de la inversión &nbsp;
+								&nbsp;&nbsp;&nbsp; </a></li>
+						<li style="width: 10%;" id="idTab0011"><a href="#tab11">Gerencia o responsable del proyecto</a>
+						</li>
+						>>>>>>> developer
+				</ul>
+			</div>
+			<div class="tab-select-outer">
+				<select id="tab-select">
+					<option value="#tab01">Identificación del Proyecto</option>
+					<option value="#tab02">Clasificación del proyecto</option>
+					<option value="#tab03">Participación Ciudadana</option>
+					<option value="#tab04">Identificación del Problema</option>
+					<option value="#tab05">Descripción del Proyecto</option>
+					<option value="#tab06">Cadena de Valor</option>
+					<option value="#tab07">Fuentes de Financiación</option>
+					<option value="#tab09">Población Objetivo</option>
+					<option value="#tab10">Ubicación de la Inversión</option>
+					<option value="#tab11">Gerencia o Responsable del Proyecto</option>
+				</select>
+			</div>
+			<div id="tab01" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-inscripcion.html" id="idTabIns"></div>
+				<div th:include="bp/general/tabs/tab-inscripcion-editar.html" id="idTabInsEditar"></div>
+				<br><br>
+			</div>
+			<div id="tab02" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-clasificacion.html"></div>
+			</div>
+			<div id="tab03" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-participacion.html">
+
+				</div>
+			</div>
+			<div id="tab04" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-identificacion.html">
+
+				</div>
+			</div>
+			<div id="tab05" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-descripcion.html">
+
+				</div>
+			</div>
+			<div id="tab06" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-cadena.html"></div>
+			</div>
+			<div id="tab07" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-fuentes.html"></div>
+			</div>
+			<div id="tab08" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-componentes.html"></div>
+			</div>
+			<div id="tab09" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-poblacion.html"></div>
+			</div>
+			<div id="tab11" class="tab-contents">
+				<div th:include="bp/general/tabs/tab-gerencia.html"></div>
+			</div>
+
+		</div>
+		<br><br>
+		<<<<<<< HEAD </div>
+			<footer th:replace="/home:: footer"></footer>
+</body>
+
+<script type="text/javascript">
+	$(function () {
+=======
+		</div><br><br>
+		<footer th:replace="/home:: footer"></footer>
+</body>
+
+<script type="text/javascript">
+var idProyectoDeInversion = "";
+var idPlanDeDesarrollo = "";
+var pddVigente;
+	$(function() {
+>>>>>>> developer
+		var $tabButtonItem = $('#tab-button li'), $tabSelect = $('#tab-select'), $tabContents = $('.tab-contents'), activeClass = 'is-active';
+
+		$tabButtonItem.first().addClass(activeClass);
+		$tabContents.not(':first').hide();
+
+		$tabButtonItem.find('a').on('click', function (e) {
+			var target = $(this).attr('href');
+
+			$tabButtonItem.removeClass(activeClass);
+			$(this).parent().addClass(activeClass);
+			$tabSelect.val(target);
+			$tabContents.hide();
+			$(target).show();
+			e.preventDefault();
+		});
+
+		$tabSelect.on('change', function () {
+			var target = $(this).val(), targetSelectNum = $(this).prop(
+				'selectedIndex');
+
+			$tabButtonItem.removeClass(activeClass);
+			$tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+			$tabContents.hide();
+			$(target).show();
+		});
+	});
+</script>
+<script th:inline="javascript">
+<<<<<<< HEAD
+	$(document).ready(function () {
+		/*<![CDATA[*/
+		var proyecInversion = /*[[${listaEntidadProy}]]*/;
+
+		console.log(proyecInversion);
+		var sector = proyecInversion.stringClasificacion.toLowerCase();
+		if (sector == "alcaldía") {
+			$('#idSectorProyIn').css('display', 'none');
+		}
+
+		/*]]>*/
+
+=======
+$(document).ready(function() {
+	/*<![CDATA[*/
+	  var proyecInversion = /*[[${listaEntidadProy}]]*/;
+	  var consecutivo = /*[[${numConsecutivo}]]*/;
+	  var listEntidadProyecto = /*[[${listaEntidadProy}]]*/;
+	  var proyecto = /*[[${proyecto}]]*/;
+	  var agregar = /*[[${agregar}]]*/;
+	  var editar = /*[[${editar}]]*/;
+
+	  //agregando
+
+	  //
+
+	  if (agregar === "1"){
+ 		  $('#idTabInsEditar').css('display', 'none');
+ 		  $('#disabledtab01').attr("disabled", true);
+ 		  pddVigente = /*[[${pddVigente}]]*/;
+ 		  document.getElementById("codigoProyectoGenerico").value = consecutivo;
+ 		  document.getElementById("codigoProyectoInscripcion").value = consecutivo;
+ 		  if (listEntidadProyecto != null){
+ 			  document.getElementById("bancoProyecto").value = listEntidadProyecto.stringBancoProyecto;
+ 			  document.getElementById("inputCodigoDistrital").value = listEntidadProyecto.codigoEntidad;
+ 			  document.getElementById("codigoEntiDistriEdit").value = listEntidadProyecto.codigoEntidad;
+ 			  document.getElementById("inputSectorEntidad").value = listEntidadProyecto.sector;
+ 			  document.getElementById("sectorEic").value = listEntidadProyecto.sector;
+ 			  document.getElementById("codigoEntiDistri").value = listEntidadProyecto.codigoEntidad;
+ 			  var sector  = proyecInversion.stringClasificacion.toLowerCase();
+ 			  if (sector == "alcaldía"){
+ 				  document.getElementById("labelPddl").innerHTML = "Estructura del plan de desarrollo local (PDL)";
+ 				  $('#idSectorProyIn').css('display', 'none');
+ 			  }else {
+ 				  $('#idSectorAlEntidad').css('display', 'none');
+ 			  }
+
+
+ 			  //$('#idTab002').css('visibility', 'hidden');
+//  			  $('#idTab003').css('visibility', 'hidden');
+//  		      $('#idTab004').css('visibility', 'hidden');
+//  			  $('#idTab005').css('visibility', 'hidden');
+//  			  $('#idTab006').css('visibility', 'hidden');
+//  			  $('#idTab007').css('visibility', 'hidden');
+//  			  $('#idTab008').css('visibility', 'hidden');
+//  			  $('#idTab009').css('visibility', 'hidden');
+//  			  $('#idTab0010').css('visibility', 'hidden');
+//  			  $('#idTab0011').css('visibility', 'hidden');
+
+
+
+ 		  }
+
+	  }
+
+	  //editando
+	  if (editar === "1"){
+		  $('#idTabIns').css('display', 'none');
+		  if (proyecto != null){
+			  pddVigente = /*[[${pddVigente}]]*/;
+			  document.getElementById("inputCodigoDistrital").value = proyecto.codigoEntidad;
+			  document.getElementById("idProyInvEdit").value = proyecto.idProyInversion;
+			  document.getElementById("tipoSectorAlLocal").value = proyecto.idLsSectorAl;
+			  document.getElementById("idLsSectorAlLocalEdit").value = proyecto.idLsSectorAl;
+			  document.getElementById("codigoProyectoGenerico").value = proyecto.codigoProyecto;
+			  document.getElementById("codigoProyectoInscripcionEdit").value = proyecto.codigoProyecto;
+			  document.getElementById("nombreProyGeneral").value = proyecto.nombreProyecto;
+			  document.getElementById("nombreProyectoInscripcionEdit").value = proyecto.nombreProyecto;
+			  document.getElementById("nombreBpinGeneral").value = proyecto.codigoBpin;
+			  document.getElementById("bpinInscripcionEdit").value = proyecto.codigoBpin;
+			  document.getElementById("etapaInscripcionEdit").value = proyecto.idLsEtapa;
+			  document.getElementById("nombreProyectoInscripcionEditar").value = proyecto.nombrePoai;
+			  document.getElementById("bancoProyecto").value = proyecto.stringBancoProyecto;
+			  document.getElementById("textareaDescripcionProyecto").value = proyecto.descripcion;
+			  idPlanDeDesarrollo = data.idPlanDesarrolloDistrital;
+			  var clasificacion  = proyecto.stringEntidad.toLowerCase();
+		      if (clasificacion === "alcaldía"){
+		    	  $('#idSectorProyIn').css('display', 'none');
+		    	  document.getElementById("inputSectorEntidad").value = proyecto.stringSectorEntidad;
+		    	  document.getElementById("labelPddl").innerHTML = "Estructura del plan de desarrollo local (PDL)";
+		      }else {
+		    	  document.getElementById("inputSectorEntidad").value = proyecto.stringSector;
+		    	  document.getElementById("sectorEic").value = proyecto.stringSector;
+				  $('#idSectorAlEntidad').css('display', 'none');
+				  $('#idSeccionLineaInversion').css('display', 'none');
+			  }
+		      idProyectoDeInversion = proyecto.idProyInversion;
+		      // ids proyecto para tabs de editar
+		      document.getElementById("idProyectoDescripcion").value = proyecto.idProyInversion;
+
+
+		  }
+	  }
+
+
+
+	/*]]>*/
+
+>>>>>>> developer
+		$('#versiones').css('display', 'none');
+
+		$('.titulo').click(function (e) {
+
+			//funcionalidad de desplegar el tap de metas
+			var opciones = $('.opciones').children().not('.metas');
+
+			for (var i = 0; i < opciones.length; i++) {
+				if ($(opciones[i]).is(':visible')) {
+					$(opciones[i]).css("display", "none");
+				}
+			}
+			if ($('.metas').is(':hidden')) {
+				$('.metas').fadeIn();
+			}
+			//fin de funcionalidad de tab de metas
+
+			var padre = $(this).parent();
+			var consola = $(padre).find('.compromiso');
+
+			if ($(consola).is(':visible')) {
+				$(consola).slideUp();
+				$(this).removeClass('activo');
+				$(padre).find('#radio').prop('checked', false);
+				$(this).find('i').removeClass('fa-minus-square');
+				$(this).find('i').addClass('fa-plus-square');
+
+			} else {
+
+				$(this).addClass('activo');
+				$(this).find('i').removeClass('fa-plus-square');
+				$(this).find('i').addClass('fa-minus-square');
+				$(padre).find('#radio').prop('checked', true);
+				$(consola).slideDown();
+			}
+
+		});
+		// Funcionalidad del arbol
+		$('.nivel2').click(function () {
+			var padre = $(this).parent();
+
+			var menu = $(padre).find('ul');
+
+			if ($(menu).is(':visible')) {
+
+				$(this).css("color", "#00529C")
+				$(this).find('i').removeClass('fa-minus-square');
+				$(this).find('i').addClass('fa-plus-square');
+				$(menu).slideUp();
+			} else {
+
+				$(this).css("color", "#A079E6");
+				$(this).find('i').removeClass('fa-plus-square');
+				$(this).find('i').addClass('fa-minus-square');
+				$(menu).slideDown();
+			}
+		});
+
+		//funcionalidad Del Tab Producto
+		$('.producto-tab').click(function (e) {
+			var opciones = $('.opciones').children().not('.producto');
+
+			for (var i = 0; i < opciones.length; i++) {
+				if ($(opciones[i]).is(':visible')) {
+					$(opciones[i]).css("display", "none");
+				}
+			}
+
+			$('.producto').fadeIn();
+		});
+
+		$('.actividad-tab').click(function (e) {
+			var opciones = $('.opciones').children().not('.actividad');
+
+			for (var i = 0; i < opciones.length; i++) {
+				if ($(opciones[i]).is(':visible')) {
+					$(opciones[i]).css("display", "none");
+				}
+			}
+
+			$('.actividad').fadeIn();
+		});
+
+		// tab clasificacion
+		$('#idTab002').click(function (e) {
+			document.getElementById("idProyClasificacion").value = idProyectoDeInversion;
+			document.getElementById("idProyInvLinea").value = idProyectoDeInversion;
+			$('#dtablaPoliticaPublica').DataTable().clear();
+			$('#dtablaPoliticaPublica').empty();
+			cargarDatosPp(idProyectoDeInversion);
+			cargarSelectPoliticaPublica(idProyectoDeInversion);
+			$('#dtablaLi').DataTable().clear().destroy();
+			cargarDatosLineaInversion(idProyectoDeInversion);
+
+
+
+		});
+
+	});
+	function cargarSelectPoliticaPublica(idProyectoDeInversion) {
+		$.ajax({
+			type: 'GET',
+			url: '/Segplan/' + 'listaPoliticaPublica/' + idProyectoDeInversion,
+			data: data,
+			success: function (data) {
+				Swal.close();
+				var select = document.getElementById("pp");
+				var select1 = document.getElementById("ppEdit");
+				select.innerHTML = '<option value="">Seleccione una opción</option>';
+				select1.innerHTML = '<option value="">Seleccione una opción</option>';
+				for (var j = 0; j < data.lstObjectsDTO.length; j++) {
+					let opcion = document.createElement('option');
+					opcion.value = data.lstObjectsDTO[j].idPolPub;
+					opcion.text = data.lstObjectsDTO[j].politica;
+					select.add(opcion);
+
+				}
+				for (var j = 0; j < data.lstObjectsDTO.length; j++) {
+					let opcion = document.createElement('option');
+					opcion.value = data.lstObjectsDTO[j].idPolPub;
+					opcion.text = data.lstObjectsDTO[j].politica;
+					select1.add(opcion);
+
+				}
+			},
+			error: function () {
+				Swal.close();
+			},
+			complete: function () {
+
+			}
+		});
+		return false;
+	}	
+</script>
+<script type="text/javascript" th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>

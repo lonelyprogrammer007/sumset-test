@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+
+<title id="pageTitle">Asociar Aportes ciudadanos</title>
+</head>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/archivo-plano.css}">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/bp/taps-proyectos.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/modal/modal.css}">
+<body>
+<header th:replace="/home:: header"></header>
+
+<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><i class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</i><a
+				href="">BANCO DISTRITAL DE PROGRAMAS Y PROYECTOS</a></li>
+			<li class="breadcrumb-item " aria-current="page" id="act">Inscripción del
+				Proyecto</li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Asociar Aportes ciudadanos</li>
+			
+			
+		</ul>
+	</nav>
+	
+	<div class="form-container3">
+		<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Aportes Ciudadanos</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablaAporte" style="width: 140%">
+			<thead>
+				<tr>
+					<th class="color-head">Consecutivo<br></th>
+					<th class="color-head">Aportes Ciudadanos<br> Acción de Cambio<br></th>
+					<th class="color-head">Nivel 1<br></th>
+					<th class="color-head">Nivel 2<br></th>
+					<th class="color-head">Fuente de Aporte<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div align="right">
+		<a th:href="@{/crear-proyecto-entidad}">Cancelar</a>
+					<button type="button" class="boton-archivo" id="boton-cargar" data-toggle="modal" data-target="#agregarAportes">
+						 Guardar
+					</button>
+
+				</div>
+	</div>
+	<div class="modal fade" id="agregarAportes" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/img/segplan.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="titulo">Agregar Otros Aportes Ciudadanos</span>
+						</div>
+					</div>
+
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+
+						
+							<div class="row">
+							<div class="col-sm-5 ">
+								<div class="texto">
+									<label for="tematica">Consecutivo </label>
+								</div>
+								
+							</div>
+							<div class="col-sm-3">
+							<input type="text" disabled="disabled">
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-sm-12 mt-1">
+								<div class="texto">
+									<label for="tematica">Aportes Ciudadanos Acción de Cambio </label>
+								</div>
+							</div>
+							<div class="col-sm-12 mt-1">
+								<textarea rows="3" placeholder="máximo 1500 caracteres" class="form-control"></textarea>
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-sm-4 mt-1">
+								<div class="texto">
+									<label for="tematica">Nivel 1 </label>
+								</div>
+								
+							</div>
+							<div class="col-sm-4 mt-1">
+								<div class="texto">
+									<label for="tematica">Nivel 2 </label>
+								</div>
+								
+							</div>
+							<div class="col-sm-4 mt-1">
+								<div class="texto">
+									<label for="tematica">Nivel 3 </label>
+								</div>
+								
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-4 mt-1">
+								
+								<select class="form-control" ></select>
+							</div>
+							<div class="col-sm-4 mt-1">
+								
+								<select class="form-control" ></select>
+							</div>
+							<div class="col-sm-4 mt-1">
+								
+								<select class="form-control" ></select>
+							</div>
+						</div>
+						
+						<div class="row mt-3">
+							<div class="col-sm-12 mt-1">
+								<div class="texto">
+									<label for="tematica">Fuente de Aporte </label>
+								</div>
+							</div>
+							<div class="col-sm-12 mt-1">
+								<textarea rows="3" placeholder="máximo 200 caracteres" class="form-control"></textarea>
+							</div>
+						</div>
+						<div align="right" class="mt-3">
+							<a href="#" data-dismiss="modal">Cancelar</a>
+
+							<button type="submit" class="myFormButton agregar" name="save"
+								id="boton-modal">GUARDAR</button>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

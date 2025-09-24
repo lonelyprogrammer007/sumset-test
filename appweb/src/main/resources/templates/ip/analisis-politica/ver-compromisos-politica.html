@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title id="pageTitle">Consultar problematica</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/modal.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/tabs-pb.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/arbol-pg.css}">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/ip/componentes.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-consultar-ic.css}">
+<body>
+
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>Instrumentos de planeación</li>
+			<li class="breadcrumb-item " aria-current="page">Formulación plan de desarrollo</li>
+			<li class="breadcrumb-item " aria-current="page"><a th:href="@{/consultar-politica}">Análisis de política</a></li>
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consultar problemática</li>
+		</ul>
+	</nav>
+	<div class="form-containerIp">
+		<div class="abs-center">
+			<span>Análisis de política</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+
+		<div class="col-12 col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+
+					<div class="arbol ">
+
+						<div id="menuBase">
+							<ul class="nav">
+							</ul>
+						</div>
+						<input type="hidden" id="idCompromiso" name="idCompromiso">
+
+
+
+					</div>
+				</div>
+				<div class="col-md-2">
+
+					<label class="texto-ip">Programa de gobierno |</label>
+
+				</div>
+				<div class="col-md-7">
+					<input type="text" class="form-control" disabled
+						id="programaGobierno" th:value="${pddDTO.nombrePlan}">
+
+					<div class="row">
+						<button type="button" class="boton" id="crearProblematica">Problemática
+						</button>
+						<button type="button" class="boton" id="editarProblematica">Editar Problemática
+						</button>
+						<button type="button" class="boton-filtro"
+							th:attr="onclick=|filtrarCompromiso()|">
+							<em class="fa fa-filter"></em>&nbsp;&nbsp;Filtrar
+						</button>
+					</div>
+
+					<br>
+					<div class="tabs">
+						<div class="tab-button-outer">
+							<ul id="tab-button">
+
+								<li><a href="#tab01">Reconocimiento</a></li>
+								<li><a href="#tab02" id="componenteGes">Valoración</a></li>
+								<li><a href="#tab03">Indicadores</a></li>
+								<li><a href="#tab04">Sintesis</a></li>
+
+							</ul>
+						</div>
+						<div class="tab-select-outer">
+							<select id="tab-select">
+								<option value="#tab01">Reconocimiento</option>
+								<option value="#tab02">Valoración</option>
+								<option value="#tab03">Indicadores</option>
+								<option value="#tab04">Sintesis</option>
+							</select>
+						</div>
+
+						<div id="tab01" class="tab-contents nh">
+							<div th:include="ip/analisis-politica/reconocimiento.html"></div>
+						</div>
+						<div id="tab02" class="tab-contents">
+							<div th:include="ip/analisis-politica/valoracion.html"></div>
+						</div>
+						<div id="tab03" class="tab-contents">
+							<div th:include="ip/analisis-politica/indicadores.html"></div>
+						</div>
+						<div id="tab04" class="tab-contents">
+							<div th:include="ip/analisis-politica/sintesis.html"></div>
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	<br>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+	<div
+		th:include="ip/analisis-politica/modales/modal-problematica-agregar.html"></div>
+	<div
+		th:include="ip/analisis-politica/modales/modal-problematica-editar.html"></div>
+
+	<div th:include="ip/analisis-politica/modales/modal-filtro.html"></div>
+</body>
+<script th:inline="javascript">
+var nombreProbl = "";
+var idProbleAux = "";
+var listaSimpleSectores;
+var listaCompetencias;
+var listaSimpleDimensiones;
+var compromisosFiltro=[];
+	$(function() {
+		var $tabButtonItem = $('#tab-button li'), $tabSelect = $('#tab-select'), $tabContents = $('.tab-contents'), activeClass = 'is-active';
+		$tabButtonItem.first().addClass(activeClass);
+		$tabContents.not(':first').hide();
+		$tabButtonItem.find('a').on('click', function(e) {
+			// generar informe sintesis
+			
+			var antes = document.getElementById("balanceInicialTxt").value;
+			var observacionAntes = document.getElementById("observacionesAntes").value;
+			var sectorAntes = document.getElementById("sectorAntes").value;
+			for (var i=0; i<listaSimpleSectores.length; i++){
+				if (sectorAntes == listaSimpleSectores[i].idArgumento){
+					document.getElementById("textoSectorAntes").innerHTML = '&nbsp;&nbsp;&nbsp;'+listaSimpleSectores[i].resultado;
+				}
+			}
+			var asociadaAntes = $("#idCompetenciaAntes").val();
+            var contenido = "";
+			for (var x=0; x<asociadaAntes.length; x++){  
+			for (var i=0; i<listaCompetencias.length; i++){
+				if (listaCompetencias[i].idCompetencia == asociadaAntes[x]){
+					contenido += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido += '•&nbsp;&nbsp;'+listaCompetencias[i].nombreCompetencia+'<br>';
+				}
+			}
+			}
+			document.getElementById("textoAsociadaAntes").innerHTML = contenido;
+			
+			
+			var dimensionAntes = document.getElementById("idLsDimensionAntes").value;
+			for (var i=0; i<listaSimpleDimensiones.length; i++){
+				if (dimensionAntes == listaSimpleDimensiones[i].idArgumento){
+					document.getElementById("textoDimensionAntes").innerHTML = '&nbsp;&nbsp;'+listaSimpleDimensiones[i].resultado;
+				}
+			}
+			
+			
+			
+			
+			//
+			
+			var durante = document.getElementById("balanceTotal").value;
+			var observacionDurante = document.getElementById("observacionesDurante").value;
+			var sectorDurante = document.getElementById("sectorDurante").value;
+			for (var i=0; i<listaSimpleSectores.length; i++){
+				if (sectorDurante == listaSimpleSectores[i].idArgumento){
+					document.getElementById("textoSectorDurante").innerHTML = '&nbsp;&nbsp;&nbsp;'+listaSimpleSectores[i].resultado;
+				}
+			}
+			var asociadaDurante = $("#idCompetenciaDurante").val();
+            var contenido1 = "";
+			for (var x=0; x<asociadaDurante.length; x++){  
+			for (var i=0; i<listaCompetencias.length; i++){
+				if (listaCompetencias[i].idCompetencia == asociadaDurante[x]){
+					contenido1 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido1 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido1 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido1 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido1 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido1 += '•&nbsp;&nbsp;'+listaCompetencias[i].nombreCompetencia+'<br>';
+				}
+			}
+			}
+			document.getElementById("textoAsociadaDurante").innerHTML = contenido1;
+	
+			var dimensionDurante = document.getElementById("idLsDimensionDurante").value;
+			for (var i=0; i<listaSimpleDimensiones.length; i++){
+				if (dimensionDurante == listaSimpleDimensiones[i].idArgumento){
+					document.getElementById("textoDimensionDurante").innerHTML = '&nbsp;&nbsp;'+listaSimpleDimensiones[i].resultado;
+				}
+			}
+			
+			//
+			
+			
+			var despues = document.getElementById("balanceProyectado").value;
+			var observacionDespues = document.getElementById("observacionesDespues").value;
+			var sectorDespues = document.getElementById("sectorDespues").value;
+			for (var i=0; i<listaSimpleSectores.length; i++){
+				if (sectorDespues == listaSimpleSectores[i].idArgumento){
+					document.getElementById("textoSectorDespues").innerHTML = '&nbsp;&nbsp;&nbsp;'+listaSimpleSectores[i].resultado;
+				}
+			}
+			var asociadaDespues = $("#idCompetenciasDespues").val();
+            var contenido2 = "";
+			for (var x=0; x<asociadaDespues.length; x++){  
+			for (var i=0; i<listaCompetencias.length; i++){
+				if (listaCompetencias[i].idCompetencia == asociadaDespues[x]){
+					contenido2 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido2 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido2 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido2 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido2 += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					contenido2 += '•&nbsp;&nbsp;'+listaCompetencias[i].nombreCompetencia+'<br>';
+				}
+			}
+			}
+			document.getElementById("textoAsociadaDespues").innerHTML = contenido2;
+			
+			var dimensionDespues = document.getElementById("idLsDimensionDespues").value;
+			for (var i=0; i<listaSimpleDimensiones.length; i++){
+				if (dimensionDespues == listaSimpleDimensiones[i].idArgumento){
+					document.getElementById("textoDimensionDespues").innerHTML = '•&nbsp;&nbsp;'+listaSimpleDimensiones[i].resultado;
+				}
+			}
+			
+			
+			
+			document.getElementById("textoBalanceAntes").innerHTML = '&nbsp;&nbsp;&nbsp;'+antes;
+			document.getElementById("textoObservacionAntes").innerHTML = '&nbsp;&nbsp;&nbsp;'+observacionAntes;
+			document.getElementById("textoBalanceDurante").innerHTML = '&nbsp;&nbsp;&nbsp;'+durante;
+			document.getElementById("textoObservacionDurante").innerHTML = '&nbsp;&nbsp;&nbsp;'+observacionDurante;
+			document.getElementById("textoBalanceDespues").innerHTML = '&nbsp;&nbsp;&nbsp;'+despues;
+			document.getElementById("textoObservacionDespues").innerHTML = '&nbsp;&nbsp;&nbsp;'+ observacionDespues;
+			
+			var target = $(this).attr('href');
+
+			$tabButtonItem.removeClass(activeClass);
+			$(this).parent().addClass(activeClass);
+			$tabSelect.val(target);
+			$tabContents.hide();
+			$(target).show();
+			e.preventDefault();
+		});
+
+		$tabSelect.on('change', function() {
+			var target = $(this).val(), targetSelectNum = $(this).prop(
+					'selectedIndex');
+
+			$tabButtonItem.removeClass(activeClass);
+			$tabButtonItem.eq(targetSelectNum).addClass(activeClass);
+			$tabContents.hide();
+			$(target).show();
+		});
+	});
+	$(document).ready(
+			function() {
+				var totalMenus = 10;
+                
+				   /*<![CDATA[*/
+		  		 var compromisos = /*[[${compromisoDTO}]]*/;
+		  		 listaSimpleSectores = /*[[${sectores}]]*/;
+		  		 listaSimpleDimensiones = /*[[${dimensiones}]]*/;
+				 var tematicas = /*[[${tematicaCompromiso}]]*/;	
+				 var radio = /*[[${radioSeleccionado}]]*/;
+				 var mensajeCompromiso =  /*[[${messageCompromiso}]]*/; 
+				 listaCompetencias = /*[[${competencias}]]*/;
+				 console.log(listaCompetencias);
+		  		
+		  		 var idCompro = "";
+		  		 for (var i = 0; i < tematicas.length; i++) {
+		  			 
+				 var contenido = '';
+				 
+				 contenido += '<ul id="menuBase1"><li>';
+				 contenido += '<span class="titulo"><img src="css/img/arbol-azul.png" id="icon">'+tematicas[i].resultado+'</span>';
+				 contenido += '<ul style="display:none;">';
+				
+				 
+				 for (var j = 0; j < compromisos.length; j++ ){
+				
+				 if (compromisos[j].idTematica == tematicas[i].idArgumento){
+					compromisosFiltro.push(compromisos[j]);
+					
+				 idCompro = compromisos[j].idCompromiso; 	 
+				 contenido += '<li>'
+				 contenido += '<span class="titulo compromisos" id="'+compromisos[j].idCompromiso+'"><img src="css/img/arbol-azul.png" id="icon">'+compromisos[j].nombreCompromisoEstrategico+'</span><br>';	 
+				 contenido += '<span class="texto-plano">'+compromisos[j].nombreCompromisoEstrategico+'</span>';
+				contenido+='<ul style="display:block;" id="compromiso'+compromisos[j].idCompromiso+'"></ul></li>'	
+				
+				 }
+			   }
+                 contenido += '</ul></li></ul>';
+				 $('#menuBase').append(contenido);
+				 
+		  		}
+		  		var select = document.getElementById("idCompromisoFiltro");
+				
+				
+			for (var i = 0; i < compromisosFiltro.length; i++) {
+				
+					let opcion = document.createElement('option')
+	        		
+	       		 opcion.value = compromisosFiltro[i].idCompromiso;
+	       		 opcion.text = compromisosFiltro[i].nombreCompromisoEstrategico;
+	       	     select.add(opcion);
+				
+			}
+		
+			$('.filtroButton').click(function() {
+				var idCompromiso2 = $('#idCompromisoFiltro').val();
+				var idProblematica2=$('#problematicaFiltro').val();
+				for (var i = 0; i < compromisosFiltro.length; i++) {
+					if(compromisosFiltro[i].idCompromiso==idCompromiso2){
+						$('#menuBase1').remove();
+						var contenido = '';
+						contenido += '<ul id="menuBase1"><li>';
+						contenido += '<span class="titulo compromisos" id="'+compromisosFiltro[i].idCompromiso+'"><img src="css/img/arbol-azul.png" id="icon">'+compromisosFiltro[i].nombreCompromisoEstrategico+'</span><br>';	 
+						 contenido += '<span class="texto-plano">'+compromisosFiltro[i].nombreCompromisoEstrategico+'</span>';
+						contenido+='<ul style="display:block;" id="compromiso'+compromisosFiltro[i].idCompromiso+'"></ul></li></ul>';
+						 $('#menuBase').append(contenido);
+					}
+				}
+				var problematicas = /*[[${problematicas}]]*/;
+				for (var i = 0; i < problematicas.length; i++) {
+					if(problematicas[i].idProblematica == idProblematica2){
+						var contenido = '<li id="problematicas'+problematicas[i].idProblematica+'">'
+						contenido+='<span class="titulo">Problematica</span><br>';
+						contenido+='<input type="radio" class="problematicas" onclick="obtenerProblematica(this.value, '+problematicas[i].problematica+')" name="problematica" value="'+problematicas[i].idProblematica+'" checked="checked">';
+						contenido+='<span class="texto-plano">'+problematicas[i].problematica+'</span></li>';
+							
+						$('#compromiso'+problematicas[i].idCompromiso).append(contenido);
+						obtenerProblematica(problematicas[i].idProblematica,problematicas[i].problematica);
+					}
+				}
+				$('#modalFiltroProblematica').modal('hide');
+			})	
+				/*]]>*/
+				
+				
+				
+				//Funcionalidad de desplegar el arbol
+				$('.titulo').click(function(e) {
+					
+					var padre = $(this).parent();
+				
+					var consola = $(padre).find('ul');
+					
+					if ($(consola).is(':visible')) {
+						$(consola).slideUp();
+						$(this).css('color', '#00529C');
+						$(padre).find('#radio').prop('checked', false);
+						$(this).find('img').removeClass('fa-minus-square');
+						$(this).find('i').addClass('fa-plus-square');
+
+					} else {
+
+						$(this).css('color', '#A079E6');
+						$(this).find('i').removeClass('fa-plus-square');
+						$(this).find('i').addClass('fa-minus-square');
+						$(padre).find('#radio').prop('checked', true);
+						$(consola).slideDown();
+					}
+					if($(this).hasClass('compromisos')){
+						var idCompromiso = $(this).attr('id');
+						
+						$('#idCompromiso2').val(idCompromiso);
+						$('#idCompromiso3').val(idCompromiso);
+						$('#idCompromisoRec').val(idCompromiso);
+						obtenerProblematicasPorCompromiso(idCompromiso);
+					}
+				});
+				// Funcionalidad del arbol
+					
+	          $('#crearProblematica').click(function() {
+	        	  
+				$('#modalAgregarProblematica').modal('show');
+				$('#problematica').val('');
+			});
+	          $('#editarProblematica').click(function() {
+	        	  
+					$('#modalEditarProblematica').modal('show');
+					$('#problematicaTxt').val('');
+					
+				});
+			
+			$(document).on('submit','#formAgregarProblematica',function (e){
+				 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         $.ajax({
+             type: 'POST',
+             url: '/Segplan/'+'agregar-problematica',
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();
+                 $("#modalAgregarProblematica").modal('hide');
+                 mensajeRespuesta = data.msgRespuesta;
+                 console.log(data);
+                 $('#problematicas'+data.idProblematica).remove();
+                    alert(data.problematica);
+					var contenido = '<li id="problematicas'+data.idProblematica+'">'
+					contenido+='<span class="titulo">Problematica</span><br>';
+					contenido+='<input type="radio" class="problematicas" onclick="obtenerProblematica(this.value, '+data.problematica+')" name="problematica" value="'+data.idProblematica+'">';
+					contenido+='<span class="texto-plano">'+data.problematica+'</span></li>';
+						
+					$('#compromiso'+data.idCompromiso).append(contenido);
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+			});
+			$(document).on('submit','#formEditarProblematica',function (e){
+				 e.preventDefault();
+        var data = $(this).serialize();
+        var mensajeRespuesta = "";
+        $.ajax({
+            type: 'POST',
+            url: '/Segplan/'+'modificar-problematica',
+            data: data,
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Cargando...',
+                    position: 'top',
+                    allowOutsideClick: () => !Swal.isLoading(),
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+
+            success: function (data) {
+                Swal.close();
+                $("#modalEditarProblematica").modal('hide');
+                mensajeRespuesta = data.msgRespuesta;
+                console.log(data);
+                $('#problematicas'+data.idProblematica).remove();
+					var contenido = '<li id="problematicas'+data.idProblematica+'">'
+					contenido+='<span class="titulo">Problematica</span><br>';
+					contenido+='<input type="radio" class="problematicas" onclick="obtenerProblematica(this.value)" name="problematica" value="'+data.idProblematica+'">';
+					contenido+='<span class="texto-plano">'+data.problematica+'</span></li>';
+						
+					$('#compromiso'+data.idCompromiso).append(contenido);
+            },
+            error:
+                    function () {
+                        Swal.close();
+
+                    },
+                    
+            complete: function () {
+                        Swal.close();
+                      
+                        Swal.fire({
+    	 			        title:"¡Información!",
+    	 				    text: mensajeRespuesta,
+    	 			        icon: "warning",
+    	 			        confirmButtonText: 'Aceptar',
+    	 			        allowOutsideClick: () => false
+    	 		       })
+
+                    }
+             });
+			});
+			$(document).on('submit','#formAgregarPoblacion',function (e){
+				 e.preventDefault();
+       var data = $(this).serialize();
+       var mensajeRespuesta = "";
+       $.ajax({
+           type: 'POST',
+           url: '/Segplan/'+'registrar-poblacion',
+           data: data,
+           beforeSend: function () {
+               Swal.fire({
+                   title: 'Cargando...',
+                   position: 'top',
+                   allowOutsideClick: () => !Swal.isLoading(),
+                   onBeforeOpen: () => {
+                       Swal.showLoading();
+                   }
+               });
+           },
+
+           success: function (data) {
+               Swal.close();
+               $("#modalAgregarPoblacion2").modal('hide');
+               mensajeRespuesta = data.msgRespuesta;
+             console.log(data);
+               $('#dtablaPoblacion').DataTable().clear();
+		         $('#dtablaPoblacion').empty();
+		         var id = $('#idProblematica').val();
+		         console.log(id);
+	         cargarPoblacion(id);
+           },
+           error:
+                   function () {
+                       Swal.close();
+
+                   },
+                   
+           complete: function () {
+                       Swal.close();
+                     
+                       Swal.fire({
+   	 			        title:"¡Información!",
+   	 				    text: mensajeRespuesta,
+   	 			        icon: "warning",
+   	 			        confirmButtonText: 'Aceptar',
+   	 			        allowOutsideClick: () => false
+   	 		       })
+
+                   }
+            });
+			});
+			
+			$(document).on('submit','#formEditarPoblacion',function (e){
+				 e.preventDefault();
+      var data = $(this).serialize();
+      var mensajeRespuesta = "";
+      $.ajax({
+          type: 'POST',
+          url: '/Segplan/'+'modificar-poblacion',
+          data: data,
+          beforeSend: function () {
+              Swal.fire({
+                  title: 'Cargando...',
+                  position: 'top',
+                  allowOutsideClick: () => !Swal.isLoading(),
+                  onBeforeOpen: () => {
+                      Swal.showLoading();
+                  }
+              });
+          },
+
+          success: function (data) {
+              Swal.close();
+              $("#modalEditarPoblacion").modal('hide');
+              mensajeRespuesta = data.msgRespuesta;
+          
+              $('#dtablaPoblacion').DataTable().clear();
+		         $('#dtablaPoblacion').empty();
+		         var id = $('#idProblematica').val();
+		      
+	         cargarPoblacion(id);
+          },
+          error:
+                  function () {
+                      Swal.close();
+
+                  },
+                  
+          complete: function () {
+                      Swal.close();
+                    
+                      Swal.fire({
+  	 			        title:"¡Información!",
+  	 				    text: mensajeRespuesta,
+  	 			        icon: "warning",
+  	 			        confirmButtonText: 'Aceptar',
+  	 			        allowOutsideClick: () => false
+  	 		       })
+
+                  }
+           });
+			});
+			$(document).on('submit','#agregarReconocimientoProblematica',function (e){
+				 e.preventDefault();
+     var data = $(this).serialize();
+     var mensajeRespuesta = "";
+     $.ajax({
+         type: 'POST',
+         url: '/Segplan/'+'modificar-problematica',
+         data: data,
+         beforeSend: function () {
+             Swal.fire({
+                 title: 'Cargando...',
+                 position: 'top',
+                 allowOutsideClick: () => !Swal.isLoading(),
+                 onBeforeOpen: () => {
+                     Swal.showLoading();
+                 }
+             });
+         },
+
+         success: function (data) {
+             Swal.close();
+             
+             mensajeRespuesta = data.msgRespuesta;
+           console.log(data);
+           
+         },
+         error:
+                 function () {
+                     Swal.close();
+
+                 },
+                 
+         complete: function () {
+                     Swal.close();
+                   
+                     Swal.fire({
+ 	 			        title:"¡Información!",
+ 	 				    text: mensajeRespuesta,
+ 	 			        icon: "warning",
+ 	 			        confirmButtonText: 'Aceptar',
+ 	 			        allowOutsideClick: () => false
+ 	 		       })
+
+                 }
+          });
+			});
+			});
+	
+	function obtenerProblematicasPorCompromiso(id){
+	
+		data = $(this).serialize();
+		$.ajax({
+			 type: 'GET',
+             url: '/Segplan/'+'consultar-problematicas/'+id,
+             data: data,
+             success: function (data) {  
+             },
+             complete: function (data){
+            	
+            	 for (var i = 0; i < data.responseJSON.lstObjectsDTO.length; i++) {
+            		$('#problematicas'+data.responseJSON.lstObjectsDTO[i].idProblematica).remove();
+ 					var contenido = '<li id="problematicas'+data.responseJSON.lstObjectsDTO[i].idProblematica+'">'
+ 					contenido+='<span class="titulo">Problematica</span><br>';
+ 					contenido+='<input type="radio" class="problematicas" onclick="obtenerProblematica('+data.responseJSON.lstObjectsDTO[i].idProblematica+', \''+data.responseJSON.lstObjectsDTO[i].problematica+'\')" name="problematica" value="'+data.responseJSON.lstObjectsDTO[i].idProblematica+'">';
+ 					contenido+='<span class="texto-plano">&nbsp;&nbsp;&nbsp;'+data.responseJSON.lstObjectsDTO[i].problematica+'</span></li>';
+ 						
+ 					$('#compromiso'+data.responseJSON.lstObjectsDTO[i].idCompromiso).append(contenido);
+                 }
+             }
+		})
+	}
+	function filtrarCompromiso() {
+		$('#modalFiltroProblematica').modal('show');
+	}
+	
+	function obtenerProblematica(id, nombreProblematica){
+		nombreProbl = nombreProblematica;
+		idProbleAux = id;
+		$('#dtablaIndicadores').DataTable().clear();
+        $('#dtablaIndicadores').empty();
+		cargarIndicadores(id);
+		$('#dtablaIndicadorSi').DataTable().clear();
+        $('#dtablaIndicadorSi').empty();
+        cargarIndicadoresSintesis(id);
+		document.getElementById("textoProblematicaSintesis").innerHTML = nombreProblematica;
+		document.getElementById("idAuxProblematica").value = id;
+		var texto = $('#problematicas'+id).find('.texto-plano').text();
+		$('#problematicaTxt').val(texto);
+		$('#idProblematica').val(id);
+		$('#idProblematica2').val(id);
+		$('#idProblematicaRec').val(id);
+		$('#idProblematicaAntes').val(id);
+		$('#idProblematicaDurante').val(id);
+		$('#idProblematicaDespues').val(id);
+		$('#problematicaRec').val(texto);
+		$('#dtablaPoblacion').DataTable().clear();
+        $('#dtablaPoblacion').empty();
+		cargarPoblacion(id);
+		cargarProblematica(id);
+		cargarValoracionAntes(id);
+		cargarValoracionDurante(id);
+		consultarPoblacionyActores(id);
+		
+	}
+	function consultarPoblacionyActores(id){
+		 var data = $(this).serialize();
+		   // AJAX
+		 $.ajax({
+             type: 'GET',
+             url: '/Segplan/' + 'consultarPoblacionYactores/'+id,
+             data: data,
+             success: function (data) {
+                 Swal.close(); 
+                 $('.'+'pobla').remove();
+                 var contenido = "";
+                 contenido += '<ul id="poblacionList" class="pobla">';
+                 for (var i=0; i< data.lstObjectsDTO.length; i++){
+                	 contenido += '<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;'+data.lstObjectsDTO[i].descripcion+'</li>';
+                 }
+            	 contenido += '</ul>';
+                 $('#textoPoblacionSintesis').append(contenido);
+             },    
+             error: function () {
+                 Swal.close();
+             },
+             complete: function () {
+                 Swal.close();
+              // setear la descripcion en sintesis
+                 var descripcion = document.getElementById("descripcion").value;
+                 document.getElementById("textoDescripcionProblematicaSintesis").innerHTML = descripcion;
+              // setear localizacion del problema
+                 var localizacion = $('select[name="idLsLocalizacion"] option:selected').text();
+                 var sublocalizacion = $('select[name="idLsSublocalizacion"] option:selected').text();
+                 var upzr = $('select[name="idLzUpzUpr"] option:selected').text();
+     
+                 $('#localSintensis').remove();
+                 var contenido = "";
+                 contenido += '<ul id="localSintensis">';
+                 contenido += '<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;'+localizacion+'</li>';
+                 contenido += '<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;'+sublocalizacion+'</li>';
+                 contenido += '<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;'+upzr+'</li>';
+                 contenido += '</ul>';
+                 $('#textoLocalizacionSintesis').append(contenido);
+            }
+         });
+	         return false;  
+	         
+	       
+		cargarValoracionDespues(id);
+
+	}
+	function cargarProblematica(id) {
+		data = $(this).serialize();
+		$.ajax({
+			 type: 'GET',
+             url: '/Segplan/'+'obtener-problematica/'+id,
+             data: data,
+             success: function (data) {
+            	 console.log(data);
+             	$('#descripcion').val(data.descripcion);
+             	$("#idLsLocalizacion").val(data.idLsLocalizacion).trigger('change');
+             	tinyMCE.get('causa').setContent(data.causas);
+             	$('#idCausaRama').remove();
+             	var contenido = "";
+             	var string = data.causas.toString();
+                var aux1 = string.replace('<p>', '');
+                var aux2 = aux1.replace('</p>', '');
+             	contenido += '<ul id="idCausaRama">';
+             	contenido += '<li>&nbsp;&nbsp;';
+             	contenido += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+             	contenido += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+aux2+'</li>';
+             	contenido += '</ul>'; 
+             	$("#textoCausaSintesis").append(contenido);
+             	tinyMCE.get('consecuencias').setContent(data.consecuencias);
+             	var string1 = data.consecuencias.toString().replace('<p>','').replace('</p>','');
+             	document.getElementById("textoConsecuenciasSintesis").innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+string1;
+             	if(data.causas!=null && data.consecuencias!=null){
+             		tinyMCE.get('causa').setContent(data.causas);
+                 	tinyMCE.get('consecuencias').setContent(data.consecuencias);
+             	}
+             	
+             	/*<![CDATA[*/
+           		 var localidades = /*[[${localidades}]]*/;	
+           		/*]]>*/ 
+           		if(data.localizacion==='Localidad'){
+           			var select = document.getElementById("idLsSublocalizacion");
+           		 for (var j = 0; j < localidades.length; j++) {
+					 let opcion = document.createElement('option')
+		        		
+	        		 opcion.value = localidades[j].idArgumento;
+	        		 opcion.text = localidades[j].resultado;
+	        	     select.add(opcion);
+				}
+           		$("#idLsSublocalizacion").val(data.idLsSublocalizacion).trigger('change');
+           		$("#idLzUpzUpr").val(data.idLzUpzUpr).trigger('change');
+           		}
+             },
+             complete: function (data){
+            	
+            	 
+             }
+		});
+	}
+	function cargarValoracionAntes(id) {
+		data = $(this).serialize();
+		$.ajax({
+			 type: 'GET',
+             url: '/Segplan/'+'obtener-valoracion/'+id+'/1',
+             data: data,
+             success: function (data) {
+            	 console.log(data);
+             	
+             	
+             	$('#balanceInicial').val(data.balanceInicial);
+             	$('#observacionesAntes').val(data.observaciones);
+             	$('#idValoracionAntes').val(data.idValoracion);
+            	$("#sectorAntes").val(data.idLsSector).trigger('change');
+            	$("#gravedadAntes").val(data.gravedad).trigger('change');
+            	$("#duracionAntes").val(data.duracion).trigger('change');
+            	$("#impactoActes").val(data.impacto).trigger('change');
+            	$("#debilidadAntes").val(data.debilidad).trigger('change');
+             	$("#idLsDimensionAntes").val(data.idLsDimension).trigger('change');
+             	if(data.idCompetenciaAsociada1!=null){
+             		if(data.idCompetenciaAsociada1!=null && data.idCompetenciaAsociada2 !=null){
+             			var datos = [data.idCompetenciaAsociada1.toString(),data.idCompetenciaAsociada2.toString()]; 
+             		}else{
+             			var datos = [data.idCompetenciaAsociada1.toString()];
+             		}
+             		
+                 	
+                 	$("#idCompetenciaAntes").val(datos);
+                 	$("#idCompetenciaAntes").trigger('change');
+             	}
+             	 
+             	if(data.balanceInicial==1){
+    				$('#balanceInicialTxt').val('Problema bajo control');
+    			}else if(data.balanceInicial==2){
+    				$('#balanceInicialTxt').val('Problema grave');
+    			}else if (data.balanceInicial==3){
+    				$('#balanceInicialTxt').val('Problema muy grave');
+    			}
+             	
+             },
+             complete: function (data){
+            	
+            	 
+             }
+		})
+	}
+	function cargarValoracionDespues(id) {
+		data = $(this).serialize();
+		$.ajax({
+			 type: 'GET',
+             url: '/Segplan/'+'obtener-valoracion/'+id+'/3',
+             data: data,
+             success: function (data) {
+            	 console.log(data);
+             	
+             	
+             	$('#balanceInicialDespues').val(data.balanceInicial);
+             	$('#observacionesDespues').val(data.observaciones);
+             	$('#idValoracionDespues').val(data.idValoracion);
+            	$("#sectorDespues").val(data.idLsSector).trigger('change');
+            	
+            	$("#duracionDespues").val(data.duracion).trigger('change');
+            	$("#impactoDespues").val(data.impacto).trigger('change');
+            	$("#debilidadDespues").val(data.debilidad).trigger('change');
+             	$("#idLsDimensionDespues").val(data.idLsDimension).trigger('change');
+             	if(data.idCompetenciaAsociada1!=null){
+             		if(data.idCompetenciaAsociada1!=null && data.idCompetenciaAsociada2 !=null){
+             			var datos = [data.idCompetenciaAsociada1.toString(),data.idCompetenciaAsociada2.toString()]; 
+             		}else{
+             			var datos = [data.idCompetenciaAsociada1.toString()];
+             		}
+                 	
+                 	$("#idCompetenciasDespues").val(datos);
+                 	$("#idCompetenciasDespues").trigger('change');
+             	}
+             	 
+             	if(data.balanceInicial==1){
+    				$('#balanceProyectado').val('Problema bajo control');
+    			}else if(data.balanceInicial==2){
+    				$('#balanceProyectado').val('Problema grave');
+    			}else if (data.balanceInicial>=3){
+    				$('#balanceProyectado').val('Problema muy grave');
+    			}
+             	
+             },
+             complete: function (data){
+            	
+            	 
+             }
+		})
+	}
+	function cargarValoracionDurante(id) {
+		data = $(this).serialize();
+		$.ajax({
+			 type: 'GET',
+             url: '/Segplan/'+'obtener-valoracion/'+id+'/2',
+             data: data,
+             success: function (data) {
+            	 console.log(data);
+             	var balance = data.balanceInicial;
+             	$('#idLsCompetencia1Durante').val(data.idLsCompetencia1);
+             	$('#idLsCompetencia2Durante').val(data.idLsCompetencia2);
+             	document.getElementById('balanceInicialDurante2').value=balance;
+             	$('#observacionesDurante').val(data.observaciones);
+             	$('#idValoracionDurante').val(data.idValoracion);
+            	$("#sectorDurante").val(data.idLsSector).trigger('change');
+            	$("#contrarresta").val(data.contrarresta).trigger('change');
+            	$("#agrava").val(data.agrava).trigger('change');
+            	
+             	$("#idLsDimensionDurante").val(data.idLsDimension).trigger('change');
+             	if(data.idCompetenciaAsociada1!=null){
+             		if(data.idCompetenciaAsociada1!=null && data.idCompetenciaAsociada2 !=null){
+             			var datos = [data.idCompetenciaAsociada1.toString(),data.idCompetenciaAsociada2.toString()]; 
+             		}else{
+             			var datos = [data.idCompetenciaAsociada1.toString()];
+             		}
+                 	
+                 	$("#idCompetenciaDurante").val(datos);
+                 	$("#idCompetenciaDurante").trigger('change');
+             	}
+             	
+             	 
+             	if(data.balanceInicial==1){
+    				$('#balanceTotal').val('Problema bajo control');
+    			}else if(data.balanceInicial==2){
+    				$('#balanceTotal').val('Problema grave');
+    			}else if (data.balanceInicial==3){
+    				$('#balanceTotal').val('Problema muy grave');
+    			}
+             	
+             },
+             complete: function (data){
+            	
+            	 
+             }
+		})
+	}
+	function cargarPoblacion(id){
+		'use strict';
+	      var table = $('#dtablaPoblacion').DataTable({
+	    	  "destroy":true,
+	    	  "colReorder" : true,
+	  		"processing" : true,
+	  		"serverSide" : true,
+	  		"lengthChange" : true,
+	  		"searching" : true,
+	  		"ordering" : true,
+	  		"info" : true,
+	  		"autoWidth" : true,
+	  		"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+	  		"pageLength" : 5,
+	    	
+	        "language": {
+	            "info": '<div class="formato">_END_ de _TOTAL_ registros</div>',
+	            "infoEmpty": '<div class="formato">0 de 0.</div>',
+	            "infoFiltered": "(filtrados de un total de _MAX_ registros)",
+	            "zeroRecords": "No se han encontrado coincidencias.",
+	            "responsive": true,
+	            "paginate": {
+	                "first": '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+	                "last":  '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+	                "next": '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+	                "previous":'<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+	            },
+	            "lengthMenu": "_MENU_",
+	        },
+
+	        "lengthMenu": [5, 10, 20, 50, 100],
+	        "pageLength": 5,
+	        "pagingType": "full_numbers",
+	        "dom": "<'row'<'col-sm-5 col-md-7'>>" +
+	                "<'row'<'col-sm-8 col-md-7'tr>>" +
+	                "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+	                "ajax" : {
+						"url" : "/Segplan/listarPoblacionPorId/"+id,
+						"type" : "POST"
+			 },
+			 "columns" : [
+					{ data : "descripcion"},
+					{
+						"render" : function() {
+							return '<button  type="button" id="BtnEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button><button  type="button" id="BtnEliminar" class="edit"><img src="css/img/icono-eliminar.png" class="editar">'
+													
+						}, "orderable": false,  className:"icon"}
+					],
+
+	    });
+	      yadcf.init(table, [ {
+	    		column_number : 0,
+	    		filter_type : "text",
+	    		filter_reset_button_text : false,
+	    		filter_delay : 500
+
+	    	},]);
+	      editar('#dtablaPoblacion tbody', table); 
+	      eliminar('#dtablaPoblacion tbody', table);  
+	 $('div.dataTables_length select').addClass("formato-2");
+}
+	function editar(tbody, table) {
+		$(tbody)
+				.on("click",
+						"button#BtnEditar",
+						function() {
+							if (table.row(this).child.isShown()) {
+								var data = table.row(this).data();
+							} else {
+								var data = table.row($(this).parents("tr"))
+										.data();
+							}
+							var data = table.row($(this).parents("tr")).data();
+							console.log(data);
+							console.log("entro");
+							$('#idProblematica3').val(data.idProblematica.idProblematica);
+							$('#idPoblacion').val(data.idPoblacion);
+							$('#descripcion2').val(data.descripcion);
+							$('#modalEditarPoblacion').modal('show');
+						})
+	}	
+	function eliminar(tbody, table) {
+		$(tbody)
+				.on("click",
+						"button#BtnEliminar",
+						function() {
+							if (table.row(this).child.isShown()) {
+								var data = table.row(this).data();
+							} else {
+								var data = table.row($(this).parents("tr"))
+										.data();
+							}
+							var data = table.row($(this).parents("tr")).data();
+							console.log(data);
+							Swal.fire({
+								  title: '¡Advertencia!',
+								  text: "¿Está seguro que desea eliminar este registro?",
+								  icon: 'warning',
+								  showCancelButton: true,
+								  confirmButtonColor: '#3085d6',
+								  cancelButtonColor: '#d33',
+								  confirmButtonText: 'Aceptar',
+								  cancelButtonText: 'Cancelar'
+								}).then((result) => {
+								  if (result.value) {
+									  $('#idProblematica5').val(data.idPoblacion);
+									  eliminarPoblacion(data.idPoblacion);
+									
+								  }
+							})
+							
+						})
+	}
+	function eliminarPoblacion(id) {
+		 var data = $(this).serialize();
+	      var mensajeRespuesta = "";
+	      $.ajax({
+	          type: 'GET',
+	          url: '/Segplan/'+'eliminar-poblacion/'+id,
+	          data: data,
+	          beforeSend: function () {
+	              Swal.fire({
+	                  title: 'Cargando...',
+	                  position: 'top',
+	                  allowOutsideClick: () => !Swal.isLoading(),
+	                  onBeforeOpen: () => {
+	                      Swal.showLoading();
+	                  }
+	              });
+	          },
+
+	          success: function (data) {
+	              Swal.close();
+	              
+	              mensajeRespuesta = data.msgRespuesta;
+	            
+	              $('#dtablaPoblacion').DataTable().clear();
+			         $('#dtablaPoblacion').empty();
+			         var id = $('#idProblematica').val();
+			         
+		         cargarPoblacion(id);
+	          },
+	          error:
+	                  function () {
+	                      Swal.close();
+
+	                  },
+	                  
+	          complete: function () {
+	                      Swal.close();
+	                    
+	                      Swal.fire({
+	  	 			        title:"¡Información!",
+	  	 				    text: mensajeRespuesta,
+	  	 			        icon: "warning",
+	  	 			        confirmButtonText: 'Aceptar',
+	  	 			        allowOutsideClick: () => false
+	  	 		       })
+
+	                  }
+	           });
+	}
+</script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

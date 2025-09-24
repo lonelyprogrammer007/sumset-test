@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span><b>Fuentes de Financiación</b></span><br>
+		<div class="hr-1"></div>
+	</div>
+
+	<div align="left" class="mb-3">
+
+		<button id="btnAgregarFuente" disabled="true"
+			class="boton-agregar mt-3" type="button" onclick="crear()">
+			<i class="fa fa-plus-circle"></i> Agregar
+		</button>
+		<div class="centrarItems" id="spinnerFuentes">
+			<div id="spinner" class="lds-ellipsis">
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+
+		</div>
+		<div class="centrarItems">
+			<div class="alert alert-danger d-none" id="alertconexion"
+				role="alert">Error de conexión</div>
+		</div>
+	</div>
+
+
+	<div class="table-responsive">
+		<table class="table-striped" id="dataFinancia" style="width: 160%">
+			<thead>
+				<tr id="headFuentesFinancia">
+					<th style="width: 14.2%;" class="color-head">Fuentes de
+						Financiación<br>
+					</th>
+					<th style="width: 14.2%;" class="color-head">Año 1<br></th>
+					<th style="width: 14.2%;" class="color-head">Año 2<br></th>
+					<th style="width: 14.2%;" class="color-head">Año 3<br></th>
+					<th style="width: 14.2%;" class="color-head">Año 4<br></th>
+					<th style="width: 14.2%;" class="color-head">Año 5<br></th>
+					<th style="width: 14.2%;" class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+			<tbody id="bodyFuentesFinancia">
+			</tbody>
+			<tfoot>
+							<tr class="total">
+								<td ><div class="total_2">TOTALES</div></td>
+     							<td id="totalAnio1">Total</td>
+     							<td id="totalAnio2">Total</td>
+     							<td id="totalAnio3">Total</td>
+     							<td id="totalAnio4">Total</td>
+     							<td id="totalAnio5">Total</td>
+								<td></td>
+							</tr>
+						</tfoot>
+		</table>
+	</div>
+	<div th:include="bp/inscripcion-proyectos/modales/modal-agregar-fuentes.html"></div>
+	<script th:inline="javascript">
+	$(document).ready(function () {
+
+		  /*<![CDATA[*/
+
+		  let pddVigente = /*[[${pddVigente}]]*/;
+
+		  /*]]>*/
+
+
+		  let tabla = $('#dataFinancia');
+		  let  multipleseleccion;
+		  function obtenerDatos() {
+
+		    let anios = (pddVigente.yearFinal - pddVigente.yearInicio) + 1;
+
+
+		    data = $(this).serialize();
+
+
+		    $.ajax({
+		      type: 'GET',
+		      url: '/Segplan/' + 'obtenerFuentesFinanciacion/2',
+		      data: data,
+		      success: function (data) {
+
+
+		        renderizarDatos(data.lstObjectsDTO);
+		        agregarFiltros();
+
+		      },
+		      error: function () {
+
+		        $('#spinnerFuentes').remove();
+		        $('#alertconexion').removeClass('d-none');
+
+		      }
+		    });
+		  }
+		  function renderizarDatos(datos) {
+
+		  let totalAnio1=0;
+		  let totalAnio2=0;
+		  let totalAnio3=0;
+		  let totalAnio4=0;
+		  let totalAnio5=0;
+
+
+		    datos.forEach(fuente => {
+
+		    	totalAnio1+=fuente.montoAnio1;
+		    	totalAnio2+=fuente.montoAnio2;
+		    	totalAnio3+=fuente.montoAnio3;
+		    	totalAnio4+=fuente.montoAnio4;
+		    	totalAnio5+=fuente.montoAnio5;
+		    	
+		    	var auxiMonto1 = fuente.montoAnio1.toString();
+		    	var auxiMonto2 = fuente.montoAnio2.toString();
+		    	var auxiMonto3 = fuente.montoAnio3.toString();
+		    	var auxiMonto4 = fuente.montoAnio4.toString();
+		    	var auxiMonto5 = fuente.montoAnio5.toString();
+				
+		    	var monto1 = maskDinero(unmaskDinero(auxiMonto1));
+		    	var monto2 = maskDinero(unmaskDinero(auxiMonto2));
+		    	var monto3 = maskDinero(unmaskDinero(auxiMonto3));
+		    	var monto4 = maskDinero(unmaskDinero(auxiMonto4));
+		    	var monto5 = maskDinero(unmaskDinero(auxiMonto4));
+				
+		    	
+		    	
+		      $('#bodyFuentesFinancia').append(
+		        `<tr id="${fuente.idFuente}">
+		              <td class="azul">${fuente.stringLsFuente}</td>
+		              <td class="azul">${monto1}</td>
+		              <td class="azul">${monto2}</td>
+		              <td class="azul">${monto3}</td>
+		              <td class="azul">${monto4}</td>
+		              <td class="azul">${monto5}</td>
+		              <td>
+		                <div class="centrarItems">
+		                <button    type="button" id="ButtonEliminarFuente-${fuente.idFuente}"  class="btnAction">
+		                  <img src="css/img/icono-eliminar.png" >
+		              </button>
+		                <button   type="button" onclick="editar(${fuente.idFuente},${fuente.montoAnio1},${fuente.montoAnio2},${fuente.montoAnio3},${fuente.montoAnio4},${fuente.montoAnio5}, '${fuente.stringLsFuente}', ${fuente.idLsFuente})" id="ButtonEditarFuente${fuente.idFuente}"  class="btnAction" >
+		                      <img src="css/img/icono-1-azul.png" >
+		                  </button>
+		                  </div>
+		                 
+		           </td>
+		              </tr>`);
+
+
+		      $(`#ButtonEliminarFuente-${fuente.idFuente}`).click(function () {
+
+		        Swal.fire({
+
+		          text: "Está seguro de eliminar la fuente de financiación seleccionada?",
+		          type: 'warning',
+		          showCancelButton: true,
+		          confirmButtonColor: '#3085d6',
+		          cancelButtonColor: '#d33',
+		          confirmButtonText: 'Borrar',
+		          cancelButtonText: 'Cancelar',
+		        }).then((result) => {
+		          if (result.value) {
+
+		            $.ajax({
+		              type: 'GET',
+		              url: '/Segplan/' + `eliminarBpProyInvFinancia/${fuente.idFuente}`,
+		              data: data,
+		              beforeSend: function () {
+		                Swal.fire({
+		                  title: 'Cargando...',
+		                  allowOutsideClick: () => !Swal.isLoading(),
+		                  onBeforeOpen: () => {
+		                    Swal.showLoading();
+		                  }
+		                });
+		              },
+		              success: function (data) {
+		                Swal.close();
+		                Swal.fire({
+		                  title: "¡Información!",
+		                  text: data.msgRespuesta,
+		                  type: "info",
+		                  confirmButtonText: 'Aceptar',
+		                  allowOutsideClick: () => false
+		                })
+
+		                $('#' + fuente.idFuente).remove();
+		                tabla.clear();
+		                tabla.destroy();
+		                tabla = $('#dataFinancia');
+		                obtenerDatos();
+
+		              }, error: function () {
+		                Swal.close();
+		                Swal.fire({
+		                  type: 'error',
+		                  title: 'Oops...',
+		                  text: 'Algo salio mal',
+		                  footer: '<a href>"No tiene conexión a internet por favor verifique la conexión e intente nuevamente."</a>'
+		                })
+		              }, complete: function () {
+
+
+		              }
+		            })
+		          }
+		        })
+
+
+		      })
+
+		    });
+
+		   
+		    
+		    
+		    $('#totalAnio1').html( maskDinero(unmaskDinero(totalAnio1.toString())))
+		     $('#totalAnio2').html( maskDinero(unmaskDinero(totalAnio2.toString())))
+		      $('#totalAnio3').html( maskDinero(unmaskDinero(totalAnio3.toString())))
+		       $('#totalAnio4').html( maskDinero(unmaskDinero(totalAnio4.toString())))
+		        $('#totalAnio5').html( maskDinero(unmaskDinero(totalAnio5.toString())))
+		    
+		  }
+
+		  function agregarFiltros() {
+
+		    tabla.find('thead th').each(function () {
+		      var title = $(this).text();
+		      if (title !== "Acción") {
+		        $(this).html(
+		          '<div class="form-group" id="centrado2">' +
+		          '<label for="th" class="blanco">' +
+		          title +
+		          "</label>" +
+		          '<div class="centrado">' +
+		          '<input class="form-control filter" id="nombre1" type="text"  placeholder="&#xf0b0; Filtrar ' +
+		          title +
+		          '" />' +
+		          "</div>" +
+		          "</div>"
+		        );
+		      }
+		    });;
+
+		    tabla = tabla.DataTable({
+		      language: {
+		        info: '<div class="formato">_END_ de _TOTAL_ registros</div>',
+		        infoEmpty: '<div class="formato">0 de 0.</div>',
+		        infoFiltered: "(filtrados de un total de _MAX_ registros)",
+		        zeroRecords: "No se han encontrado coincidencias.",
+		        responsive: true,
+		        paginate: {
+		          first:
+		            '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+		          last:
+		            '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+		          next:
+		            '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+		          previous:
+		            '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">',
+		        },
+		        lengthMenu: "_MENU_",
+		      },
+		      lengthMenu: [5, 10, 20, 50, 100],
+		      pageLength: 5,
+		      pagingType: "full_numbers",
+		      dom:
+		        "<'row'<'col-sm-5 col-md-7'>>" +
+		        "<'row'<'col-sm-8 col-md-7'tr>>" +
+		        "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+		      initComplete: function () {
+
+		        $('#spinnerFuentes').remove();
+		        $('#btnAgregarFuente').removeAttr('disabled');
+		        $('#alertconexion').addClass('d-none');
+
+
+		      },
+		
+		    }
+		    )
+		    $('.filter').on('click', function (e) {
+		      e.stopPropagation();
+		    });
+		    $('div.dataTables_length select').addClass("formato-2");
+
+		    tabla.columns().every(function () {
+		      var that = this;
+
+		      $("input", this.header()).on("keyup change clear", function () {
+		        if (that.search() !== this.value) {
+		          that.search(this.value).draw();
+		        }
+		      });
+		    });
+
+		  }
+		  function unmaskDinero(numeroString) {
+		        return +(numeroString.replace(/[^0-9.-]/g,""));
+		    }
+		    function maskDinero(numeroInt) {
+		        var money = "$" + parseFloat(numeroInt).toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+		        var valor = money
+		        .replace(/,/g , "__COMMA__") // Replace `,` by some unique string
+		        .replace(/\./g, ',')         // Replace `.` by `,`
+		        .replace(/__COMMA__/g, '.'); // Replace the string by `.`
+		        return valor;
+		    }
+
+		  function modal() {
+
+		    /*<![CDATA[*/
+
+		    let pddVigente = /*[[${pddVigente}]]*/;
+		    let listFuentes = /*[[${listfuenteFinanciacion}]]*/
+
+		      /*]]>*/
+
+		      let anioInicio = pddVigente.yearInicio;
+		    let anios = (pddVigente.yearFinal - pddVigente.yearInicio) + 1;
+
+
+		    //mutiples  selecciones ------------------------------------
+
+//		    let ddFuentes = [];
+//		    var option;
+//		    var argumento;
+//		    for (let i = 0; i < listFuentes.length; i++) {
+
+		      
+//		      option = listFuentes[i].resultado;
+//		      argumento = listFuentes[i].idArgumento;
+//		      arg = argumento.toString();
+//		      var myOptions =
+//		      {
+//		        label: option,
+//		        value: arg
+//		      }
+
+
+//		      ddFuentes.push(myOptions);
+//		    }
+
+
+
+//		      multipleseleccion = new SelectPure(".multi-selection", {
+//		      options: ddFuentes,
+//		      multiple: false,
+//		      icon: "fa fa-times",
+//		      placeholder: "-Seleccione una fuentes de financiación-",
+//		      onChange: value => {
+//		        verFuentesFinanciacion(value);
+//		      },
+//		      classNames: {
+//		        select: "select-pure__select",
+//		        dropdownShown: "select-pure__select--opened",
+//		        multiselect: "select-pure__select--multiple",
+//		        label: "select-pure__label",
+//		        placeholder: "select-pure__placeholder",
+//		        dropdown: "select-pure__options",
+//		        option: "select-pure__option",
+//		        autocompleteInput: "select-pure__autocomplete",
+//		        selectedLabel: "select-pure__selected-label",
+//		        selectedOption: "select-pure__option--selected",
+//		        placeholderHidden: "select-pure__placeholder--hidden",
+//		        optionHidden: "select-pure__option--hidden",
+//		      }
+//		    });
+
+
+		    //--------------------Fin Multiples selecciones--------------------------------------------
+		    //------------------Agregar Campos dependiendo de los años---------------------------------
+		    for (let i = 0; i < anios; i++) {
+
+		      $('#ImputsMontosAños').append(
+		        `<div class="row mt-2">
+		        <div class="col-sm-3 mt-2">
+		            <div class="texto">
+		                <label for="tematica" >${anioInicio}</label>
+		                <input type="hidden"  value="${anioInicio}" name="vigencia${i + 1}">
+		            </div>
+		        </div>
+		        <div class="col-sm-6  ">
+		            <input type="text" maxlength="23" class="form-control required number" id="montoAnio${i + 1}" name="montoAnio${i + 1}">
+		            
+		        </div>
+		    </div>`
+		      );
+
+		      anioInicio++;
+
+		    }
+		 
+
+		    //------------Fin agregar Campos dependiendo de los años------------------------------------
+
+		    $('.agregar').click(function () {
+
+		        
+
+		      let campoFuente = $('#idLsFuente').val();
+		      let bandera = true;
+		      let bandera2 = true;
+
+		      for (let i = 0; i < anios; i++) {
+
+		        let valcampos = $(`#montoAnio${i + 1}`).val();
+		        if (valcampos === "") {
+		          bandera = false;
+		        }
+		        if (isNaN(valcampos)) {
+		          bandera2 = false;
+		        }
+
+		      }
+		      if (bandera2 == false) {
+		        Swal.fire({
+		          title: "¡Advertencia!",
+		          text: "Los campos deben de ser de tipo numérico",
+		          type: "warning",
+		          confirmButtonText: 'Aceptar',
+		          allowOutsideClick: () => false
+		        });
+		        return false;
+		      }
+
+		      if (bandera == false || campoFuente == "") {
+		        Swal.fire({
+		          title: "¡Advertencia!",
+		          text: "Existen campos obligatorios que no se han registrado",
+		          type: "warning",
+		          confirmButtonText: 'Aceptar',
+		          allowOutsideClick: () => false
+		        });
+
+		        return false;
+		      }
+
+
+		    });
+
+		    //-------------Accion de Guardar ------------------------------
+		    $(document).on('submit', '#formAgregarFuenteFinanciacion', function (e) {
+		      e.preventDefault();
+
+
+		      let data = $(this).serialize();
+		      let mensajeRespuesta = "";
+				
+
+		      $.ajax({
+		        type: "POST",
+		        url: '/Segplan/' + 'registrarBpProyInvFinancia',
+		        data: data,
+		        beforeSend: function () {
+		          Swal.fire({
+		            title: 'Cargando...',
+		            allowOutsideClick: () => !Swal.isLoading(),
+		            onBeforeOpen: () => {
+		              Swal.showLoading();
+		            }
+		          });
+		        },
+		        success: function (data) {
+		          Swal.close();
+		          Swal.fire({
+		            title: "¡Información!",
+		            text: data.msgRespuesta,
+		            type: "info",
+		            confirmButtonText: 'Aceptar',
+		            allowOutsideClick: () => false
+		          })
+
+		                tabla.clear();
+		                tabla.destroy();
+		                tabla = $('#dataFinancia');
+		                obtenerDatos();
+		                limpiarCampos();
+
+		        }, error: function () {
+		          Swal.close();
+		          Swal.fire({
+		            type: 'error',
+		            title: 'Oops...',
+		            text: 'Algo salio mal',
+		            footer: '<a href>"No tiene conexión a internet por favor verifique la conexión e intente nuevamente."</a>'
+		          })
+		        }
+		      });
+
+		    });
+
+
+		  }
+		  function limpiarCampos(){
+
+		   	$('#concatenafuentes').val("");
+		    $('#montoAnio1').val("");
+		    $('#montoAnio2').val("");
+		    $('#montoAnio3').val("");
+		    $('#montoAnio4').val("");
+		    $('#montoAnio5').val("");
+
+		  }
+		  
+		  
+		  
+		  
+		  obtenerDatos();
+		  modal();
+
+		})
+		/*Metodo que permite concatenar los id de las ls seleccionadas */
+		function verFuentesFinanciacion(value) {
+
+		  if (value.length == 0) {
+		    concatenar = "";
+		    document.getElementById("concatenafuentes").value = concatenar;
+		  }
+		  concatenar = "";
+		  for (var i = 0; i < value.length; i++) {
+		    auxi = value[i];
+		    concatenar += auxi;
+		    document.getElementById("concatenafuentes").value = concatenar;
+		  }
+
+		 
+
+		}
+		function editar(idFuente, montoAnio1, montoAnio2, montoAnio3, montoAnio4, montoAnio5, stringLsFuente, idLsFuente){
+		  
+		
+		  $('#seleccionFuentes').hide();
+		  $('#seleccionFuentes-edit').show();
+		  $('#idFuente').val(idFuente);
+		  $('#inputfuenteEdit').val(stringLsFuente);
+		  $('#montoAnio1').val(montoAnio1);
+		  $('#montoAnio2').val(montoAnio2);
+		  $('#montoAnio3').val(montoAnio3);
+		  $('#montoAnio4').val(montoAnio4);
+		  $('#montoAnio5').val(montoAnio5);
+    $('#idLsFuente').val(idLsFuente);
+		  $('#agregarFuentesModal').modal('show');
+		 
+		  
+		}
+		function crear (){
+		  	
+			
+		    $('#seleccionFuentes-edit').hide();
+		    $('#seleccionFuentes').show();
+		    $('#idFuente').val(null);
+		    $('#inputfuenteEdit').val(null)
+		    $('#montoAnio1').val(null);
+		    $('#montoAnio2').val(null);
+		    $('#montoAnio3').val(null);
+		    $('#montoAnio4').val(null);
+		    $('#montoAnio5').val(null);
+       $('#idLsFuente').val(null);
+		    $('#agregarFuentesModal').modal('show');
+		  
+		}
+	</script>
+</body>
+</html>

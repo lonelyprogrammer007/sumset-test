@@ -1,0 +1,22 @@
+@font-face {
+	font-family: "Apex new bold";
+	src: url(../font/ufonts.com_apexnew-bold-opentype.otf);
+}
+
+.label-bp {
+	text-align: left;
+	font-family: Apex new bold;
+	letter-spacing: 0;
+	color: #797979;
+	opacity: 1;
+}
+#banco {
+	border: 1px solid #00529C;
+    border-radius: 9px;
+    opacity: 1;
+}
+#idEntidad {
+	border: 1px solid #00529C;
+    border-radius: 9px;
+    opacity: 1;
+}

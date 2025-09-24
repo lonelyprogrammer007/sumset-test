@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+</head>
+<body>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span>Metas producto</span><br>
+
+	</div>
+	<div class="float-left mb-3">
+		<button class="boton-agregar mt-3" type="button" data-toggle="modal"
+			onclick="agregarProductos()">
+			<img src="css/img/icono-agregar.png" class="agregar" alt="Icono agregar"> Agregar
+		</button>
+
+	</div>
+	<input type="hidden" id="idProductoEliminar">
+	<form id="formEliminarProducto" method="get"></form>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablaProducto" style="width: 300%">
+		<caption><div class="hr-2"></div></caption>
+			<thead>
+				<tr>
+					<th class="color-head">Meta Producto<br></th>
+					<th class="color-head">Verbo<br></th>
+					<th class="color-head">Magnitud<br></th>
+					<th class="color-head">Unidad de Medida<br></th>
+					<th class="color-head">Complemento<br></th>
+					<th class="color-head">Tipo de Anualización<br></th>
+					<th class="color-head">Ponderación<br></th>
+					<th class="color-head">Estado<br></th>
+					<th class="color-head">MP PDD<br></th>
+					<th class="color-head">Observaciones<br></th>
+					<th class="color-head">Fecha de Creación<br></th>
+					<th class="color-head">Acción<br></th>
+				</tr>
+			</thead>
+			 <tbody>
+			</tbody>
+			<tfoot>
+							<tr class="total">
+								<td colspan="6"><div class="total_2">Total ponderación</div></td>
+     							<td id="contaAsigna">0</td>
+								<td colspan="5"></td>
+							</tr>
+						</tfoot>
+		</table>
+	</div>
+	<br>
+	<div class="abs-center mt-2 " style="font-size: 16px">
+		<span>Anualización Entidades</span><br>
+
+	</div>
+	<div class="table-responsive">
+		<table class="table-striped" id="dtablaAnualizacion" style="width: 175%">
+			<thead>
+				<tr>
+					<th class="color-head">Vigencia<br></th>
+					<th class="color-head">Magnitud<br></th>
+					<th class="color-head">Recursos Pesos Constantes<br></th>
+
+				</tr>
+			</thead>
+		</table>
+	</div>
+    <br>
+    <form id="formBtnMetaProductoSeguir" method="get">
+	<div class="float-right">
+			   <button type="submit" id="btnSeguirProducto"
+					class="boton-regresar">
+						<img src="css/img/continuar-over.png" class="volver" alt="Icono agregar">&nbsp;&nbsp; Seguir
+			 </button>
+		</div>
+	</form>	
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-agregar-meta-producto.html"></div>
+	<div th:include="ip/componentes-estructura-pdd/componentes/modales/modal-editar-meta-producto.html"></div>
+</body>
+<script type="text/javascript">
+function agregarProductos(){
+	$('#agregarMetaProducto').modal('show');
+	document.getElementById("idVerboProducto").value = "";
+	document.getElementById("magnitudProducto").value = "";
+	document.getElementById("unidadMedidaProducto").value = "";
+	document.getElementById("complementoProducto").value = "";
+	document.getElementById("tipoAnualProducto").value = "";
+	document.getElementById("ponderacionProducto").value = "";
+	document.getElementById("estadoProducto").value = "";
+	document.getElementById("areaJustificacion").value = "";
+}
+</script>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<body>
+	<div class="modal fade" id="agregarGrupoEtnicoModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-4">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-8">
+							<span class="titulo">Registrar
+								Grupos/Situaciones/Condiciones/Sectores</span>
+						</div>
+					</div>
+
+
+					<button id="btnEquisModalAggSector" type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-container2">
+						<form id="formAgregarSectorCondicion" method="post">
+							<input type="hidden" name="idEtnico" id="campoEditarIdEtnico">
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto">
+										<label>Grupos/Situaciones/Condiciones/Sectores:<span style="font-weight: bold;"
+												class="text-danger">*</span></label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<select style="width: 100%;" name="idLsEtnico"
+										class="form-control js-selector-single-sector-condicion selectpicker required-add-sector-condicion"
+										id="selectorAggSectorCondicionId">
+										<option value=""></option>
+										<option th:each="lista : ${listaSectoresCondiciones}"
+											th:value="${lista.idArgumento}" th:text="${lista.resultado}">
+										</option>
+									</select>
+
+								</div>
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<div class="texto ">
+										<label>Número de Personas:<span style="font-weight: bold;"
+												class="text-danger">*</span></label>
+									</div>
+								</div>
+
+							</div>
+							<div class="row mt-2">
+								<div class="col-sm-6">
+									<input id="camboNumeroAddSectorCondicion" name="numero" maxlength="8" type="text"
+										class="form-control required-add-sector-condicion">
+
+								</div>
+
+							</div>
+
+							<div class="row mt-3">
+								<div class="col-sm-12">
+									<div class="texto">
+										<label>Descripción</label>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-3">
+								<div class="col-sm-12">
+									<textarea id="camboDescAddSectorCondicion" name="descripcion" maxlength="300"
+										rows="" cols="3" class="form-control"> </textarea>
+								</div>
+							</div>
+							<div align="right" class="mt-3">
+								<a id="btnCancelarModalAggSector" href="#" data-dismiss="modal">Cancelar</a>
+
+								<button type="submit" class="myFormButton agregar" name="save"
+									id="boton-modal">GUARDAR</button>
+							</div>
+
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

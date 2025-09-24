@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Insert title here</title>
+</head>
+
+<body>
+<style>
+body {
+	font-family: "Roboto", sans-serif;
+}
+
+.select-wrapper {
+	margin: auto;
+	max-width: 600px;
+	width: calc(100% - 40px);
+}
+
+.select-pure__select {
+	align-items: center;
+	background: #FFFFFF 0% 0% no-repeat padding-box;
+	box-shadow: 0px 3px 6px #00000040;
+	border-radius: 10px;
+	border: 1px solid #00529C;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	color: #363B3E;
+	cursor: pointer;
+	display: flex;
+	font-size: 16px;
+	font-weight: 500;
+	justify-content: left;
+	min-height: 44px;
+	padding: 5px 10px;
+	position: relative;
+	transition: 0.2s;
+	width: 100%;
+}
+
+.select-pure__options {
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+	box-sizing: border-box;
+	color: #363B3E;
+	display: none;
+	left: 0;
+	max-height: 221px;
+	overflow-y: scroll;
+	position: absolute;
+	top: 50px;
+	width: 100%;
+	z-index: 5;
+}
+
+.select-pure__select--opened .select-pure__options {
+	display: block;
+}
+
+.select-pure__option {
+	background: #fff;
+	border-bottom: 1px solid #E4E4E4;
+	box-sizing: border-box;
+	height: 44px;
+	line-height: 25px;
+	padding: 10px;
+}
+
+.select-pure__option--selected {
+	color: #E4E4E4;
+	cursor: initial;
+	pointer-events: none;
+}
+
+.select-pure__option--hidden {
+	display: none;
+}
+
+.select-pure__selected-label {
+	align-items: 'center';
+	background: #5E6264;
+	border-radius: 4px;
+	color: #fff;
+	cursor: initial;
+	display: inline-flex;
+	justify-content: 'center';
+	margin: 5px 10px 5px 0;
+	padding: 3px 7px;
+}
+
+.select-pure__selected-label:last-of-type {
+	margin-right: 0;
+}
+
+.select-pure__selected-label i {
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 7px;
+}
+
+.select-pure__selected-label img {
+	cursor: pointer;
+	display: inline-block;
+	height: 18px;
+	margin-left: 7px;
+	width: 14px;
+}
+
+.select-pure__selected-label i:hover {
+	color: #E4E4E4;
+}
+
+.select-pure__autocomplete {
+	background: #F9F9F8;
+	border-bottom: 1px solid #E4E4E4;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	box-sizing: border-box;
+	font-size: 16px;
+	outline: none;
+	padding: 10px;
+	width: 100%;
+}
+
+.select-pure__placeholder--hidden {
+	display: none;
+}
+</style>
+	<div class="modal fade" id="agregarPotObra" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-6">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-4">
+							<span class="titulo" style="font-size: 16px;">Registrar
+								Obra/Proyecto</span>
+						</div>
+					</div>
+
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="" id="peticionAgregarObra">
+					<div class="row">
+						<div class="col-sm-12">
+						<input type="hidden" name="idObraProyPot" id="idObraProyPot">
+						<input type="hidden" name="idNivelPot" id="idNivelPot">
+							<div class="texto">
+								<label>Código Obra/Proyecto: *</label>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<input type="text" class="disenioInput form-control number required"
+								placeholder="Longitud 10" maxlength="10" name="codigoPotObra" id="codigoPotObra">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="texto">
+								<label> Obra/Proyecto: *</label>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<input type="text" class="disenioInput form-control required"
+								placeholder="Longitud 250" maxlength="250" name="obra" id="obra">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="texto">
+								<label> Entidad(es) responsable(s):*</label>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<span class="multi-select" id="sect"></span> <input
+									type="hidden" id="concatena" name="codigoEntidadConcatenados" class="required"
+									>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="texto">
+								<label> Plazo Ejecución</label>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<select class="form-control caja required" id="idLsPlazo" name="idLsPlazo">
+								<option value="">Seleccione una opción</option>
+								<option th:each="plazo: ${plazos}"
+								th:value="${plazo.idArgumento}"
+								th:text="${plazo.resultado}">
+							</select>
+						</div>
+					</div>
+					
+					<div align="right" class="mt-3">
+						<a href="#" data-dismiss="modal">Cancelar</a>
+
+						<button style="width: auto !important;" type="submit"
+							class="myFormButton agregar" name="save" id="boton-modal">GUARDAR</button>
+						
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script th:inline="javascript">
+	
+	$('.number').on('input', function() {
+		this.value = this.value.replace(/[^0-9]/g, '');
+	});
+	</script>
+	<script type="text/javascript" th:src="@{/js/dist/bundle.min.js}"></script>
+</body>
+</html>

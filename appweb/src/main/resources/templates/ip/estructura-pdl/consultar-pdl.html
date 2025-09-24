@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+
+<title id="pageTitle">Consultar PDL</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/filtros/yadcf-consultar-pg.css}">
+<body>
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>Instrumentos de planeación</li>
+			<li class="breadcrumb-item"  aria-current="page">Estructura plan de desarrollo</li>
+			<li class="breadcrumb-item " aria-current="page" id="act">Estructura plan de desarrollo local</li>
+			
+		</ul>
+	</nav>
+	<div class="form-container3">
+
+		<div class="abs-center">
+			<span>Plan de desarrollo local</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<input type="hidden" id="idTipoPd">
+		<div class="float-left">
+		     <a th:href="@{/agregar-pdl}">
+				<button type="button" class="boton-agregar" id="btnAgregarPdd">
+					<img src="css/img/icono-agregar.png" class="agregar"
+						alt="Icono agregar">Agregar
+				</button></a>
+		</div>
+		<br>
+		<br>
+		<div class="table-responsive mt-3">
+			<form id="peticionEditarPdl" method="post" th:action="@{/modificar-pdl}"
+				th:object="${pddDTO}">
+				<input type="hidden" id="codigoEnti" name="codigoEntidad">
+				<input type="hidden" id="idLocal" name="idPlanLocal">
+				<input type="hidden" id="idPlanDesarrollo" name="idPlanDesarrollo">
+				<input type="hidden" id="nombrePlan" name="nombrePlan">
+				<input type="hidden" id="url" name="urlPlan">
+				<input type="hidden" id="adoptado" name="idLsAdoptado">
+				<input type="hidden" id="acto"  name="actoAdministrativo">
+				<input type="hidden" id="fecha" name="fechaActo">
+				<input type="hidden" id="inicio" name="yearInicio">
+				<input type="hidden" id="final" name="yearFinal">
+				<input type="hidden" id="estado" name="idLsEstadoPlan">
+				<input type="hidden" id="alcalde" name="nombreAlcaldeLocal">
+				<input type="hidden" id="correo" name="correoAlcaldeLocal">
+			</form>
+			
+			<table id="dtabla" class="table-striped" style="width: 250%">
+			<caption><div class="hr-2"></div></caption>
+				<thead>
+					<tr class="color">
+						<th style="width: 10%" class="color-head">Plan de Desarrollo
+							<br>
+						</th>
+						<th style="width: 15%" class="color-head">Alcalde <br></th>
+						<th style="width: 15%" class="color-head">Vigencia <br></th>
+						<th style="width: 15%" class="color-head">Año Inicio <br></th>
+						<th style="width: 10%" class="color-head">Año Final <br></th>
+						<th style="width: 10%" class="color-head">Estado <br></th>
+						<th style="width: 7%" class="color-head pdd1">Acción</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+
+
+		</div>
+	</div>
+	<br>
+	<br>
+	<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script th:inline="javascript">
+$(document).ready(function() {
+	/*<![CDATA[*/
+    var tipoPDD = /*[[${tipoPdd}]]*/;
+	document.getElementById("idTipoPd").value = tipoPDD;
+    /*]]>*/
+	cargarDatos(tipoPDD);
+	$('#dtabla tbody').on('mouseover','tr',function(){
+	    $(this).find('.icon').find('.ver').find('.editar').attr("src","css/img/editar-rollover.png");
+	});
+	$('#dtabla tbody').on('mouseleave','tr',function(){
+	    $(this).find('.icon').find('.ver').find('.editar').attr("src","css/img/icono-1-azul.png") ;		 	 
+    });
+	
+ });
+function cargarDatos(tipoPDD) {
+	   'use strict';
+		var table = $('#dtabla')
+		.DataTable({				
+			"colReorder":true,
+			"processing":true,
+			"serverSide":true,
+			"lengthChange":true,
+			"searching": true,
+			"ordering":true,
+			"info":true,
+			"autoWidth":true,
+			"lengthMenu":[ [ 5, 10, 25, 50, -1 ],
+				[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+			"pageLength":5,
+			"language":{
+				"processing" : 'Cargando...',
+				"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+				"infoEmpty" : '<div class="formato">0 de 0.</div>',
+				"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+				"zeroRecords" : "No se han encontrado coincidencias.",
+				"responsive" : true,
+				"paginate" : {
+					"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+					"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+					"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+					"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+				},
+				"lengthMenu" : "_MENU_",
+			},
+			"pagingType": "full_numbers",
+			"dom" :"<'row'<'col-sm-5 col-md-7'>>"
+				+ "<'row'<'col-sm-8 col-md-7'tr>>"
+				+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+			"order":[0,'desc'],
+			"ajax": {
+				"url": "/Segplan/listaPdlByPage",
+				"type": "POST"
+			},
+			"columns" : [
+				{
+					data: "nombrePlan"
+				},
+				{
+					data: "nombreAlcaldeLocal"
+				},
+				{
+					data: "vigencia"
+				},
+				{
+					data: "yearInicio"
+				},
+				{
+					data: "yearFinal"
+				},
+				{
+					data: "estadoPlan"
+				},
+				{
+					"render": function () {
+						return '<button type="button" id="btnEditarPdl" class="ver"><img src="css/img/icono-1-azul.png" class="editar"></button>';
+					},"orderable": false, className:"icon"	
+				},
+			],
+			})
+		yadcf.init(table, [{
+			column_number : 0,
+			filter_type: "text",
+			filter_reset_button_text:false,
+			filter_delay:500
+		}, {
+			column_number : 1,
+			filter_type: "text",
+			filter_reset_button_text: false,
+			filter_delay:500
+		},{
+			column_number : 2,
+			filter_type: "text",
+			filter_reset_button_text: false,
+			filter_delay:500
+		},{
+			column_number: 3,
+			filter_type: "text",
+			filter_reset_button_text: false,
+			filter_delay: 500
+		},{
+			column_number : 4,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		},{
+			column_number : 5,
+			select_type : 'select',
+			filter_reset_button_text : false,
+			select_type_options : {
+				width : '150px',
+				minimumResultsForSearch : -1
+		}
+		}
+			
+		]);
+		
+		$('div.dataTables_length select').addClass("formato-2");	
+		editar('#dtabla tbody', table); 	   
+	}
+	
+   function editar(tbody, table) {
+	$(tbody)
+			.on("click",
+					"button#btnEditarPdl",
+					function() {
+						if (table.row(this).child.isShown()) {
+							var data = table.row(this).data();
+						} else {
+							var data = table.row($(this).parents("tr"))
+									.data();
+						}
+						var data = table.row($(this).parents("tr")).data();
+						console.log(data);
+						document.getElementById("codigoEnti").value = data.codigoEntidad;
+						document.getElementById("idLocal").value = data.idPlanLocal;
+						document.getElementById("idPlanDesarrollo").value = data.idPlanDesarrollo;
+						document.getElementById("nombrePlan").value = data.nombrePlan;
+						document.getElementById("url").value = data.urlPlan;
+						
+						document.getElementById("adoptado").value = data.idLsAdoptado;
+						document.getElementById("acto").value = data.actoAdministrativo;
+						document.getElementById("fecha").value =data.fechaActo;
+						document.getElementById("inicio").value = data.yearInicio;
+						document.getElementById("final").value = data.yearFinal;
+						document.getElementById("estado").value = data.idLsEstadoPlan;
+						document.getElementById("alcalde").value = data.nombreAlcaldeLocal;
+						document.getElementById("correo").value = data.correoAlcaldeLocal;
+						$('#peticionEditarPdl').submit();
+						
+					})
+}
+</script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

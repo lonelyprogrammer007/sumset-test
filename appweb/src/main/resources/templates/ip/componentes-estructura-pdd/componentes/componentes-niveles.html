@@ -1,0 +1,2655 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Componente Estructura</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/arbol-ce.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/modal.css}">
+
+<body>
+
+	<header th:replace="/home:: header"></header>
+	<ul class="breadcrumb" id="migas">
+		<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em>Instrumentos de planeación</li>
+		<li class="breadcrumb-item " aria-current="page">Estructura plan de desarrollo</li>
+		<li class="breadcrumb-item " aria-current="page"><a th:href="@{/estructura-pdd/2}">Componentes de la estructura PDD</a></li>
+		<li class="breadcrumb-item active" aria-current="page" id="act">Consultar niveles</li>
+	</ul>
+	<div class="form-containerIp">
+		<div class="abs-center">
+			<span>Componentes estructura</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div class="col-12 col-md-12">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="arbol">
+						<div id="menuBase">
+							<ul class="nav">
+							</ul>
+						</div>
+						<form id="btnSiguienteHijo" th:object="${pdd}" method="post">
+						</form>
+
+						<!-- 						<ul> -->
+						<!-- 							<span class="titulo2"><i class="fa fa-plus-square" -->
+						<!-- 								id="icon"></i>Eje / Pilar:<br></span> -->
+						<!-- 							<span class="texto-plano"> 01 - Igualdad de Calidad</span> -->
+						<!-- 							<li> -->
+						<!-- 								<ul style="display: none;"> -->
+						<!-- 									<li class="problematica "><span -->
+						<!-- 										class="titulo2 nivel2 programa-tab"><i -->
+						<!-- 											class="fa fa-plus-square" id="icon"></i> Programa </span> <br> -->
+						<!-- 										<input type="radio"> <span class="texto-plano"> -->
+						<!-- 											Lorem Ipsum es simplemente el texto de relleno de las -->
+						<!-- 											imprentas y archivos de texto…</span> -->
+						<!-- 										<ul style="display: none;"> -->
+
+						<!-- 											<li class=""><span class="titulo2 nivel2 producto-tab"><i -->
+						<!-- 													class="fa fa-plus-square" id="icon"></i>Proyecto -->
+						<!-- 													Estrategico/Componente</span><br> <input type="radio"><span -->
+						<!-- 												class="texto-plano actividad-tab">Producto Proyecto -->
+						<!-- 													Inversión</span> -->
+						<!-- 												<ul style="display: none;"> -->
+						<!-- 													<li><span class="titulo2 nivel2 producto-tab"><i -->
+						<!-- 															class="fa fa-plus-square" id="icon"></i>Meta de Resultado</span> -->
+						<!-- 														<ul style="display: none;"> -->
+						<!-- 															<li><span class="titulo2 nivel2 producto-tab"><i -->
+						<!-- 																	class="fa fa-plus-square" id="icon"></i>Meta Producto</span> -->
+						<!-- 																<ul style="display: none;"> -->
+						<!-- 																	<li><input type="radio"> <span -->
+						<!-- 																		class="texto-plano actividad-tab">Indicador</span></li> -->
+						<!-- 																</ul></li> -->
+
+						<!-- 														</ul></li> -->
+						<!-- 												</ul></li> -->
+
+						<!-- 										</ul></li> -->
+						<!-- 								</ul> -->
+						<!-- 							</li> -->
+						<!-- 						</ul> -->
+					</div>
+				</div>
+
+				<div class="col-md-9">
+
+					<div class="row">
+						<div class="col-md-4 texto-ip mt-1">
+							<label>Código del PDD</label>
+						</div>
+						<div class="col-md-3 mt-2">
+							<input type="text" class="form-control" readonly="readonly"
+								th:value="${pddDTO.idPlanDesarrollo}" id="disenioInput">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 texto-ip mt-3">
+							<label>Plan de Desarrollo Distrital</label>
+						</div>
+						<div class="col-md-8 mt-3">
+							<input type="text" class="form-control" readonly="readonly"
+								th:value="${pddDTO.nombrePlan}" id="disenioPdd">
+						</div>
+					</div>
+					<br> <br>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="eje-pilar componentes">
+
+								<div id="includePrimerNivel"
+									th:include="ip/componentes-estructura-pdd/componentes/niveles/tabla-primeros-niveles.html"></div>
+								<div id="includeMetas"
+									th:include="ip/componentes-estructura-pdd/componentes/niveles/tabla-meta-resultados.html"></div>
+								<div id="includeProductos"
+									th:include="ip/componentes-estructura-pdd/componentes/niveles/tabla-meta-productos.html"></div>
+								<div id="includeIndicadorProductos"
+									th:include="ip/componentes-estructura-pdd/componentes/niveles/tabla-indicadores-productos.html"></div>
+								<div id="includeEntidades"
+									th:include="ip/componentes-estructura-pdd/componentes/niveles/tabla-entidades.html"></div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<script th:inline="javascript">
+var tamanioTabla = "";
+var numeroNiveles;
+var entid;
+var indiProble = "";
+var idPddAuxiliar = "";
+var auxIdAtributo = "";
+var auxMetaResultado = "";
+var auxMetaProductoIndicador = "";
+var auxIndicador = "";
+var totalPondePrimeros = 0;
+$(document).ready(function() {
+	/*<![CDATA[*/
+	 numeroNiveles = /*[[${numNiveles}]]*/;
+	 var ejes = /*[[${ejesDTO}]]*/;
+	 indiProble = /*[[${indicadorProblematica}]]*/;
+	 entid =  /*[[${entidades}]]*/;
+
+	
+	 if (numeroNiveles == null){
+		 $('#btnAgregarPrimerNiveles').attr("disabled", true);
+		 $('#btnSeguir').attr("disabled", true);
+	 }
+	 // esconde tablas
+	  $("#includeMetas").css('display', 'none');
+	  $("#includeProductos").css('display', 'none');
+	  $("#includeIndicadorProductos").css('display', 'none');
+	  $("#includeEntidades").css('display', 'none');
+	 // cargar nivel 1 en arbol
+	 var nivel1 = "";
+	 for (var i = 0; i < ejes.length; i++) {
+		 var contenido = '';
+		 nivel1 = ejes[i].stringIdPddNivel;
+		 document.getElementById("stringIdPddNivel").value = nivel1;
+		 contenido += '<ul id="menuBase1" class="padre'+ejes[i].idAtributo+'"><li>';
+		 contenido += '<span class="titulo" onclick="mostrarHijo('+ejes[i].idAtributo+', '+ejes[i].codigoPddNivel+', '+ejes[i].proyectoEstrategico+', \'' + ejes[i].denominacion+ '\');"><img src="css/img/arbol-azul.png" id="'+ejes[i].idAtributo+'" >&nbsp;&nbsp;'+ejes[i].stringIdPddNivel+'</span><br>';
+		 contenido += '<span class="titulo2">'+ejes[i].denominacion+'</span>';
+		 contenido += '</ul></li></ul>';
+		 $('#menuBase').append(contenido);
+	 }
+	
+	 /*]]>*/
+	 
+	 //cargar nivel 1 en tabla
+	  
+	  var nivel = "";
+	  var labelNivel1 = "";
+	  nivel = numeroNiveles[0].codNivel;
+	  nivelActual = numeroNiveles[0].idPddNivel;
+	  labelNivel1 = numeroNiveles[0].descripcion;
+			   
+	
+	 document.getElementById("nivel1").innerHTML = labelNivel1;
+	 document.getElementById("campo1Nivel1").innerHTML = labelNivel1;
+	 document.getElementById("tituloModalAgregarNivel1").innerHTML = "Agregar "+labelNivel1;
+	 document.getElementById("labelNivel1Agregar").innerHTML = labelNivel1+":";
+	 document.getElementById("labelNivel1Editar").innerHTML = labelNivel1+":";
+	 document.getElementById("idNivelActualPdd").value = "1";
+	 document.getElementById("idNivelActualPddEditar").value = "1";
+	 document.getElementById("booleanProyectoEstrategico").value = 0 ;
+	 document.getElementById("idPddNivel1").value = nivelActual;
+	 document.getElementById("idPddAuxiliar").value = nivelActual;
+	 cargarNivelPrimeros(nivelActual, nivel);
+	 // termina el nivel 1
+	 
+	 
+	 
+	 //Cargar niveles en arbol
+	 $('#btnSeguir').click(function () {  
+		  
+		 idPddAuxiliar = document.getElementById("idPddAuxiliar").value; 
+		 var nivelNumero = document.getElementById("idNivelActualPdd").value;
+		 
+		 $(document).on('submit', '#formBtnSeguir', function (e) {
+			 e.preventDefault();
+			 var data = $(this).serialize();
+			   // AJAX.
+	         $.ajax({
+	             type: 'GET',
+	             url: '/Segplan/' + 'agregarArbolSeguir/'+idPddAuxiliar+"/"+nivelNumero,
+	             data: data,
+	             beforeSend: function () {
+	                 Swal.fire({
+	                     title: 'Cargando...',
+	                     position: 'top',
+	                     allowOutsideClick: () => !Swal.isLoading(),
+	                     onBeforeOpen: () => {
+	                         Swal.showLoading();
+	                     }
+	                 });
+	             },
+
+	             success: function (data) {
+	                 Swal.close();
+	                  
+	             },
+	             error:
+	                     function () {
+	                         Swal.close();
+
+	                     },
+	                     
+	             complete: function (data) {
+	            	      
+	                         Swal.close();
+	                         
+	                         var idNivel = document.getElementById("idNivelActualPdd").value;
+	                  	   
+	     	                 if (idNivel === "1"){
+	     	                	 crearArbolEje(data.responseJSON.lstObjectsDTO); 
+	     	                 } 
+	     	                 else {
+	     	                	
+	     	                	 crearArbolHijo(data.responseJSON.lstObjectsDTO);
+	     	                 }
+	                     }
+	         });
+	         return false;
+		 });
+		 
+	 });
+	 
+	 $('#btnSeguirMeta').click(function () {  
+		 $(document).on('submit', '#formBtnMetaSeguir', function (e) {
+			 e.preventDefault();
+			 var data = $(this).serialize();
+			   // AJAX.
+	         $.ajax({
+	             type: 'GET',
+	             url: '/Segplan/' + 'consultarMetaResultado/'+auxIdAtributo,
+	             data: data,
+	             beforeSend: function () {
+	                 Swal.fire({
+	                     title: 'Cargando...',
+	                     position: 'top',
+	                     allowOutsideClick: () => !Swal.isLoading(),
+	                     onBeforeOpen: () => {
+	                         Swal.showLoading();
+	                     }
+	                 });
+	             },
+
+	             success: function (data) {
+	                 Swal.close();
+
+	                  for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+	                	 $('.'+'padre'+data.lstObjectsDTO[i].idMetaResultado).remove();
+	             		 var contenido = '';
+	             		 contenido += '<ul id="menuBase1" class="padre'+data.lstObjectsDTO[i].idMetaResultado+'"><li>';
+	             		 contenido += '<span class="titulo" onclick="mostrarHijoMeta('+data.lstObjectsDTO[i].idMetaResultado+')"><img src="css/img/arbol-azul.png" id="'+data.lstObjectsDTO[i].idMetaResultado+'" >&nbsp;&nbsp; Meta de resultado</span><br>';
+		    			 contenido += '<span class="titulo2">'+data.lstObjectsDTO[i].complemento+'</span>';
+		    			 contenido += '</li></ul>';
+		    			 $('.'+'padre'+data.lstObjectsDTO[i].idProyEstrategico).append(contenido);
+	             
+	             	 }
+	             },
+	             error:
+	                     function () {
+	                         Swal.close();
+
+	                     },
+	                     
+	             complete: function (data) {
+	            	      
+	                      
+	                     }
+	         });
+	         return false;
+		 });
+	 });
+	 
+	 $('#btnSeguirProducto').click(function () {  
+		 $(document).on('submit', '#formBtnMetaProductoSeguir', function (e) {
+			 e.preventDefault();
+			 var data = $(this).serialize();
+			   // AJAX.
+	         $.ajax({
+	             type: 'GET',
+	             url: '/Segplan/' + 'consultarMetaProductos/'+auxMetaResultado,
+	             data: data,
+	             beforeSend: function () {
+	                 Swal.fire({
+	                     title: 'Cargando...',
+	                     position: 'top',
+	                     allowOutsideClick: () => !Swal.isLoading(),
+	                     onBeforeOpen: () => {
+	                         Swal.showLoading();
+	                     }
+	                 });
+	             },
+
+	             success: function (data) {
+	                 Swal.close();
+	                  for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+ 	                	 $('.'+'padre'+data.lstObjectsDTO[i].idMetaProducto).remove();
+ 	             		 var contenido = '';
+ 	             		 contenido += '<ul id="menuBase1" class="padre'+data.lstObjectsDTO[i].idMetaProducto+'"><li>';
+	             		 contenido += '<span class="titulo" onclick="mostrarHijoProducto('+data.lstObjectsDTO[i].idMetaProducto+')"><img src="css/img/arbol-azul.png" id="'+data.lstObjectsDTO[i].idMetaProducto+'" >&nbsp;&nbsp; Meta producto</span><br>';
+ 		    			 contenido += '<span class="titulo2">'+data.lstObjectsDTO[i].complemento+'</span>';
+ 		    			 contenido += '</li></ul>';
+		    			 $('.'+'padre'+data.lstObjectsDTO[i].idMetaResultado).append(contenido);
+	             
+	             	 }
+	             },
+	             error:
+	                     function () {
+	                         Swal.close();
+
+	                     },
+	                     
+	             complete: function () {
+	            	      
+	                      
+	                     }
+	         });
+	         return false;
+		 });
+	 });
+	 
+	 $('#btnSeguirProductoIndicador').click(function () {  
+		 $(document).on('submit', '#formIdIndicadorMetaProducto', function (e) {
+			 e.preventDefault();
+			 var data = $(this).serialize();
+			   // AJAX.
+	         $.ajax({
+	             type: 'GET',
+	             url: '/Segplan/' + 'consultarMetaProductosIndicadores/'+auxMetaProductoIndicador,
+	             data: data,
+	             beforeSend: function () {
+	                 Swal.fire({
+	                     title: 'Cargando...',
+	                     position: 'top',
+	                     allowOutsideClick: () => !Swal.isLoading(),
+	                     onBeforeOpen: () => {
+	                         Swal.showLoading();
+	                     }
+	                 });
+	             },
+
+	             success: function (data) {
+	                 Swal.close();
+	                  for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+ 	                	 $('.'+'padre'+data.lstObjectsDTO[i].idMetaProdInd).remove();
+ 	             		 var contenido = '';
+ 	             		 contenido += '<ul id="menuBase1" class="padre'+data.lstObjectsDTO[i].idMetaProdInd+'"><li>';
+	             		 contenido += '<span class="titulo" onclick="mostrarHijoIndicador('+data.lstObjectsDTO[i].idMetaProdInd+')"><img src="css/img/arbol-azul.png" id="'+data.lstObjectsDTO[i].idMetaProdInd+'" >&nbsp;&nbsp; Indicador</span><br>';
+ 		    			 contenido += '<span class="titulo2">'+data.lstObjectsDTO[i].nombreIndicador+'</span>';
+ 		    			 contenido += '</li></ul>';
+		    			 $('.'+'padre'+data.lstObjectsDTO[i].idMetaProducto).append(contenido);
+	             
+	             	 }
+	             },
+	             error:
+	                     function () {
+	                         Swal.close();
+
+	                     },
+	                     
+	             complete: function () {
+	            	      
+	                      
+	                     }
+	         });
+	         return false;
+		 });
+	 });
+	 
+	 //agregar nivel1 por ajax
+	  $(document).on('submit', '#formAgregarNivel1', function (e) {
+	    	 e.preventDefault();
+	         var data = $(this).serialize();
+	         var mensajeRespuesta = "";
+	         // AJAX.
+	         $.ajax({
+	             type: 'POST',
+	             url: '/Segplan/'+'agregarNivel1 ',
+	             data: data,
+	             beforeSend: function () {
+	                 Swal.fire({
+	                     title: 'Cargando...',
+	                     position: 'top',
+	                     allowOutsideClick: () => !Swal.isLoading(),
+	                     onBeforeOpen: () => {
+	                         Swal.showLoading();
+	                     }
+	                 });
+	             },
+
+	             success: function (data) {
+	                 Swal.close();	
+
+	                 var idPadre = document.getElementById("idAtributoPadre").value;
+ 	                 var numNivel = document.getElementById("idNivelActualPdd").value;
+	                 if (idPadre === "" ){
+	                 var idPddNivel = document.getElementById("idPddNivel1").value;
+	            
+	                 $('#dtablaNivelesPrimeros').DataTable().clear();
+	                 $('#dtablaNivelesPrimeros').empty();
+	                 cargarNivelPrimeros(idPddNivel, numNivel);
+	                 } else {
+	                	
+	                 $('#dtablaNivelesPrimeros').DataTable().clear();
+		             $('#dtablaNivelesPrimeros').empty();	 
+	                 cargarNivelPrimeros(idPadre, numNivel); 
+	                 }
+	                
+	                 mensajeRespuesta = data.msgRespuesta;
+	                 $("#agregarEjePilar").modal('hide');
+	             },
+	             error:
+	                     function () {
+	                         Swal.close();
+	                     },
+	                     
+	             complete: function () {
+	                         Swal.close();
+	                         Swal.fire({
+	     	 			        title:"¡Información!",
+	     	 				    text: mensajeRespuesta,
+	     	 			        icon: "warning",
+	     	 			        confirmButtonText: 'Aceptar',
+	     	 			        allowOutsideClick: () => false
+	     	 		       })
+
+	                     }
+	         });
+	         return false;
+	     });
+	 
+	 //editar nivel 1
+	  $(document).on('submit', '#formEditarNivel1', function (e) {		 
+	    	 e.preventDefault();
+	         var data = $(this).serialize();
+	         var mensajeRespuesta = "";
+	         // AJAX.
+	         $.ajax({
+	             type: 'POST',
+	             url: '/Segplan/'+'editarNivel1',
+	             data: data,
+	             beforeSend: function () {
+	                 Swal.fire({
+	                     title: 'Cargando...',
+	                     position: 'top',
+	                     allowOutsideClick: () => !Swal.isLoading(),
+	                     onBeforeOpen: () => {
+	                         Swal.showLoading();
+	                     }
+	                 });
+	             },
+
+	             success: function (data) {
+	                 Swal.close();	
+	               
+	                
+	             },
+	             error:
+	                     function () {
+	                         Swal.close();
+
+	                     },
+	                     
+	             complete: function (data) {
+	                         Swal.close();
+	                         
+	                         var idPadre = document.getElementById("idAtributoPadreEdit").value;
+	     	                 var numNivel = document.getElementById("idNivelActualPddEditar").value;
+	    	                 
+	     	                 if (idPadre === "" ){
+	     	                 var idPddNivel = document.getElementById("idPddNivel1Edit").value;
+	     	                 
+	     	                 $('#dtablaNivelesPrimeros').DataTable().clear();
+	    	                 $('#dtablaNivelesPrimeros').empty();
+	    	                 cargarNivelPrimeros(idPddNivel, numNivel);
+	     	                 
+	     	                }else {
+	     	                
+	     	                	$('#dtablaNivelesPrimeros').DataTable().clear();
+	     			            $('#dtablaNivelesPrimeros').empty();	 
+	     		                 cargarNivelPrimeros(idPadre, numNivel); 
+	     	                }	 
+	     	                 
+	    	                 mensajeRespuesta = data.responseJSON.msgRespuesta;
+	    	                 $("#editarEjePilar").modal('hide');
+	                         Swal.fire({
+	     	 			        title:"¡Información!",
+	     	 				    text: mensajeRespuesta,
+	     	 			        icon: "warning",
+	     	 			        confirmButtonText: 'Aceptar',
+	     	 			        allowOutsideClick: () => false
+	     	 		       })
+
+	                     }
+	         });
+	         return false;
+	     });
+	 
+	 // eliminar  registros
+	  $(document).on('submit', '#formEliminarRegistro', function (e) {
+	    	 e.preventDefault();
+	         var data = $(this).serialize();
+	         var mensajeRespuesta = "";
+	         var idRegistro = document.getElementById("idRegistroEliminar").value;
+	         // AJAX.
+	         $.ajax({
+	             type: 'GET',
+	             url: '/Segplan/'+'eliminar-nivel/'+idRegistro,
+	             data: data,
+	             beforeSend: function () {
+	                 Swal.fire({
+	                     title: 'Cargando...',
+	                     position: 'top',
+	                     allowOutsideClick: () => !Swal.isLoading(),
+	                     onBeforeOpen: () => {
+	                         Swal.showLoading();
+	                     }
+	                 });
+	             },
+
+	             success: function (data) {
+	                 Swal.close();	
+	                 var idPadre = document.getElementById("idAtributoPadre").value;
+ 	                 var numNivel = document.getElementById("idNivelActualPdd").value;
+	                 
+ 	                if (idPadre === "" ){
+ 	                 var idPddNivel = document.getElementById("idPddNivel1").value;
+ 	                 $('#dtablaNivelesPrimeros').DataTable().clear();
+	                 $('#dtablaNivelesPrimeros').empty();
+	                 cargarNivelPrimeros(idPddNivel, numNivel);
+ 	                }else {
+ 	                	$('#dtablaNivelesPrimeros').DataTable().clear();
+ 			            $('#dtablaNivelesPrimeros').empty();	 
+ 		                 cargarNivelPrimeros(idPadre, numNivel); 
+ 	                }       
+	                 mensajeRespuesta = data.msgRespuesta;
+	               
+	             },
+	             error:
+	                     function () {
+	                         Swal.close();
+
+	                     },
+	                     
+	             complete: function () {
+	                         Swal.close();
+	                       
+	                         Swal.fire({
+	     	 			        title:"¡Información!",
+	     	 				    text: mensajeRespuesta,
+	     	 			        icon: "warning",
+	     	 			        confirmButtonText: 'Aceptar',
+	     	 			        allowOutsideClick: () => false
+	     	 		       })
+
+	                     }
+	         });
+	         return false;
+	     });
+	 
+	 // select indicador de problematica
+	 
+	 $("#idProblematica").change(function() {
+		 var idProble = $(this).val();
+		 if (indiProble != null){
+		 for (var z = 0; z < indiProble.length; z++){
+			    if (idProble == indiProble[z].idIndicador){
+			    	document.getElementById("lineaBaseInd").value = indiProble[z].lineaBaseDesc;
+			    }
+	    	}
+		 } 
+	   });
+	 $("#idProblematicaInd").change(function() {
+		 var idProble = $(this).val();
+		 if (indiProble != null){
+		 for (var z = 0; z < indiProble.length; z++){
+			    if (idProble == indiProble[z].idIndicador){
+			    	document.getElementById("lineaBase").value = indiProble[z].lineaBaseDesc;
+			    }
+	    	}
+		 } 
+	   });
+	 
+	 // agregar meta resultado 
+	$(document).on('submit', '#formAgregarMetaResultado', function (e) {
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'POST',
+             url: '/Segplan/'+'agregarMetaResultado',
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();
+                 $("#agregarMeta").modal('hide');
+                 mensajeRespuesta = data.msgRespuesta;
+                 $('#dtablaMeta').DataTable().clear();
+		         $('#dtablaMeta').empty();
+                 cargarMetaResultado(auxIdAtributo);
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+ 
+	 // editar meta resultado 
+	$(document).on('submit', '#formEditarMetaResultado', function (e) {
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'POST',
+             url: '/Segplan/'+'editarMetaResultado',
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 $("#editarMeta").modal('hide');
+                 mensajeRespuesta = data.msgRespuesta;
+                 $('#dtablaMeta').DataTable().clear();
+		         $('#dtablaMeta').empty();
+                 cargarMetaResultado(auxIdAtributo);
+               
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	 // eliminar meta resultado 
+	$(document).on('submit', '#formEliminarMeta', function (e) {
+		var idMeta = document.getElementById("idMetaEliminar").value;
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'GET',
+             url: '/Segplan/'+'eliminarMetaResultado/'+idMeta,
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 mensajeRespuesta = data.msgRespuesta;
+                 $('#dtablaMeta').DataTable().clear();
+		         $('#dtablaMeta').empty();
+                 cargarMetaResultado(auxIdAtributo);
+                
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	 
+	 //agregar indicador meta
+	 
+	$(document).on('submit', '#formAgregarMetaIndicador', function (e) {
+   	 e.preventDefault();
+        var data = $(this).serialize();
+        var mensajeRespuesta = "";
+        var idMetaRes = document.getElementById("metaResultadoId").value;
+        // AJAX.
+        $.ajax({
+            type: 'POST',
+            url: '/Segplan/'+'agregarIndicadorMetaResultado',
+            data: data,
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Cargando...',
+                    position: 'top',
+                    allowOutsideClick: () => !Swal.isLoading(),
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+
+            success: function (data) {
+                Swal.close();
+                $("#agregarIndicadorMeta").modal('hide');
+                mensajeRespuesta = data.msgRespuesta;
+                $('#dtablaIndicador').DataTable().clear();
+                $('#dtablaIndicador').empty();
+                cargarIndicadores(idMetaRes);
+            },
+            error:
+                    function () {
+                        Swal.close();
+
+                    },
+                    
+            complete: function () {
+                        Swal.close();
+                      
+                        Swal.fire({
+    	 			        title:"¡Información!",
+    	 				    text: mensajeRespuesta,
+    	 			        icon: "warning",
+    	 			        confirmButtonText: 'Aceptar',
+    	 			        allowOutsideClick: () => false
+    	 		       })
+
+                    }
+             });
+        return false;
+	});
+	 
+	 // editar meta indicador
+	 
+	$(document).on('submit', '#formEditarMetaIndicador', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        var idMetaRes = document.getElementById("metaResultadoId").value;
+	        // AJAX.
+	        $.ajax({
+	            type: 'POST',
+	            url: '/Segplan/'+'editarIndicadorMetaResultado',
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+
+	            success: function (data) {
+	                Swal.close();
+	               
+	                $("#editarIndicadorMeta").modal('hide');
+	                mensajeRespuesta = data.msgRespuesta;
+	                $('#dtablaIndicador').DataTable().clear();
+	                $('#dtablaIndicador').empty();
+	                cargarIndicadores(idMetaRes);
+	            },
+	            error:
+	                    function () {
+	                        Swal.close();
+
+	                    },
+	                    
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       })
+
+	                    }
+	             });
+	        return false;
+		});
+	 
+	 // eliminar indicador meta resultado
+	 
+	$(document).on('submit', '#formEliminarIndicador', function (e) {
+		var idIndicador = document.getElementById("idIndicadorEliminar").value;
+		var idMetaRes = document.getElementById("metaResultadoId").value;
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'GET',
+             url: '/Segplan/'+'eliminarIndicadorMetaResultado/'+idIndicador,
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 mensajeRespuesta = data.msgRespuesta;
+                 $('#dtablaIndicador').DataTable().clear();
+	             $('#dtablaIndicador').empty();
+	             cargarIndicadores(idMetaRes);
+	            
+                
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	 
+	 // agregar meta producto
+	 
+	$(document).on('submit', '#formAgregarMetaProducto', function (e) {
+	
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'POST',
+             url: '/Segplan/'+'agregarMetaProducto',
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 mensajeRespuesta = data.msgRespuesta;
+                 $("#agregarMetaProducto").modal('hide');
+                 $('#dtablaProducto').DataTable().clear();
+	             $('#dtablaProducto').empty();
+	             cargarMetaProducto(auxMetaResultado);
+	            
+                
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	 
+	 // Editar meta producto
+	 
+	$(document).on('submit', '#formEditarMetaProducto', function (e) {
+		
+   	 e.preventDefault();
+        var data = $(this).serialize();
+        var mensajeRespuesta = "";
+        // AJAX.
+        $.ajax({
+            type: 'POST',
+            url: '/Segplan/'+'editarMetaProducto',
+            data: data,
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Cargando...',
+                    position: 'top',
+                    allowOutsideClick: () => !Swal.isLoading(),
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+
+            success: function (data) {
+                Swal.close();	
+                mensajeRespuesta = data.msgRespuesta;
+                $("#editarMetaProducto").modal('hide');
+                $('#dtablaProducto').DataTable().clear();
+	            $('#dtablaProducto').empty();
+	            cargarMetaProducto(auxMetaResultado);
+	            
+               
+            },
+            error:
+                    function () {
+                        Swal.close();
+
+                    },
+                    
+            complete: function () {
+                        Swal.close();
+                      
+                        Swal.fire({
+    	 			        title:"¡Información!",
+    	 				    text: mensajeRespuesta,
+    	 			        icon: "warning",
+    	 			        confirmButtonText: 'Aceptar',
+    	 			        allowOutsideClick: () => false
+    	 		       })
+
+                    }
+             });
+        return false;
+	});
+	 
+	 // eliminar meta producto
+	 
+	$(document).on('submit', '#formEliminarProducto', function (e) {
+		var idProducto = document.getElementById("idProductoEliminar").value;
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'GET',
+             url: '/Segplan/'+'eliminarMetaProducto/'+idProducto,
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 mensajeRespuesta = data.msgRespuesta;
+                 $('#dtablaProducto').DataTable().clear();
+ 	             $('#dtablaProducto').empty();
+ 	             cargarMetaProducto(auxMetaResultado);
+	            
+                
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	 
+	 // agregar indicador meta producto
+
+	$(document).on('submit', '#formAgregarIndicadorMetaProducto', function (e) {
+	
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'POST',
+             url: '/Segplan/'+'agregarIndicadorMetaProducto',
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 mensajeRespuesta = data.msgRespuesta;
+                 $("#agregarIndicadorMetaProducto").modal('hide');
+                 $('#dtablaIndicadorProducto').DataTable().clear();
+	             $('#dtablaIndicadorProducto').empty();
+	             cargarIndicadoresProducto(auxMetaProductoIndicador);
+	            
+                
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	 
+	 // editar indicador meta producto
+	 $(document).on('submit', '#formEditarIndicadorMetaProducto', function (e) {
+	
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'POST',
+             url: '/Segplan/'+'editarIndicadorMetaProducto',
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 mensajeRespuesta = data.msgRespuesta;
+                 $("#editarIndicadorMetaProducto").modal('hide');
+                 $('#dtablaIndicadorProducto').DataTable().clear();
+	             $('#dtablaIndicadorProducto').empty();
+	             cargarIndicadoresProducto(auxMetaProductoIndicador);
+	            
+                
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	 
+	 
+	 // eliminar meta producto indicador
+	$(document).on('submit', '#formEliminarMetaProductoIndicador', function (e) {
+		 var idIndicador = document.getElementById("auxIdMetaIndicadorProducto").value;
+    	 e.preventDefault();
+         var data = $(this).serialize();
+         var mensajeRespuesta = "";
+         // AJAX.
+         $.ajax({
+             type: 'GET',
+             url: '/Segplan/'+'eliminarMetaProductoIndicador/'+idIndicador,
+             data: data,
+             beforeSend: function () {
+                 Swal.fire({
+                     title: 'Cargando...',
+                     position: 'top',
+                     allowOutsideClick: () => !Swal.isLoading(),
+                     onBeforeOpen: () => {
+                         Swal.showLoading();
+                     }
+                 });
+             },
+
+             success: function (data) {
+                 Swal.close();	
+                 mensajeRespuesta = data.msgRespuesta;
+                 $('#dtablaIndicadorProducto').DataTable().clear();
+	             $('#dtablaIndicadorProducto').empty();
+	             cargarIndicadoresProducto(auxMetaProductoIndicador);
+	            
+                
+             },
+             error:
+                     function () {
+                         Swal.close();
+
+                     },
+                     
+             complete: function () {
+                         Swal.close();
+                       
+                         Swal.fire({
+     	 			        title:"¡Información!",
+     	 				    text: mensajeRespuesta,
+     	 			        icon: "warning",
+     	 			        confirmButtonText: 'Aceptar',
+     	 			        allowOutsideClick: () => false
+     	 		       })
+
+                     }
+              });
+         return false;
+	});
+	 
+	 //agregar entidad 
+	$(document).on('submit', '#formAgregarEntidad', function (e) {
+   	 e.preventDefault();
+        var data = $(this).serialize();
+        var mensajeRespuesta = "";
+        // AJAX.
+        $.ajax({
+            type: 'POST',
+            url: '/Segplan/'+'agregarEntidad',
+            data: data,
+            beforeSend: function () {
+                Swal.fire({
+                    title: 'Cargando...',
+                    position: 'top',
+                    allowOutsideClick: () => !Swal.isLoading(),
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            },
+
+            success: function (data) {
+                Swal.close();	
+                mensajeRespuesta = data.msgRespuesta;
+                $('#dtablaEntidades').DataTable().clear();
+	            $('#dtablaEntidades').empty();
+	            cargarEntidades(auxIndicador);
+	 
+            },
+            error:
+                    function () {
+                        Swal.close();
+
+                    },
+                    
+            complete: function () {
+                        Swal.close();
+                      
+                        Swal.fire({
+    	 			        title:"¡Información!",
+    	 				    text: mensajeRespuesta,
+    	 			        icon: "warning",
+    	 			        confirmButtonText: 'Aceptar',
+    	 			        allowOutsideClick: () => false
+    	 		       })
+
+                    }
+             });
+        return false;
+	});
+	 
+	 // editar entidad
+	 
+	$(document).on('submit', '#formEditarEntidad', function (e) {
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'POST',
+	            url: '/Segplan/'+'editarEntidad',
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+
+	            success: function (data) {
+	                Swal.close();	
+	                mensajeRespuesta = data.msgRespuesta;
+	                $('#dtablaEntidades').DataTable().clear();
+		            $('#dtablaEntidades').empty();
+		            cargarEntidades(auxIndicador);
+		 
+	            },
+	            error:
+	                    function () {
+	                        Swal.close();
+
+	                    },
+	                    
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       })
+
+	                    }
+	             });
+	        return false;
+		});
+	 
+	 //eliminar entidad
+	$(document).on('submit', '#formEliminarEntidad', function (e) {
+		 var idEntidad = document.getElementById("auxIdEntidad").value;
+	   	 e.preventDefault();
+	        var data = $(this).serialize();
+	        var mensajeRespuesta = "";
+	        // AJAX.
+	        $.ajax({
+	            type: 'GET',
+	            url: '/Segplan/'+'eliminarEntidad/'+idEntidad,
+	            data: data,
+	            beforeSend: function () {
+	                Swal.fire({
+	                    title: 'Cargando...',
+	                    position: 'top',
+	                    allowOutsideClick: () => !Swal.isLoading(),
+	                    onBeforeOpen: () => {
+	                        Swal.showLoading();
+	                    }
+	                });
+	            },
+
+	            success: function (data) {
+	                Swal.close();	
+	                mensajeRespuesta = data.msgRespuesta;
+	                $('#dtablaEntidades').DataTable().clear();
+		            $('#dtablaEntidades').empty();
+		            cargarEntidades(auxIndicador);
+		 
+	            },
+	            error:
+	                    function () {
+	                        Swal.close();
+
+	                    },
+	                    
+	            complete: function () {
+	                        Swal.close();
+	                      
+	                        Swal.fire({
+	    	 			        title:"¡Información!",
+	    	 				    text: mensajeRespuesta,
+	    	 			        icon: "warning",
+	    	 			        confirmButtonText: 'Aceptar',
+	    	 			        allowOutsideClick: () => false
+	    	 		       })
+
+	                    }
+	             });
+	        return false;
+		});
+}); 
+
+   function cargarNivelPrimeros(nivelActual, nivel){
+	    'use strict';
+	    var auxi = "";
+		var table = $('#dtablaNivelesPrimeros').DataTable({
+					
+			"initComplete": function(settings, json) {
+				 var totalPonde = json.totalPonderacion;
+				 totalPondePrimeros = totalPonde;
+				 var api = this.api(), json;
+				 $(api.column(2).footer()).html(totalPonde);
+				 var ultimoRegistro = json.numConsecutivo;
+			     document.getElementById("pilar").value = ultimoRegistro;
+			     
+               },
+	   
+                    "destroy": true,
+					"processing" : true,
+					"serverSide" : true,
+					"orderCellsTop": true,
+					"lengthChange" : true,
+					"searching" : true,
+					"info" : true,
+					"autoWidth" : true,
+					"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+							[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+					"pageLength" : 5,
+					"language" : {
+						"processing" : 'Cargando...',
+						"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+						"infoEmpty" : '<div class="formato">0 de 0.</div>',
+						"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+						"zeroRecords" : "No se han encontrado coincidencias.",
+						"responsive" : true,
+						"paginate" : {
+							"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+							"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+							"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+							"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+						},
+						"lengthMenu" : "_MENU_",
+					},
+					"pagingType" : "full_numbers",
+					"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+							+ "<'row'<'col-sm-8 col-md-7'tr>>"
+							+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+					"order": [0,'desc'],
+					"ajax" : {
+						"url" : "/Segplan/listaNivelActualByPage/"+nivelActual+"/"+nivel,
+						"type" : "POST"
+					},
+
+					"columns" : [
+							{data : "numero"},
+							{data : "denominacion"},
+							{data : "ponderacion"},
+							{data : "nombreGerente"},
+							{data : "correoGerente"},
+							{data : "stringIdLsGeneroGerente"},
+							{"render" : function() {
+								
+									return '<button type="button" id="btnEditar" class="edit"><img src="css/img/icono-1-azul.png" class="editar"></button><button href="" type="button" id="btnEliminar" class="edit"><img src="css/img/icono-eliminar.png" class="eliminar-com"></button>';
+								},  "orderable": false,  className:"icon"
+							}, ],
+							
+					
+				})
+				if(nivel === "2"){
+					table.column(3).visible(false);
+					table.column(4).visible(false);
+					table.column(5).visible(false);
+				}
+		        if(nivel === "3"){
+					table.column(3).visible(false);
+					table.column(4).visible(false);
+					table.column(5).visible(false);
+				}
+				if(nivel === "4"){
+					table.column(3).visible(false);
+					table.column(4).visible(false);
+					table.column(5).visible(false);
+				}
+				if(nivel === "5"){
+					table.column(3).visible(false);
+					table.column(4).visible(false);
+					table.column(5).visible(false);
+				}
+		        if(nivel >= 2){
+		        	table.column(3).visible(false);
+		        	table.column(4).visible(false);
+			        table.column(5).visible(false);
+		         }
+		        if(nivel === 3){
+			       table.column(3).visible(false);
+			       table.column(4).visible(false);
+			       table.column(5).visible(false);
+		        }
+		
+     	        
+	$('div.dataTables_length select').addClass("formato-2");
+	editar("#dtablaNivelesPrimeros tbody", table, nivel);
+	eliminar("#dtablaNivelesPrimeros tbody", table);
+	
+	}
+   function cargarMetaResultado(idAtributo){
+	    'use strict';
+		var table = $('#dtablaMeta').DataTable({
+			"initComplete": function(settings, json) {
+				 var ultimoRegistro = json.numConsecutivo;
+			     document.getElementById("codigoMeta").value = ultimoRegistro;
+			     
+			     var totalPonde = json.totalPonderacion;
+				 var api = this.api(), json;
+				 $(api.column(8).footer()).html(totalPonde);
+              },
+                    "destroy": true,
+					"processing" : true,
+					"serverSide" : true,
+					"orderCellsTop": true,
+					"lengthChange" : true,
+					"searching" : true,
+					"info" : true,
+					"autoWidth" : true,
+					"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+							[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+					"pageLength" : 5,
+					"language" : {
+						"processing" : 'Cargando...',
+						"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+						"infoEmpty" : '<div class="formato">0 de 0.</div>',
+						"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+						"zeroRecords" : "No se han encontrado coincidencias.",
+						"responsive" : true,
+						"paginate" : {
+							"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+							"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+							"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+							"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+						},
+						"lengthMenu" : "_MENU_",
+					},
+					"pagingType" : "full_numbers",
+					"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+							+ "<'row'<'col-sm-8 col-md-7'tr>>"
+							+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+					"order": [0,'desc'],
+					"ajax" : {
+						"url" : "/Segplan/"+"listaMetaResultadoByPage/"+idAtributo,
+						"type" : "POST"
+					},
+
+					"columns" : [
+							{data : "idMetaResultado"},
+							{data : "nombreVerbo"},
+							{data : "magnitud"},
+							{data : "nombreUnidadMedida"},
+							{data : "complemento"},
+							{data : "nombreIndicador"},
+							{data : "nombreProblematica"},
+							{data : "nombreTipoAnulacion"},
+							{data : "ponderacion"},
+							{data : "nombreEstedo"},
+							{data : "stringFormulacion"},
+							{data : "fechaCreacion"},
+							{"render" : function() {
+								    
+									return '<div class="row"><button type="button" id="btnEditarMeta" class="edit">'+
+									'<img src="css/img/icono-1-azul.png" class="editar"></button>'+
+									'<button href="" type="button" id="btnEliminarMeta" class="edit">'+
+									'<img src="css/img/icono-eliminar.png" class="eliminar-com"></button>'+
+									'<input type="radio" id="btnRadio" name="radioMeta"></div>';
+								},  "orderable": false,  className:"icon"
+							}, ],
+					
+				})
+				
+		        
+	$('div.dataTables_length select').addClass("formato-2");
+	editarMeta("#dtablaMeta tbody", table);
+	mostrarIndicador("#dtablaMeta tbody", table);
+	eliminarMeta("#dtablaMeta tbody", table);
+	}
+   function cargarIndicadores(idMetaResultado){
+	    'use strict';
+		var table = $('#dtablaIndicador').DataTable({
+			"initComplete": function(settings, json) {
+				 var ultimoRegistro = json.numConsecutivo;
+			     document.getElementById("idIndicadorMetaAgregar").value = ultimoRegistro;
+			     
+             },
+                   "destroy": true,
+					"processing" : true,
+					"serverSide" : true,
+					"orderCellsTop": true,
+					"lengthChange" : true,
+					"searching" : true,
+					"info" : true,
+					"autoWidth" : true,
+					"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+							[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+					"pageLength" : 5,
+					"language" : {
+						"processing" : 'Cargando...',
+						"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+						"infoEmpty" : '<div class="formato">0 de 0.</div>',
+						"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+						"zeroRecords" : "No se han encontrado coincidencias.",
+						"responsive" : true,
+						"paginate" : {
+							"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+							"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+							"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+							"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+						},
+						"lengthMenu" : "_MENU_",
+					},
+					"pagingType" : "full_numbers",
+					"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+							+ "<'row'<'col-sm-8 col-md-7'tr>>"
+							+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+					"order": [0,'desc'],
+					"ajax" : {
+						"url" : "/Segplan/"+"listaIndicadoresByPage/"+idMetaResultado,
+						"type" : "POST"
+					},
+
+					"columns" : [
+							{data : "idIndProxy"},
+							{data : "denominacion"},
+							{data : "magnitud"},
+							{data : "periodicidad"},
+							{data : "estado"},
+							{data : "fuenteExterna"},
+							{data : "fuente"},
+							{data : "lineaBase"},
+							{data : "magnitudLb"},
+							{data : "lineaBaseDesc"},
+							{data : "fechaCreacion"},
+							{"render" : function() {
+								    
+									return '<button type="button" id="btnEditarIndicador" class="edit">'+
+									'<img src="css/img/icono-1-azul.png" class="editar"></button>'+
+									'<button href="" type="button" id="btnEliminarIndicador" class="edit">'+
+									'<img src="css/img/icono-eliminar.png" class="eliminar-com"></button>';
+								},  "orderable": false,  className:"icon"
+							}, ],
+					
+				})
+				
+		        
+	$('div.dataTables_length select').addClass("formato-2");
+	editarIndicadorMeta("#dtablaIndicador tbody", table);
+	eliminarIndicador("#dtablaIndicador tbody", table);
+	}
+function cargarMetaProducto(idMetaResultado){
+	    'use strict';
+		var table = $('#dtablaProducto').DataTable({
+			"initComplete": function(settings, json) {
+				 var ultimoRegistro = json.numConsecutivo;
+			     document.getElementById("codigoMetaProducto").value = ultimoRegistro;
+			     var totalPonde = json.totalPonderacion;
+				 var api = this.api(), json;
+				 $(api.column(6).footer()).html(totalPonde);
+			     
+            },
+                  "destroy": true,
+					"processing" : true,
+					"serverSide" : true,
+					"orderCellsTop": true,
+					"lengthChange" : true,
+					"searching" : true,
+					"info" : true,
+					"autoWidth" : true,
+					"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+							[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+					"pageLength" : 5,
+					"language" : {
+						"processing" : 'Cargando...',
+						"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+						"infoEmpty" : '<div class="formato">0 de 0.</div>',
+						"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+						"zeroRecords" : "No se han encontrado coincidencias.",
+						"responsive" : true,
+						"paginate" : {
+							"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+							"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+							"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+							"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+						},
+						"lengthMenu" : "_MENU_",
+					},
+					"pagingType" : "full_numbers",
+					"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+							+ "<'row'<'col-sm-8 col-md-7'tr>>"
+							+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+					"order": [0,'desc'],
+					"ajax" : {
+						"url" : "/Segplan/"+"listaMetaProductoByPage/"+idMetaResultado,
+						"type" : "POST"
+					},
+
+					"columns" : [
+							{data : "idMetaProducto"},
+							{data : "nombreVerbo"},
+							{data : "magnitud"},
+							{data : "nombreUnidadMedida"},
+							{data : "complemento"},
+							{data : "nombreIdTipoAnualizacion"},
+							{data : "ponderacion"},
+							{data : "nombreEstado"},
+							{data : "esFormulacion"},
+							{data : "observaciones"},
+							{data : "fechaCreacion"},
+							{"render" : function() {
+								    
+									return '<button type="button" id="btnEditarProducto" class="edit">'+
+									'<img src="css/img/icono-1-azul.png" class="editar"></button>'+
+									'<button href="" type="button" id="btnEliminarProducto" class="edit">'+
+									'<img src="css/img/icono-eliminar.png" class="eliminar-com"></button>'+
+									'<input type="radio" name="radioProducto" id="btnRadioProducto">';
+								},  "orderable": false,  className:"icon"
+							}, ],
+					
+				})
+				
+		        
+	$('div.dataTables_length select').addClass("formato-2");
+	editarProducto("#dtablaProducto tbody", table);
+	eliminarProducto("#dtablaProducto tbody", table);
+	mostrarAnualizacion("#dtablaProducto tbody", table);
+	} 
+function cargarAnualizacionEntidades(idMetaProducto){
+    'use strict';
+	var table = $('#dtablaAnualizacion').DataTable({
+		"initComplete": function(settings, json) {
+			 var ultimoRegistro = json.numConsecutivo;
+		     document.getElementById("idIndicadorPro").value = ultimoRegistro;
+		     
+        },
+              "destroy": true,
+				"processing" : true,
+				"serverSide" : true,
+				"orderCellsTop": true,
+				"lengthChange" : true,
+				"searching" : true,
+				"info" : true,
+				"autoWidth" : true,
+				"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+						[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+				"pageLength" : 5,
+				"language" : {
+					"processing" : 'Cargando...',
+					"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+					"infoEmpty" : '<div class="formato">0 de 0.</div>',
+					"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+					"zeroRecords" : "No se han encontrado coincidencias.",
+					"responsive" : true,
+					"paginate" : {
+						"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+						"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+						"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+						"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+					},
+					"lengthMenu" : "_MENU_",
+				},
+				"pagingType" : "full_numbers",
+				"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+						+ "<'row'<'col-sm-8 col-md-7'tr>>"
+						+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+				"order": [0,'desc'],
+				"ajax" : {
+					"url" : "/Segplan/"+"listaAnualizacionEntidadesByPage/"+idMetaProducto,
+					"type" : "POST"
+				},
+
+				"columns" : [
+						{data : "idMetaProducto"},
+						{data : "nombreVerbo"},
+						{data : "magnitud"},
+						
+						 ],
+				
+			})   
+      $('div.dataTables_length select').addClass("formato-2");
+
+}
+function cargarIndicadoresProducto(idMetaProducto){
+    'use strict';
+	var table = $('#dtablaIndicadorProducto').DataTable({
+		"initComplete": function(settings, json) {
+		   	var ultimoRegistro = json.numConsecutivo;
+		     document.getElementById("idIndicadorPro").value = ultimoRegistro;
+		     var totalPonde = json.totalPonderacion;
+			 var api = this.api(), json;
+			 $(api.column(12).footer()).html(totalPonde);
+		     
+        },
+              "destroy": true,
+				"processing" : true,
+				"serverSide" : true,
+				"orderCellsTop": true,
+				"lengthChange" : true,
+				"searching" : true,
+				"info" : true,
+				"autoWidth" : true,
+				"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+						[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+				"pageLength" : 5,
+				"language" : {
+					"processing" : 'Cargando...',
+					"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+					"infoEmpty" : '<div class="formato">0 de 0.</div>',
+					"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+					"zeroRecords" : "No se han encontrado coincidencias.",
+					"responsive" : true,
+					"paginate" : {
+						"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+						"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+						"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+						"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+					},
+					"lengthMenu" : "_MENU_",
+				},
+				"pagingType" : "full_numbers",
+				"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+						+ "<'row'<'col-sm-8 col-md-7'tr>>"
+						+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+				"order": [0,'desc'],
+				"ajax" : {
+					"url" : "/Segplan/"+"listaIndicadoresProductosByPage/"+idMetaProducto,
+					"type" : "POST"
+				},
+
+				"columns" : [
+						{data : "idMetaProdInd"},
+						{data : "nombreIndicador"},
+						{data : "magnitud"},
+						{data : "periodicidad"},
+						{data : "nombreEstado"},
+						{data : "nombreAgregacion"},
+						{data : "fuenteExterna"},
+						{data : "fuente"},
+						{data : "lineaBase"},
+						{data : "magnitudLb"},
+						{data : "lineaBaseDesc"},
+						{data : "stringEsPdd"},
+						{data : "ponderacion"},
+						{data : "fechaCreacion"},
+						{"render" : function() {
+						   	return '<button type="button" id="btnEditarIndicadorProducto" class="edit">'+
+							'<img src="css/img/icono-1-azul.png" class="editar"></button>'+
+							'<button href="" type="button" id="btnEliminarIndicadorProducto" class="edit">'+
+							'<img src="css/img/icono-eliminar.png" class="eliminar-com"></button>';
+						},  "orderable": false,  className:"icon"
+					},],
+				
+			})   
+      $('div.dataTables_length select').addClass("formato-2");
+      editarIndicadorProducto("#dtablaIndicadorProducto tbody", table);
+      eliminarIndicadorProducto("#dtablaIndicadorProducto tbody", table);
+}
+
+function cargarEntidades(idIndicador){
+    'use strict';
+	var table = $('#dtablaEntidades').DataTable({
+		"initComplete": function(settings, json) {
+		     var totalPonde = json.totalPonderacion;
+			 var api = this.api(), json;
+			 $(api.column(4).footer()).html(totalPonde);
+		     
+        },
+              "destroy": true,
+				"processing" : true,
+				"serverSide" : true,
+				"orderCellsTop": true,
+				"lengthChange" : true,
+				"searching" : true,
+				"info" : true,
+				"autoWidth" : true,
+				"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+						[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+				"pageLength" : 5,
+				"language" : {
+					"processing" : 'Cargando...',
+					"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+					"infoEmpty" : '<div class="formato">0 de 0.</div>',
+					"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+					"zeroRecords" : "No se han encontrado coincidencias.",
+					"responsive" : true,
+					"paginate" : {
+						"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+						"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+						"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+						"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+					},
+					"lengthMenu" : "_MENU_",
+				},
+				"pagingType" : "full_numbers",
+				"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+						+ "<'row'<'col-sm-8 col-md-7'tr>>"
+						+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+				"order": [0,'desc'],
+				"ajax" : {
+					"url" : "/Segplan/"+"listaEntidadesByPage/"+idIndicador,
+					"type" : "POST"
+				},
+
+				"columns" : [
+						{data : "codigoEntidad"},
+						{data : "nombreEntidad"},
+						{data : "magnitud"},
+						{data : "nombreTipoAnualizacion"},
+						{data : "ponderacion"},
+						{"render" : function() {
+						   	return '<button type="button" id="btnEditarEntidad" class="edit">'+
+							'<img src="css/img/icono-1-azul.png" class="editar"></button>'+
+							'<button href="" type="button" id="btnEliminarEntidad" class="edit">'+
+							'<img src="css/img/icono-eliminar.png" class="eliminar-com"></button>';
+						},  "orderable": false,  className:"icon"
+					},],
+				
+			})   
+      $('div.dataTables_length select').addClass("formato-2");
+      editarEntidad("#dtablaEntidades tbody", table);
+      eliminarEntidad("#dtablaEntidades tbody", table);
+}
+
+
+    
+   function mostrarIndicador(tbody, table){
+	   $(tbody).on(
+				"click",
+				"input#btnRadio",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data();
+					document.getElementById("metaResultadoId").value = data.idMetaResultado;
+					document.getElementById("metaResultadoIdEdit").value = data.idMetaResultado;
+					$('#dtablaIndicador').DataTable().clear();
+		            $('#dtablaIndicador').empty();
+					cargarIndicadores(data.idMetaResultado);
+				})	
+   }
+   function mostrarAnualizacion(tbody, table){
+	   $(tbody).on(
+				"click",
+				"input#btnRadioProducto",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data();
+					$('#dtablaAnualizacion').DataTable().clear();
+		            $('#dtablaAnualizacion').empty();
+		            cargarAnualizacionEntidades(0);
+				})	
+   }
+   function editarMeta(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEditarMeta",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					$('#editarMeta').modal('show');
+					document.getElementById("idSumPondMetaEdit").value = data.sumPond;
+ 					document.getElementById("nameProyectoEstrategico").value = data.nombreProyEstrategico;
+ 					document.getElementById("idEstrategicoProy").value = data.idProyEstrategico; 
+ 					document.getElementById("codigoMetaRes").value = data.idMetaResultado; 
+ 					document.getElementById("idProblematicaInd").value = data.idIndicador;
+ 					
+ 					for (var z = 0; z < indiProble.length; z++){
+ 					    if (data.idIndicador == indiProble[z].idIndicador){
+ 					    	document.getElementById("lineaBase").value = indiProble[z].lineaBaseDesc;
+ 					    }
+ 			    	}
+ 					document.getElementById("idVerboEdit").value = data.idLsVerbo;
+ 					document.getElementById("magnitudEdit").value = data.magnitud;
+ 					document.getElementById("idUnidadMedidaEdit").value = data.idLsUnidadMedida;
+ 					document.getElementById("complementoEdit").value = data.complemento;
+ 					document.getElementById("anualizacionEdit").value = data.idLsTipoAnualizacion;
+ 					document.getElementById("ponderacionEdit").value = data.ponderacion;
+ 					document.getElementById("estadoMetaEdit").value = data.idLsEstado;
+ 					document.getElementById("mrEdit").value = data.stringFormulacion;
+ 					document.getElementById("fechaCrea").value = data.fechaCreacion;
+ 					if (data.esFormulacion == 1){
+ 						document.getElementById("esFormulEdit").value = data.esFormulacion;
+ 					}else {
+ 						document.getElementById("esFormulEdit").value = data.esFormulacion;
+ 					}
+ 					
+				})	
+   }
+   function eliminarMeta(tbody, table){
+		   $(tbody).on(
+					"click",
+					"button#btnEliminarMeta",
+					function() {
+						if (table.row(this).child.isShown()) {
+							var data = table.row(this).data();
+						} else {
+							var data = table.row($(this).parents("tr")).data();
+						}
+						var data = table.row($(this).parents("tr")).data(); 
+						Swal.fire({
+							  title: '¡Advertencia!',
+							  text: "¿Está seguro que desea eliminar este registro?",
+							  icon: 'warning',
+							  showCancelButton: true,
+							  confirmButtonColor: '#3085d6',
+							  cancelButtonColor: '#d33',
+							  confirmButtonText: 'Aceptar',
+							  cancelButtonText: 'Cancelar'
+							}).then((result) => {
+							  if (result.value) {
+								  document.getElementById("idMetaEliminar").value = data.idMetaResultado;
+								 $("#formEliminarMeta").submit();
+								 $('.'+'padre'+data.idMetaResultado).remove();
+							  }
+						})
+					})	
+   }
+   function eliminar(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEliminar",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data();
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "¿Está seguro que desea eliminar este registro?",
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Aceptar',
+						  cancelButtonText: 'Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+						   document.getElementById("idRegistroEliminar").value = data.idAtributo;
+						   $("#formEliminarRegistro").submit();
+						   $('.'+'padre'+data.idAtributo).remove();
+						  }
+					})
+				})
+					
+   }
+   function editar(tbody, table, nivel) {
+	    document.getElementById("denominacion").value = "";
+		document.getElementById("ponderacion").value = "";
+		document.getElementById("nombreGerente").value = "";
+		document.getElementById("correoGerente").value = "";
+		$(tbody).on(
+				"click",
+				"button#btnEditar",
+				function() {
+					
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data();
+					$('#editarEjePilar').modal('show');
+					
+					document.getElementById("idSumPondEdit").value = data.sumPond;
+ 					document.getElementById("idAtributo").value = data.idAtributo;
+ 					document.getElementById("editPilar").value = data.numero;
+					document.getElementById("denominacion").value = data.denominacion;
+					document.getElementById("ponderacion").value = data.ponderacion;
+ 					document.getElementById("nombreGerente").value = data.nombreGerente;
+ 					document.getElementById("correoGerente").value = data.correoGerente;
+ 					document.getElementById("booleanProyectoEstrategicoEditar").value = data.proyectoEstrategico;
+ 					document.getElementById("idLsGeneroGerente").value = data.idLsGeneroGerente;
+ 					document.getElementById("idPddNivel1Edit").value = data.idPddNivel;
+ 					document.getElementById("idAtributoPadreEdit").value = data.idAtributoPadre;
+ 					
+ 					
+ 					if (nivel > "1"){
+ 					document.getElementById("tituloModalEditarNivel1").innerHTML = "Editar "+ numeroNiveles[nivel-1].descripcion; 
+ 					document.getElementById("labelNivel1Editar").innerHTML = numeroNiveles[nivel-1].descripcion+ " :";
+ 					$('#idGerenteEditar').hide();
+ 					$('#idNombreLabel').hide();
+ 					$('#nombreGerente').hide();
+ 					$('#idCorreoLabel').hide();
+ 					$('#correoGerente').hide();
+ 					$('#idGeneroLabel').hide();
+ 					$('#idLsGeneroGerente').hide();
+ 					}
+ 				
+				})
+	}
+   function editarIndicadorMeta(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEditarIndicador",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					$('#editarIndicadorMeta').modal('show');
+ 					document.getElementById("idIndicadorEdit").value = data.idIndProxy;
+ 			        document.getElementById("idIndicadorVerdadero").value = data.idIndicador;
+ 					document.getElementById("areaDescripcionEdit").value = data.denominacion;
+ 					document.getElementById("idMagnitudEditar").value = data.magnitud;
+ 					document.getElementById("idPeriodicidadEditar").value = data.periodicidad;
+ 					document.getElementById("idExternaEdit").value = data.fuenteExterna;
+ 					document.getElementById("idFuenteEdit").value = data.fuente;
+ 					document.getElementById("idLineaEdit").value = data.lineaBase;
+ 					document.getElementById("idMagnitudLineaEdit").value = data.magnitudLb;
+ 					document.getElementById("descripcionLineaEdit").value = data.lineaBaseDesc;
+ 					document.getElementById("fechaCreacion1").value=data.fechaCreacion;
+				})	
+   }
+   function eliminarIndicador(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEliminarIndicador",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "¿Está seguro que desea eliminar este registro?",
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Aceptar',
+						  cancelButtonText: 'Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+							  document.getElementById("idIndicadorEliminar").value = data.idIndicador;
+							 $("#formEliminarIndicador").submit();
+							 $('.'+'padre'+data.idIndicador).remove();
+						  }
+					})
+				})	
+}
+   function editarProducto(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEditarProducto",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					$('#editarMetaProducto').modal('show');
+					document.getElementById("idSumPondProdEdit").value = data.sumPond;
+  					document.getElementById("codigoMetaProductoEdit").value = data.idMetaProducto;
+  					document.getElementById("idVerboProductoEditar").value = data.idLsVerbo;
+  					document.getElementById("magnitudProductoEdit").value = data.magnitud;
+  					document.getElementById("unidadMedidaProductoEdit").value = data.idLsUnidadMedida;
+  					document.getElementById("complementoProductoEdit").value = data.complemento;
+					document.getElementById("tipoAnualProductoEdit").value = data.idLsTipoAnualizacion;
+  					document.getElementById("ponderacionProductoEdit").value = data.ponderacion;
+  					document.getElementById("estadoProductoEdit").value = data.idLsEstado;
+ 					document.getElementById("areaJustificacionEdit").value = data.observaciones;
+ 					document.getElementById("fechaCreacionProducto").value = data.fechaCreacion;
+				})	
+   }
+   function eliminarProducto(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEliminarProducto",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "¿Está seguro que desea eliminar este registro?",
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Aceptar',
+						  cancelButtonText: 'Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+							  document.getElementById("idProductoEliminar").value = data.idMetaProducto;
+							 $("#formEliminarProducto").submit();
+							 $('.'+'padre'+ data.idMetaProducto).remove();
+						  }
+					})
+				})	
+}
+   function editarIndicadorProducto(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEditarIndicadorProducto",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					$('#editarIndicadorMetaProducto').modal('show');
+ 					document.getElementById("idIndicadorProEdit").value = data.idMetaProdInd;
+ 					document.getElementById("idIndicadorProEditVerdadero").value = data.idIndicador;
+  					document.getElementById("nombreIndicadorProdEdit").value = data.nombreIndicador;
+ 					document.getElementById("idMagnitudIndicadorEdit").value = data.magnitud;
+  					document.getElementById("idPeriodicidadIndicadorEdit").value = data.periodicidad;
+  					document.getElementById("idEstadoIndicadorEdit").value = data.idLsEstado;
+ 					document.getElementById("idAgregacionEdit").value = data.idLsAgregacion;
+ 					document.getElementById("idFuenteExternaEdit").value = data.longFuenteExterna;
+  					document.getElementById("idFuenteIndicadorEdit").value = data.fuente;
+ 					document.getElementById("idMagnitudLineaBaseIndicadorEdit").value = data.longLineaBase;
+ 					document.getElementById("idLineaBaseIndicadorEdit").value = data.magnitudLb;
+ 					document.getElementById("idDescripcionIndicadorEdit").value = data.lineaBaseDesc;
+ 					document.getElementById("idPonderacionIndicadorEdit").value = data.ponderacion;
+				})	
+   }
+   function eliminarIndicadorProducto(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEliminarIndicadorProducto",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "¿Está seguro que desea eliminar este registro?",
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Aceptar',
+						  cancelButtonText: 'Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+							  document.getElementById("auxIdMetaIndicadorProducto").value = data.idMetaProdInd;
+							 $("#formEliminarMetaProductoIndicador").submit();
+							 $('.'+'padre'+data.idMetaProdInd).remove();
+						  }
+					})
+				})	
+}
+   function editarEntidad(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEditarEntidad",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					$('#modalEditarEntidad').modal('show');
+					document.getElementById("idAuxiliarEntidad").value = data.idMpIndEntidad;
+					document.getElementById("idIndicadorEntidadEdit").value = data.idMetaProdInd;
+					document.getElementById("idEntidadesCodigoEdit").value = data.codigoEntidad;
+					document.getElementById("idNombreEntidadEdit").value = data.codigoEntidad;
+					for (var i = 0; i < entid.length; i++){
+						if (entid[i].codigoDistrital == data.codigoEntidad){
+							document.getElementById("auxIdNombreEntidadEdit").value = entid[i].nombre;	
+						}
+					}
+					document.getElementById("idMagnitudEntidadEdit").value = data.magnitud;
+					document.getElementById("idAnualizacionEntidadEdit").value = data.idLsTipoAnualizacion;
+					document.getElementById("idPonderacionEntidadEdit").value = data.ponderacion;
+				})	
+   }
+   function eliminarEntidad(tbody, table){
+	   $(tbody).on(
+				"click",
+				"button#btnEliminarEntidad",
+				function() {
+					if (table.row(this).child.isShown()) {
+						var data = table.row(this).data();
+					} else {
+						var data = table.row($(this).parents("tr")).data();
+					}
+					var data = table.row($(this).parents("tr")).data(); 
+					Swal.fire({
+						  title: '¡Advertencia!',
+						  text: "¿Está seguro que desea eliminar este registro?",
+						  icon: 'warning',
+						  showCancelButton: true,
+						  confirmButtonColor: '#3085d6',
+						  cancelButtonColor: '#d33',
+						  confirmButtonText: 'Aceptar',
+						  cancelButtonText: 'Cancelar'
+						}).then((result) => {
+						  if (result.value) {
+							  document.getElementById("auxIdEntidad").value = data.idMpIndEntidad;
+							 $("#formEliminarEntidad").submit();
+							 $('.'+'padre'+data.idMpIndEntidad).remove();
+						  }
+					})
+				})	
+}
+   function crearArbolEje(dtoArbol){
+	   
+	   for (var i = 0; i < dtoArbol.length; i++) {
+		    $('.'+'padre'+dtoArbol[i].idAtributo).remove();
+			 var contenido = '';
+			 contenido += '<ul id="menuBas" class="padre'+dtoArbol[i].idAtributo+'"><li>';
+			 contenido += '<span class="titulo" onclick="mostrarHijo('+dtoArbol[i].idAtributo+','+dtoArbol[i].codigoPddNivel+', '+dtoArbol[i].proyectoEstrategico+', \'' + dtoArbol[i].denominacion + '\')"><img src="css/img/arbol-azul.png" id="'+dtoArbol[i].idAtributo+'" >&nbsp;&nbsp;'+dtoArbol[i].stringIdPddNivel+'</span><br>';
+			 contenido += '<span class="titulo2">'+dtoArbol[i].denominacion+'</span>';
+			 contenido += '</li></ul>';
+			 $('#menuBase').append(contenido);
+		 }
+   }
+   function crearArbolHijo(dtoHijo){
+	   console.log(dtoHijo);
+	   for (var i = 0; i < dtoHijo.length; i++) {
+		   console.log("entra al for");
+           $('.'+'padre'+dtoHijo[i].idAtributo).remove();
+             var contenido = "";
+             contenido += '<ul id="menuBas" class="padre'+dtoHijo[i].idAtributo+'"><li>';
+			 contenido += '<span class="titulo" onclick="mostrarHijo('+dtoHijo[i].idAtributo+', '+dtoHijo[i].codigoPddNivel+','+dtoHijo[i].proyectoEstrategico+', \''+dtoHijo[i].denominacion+'\')"><img src="css/img/arbol-azul.png" id="'+dtoHijo[i].idAtributo+'" >&nbsp;&nbsp;'+dtoHijo[i].stringIdPddNivel+'</span><br>';
+			 contenido += '<span class="titulo2">'+dtoHijo[i].denominacion+'</span>';
+			 contenido += '</li></ul>';
+			 $('.'+'padre'+dtoHijo[i].idAtributoPadre).append(contenido);
+           }
+   }
+   function mostrarHijo(idAtributo, codPddNivel, proyectoEstrategico, denominacion){
+	         document.getElementById("idPddAuxiliar").value = idAtributo;
+	         if (proyectoEstrategico == "0"){
+	        	 $("#includeMetas").css('display', 'none');
+	        	 $("#includePrimerNivel").css('display', 'block');
+		         $("#includeProductos").css('display', 'none');
+		         $("#includeEntidades").css('display', 'none');
+		         $("#includeIndicadorProductos").css('display', 'none');
+	        	 //peticion consultarhijos
+	        	 var data = $(this).serialize();
+				   // AJAX.
+		         $.ajax({
+		             type: 'GET',
+		             url: '/Segplan/' + 'consultarHijos/'+idAtributo,
+		             data: data,
+		             success: function (data) {
+		                 Swal.close();
+		                 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+		                 $('.'+'padre'+data.lstObjectsDTO[i].idAtributo).remove();
+		                 var contenido = "";
+		                 contenido += '<ul id="menuBas" class="padre'+data.lstObjectsDTO[i].idAtributo+'"><li>';
+		    			 contenido += '<span class="titulo" onclick="mostrarHijo('+data.lstObjectsDTO[i].idAtributo+', '+data.lstObjectsDTO[i].codigoPddNivel+','+data.lstObjectsDTO[i].proyectoEstrategico+', \''+data.lstObjectsDTO[i].denominacion+'\')"><img src="css/img/arbol-azul.png" id="'+data.lstObjectsDTO[i].idAtributo+'" >&nbsp;&nbsp;'+data.lstObjectsDTO[i].stringIdPddNivel+'</span><br>';
+		    			 contenido += '<span class="titulo2">'+data.lstObjectsDTO[i].denominacion+'</span>';
+		    			 contenido += '</li></ul>';
+		    			 $('.'+'padre'+data.lstObjectsDTO[i].idAtributoPadre).append(contenido);
+		                 }
+		                 $('#dtablaNivelesPrimeros').DataTable().clear();
+		                 $('#dtablaNivelesPrimeros').empty();
+	                     cargarNivelPrimeros(idAtributo, codPddNivel+1);
+		                 document.getElementById("nivel1").innerHTML = numeroNiveles[codPddNivel].descripcion;
+		                 document.getElementById("campo1Nivel1").innerHTML = numeroNiveles[codPddNivel].descripcion;
+		   
+		                 //nivel actual en el que se está
+		                 document.getElementById("idNivelActualPdd").value = numeroNiveles[codPddNivel].codNivel;
+		                 document.getElementById("idNivelActualPddEditar").value = numeroNiveles[codPddNivel].codNivel;
+		                 
+		                 // labels modal agregar
+		                 document.getElementById("tituloModalAgregarNivel1").innerHTML = "Agregar " +numeroNiveles[codPddNivel].descripcion;
+		                 document.getElementById("labelNivel1Agregar").innerHTML = numeroNiveles[codPddNivel].descripcion+" :";
+		                 document.getElementById("idAtributoPadre").value = idAtributo;
+		                 document.getElementById("idPddNivel1").value = numeroNiveles[codPddNivel].idPddNivel;
+		               
+		                 if (numeroNiveles.length == codPddNivel+1){
+		                	 
+		                	 document.getElementById("booleanProyectoEstrategico").value = "1";
+		                 }else{
+		                	 document.getElementById("booleanProyectoEstrategico").value = "0";
+		                 }
+		                    $('#idGerenteAgregar').css('display', 'none');
+		 					$('#idNombreLabelAgregar').css('display', 'none');
+		 					$('#nombreGerenteAgregar').css('display', 'none');
+		 					$('#idCorreoLabelAgregar').css('display', 'none');
+		 					$('#correoGerenteAgregar').css('display', 'none');
+		 					$('#idGeneroLabelAgregar').css('display', 'none');
+		 					$('#idLsGenero').css('display', 'none');
+		             },
+		             error:
+		                     function () {
+		                         Swal.close();
+
+		                     },
+		                     
+		             complete: function () {
+		                         Swal.close();
+		                         
+		    	            
+		                     }
+		         });
+		         return false;
+		         
+	         }else if (proyectoEstrategico == "1"){
+	        	$("#includePrimerNivel").css('display', 'none');
+	            $("#includeMetas").css('display', 'block');
+	            $("#includeProductos").css('display', 'none');
+	            $("#includeEntidades").css('display', 'none');
+	            $("#includeIndicadorProductos").css('display', 'none');
+	            document.getElementById("proyectoEstrategico").value = denominacion;
+                document.getElementById("idNameProy").value = idAtributo;
+	            auxIdAtributo = idAtributo;
+	        	 var data = $(this).serialize();
+				   // AJAX.
+		         $.ajax({
+		             type: 'GET',
+		             url: '/Segplan/' + 'consultarMetaResultado/'+idAtributo,
+		             data: data,
+		             success: function (data) {
+		                 Swal.close(); 
+		                
+		  
+		                 if (data.lstObjectsDTO.length > 0){
+		                 console.log(data.lstObjectsDTO[0].nombreProyEstrategico); 	 
+		               
+		                 for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+			                 $('.'+'padre'+data.lstObjectsDTO[i].idMetaResultado).remove();
+			                 var contenido = "";
+			                 contenido += '<ul id="menuBas" class="padre'+data.lstObjectsDTO[i].idMetaResultado+'"><li>';
+			    			 contenido += '<span class="titulo" onclick="mostrarHijoMeta('+data.lstObjectsDTO[i].idMetaResultado+')"><img src="css/img/arbol-azul.png" id="'+data.lstObjectsDTO[i].idMetaResultado+'" >&nbsp;&nbsp; Meta de resultado</span><br>';
+			    			 contenido += '<span class="titulo2">'+data.lstObjectsDTO[i].complemento+'</span>';
+			    			 contenido += '</li></ul>';
+			    			 $('.'+'padre'+data.lstObjectsDTO[i].idProyEstrategico).append(contenido);
+			                 }
+		                 }
+		                 $('#dtablaMeta').DataTable().clear();
+				         $('#dtablaMeta').empty();
+		                 cargarMetaResultado(idAtributo);
+                         
+		             },
+		             error:
+		                     function () {
+		                         Swal.close();
+
+		                     },
+		                     
+		             complete: function () {
+		                         Swal.close();
+		                         
+		    	            
+		                     }
+		         });
+ 		         return false;
+
+	 		   
+	         }
+       
+   }
+function mostrarHijoMeta(idMetaResultado){
+	 $("#includeMetas").css('display', 'none');
+	 $("#includeIndicadorProductos").css('display', 'none');
+	 $("#includeEntidades").css('display', 'none');
+	 $("#includeProductos").css('display', 'block');
+	 auxMetaResultado = idMetaResultado;
+	 document.getElementById("metaResId").value = idMetaResultado;
+	 document.getElementById("metaResIdEdit").value = idMetaResultado;
+	 $('#dtablaProducto').DataTable().clear();
+     $('#dtablaProducto').empty();
+	 cargarMetaProducto(idMetaResultado);
+	 
+	
+	var data = $(this).serialize();
+	   // AJAX.
+    $.ajax({
+       type: 'GET',
+       url: '/Segplan/' + 'consultarMetaProductos/'+idMetaResultado,
+       data: data,
+       success: function (data) {
+           Swal.close(); 	
+           
+           
+            for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+             $('.'+'padre'+data.lstObjectsDTO[i].idMetaProducto).remove();
+             var contenido = "";
+             contenido += '<ul id="menuBas" class="padre'+data.lstObjectsDTO[i].idMetaProducto+'"><li>';
+  			 contenido += '<span class="titulo" onclick="mostrarHijoProducto('+data.lstObjectsDTO[i].idMetaProducto+')"><img src="css/img/arbol-azul.png" id="'+data.lstObjectsDTO[i].idMetaProducto+'" >&nbsp;&nbsp; Meta producto</span><br>';
+  			 contenido += '<span class="titulo2">'+data.lstObjectsDTO[i].complemento+'</span>';
+  			 contenido += '</li></ul>';
+  			 $('.'+'padre'+data.lstObjectsDTO[i].idMetaResultado).append(contenido);
+              }
+           
+           
+       },
+       error:
+               function () {
+                   Swal.close();
+
+               },
+               
+       complete: function () {
+                   Swal.close();
+                   
+	            
+               }
+   });
+    return false;
+} 
+function mostrarHijoProducto(idProducto){
+	 $("#includeMetas").css('display', 'none');
+	 $("#includeProductos").css('display', 'none');
+	 $("#includeEntidades").css('display', 'none');
+	 $("#includeIndicadorProductos").css('display', 'block');
+	 $('#dtablaIndicadorProducto').DataTable().clear();
+     $('#dtablaIndicadorProducto').empty();
+     document.getElementById("auxIDproductoIndicador").value= idProducto;
+     document.getElementById("auxIDproductoIndicadorEdit").value= idProducto;
+  
+     auxMetaProductoIndicador  = idProducto;
+	 cargarIndicadoresProducto(idProducto);
+	 
+	 var data = $(this).serialize();
+	   // AJAX.
+    $.ajax({
+     type: 'GET',
+     url: '/Segplan/' + 'consultarMetaProductosIndicadores/'+idProducto,
+     data: data,
+     success: function (data) {
+         Swal.close(); 	
+         console.log(data);
+          for (var i = 0; i < data.lstObjectsDTO.length; i++) {
+           $('.'+'padre'+data.lstObjectsDTO[i].idMetaProdInd).remove();
+           var contenido = "";
+             contenido += '<ul id="menuBas" class="padre'+data.lstObjectsDTO[i].idMetaProdInd+'"><li>';
+			 contenido += '<span class="titulo" onclick="mostrarHijoIndicador('+data.lstObjectsDTO[i].idMetaProdInd+')"><img src="css/img/arbol-azul.png" id="'+data.lstObjectsDTO[i].idMetaProdInd+'" >&nbsp;&nbsp; Indicador</span><br>';
+			 contenido += '<span class="titulo2">'+data.lstObjectsDTO[i].nombreIndicador+'</span>';
+			 contenido += '</li></ul>';
+			 $('.'+'padre'+data.lstObjectsDTO[i].idMetaProducto).append(contenido);
+            }
+   
+     },
+     error:
+             function () {
+                 Swal.close();
+
+             },
+             
+     complete: function () {
+                 Swal.close();
+                 
+	            
+             }
+ });
+  return false;
+
+}
+function mostrarHijoIndicador(idIndicador){
+	 $("#includeMetas").css('display', 'none');
+	 $("#includeProductos").css('display', 'none');
+	 $("#includeIndicadorProductos").css('display', 'none');
+	 $("#includeEntidades").css('display', 'block');
+	 document.getElementById("idIndicadorEntidad").value = idIndicador;
+	 document.getElementById("idIndicadorEntidadEdit").value = idIndicador;
+	 auxIndicador = idIndicador;
+	 $('#dtablaEntidades').DataTable().clear();
+     $('#dtablaEntidades').empty();
+	 cargarEntidades(idIndicador);
+}
+</script>
+<script type="text/javascript">
+		$(document).ready(
+				function() {
+					$('.titulo2').click(
+							function() {
+								var lista = $(this).parent().find('ul');
+								if ($(lista).first().is(':visible')) {
+									$(this).css("color", "#00529C")
+									$(this).find('i').removeClass(
+											'fa-minus-square');
+									$(this).find('i')
+											.addClass('fa-plus-square');
+									$(lista).first().slideUp();
+									for (var i = 0; i < lista.length; i++) {
+										if ($(lista[i]).is(':visible')) {
+											$(lista[i]).find('.titulo2').css(
+													"color", "#00529C")
+											$(lista[i]).find('.titulo2').find(
+													'i').removeClass(
+													'fa-minus-square');
+											$(lista[i]).find('.titulo2').find(
+													'i').addClass(
+													'fa-plus-square');
+											$(lista[i]).slideUp();
+										}
+									}
+								} else {
+									$(this).css("color", "#A079E6");
+									$(this).find('i').removeClass(
+											'fa-plus-square');
+									$(this).find('i').addClass(
+											'fa-minus-square');
+									$(lista).first().slideDown();
+								}
+
+							});
+
+					$('.seguir-1').click(function() {
+						$('.programas').hide();
+						$('.proyectos').fadeIn();
+
+					});
+					$('.seguir-2').click(function() {
+						$('.proyectos').hide();
+						$('.metas').fadeIn();
+
+					});
+					$('.seguir-3').click(function() {
+						$('.metas').hide();
+						$('.metas-productos').fadeIn();
+
+					});
+					$('.seguir-4').click(function() {
+						$('.metas-productos').hide();
+						$('.indicadores-metas-productos').fadeIn();
+
+					});
+					$('.seguir-4').click(function() {
+						$('.indicadores-metas-productos').hide();
+						$('.entidades').fadeIn();
+
+					});
+				});
+</script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

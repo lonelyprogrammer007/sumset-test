@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>Insert title here</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/archivo-plano.css}">
+<body>
+	<div class="modal fade" id="agregarMedicion" tabindex="-1"
+		role="dialog" aria-labelledby="exampleModalCenterTitle"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header bg2">
+					<div class="row">
+						<div class="col-sm-5">
+							<img id="logo-segPlan" src="/Segplan/css/img/icono-seg.png">
+						</div>
+						<div class="col-sm-7">
+							<span class="titulo">Registrar Rango</span>
+						</div>
+					</div>
+
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					
+						<form id="peticionAgregar" th:action="@{/agregar-rango}" th:object="${pddRangoPonderacionDTO}" 
+						enctype="multipart/form-data" method="post">
+						<input type="hidden" name="idPlanDesarrollo" th:value="${pddDTO.idPlanDesarrollo}">
+						<input type="hidden" id="idRango2" name="idRango">
+						<div class="row mt-2">
+							<div class="col-sm-3">
+								<label class="texto">Logo:</label>
+							</div>
+							<div class="col-sm-8">
+								<div class="form-group">
+					<div class="texto-archivo-plano">
+						<label for="periodo">Seleccionar archivo</label>
+					</div>
+       
+					<div class="input__row uploader requiredArchivo">
+						<div id="inputval" class="input-value"></div>
+						<label for="file_1"><img src="css/img/examinar-over.png" class="cargar" alt="Icono para examinar archivos del equipo y cargarlos">&nbsp;&nbsp;Examinar</label><input id="file_1"
+							class="upload" type="file" name="file1">
+					</div>
+
+
+				</div>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<label class="texto">Rangos</label>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-3">
+								<select class="form-control" id="rango1">
+									<option value=""></option>
+									<option value=">=">>= </option>
+									<option value=">">> </option>
+									
+								</select>
+							</div>
+							<div class="col-sm-2">
+								<input type="text" class="form-control " id="rango2">
+							</div>
+							<div class="col-sm-1">
+								<span>Y</span>
+							</div>
+							<div class="col-sm-3">
+								<select class="form-control" id="rango3">
+									<option value=""></option>
+									<option value="<="><= </option>
+									
+									<option value="<">< </option>
+								</select>
+							</div>
+							<div class="col-sm-2">
+								<input type="text" class="form-control" id="rango4">
+							</div>
+						</div>
+						<input type="hidden" id="rango" name="rango">
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<label class="texto">Descripción</label>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class="col-sm-12">
+								<textarea rows="3" cols="3" class="form-control" id="descripcion" name="descripcion"></textarea>
+							</div>
+						</div>
+						<br>
+							<div class="col-md-12">
+								<div class="hr"></div>
+							</div>
+							<br>
+						<div class="float-right">
+								<a href="#" data-dismiss="modal" id="cancelar">Cancelar</a><span>&nbsp;&nbsp;</span>
+
+							<button style="width: auto !important;" type="submit"
+								class="myFormButton agregar" name="save" id="boton-modal">
+								&nbsp;&nbsp;Guardar</button>
+						</div>
+						</form>
+
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#peticionAgregar').submit(function(e) {
+			
+			var rango = $('#rango1').val();
+			rango += $('#rango2').val();
+			if($('#rango3').val()!='' && $('#rango2').val()!=''){
+				rango+='y';
+			}
+			rango += $('#rango3').val();
+			rango += $('#rango4').val();
+			
+			 if ($('#file_1').get(0).files.length === 0 || $('#descripcion').val()=='') { Swal.fire({
+			        title: 'Información',
+			        text: "Existen campos obligatorios que no se han registrado",
+			        icon: 'info',
+			        confirmButtonText: 'Aceptar',
+			        allowOutsideClick: () => false
+			  })
+			 e.preventDefault()} 
+			var fileName = $('#file_1').get(0).files[0].name;
+			var ext = fileName.split('.').pop();
+			console.log(ext);
+			if(ext != 'jpg' && ext!='png' ){
+				Swal.fire({
+				        title:"¡Advertencia!",
+					    text: "El tipo de archivo seleccionado no corresponde a una extensión permitida",
+				        icon: "warning",
+				        confirmButtonText: 'Aceptar',
+				        allowOutsideClick: () => false
+			   })
+			   e.preventDefault()
+			}
+			
+			$('#rango').val(rango);
+			
+		});
+	})
+	</script>
+</html>

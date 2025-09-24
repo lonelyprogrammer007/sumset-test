@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Cargar archivos planos</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/listas.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}">
+        <link rel="stylesheet" type="text/css"
+              th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet"
+              href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    </head>
+    <body>
+
+        <header th:replace="/home:: header"></header>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Administracion
+                        funcional</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cargar
+                    archivos planos</li>
+            </ol>
+        </nav>
+        <div class="form-container3">
+            <div class="abs-center-1">
+                <span>Carga de archivo plano</span><br>
+            </div>
+            <div class="hr"></div>
+            <br>
+
+
+            <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                    <div class="texto">
+                        <label for="codigo_comp">Modulo:</label>
+                    </div>
+                    <input class="form-control" id="correo_electronico" type="text">
+
+                </div>
+            </div>
+
+            <div class="col-lg-12 col-md-15">
+                <div class="form-group">
+                    <div class="texto">
+                        <label for="codigo_comp">Tema:</label>
+                    </div>
+                    <input class="form-control" id="correo_electronico" type="text">
+
+                </div>
+            </div>
+
+
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-curved">
+                            <thead>
+                                <tr class="color">
+                                    <th>xxx<br> <input type="text"></th>
+                                    <th>xx<br> <input type="text"></th>
+                                    <th>xxx<br> <input type="text"></th>
+                                    <th>xxxx<br> <input type="text"></th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="azul"></td>
+                                    <td class="azul"></td>
+                                    <td class="azul"></td>
+                                    <td class="azul"></td>
+                                    <td class="azul"><div align="center">
+                                        </div></td>
+
+
+                                </tr>
+                                <tr>
+                                    <td class="amarillo"></td>
+                                    <td class="amarillo"></td>
+                                    <td class="amarillo"></td>
+                                    <td class="amarillo"></td>
+                                    <td class="amarillo"><div align="center">
+                                        </div></td>
+
+                                </tr>
+                                <tr>
+                                    <td class="azul"></td>
+                                    <td class="azul"></td>
+                                    <td class="azul"></td>
+                                    <td class="azul"></td>
+                                    <td class="azul"><div align="center">
+                                        </div></td>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <br>
+                    <div class="hr1"></div>
+                </div>
+                <br>
+                <div align="right">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#"
+                                                     aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+                                </a></li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#"
+                                                     aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+                                </a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div><br><br>
+        <footer th:replace="/home:: footer"></footer>
+
+    </body>
+
+    <script>
+        $(document).ready(function () {
+            $('.dropdown-submenu a.test').on("click", function (e) {
+                $(this).next('ul').toggle();
+                e.stopPropagation();
+                e.preventDefault();
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $('.custom-file-input').on(
+                'change',
+                function (event) {
+                    var inputFile = event.currentTarget;
+                    $(inputFile).parent().find('.custom-file-label').html(
+                            inputFile.files[0].name);
+                });
+    </script>
+    <script type="text/javascript">
+        // http://duckranger.com/2012/06/pretty-file-input-field-in-bootstrap/ 
+        // Cuando se pulsa el falso manda el click al autentico
+        $('.btn-file').on('click', function () {
+            $(this).parent().prev().click();
+        });
+        // Cuando el autentico cambia hace cambiar al falso
+        $('input[type=file]').on('change', function (e) {
+            $(this).next().find('input').val($(this).val());
+        });
+    </script>
+    <script
+    src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+    <script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</body>
+</html>

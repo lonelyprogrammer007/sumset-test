@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head  th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Buzón mensajería interno</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/modal/modal.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-consultar-todos.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/ip/componentes.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
+<body>
+	<header th:replace="/home:: header"></header>
+
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administración funcional</a></li>
+			<li class="breadcrumb-item">Mensajería y notificaciones</li>		
+			<li class="breadcrumb-item active" aria-current="page" id="act">Administrar notificaciones</li>
+		</ul>
+	</nav>
+
+	<div class="form-container3">
+
+		<div class="abs-center">
+			<span>Buzón de mensajería interno</span> <br>
+		</div>
+		<div class="hr-1"></div>
+
+		<br>
+        <input type="hidden" th:value="${boton}" id="boton-crear">
+         <input type="hidden" th:value="${boton2}" id="boton-vertodos">
+        <div class="row">
+        <div class="col-lg-1 col-md-1">
+		<div class="float-left">
+			<button type="button" class="boton-agregar" data-toggle="modal"
+				data-target="#modalCrearMensaje" id="btn_crear">
+				<img src="css/img/icono-agregar.png" class="agregar" alt="icono agregar">&nbsp;&nbsp;Crear
+			</button>
+		</div>
+		</div>
+		<div class="col-lg-1 col-md-1">
+		<div class="float-left">
+			<a th:href="@{/consultar_buzon_admin}"><button type="button" class="boton-todos" 
+			id="btn_vertodos">Ver todos
+			</button></a>
+		</div>
+		</div>
+		</div>
+		<br>
+		<div class="table-responsive">
+			<table id="dtabla" class="table-striped" style="width:450%">
+			<caption><div class="hr-2"></div></caption>
+				<thead>
+					<tr>
+						<th id="tres" style="width:3%" class="color-head">Código <br></th>
+						<th id="d" class="color-head">Nombre entidad <br></th>
+						<th id="diez" class="color-head">Nombre usuario <br></th>
+						<th id="diez" class="color-head">Asunto <br></th>
+						<th id="quince" class="color-head">Acción requerida <br></th>
+						<th id="diez" class="color-head">Operación que lo origina <br></th>
+						<th id="diez" class="color-head">Acciones tomadas <br></th>
+						<th id="seix" class="color-head">Fecha de la notificación <br></th>
+						<th id="siete" class="color-head">Fecha limite de atención <br></th>
+						<th id="cinco" class="color-head">Fecha de acción <br></th>
+						<th id="cinco" class="color-head">Estado <br></th>
+						<th id="tres" ><div class="subir">Acción</div></th>
+					</tr>
+				</thead>
+				<tbody>
+
+				</tbody>
+			</table>
+
+		</div>
+		<br>
+	</div>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<div th:include="afs/buzon-notificaciones/modal-crear-mensaje.html"></div>
+<div th:include="afs/buzon-notificaciones/modal-respuesta-mensaje.html"></div>
+<div th:include="afs/buzon-notificaciones/modal-respuesta-confirmar.html"></div>
+<div th:include="afs/buzon-notificaciones/modal-consultar-mensaje.html"></div>
+<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+
+<script  th:inline="javascript">
+	$(document).ready(function() {
+		
+		
+		   /*<![CDATA[*/
+ 		 var mensajeRes = /*[[${messageExito}]]*/;	
+ 		   if (mensajeRes != null){
+ 		   Swal.fire({
+ 				        title: 'Información',
+ 				        text: mensajeRes,
+ 				        icon: 'warning',
+ 				        confirmButtonText: 'Aceptar',
+ 				        allowOutsideClick: () => false
+ 				    })	    
+ 	}
+ 		     
+ 		/*]]>*/
+		
+		$('.btn-modal-cerrar').click(function() {
+			$('#modalResBuzonConsultar').modal('hide');
+		})
+		
+		cargarDatos();
+		
+		var btn_crear = document.getElementById("boton-crear").value;
+		var btn_ver = document.getElementById("boton-vertodos").value;
+		
+		if (btn_crear != 1){
+			$("#btn_crear").css('visibility', 'hidden');
+			
+		}
+		if (btn_ver != 1){
+			$("#btn_vertodos").css('visibility', 'hidden');
+		}
+
+	});
+	function cargarDatos() {
+		'use strict';
+		var opts = [ {
+			value : 1,
+			label : "Atendido"
+		}, {
+			value : 0,
+			label : "No atendido"
+		} ];
+		$.fn.DataTable.ext.pager.numbers_length = 5;
+		var table = $('#dtabla')
+				.DataTable(
+						{
+							"colReorder" : true,
+							"processing" : true,
+							"serverSide" : true,
+							"lengthChange" : true,
+							"searching" : true,
+							"ordering" : true,
+							"info" : true,
+							"autoWidth" : true,
+							"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+									[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+							"pageLength" : 5,
+							"language" : {
+								"processing" : 'Cargando...',
+								"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+								"infoEmpty" : '<div class="formato">0 de 0.</div>',
+								"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+								"zeroRecords" : "No se han encontrado coincidencias.",
+								"responsive" : true,
+								"paginate" : {
+									"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+									"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+									"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+									"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+								},
+								"lengthMenu" : "_MENU_",
+							},
+							"pagingType" : "full_numbers",
+							"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+									+ "<'row'<'col-sm-8 col-md-7'tr>>"
+									+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+									"order": [0, 'desc'],
+									"ajax" : {
+								"url" : "/Segplan/listaBuzonNotificacionesByPage",
+								"type" : "POST"
+							},
+
+							"columns" : [
+									{
+										data : "idNotificacion", className: 'derechaPresupuesto'
+									},
+									{
+										data : "nombreEntidad"
+									},
+									{
+										data : "codigoUsuarioDestino"
+									},
+									{
+										data : "asunto"
+									},
+									{
+										data : "mensaje"
+									},
+									{
+										data : "nombreOperacionOrigen"
+									},
+									{
+										data : "respuesta"
+									},
+									{
+										data : "fechaEscritura"
+									},
+									{
+										data : "fechaRespuesta"
+									},
+									{
+										data : "fechaLectura"
+									},
+									{
+										data : "colorEstado"
+									},
+									{
+										"render" : function() {
+											return '<button href="" type="button" id="ButtonEditar" class="edit"><img src="css/img/icono-ojo.png" class="ojo"></button>';
+										},  "orderable": false
+									},
+
+							],
+						
+						
+						})
+		yadcf.init(table, [ {
+			column_number : 0,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+
+		}, {
+			column_number : 1,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 2,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 3,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 4,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 5,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 6,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 7,
+			filter_type : "date",
+			filter_reset_button_date : true,
+			filter_delay : 500
+		}, {
+			column_number : 8,
+			filter_type : "date",
+			filter_reset_button_date : true,
+			filter_delay : 500
+		}, {
+			column_number : 9,
+			filter_type : "date",
+			filter_reset_button_date : true,
+		}, {
+			data : opts,
+			column_number : 10,
+			select_type : 'select',
+			filter_reset_button_text : false,
+			select_type_options : {
+				width : '150px',
+				minimumResultsForSearch : -1
+			// remove search box
+			}
+		}
+
+		]);
+
+		$('div.dataTables_length select').addClass("formato-2");
+		editar("#dtabla tbody", table);
+
+	}
+	function editar(tbody, table) {
+		$(tbody).on("click", "button.edit", function() {
+			if (table.row(this).child.isShown()) {
+				var data = table.row(this).data();
+			} else {
+				var data = table.row($(this).parents("tr")).data();
+			}
+			var data = table.row($(this).parents("tr")).data();
+			console.log(data);
+			if(data.idConfigNotificacion===-1){
+				$('#modalResBuzonConsultar').modal('show');
+				$('#asuntoConsultar').val(data.asunto);
+				$('#mensajeConsultar').val(data.mensaje);
+			}else{
+				editarBuzon(data.idNotificacion, data.mensaje, data.accionRequerida, data.respuesta, data.asunto);
+			}
+			
+		})
+	}
+	function editarBuzon(id, mensaje, accion, respue, asunto) {
+		$('#modalResBuzon').modal('show');
+		$('#idNotificacion').text($('#idNotificacion').val(id));
+		$('#mensaje').text($('#mensaje').val(mensaje));
+		$('#accion').text($('#accion').val(accion));
+		$('#asunto').text($('#asunto').val(asunto));
+		$('#respues').text($('#respues').val(respue));
+		
+
+	}
+	function confirmarRespuesta(){
+		$('#modalResConfirmaBuzon').modal('show');
+		$('#modalResBuzon').modal('hidden');
+	}
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>

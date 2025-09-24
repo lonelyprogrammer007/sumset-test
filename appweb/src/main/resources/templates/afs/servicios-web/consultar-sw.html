@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:include="/header :: headFragment">
+<meta charset="UTF-8">
+<title id="pageTitle">Consultar servicios web</title>
+</head>
+<link rel="stylesheet" type="text/css" th:href="@{/css/afs/listas.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/filtros/yadcf-consultar-sw.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
+
+<body>
+	<header th:replace="/home:: header"></header>
+	<nav aria-label="breadcrumb">
+		<ul class="breadcrumb" id="migas">
+			<li class="breadcrumb-item"><em class="fa fa-home">&nbsp;&nbsp;|&nbsp;&nbsp;</em><a
+				>Administración funcional</a></li>
+			<li class="breadcrumb-item">Cargue y gestión de información</li>		
+			<li class="breadcrumb-item active" aria-current="page" id="act">Consulta
+				de servicios web</li>
+		</ul>
+	</nav>
+	<div class="form-container3">
+		<div class="abs-center">
+			<span>Consulta de servicios web</span><br>
+		</div>
+		<div class="hr-1"></div>
+		<br>
+		<div class="table-responsive">
+			<table id="dtabla" class="table-striped" style="width: 175%">
+				<caption><div class="hr-2"></div></caption>
+				<thead>
+					<tr class="color">
+						<th scope="col" class="color-head">Nombre servicio web <br></th>
+						<th scope="col" class="color-head">Tarea <br></th>
+						<th scope="col" class="color-head">Fecha solicitud <br></th>
+						<th scope="col" class="color-head">Estado solicitud <br></th>
+						<th scope="col" class="color-head">Fecha respuesta <br></th>
+
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<br>
+	<br>
+	<footer th:replace="/home:: footer"></footer>
+</body>
+<div th:include="afs/autenticacion/modal-cambiar-contrasena.html"></div>
+<script>
+	$(document).ready(function() {
+		
+		cargarDatos();
+		$.datepicker.regional['es'] = {
+				 closeText: 'Cerrar',
+				 prevText: '< Ant',
+				 nextText: 'Sig >',
+				 currentText: 'Hoy',
+				 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+				 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+				 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+				 weekHeader: 'Sm',
+				 dateFormat: 'dd/mm/yyyy',
+				 firstDay: 1,
+				 isRTL: false,
+				 showMonthAfterYear: false,
+				 yearSuffix: ''
+				 };
+				 $.datepicker.setDefaults($.datepicker.regional['es']);
+	});
+	function cargarDatos() {
+		'use strict';
+		var datepickerDefaults = {
+			showTodayButton : true,
+			showClear : true
+		};
+		$.fn.DataTable.ext.pager.numbers_length = 5;
+		var table = $('#dtabla')
+				.DataTable(
+						{
+							"colReorder" : true,
+							"processing" : true,
+							"serverSide" : true,
+							"lengthChange" : true,
+							"searching" : true,
+							"ordering" : true,
+							"info" : true,
+							"autoWidth" : true,
+							"lengthMenu" : [ [ 5, 10, 25, 50, -1 ],
+									[ 5, 10, 25, 50, "Mostrar Todo" ] ],
+							"pageLength" : 5,
+							"language" : {
+								"processing" : 'Cargando...',
+								"info" : '<div class="formato">_END_ de _TOTAL_ registros</div>',
+								"infoEmpty" : '<div class="formato">0 de 0.</div>',
+								"infoFiltered" : "(filtrados de un total de _MAX_ registros)",
+								"zeroRecords" : "No se han encontrado coincidencias.",
+								"responsive" : true,
+								"paginate" : {
+									"first" : '<img src="css/img/icono-flecha-doble-izquierda.png" class="flecha-paginador">',
+									"last" : '<img src="css/img/icono-flecha-doble-derecha.png" class="flecha-paginador">',
+									"next" : '<img src="css/img/icono-flecha-derecha.png" class="flecha-paginador">',
+									"previous" : '<img src="css/img/icono-flecha-izquierda.png" class="flecha-paginador">'
+								},
+								"lengthMenu" : "_MENU_",
+							},
+							"pagingType" : "full_numbers",
+							"dom" : "<'row'<'col-sm-5 col-md-7'>>"
+									+ "<'row'<'col-sm-8 col-md-7'tr>>"
+									+ "<'row'<'col-sm-8 col-md-7'><'col-sm-2 col-md-1'l><'col-sm-1 col-md-1'i><'col-sm-1 col-md-3'p>>",
+							"ajax" : {
+								"url" : "/Segplan/listaEstadoServicioByPage",
+								"type" : "POST"
+							},
+							"columns" : [ {
+								data : "nombreServicio"
+							}, {
+								data : "tarea"
+							}, {
+								data : "fechaSolicitud"
+							}, {
+								data : "estadoSolicitud"
+							}, {
+								data : "fechaRespuesta"
+							}, ],
+							
+						})
+		yadcf.init(table, [ {
+			column_number : 0,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 1,
+			filter_type : "text",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 2,
+			filter_type : "date",
+			filter_reset_button_date : true,
+			filter_delay : 500
+		}, {
+			column_number : 3,
+			filter_type : "tezt",
+			filter_reset_button_text : false,
+			filter_delay : 500
+		}, {
+			column_number : 4,
+			filter_type : "date",
+			filter_reset_button_date : true,
+			filter_delay : 500
+		}
+		]);
+		
+		$('div.dataTables_length select').addClass("formato-2");
+	}
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript"
+	th:src="@{/js/src/jquery.dataTables.yadcf.js}"></script>
+<script type="text/javascript" th:src="@{/js/nhspdd/home.js}"></script>
+<script type="text/javascript" th:src="@{/js/src/bootstrap.min.js}"></script>
+</html>
